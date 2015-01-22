@@ -1,0 +1,248 @@
+.hidden {
+	display: none;
+}
+
+body {
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+h1 {
+	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+	text-align: center;
+	font-size: 30px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 26.3999996185303px;
+}
+
+noscript {
+	margin: 40px;
+	background-color: #FFFAAD;
+}
+
+.question-mark {
+	font-family: Lato;
+}
+
+#marc-maker {
+	margin: 25px;
+	padding: 35px;
+	background-color: #E8E9EB;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	min-width: 750px;
+}
+
+input[type="text"] {
+	width: 250px;
+}
+
+input[type="number"] {
+	width: 55px;
+}
+
+.text-input {
+	border: 1px solid;
+	border-color: #d4d4d4;
+}
+
+.unlisted {
+	font-size: 10px;
+}
+
+.required_marker {
+	color: #FF0000;
+}
+
+#star {
+	font-size: 10px;
+	margin-bottom: -23px;
+}
+
+.standard-block {
+	padding: 3px;
+	width: 350px;
+}
+
+.standard-translit-block {
+	width: 350px;
+	position: relative;
+	left: 25px;
+}
+
+#title-block {
+	padding: 3px;
+	width: 350px;
+	height: 62px;
+}
+
+#subtitle-block {
+	padding: 3px;
+	width: 350px;
+	position: relative;
+	top: -68px;
+	left: 400px;
+	margin-bottom: -68px;
+}
+
+/*#translit-title-block {
+	position: relative;
+	top: -22px;
+	margin-bottom: -22px;
+}*/
+
+#translit-subtitle-block {
+	position: relative;
+	top: -46px;
+	left: 425px;
+	margin-bottom: -46px;
+}
+
+#author-block {
+	padding: 3px;
+	width: 600px;
+}
+
+#publication-block {
+	padding: 3px;
+	width: 150px;
+}
+
+#copyright-block {
+	padding: 3px;
+	width: 150px;
+	position: relative;
+	top: -68px;
+	left: 200px;
+	margin-bottom: -68px;
+}
+
+#add-button {
+	position: relative;
+	top: 0px;
+}
+
+#notes-block {
+	padding: 3px;
+}
+
+#notes {
+	min-width: 300px;
+	min-height: 100px;
+}
+
+#save-as-block {
+	padding: 3px;
+	width: 400px;
+}
+
+.added-author {
+	position: relative;
+	top: -10px;
+}
+
+.translit-author {
+	position: relative;
+	left: 25px;
+	width: 600px;
+}
+
+.insert {
+	position: relative;
+	float: right;
+	font-family: 'Roboto Slab', serif;
+	font-size: 11px;
+	bottom: -2px;
+	cursor: pointer;
+}
+
+.insert_normal {
+	left: -96px;
+}
+
+.insert_family_name {
+	left: -346px;
+}
+
+.insert_given_name {
+	left: 7px;
+}
+
+.insert:hover {
+	text-decoration: underline;
+}
+
+.additional_insert {
+	bottom: 5px;
+}
+
+#insert-given_name, .insert-given_name {
+	position: relative;
+	left: 264px;
+}
+
+.additional_menu {
+	position: relative;
+	bottom: 10px;
+}
+
+#insert-popup {
+	width: 490px;
+	position: relative;
+	left: 165px;
+	margin-bottom: -245px;
+	bottom: -2px;
+	z-index: 10;
+}
+
+.diacritics {
+	height: 35px;
+	width: 35px;
+	background-color: white;
+	border-top: solid black 1px;
+	border-left: solid black 1px;
+	vertical-align: middle;
+	font-size: 16px;
+	line-height: 16px;
+	-moz-user-focus: ignore;
+}
+
+.diacritics:hover {
+	background: #ededed;
+}
+
+.normal-button {
+	border-right: 0px;
+	border-bottom: 0px;
+}
+
+.row-end {
+	border-right: solid black 1px;
+	border-bottom: 0px;
+}
+
+.last-row {
+	border-right: 0px;
+	border-bottom: solid black 1px;
+}
+
+.bottom-right {
+	border: solid black 1px;
+}
+
+.added {
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+#disclaimer {
+	text-align: center;
+	font-size: 12px;
+}
