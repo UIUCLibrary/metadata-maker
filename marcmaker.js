@@ -333,7 +333,7 @@ function create008Field(record) {
 		controlfield008 += 'xx ';
 	}
 
-	if (checkExists(record.illustrations_yes)) {
+	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
 		controlfield008 += 'a   ';
 	}
 	else {
@@ -620,7 +620,7 @@ function fillPhysical (record,head,fieldFunc,subfieldFunc) {
 		var pages_string = record.pages + ' ' + record.volume_or_page;
 	}
 
-	if (checkExists(record.illustrations_yes)) {
+	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
 		physical_subfields.push(subfieldFunc('a',pages_string + ' :'),subfieldFunc('b','illustrations ;'));
 	}
 	else {
