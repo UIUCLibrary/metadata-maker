@@ -890,7 +890,7 @@ function fillTranslitAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 	}
 }
 
-function downloadMARC(record) {
+function downloadMARC(record,institution_info) {
 	var head = 0;
 
 	var timestamp_content = String.fromCharCode(30) + getTimestamp();
@@ -904,7 +904,7 @@ function downloadMARC(record) {
 	var isbn = fillISBN(record,head,createContentFill,createSubfield);
 	head += isbn[1].length;
 
-	var default1_content = createContent('  ',[createSubfield('a','UIU'),createSubfield('b','eng'),createSubfield('e','rda'),createSubfield('c','UIU')]);
+	var default1_content = createContent('  ',[createSubfield('a',institution_info['marc']),createSubfield('b','eng'),createSubfield('e','rda'),createSubfield('c',institution_info['marc'])]);
 	var default1_directory = createDirectory('040',default1_content,head);
 	head += default1_content.length;
 
@@ -969,7 +969,7 @@ function downloadMARC(record) {
 }
 
 //Create the MARCXML document
-function downloadXML(record) {
+function downloadXML(record,institution_info) {
 	var startText = '<?xml version="1.0" encoding="utf-8"?>\n<record xmlns="http://www.loc.gov/MARC21/slim" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n  <leader>01447nam a2200397ki 4500</leader>\n  <controlfield tag="001"></controlfield>\n';
 	
 	var formatted_date = getTimestamp();
@@ -1019,7 +1019,7 @@ function fillAuthorMODS(family,given) {
 	}
 }
 
-function downloadMODS(record) {
+function downloadMODS(record,institution_info) {
 	var literatureTypes = {
 		'0': 'Not fiction (not further specified)',
 		'1': 'Fiction (not further specified)',
@@ -1099,7 +1099,7 @@ function downloadMODS(record) {
 
 	var dimensionsText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n'
 
-	var defaultText2 = '    <location>\n        <physicalLocation>University of Illinois at Urbana-Champaign, Library</physicalLocation>\n    </location>\n';
+	var defaultText2 = '    <location>\n        <physicalLocation>' + institution_info['mods']['physicalLocation'] + '</physicalLocation>\n    </location>\n';
 
 	var keywordsText = '';
 	for (var c = 0; c < record.keywords.length; c++) {
@@ -1115,7 +1115,7 @@ function downloadMODS(record) {
 
 	var timestamp = getTimestamp();
 	var formatted_date = timestamp.substring(2,8);
-	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">UIU</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
+	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + institution_info['mods']['recordContentSource'] + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
 	var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + literatureText + defaultText3 + endText;
@@ -1160,7 +1160,7 @@ function fillAuthorHTML(family,given) {
 	}
 }
 
-function downloadHTML(record) {
+function downloadHTML(record,institution_info) {
 	var metaTags = '';
 	var displayTags = '';
 
@@ -1230,10 +1230,29 @@ function downloadHTML(record) {
 	keywordsList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
 	displayTags += keywordsList;
 
-	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="Offer">\n\t\t\t\t<dt>Offer:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="http://id.loc.gov/authorities/names/n79066210">University of Illinois at Urbana-Champaign</span></b></dd>\n\t\t\t</div>\n'; 
+	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="Offer">\n\t\t\t\t<dt>Offer:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
 
 	var text = '<!DOCTYPE html>\n<html>\n<head>\n	<meta charset="utf-8">\n</head>\n\n<body>\n\t<div itemscope itemtype="http://schema.org/Book">\n' + metaTags + '\t\t<dl>\n' + displayTags + '\t\t</dl>\n\t</div>\n</body>\n</html>';
 	downloadFile(text,'html');
+}
+
+//Edit the strings in this function to attribute records to another institution
+function generateInstitutionInfo() {
+	var output = {
+		//040 $a, 040 $c
+		marc: 'UIU',
+		mods: {
+			physicalLocation: 'University of Illinois at Urbana-Champaign, Library',
+			recordContentSource: 'UIU'
+		},
+		//"seller" info
+		html: {
+			url: 'http://id.loc.gov/authorities/names/n79066210',
+			name: 'University of Illinois at Urbana-Champaign'
+		}
+	};
+
+	return output;
 }
 
 $("#marc-maker").submit(function(event) {
@@ -1292,20 +1311,22 @@ $("#marc-maker").submit(function(event) {
 		additional_authors: additional_names_test
 	};
 
+	var institution_info = generateInstitutionInfo();
+
 	if ($("#MARC").is(':checked')) {
-		downloadMARC(recordObject);
+		downloadMARC(recordObject,institution_info);
 	}
 
 	if ($("#MARCXML").is(':checked')) {
-		downloadXML(recordObject);
+		downloadXML(recordObject,institution_info);
 	}
 
 	if ($("#MODS").is(':checked')) {
-		downloadMODS(recordObject);
+		downloadMODS(recordObject,institution_info);
 	}
 
 	if ($("#HTML").is(':checked')) {
-		downloadHTML(recordObject);
+		downloadHTML(recordObject,institution_info);
 	}
 
 	event.preventDefault();
