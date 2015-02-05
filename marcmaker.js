@@ -138,9 +138,9 @@ function addAuthor() {
 		var newdiv = document.createElement('div');
 		newdiv.className = 'added';
 		newdiv.setAttribute('id','family_name' + aCounter + '-block');
-		newdiv.innerHTML = '    <label for="family_name' + aCounter + '" class="insert insert_family_name additional_insert" onClick=\'insertMenu("family_name' + aCounter + '");\'>Insert Diacritics</label><label for="given_name' + aCounter + '" class="insert insert_given_name additional_insert" onClick=\'insertMenu("given_name' + aCounter + '");\'>Insert Diacritics</label><br>';
+		newdiv.innerHTML = '<label for="family_name' + aCounter + '" class="insert insert_family_name additional_insert" onClick=\'insertMenu("family_name' + aCounter + '");\'>Insert Diacritics</label><label for="given_name' + aCounter + '" class="insert insert_given_name additional_insert" onClick=\'insertMenu("given_name' + aCounter + '");\'>Insert Diacritics</label><br>';
 		newdiv.innerHTML += '<div id="insert-family_name' + aCounter + '" class="additional_menu"></div><div id="insert-given_name' + aCounter + '" class="insert-given_name additional_menu"></div>';
-		newdiv.innerHTML += '<span class="added-author"><input type="text" class="author translit-listen" id="family_name' + aCounter + '" placeholder="Family Name">, <input type="text" class="author translit-listen" id="given_name' + aCounter + '" placeholder="Given Name"></span>';
+		newdiv.innerHTML += '<span class="added-author"><input type="text" class="author translit-listen" id="family_name' + aCounter + '" placeholder="Family Name">, <input type="text" class="author translit-listen" id="given_name' + aCounter + '" placeholder="Given Name"> <select name="role' + aCounter + '" id="role'  + aCounter + '"><option value="art">artist</option><option selected value="aut">author</option><option value="ctb">contributor</option><option value="edt">editor</option><option value="ill">illustrator</option><option value="trl">translator</option></select></span>';
 		$("#author-block").append(newdiv);
 		var translit_div = document.createElement('div');
 		translit_div.className = 'translit-family_name' + aCounter + '-block translit-block translit-author hidden';
@@ -412,6 +412,7 @@ function fillISBN(record,head,fieldFunc,subfieldFunc) {
 function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 	//Transliteration is in author_array[1], normal author input in author_array[0]
 	var latin_index = checkExists(record.author[1]['family']) || checkExists(record.author[1]['given']) ? 1 : 0;
+	var relator_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'}
 
 	var author_content = '';
 	if(checkExists(record.author[latin_index]['family']) && checkExists(record.author[latin_index]['given'])) {
@@ -429,7 +430,7 @@ function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 		return head !== null ? ['',''] : '';
 	}
 
-	var author_subfields = [subfieldFunc('a',author_content),subfieldFunc('e','author.'),subfieldFunc('4','aut')];
+	var author_subfields = [subfieldFunc('a',author_content),subfieldFunc('e', relator_index[record.author[0]['role']] + '.'),subfieldFunc('4',record.author[0]['role'])];
 	if (latin_index === 1) {
 		author_subfields.push(subfieldFunc('6','880-03'));
 	}
@@ -1265,7 +1266,7 @@ $("#marc-maker").submit(function(event) {
 	var translit_additional_names = [];
 	var additional_names_test = [];
 	for (var i = 0; i < aCounter; i++) {
-		additional_names_test.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
+		additional_names_test.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val(), "role": $("#role" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
 	}
 
 	var recordObject = {
@@ -1282,7 +1283,8 @@ $("#marc-maker").submit(function(event) {
 		author: [
 			{
 				family: $("#family_name").val(),
-				given: $("#given_name").val()
+				given: $("#given_name").val(),
+				role: $("#role").val()
 			},
 			{
 				family: $("#translit_family_name").val(),

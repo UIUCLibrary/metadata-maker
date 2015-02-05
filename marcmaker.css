@@ -107,7 +107,7 @@ input[type="number"] {
 
 #author-block {
 	padding: 3px;
-	width: 600px;
+	width: 700px;
 }
 
 #publication-block {
@@ -151,7 +151,7 @@ input[type="number"] {
 .translit-author {
 	position: relative;
 	left: 25px;
-	width: 600px;
+	width: 700px;
 }
 
 .insert {
@@ -168,11 +168,11 @@ input[type="number"] {
 }
 
 .insert_family_name {
-	left: -346px;
+	left: -446px;
 }
 
 .insert_given_name {
-	left: 7px;
+	left: -97px;
 }
 
 .insert:hover {
@@ -196,7 +196,7 @@ input[type="number"] {
 #insert-popup {
 	width: 490px;
 	position: relative;
-	left: 165px;
+	left: 167px;
 	margin-bottom: -245px;
 	bottom: -2px;
 	z-index: 10;
