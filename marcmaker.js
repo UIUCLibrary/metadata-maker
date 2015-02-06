@@ -1003,7 +1003,8 @@ function downloadXML(record,institution_info) {
 	downloadFile(text,'xml');
 }
 
-function fillAuthorMODS(family,given) {
+function fillAuthorMODS(family,given,role) {
+	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
 	if (checkExists(given) || checkExists(family)) {
 		var authorText = '    <name type="personal">\n';
 		if (checkExists(family)) {
@@ -1014,7 +1015,7 @@ function fillAuthorMODS(family,given) {
 			authorText += '        <namePart type="given">' + given + '</namePart>\n';
 		}
 
-		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">creator</roleTerm>\n        </role>\n    </name>\n';
+		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n        </role>\n    </name>\n';
 		return authorText;
 	}
 	else {
@@ -1051,11 +1052,11 @@ function downloadMODS(record,institution_info) {
 	}
 
 	var authorText = '';
-	authorText += fillAuthorMODS(record.author[0]['family'],record.author[0]['given']);
+	authorText += fillAuthorMODS(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			authorText += fillAuthorMODS(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given']);
+			authorText += fillAuthorMODS(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
 		}
 	}
 
@@ -1146,16 +1147,17 @@ function buildSpan(prop,content) {
 	return '<span itemprop="' + prop + '">' + content + '</span>';
 }
 
-function fillAuthorHTML(family,given) {
+function fillAuthorHTML(family,given,role) {
+	var role_index = { 'art': 'contributor', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'contributor', 'trl': 'contributor'};
 	if (checkExists(family) && checkExists(given)) {
-		return buildTag('author',family + ', ' + given,false,'Author');
+		return buildTag(role_index[role],family + ', ' + given,false,role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1));
 	}
 	else if (checkExists(family) || checkExists(given)) {
 		if (checkExists(family)) {
-			return buildTag('author',family,false,'Author');
+			return buildTag(role_index[role],family,false,role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1));
 		}
 		else {
-			return buildTag('author',given,false,'Author');
+			return buildTag(role_index[role],given,false,role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1));
 		}
 	}
 	else {
@@ -1189,11 +1191,11 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
 
-	displayTags += fillAuthorHTML(record.author[0]['family'],record.author[0]['given']);
+	displayTags += fillAuthorHTML(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			displayTags += fillAuthorHTML(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given']);
+			displayTags += fillAuthorHTML(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
 		}
 	}
 
