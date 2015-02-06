@@ -412,7 +412,7 @@ function fillISBN(record,head,fieldFunc,subfieldFunc) {
 function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 	//Transliteration is in author_array[1], normal author input in author_array[0]
 	var latin_index = checkExists(record.author[1]['family']) || checkExists(record.author[1]['given']) ? 1 : 0;
-	var relator_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'}
+	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'}
 
 	var author_content = '';
 	if(checkExists(record.author[latin_index]['family']) && checkExists(record.author[latin_index]['given'])) {
@@ -430,7 +430,7 @@ function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 		return head !== null ? ['',''] : '';
 	}
 
-	var author_subfields = [subfieldFunc('a',author_content),subfieldFunc('e', relator_index[record.author[0]['role']] + '.'),subfieldFunc('4',record.author[0]['role'])];
+	var author_subfields = [subfieldFunc('a',author_content),subfieldFunc('e', role_index[record.author[0]['role']] + '.'),subfieldFunc('4',record.author[0]['role'])];
 	if (latin_index === 1) {
 		author_subfields.push(subfieldFunc('6','880-03'));
 	}
@@ -692,6 +692,8 @@ function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 		var authors = '';
 		var authors_directory = '';
 		var translit_counter = 4;
+		var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'}
+
 		for (var i = 0; i < record.additional_authors.length; i++) {
 			if (checkExists(record.additional_authors[i][0]['family']) || checkExists(record.additional_authors[i][0]['given'])) {
 				var latin_index = checkExists(record.additional_authors[i][1]['family']) || checkExists(record.additional_authors[i][1]['given']) ? 1 : 0;
@@ -708,7 +710,7 @@ function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 					}
 				}
 
-				var authors_subfield = [subfieldFunc('a',authors_content),subfieldFunc('e','author.'),subfieldFunc('4','aut')];
+				var authors_subfield = [subfieldFunc('a',authors_content),subfieldFunc('e',role_index[record.additional_authors[i][0]['role']] + '.'),subfieldFunc('4',record.additional_authors[i][0]['role'])];
 				if (latin_index === 1) {
 					if (translit_counter < 10) {
 						var translit_index = '0' + translit_counter;
@@ -1256,6 +1258,23 @@ function generateInstitutionInfo() {
 	return output;
 }
 
+//Author is the default role for 100, but if it isn't in the list then Artist can be used
+function find100(list) {
+	for (counter = 0; counter < list.length; counter++) {
+		if (list[counter][0]['role'] == 'aut') {
+			return list.splice(counter,1);
+		}
+	}
+
+	for (counter = 0; counter < list.length; counter++) {
+		if (list[counter][0]['role'] == 'art') {
+			return list.splice(counter,1);
+		}
+	}
+
+	return [[{'family':'','given':'','role':''},{'family':'','given':''}]];
+}
+
 $("#marc-maker").submit(function(event) {
 	var words = [];
 	for (var i = 0; i < counter; i++) {
@@ -1264,10 +1283,23 @@ $("#marc-maker").submit(function(event) {
 
 	var additional_names = [];
 	var translit_additional_names = [];
-	var additional_names_test = [];
+	var complete_names_list = [
+		[
+			{
+				family: $("#family_name").val(),
+				given: $("#given_name").val(),
+				role: $("#role").val()
+			},
+			{
+				family: $("#translit_family_name").val(),
+				given: $("#translit_given_name").val()
+			}
+		]
+	];
 	for (var i = 0; i < aCounter; i++) {
-		additional_names_test.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val(), "role": $("#role" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
+		complete_names_list.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val(), "role": $("#role" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
 	}
+	var entry100 = find100(complete_names_list);
 
 	var recordObject = {
 		title: [
@@ -1280,17 +1312,7 @@ $("#marc-maker").submit(function(event) {
 				subtitle: $("#translit_subtitle").val()
 			}
 		],
-		author: [
-			{
-				family: $("#family_name").val(),
-				given: $("#given_name").val(),
-				role: $("#role").val()
-			},
-			{
-				family: $("#translit_family_name").val(),
-				given: $("#translit_given_name").val()
-			}
-		],
+		author: entry100[0],
 		publisher: $("#publisher").val(),
 		publication_year: $("#year").val(),
 		publication_place: $("#place").val(),
@@ -1310,7 +1332,7 @@ $("#marc-maker").submit(function(event) {
 		translit_place: $("#translit_place").val(),
 		notes: $("#notes").val(),
 		keywords: words,
-		additional_authors: additional_names_test
+		additional_authors: complete_names_list
 	};
 
 	var institution_info = generateInstitutionInfo();
