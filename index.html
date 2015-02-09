@@ -551,25 +551,15 @@
 		</div>
 
 		<div id="author-block">
-			<label for="author" class="heading">Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
+			<label for="author" class="heading">Author</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
 			<div id="insert-family_name"></div><div id="insert-given_name"></div>
 			<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
 			<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
-			<select name="role" id="role">
-				<option value="art">artist</option>
-				<option selected value="aut">author</option>
-				<option value="ctb">contributor</option>
-				<option value="edt">editor</option>
-				<option value="ill">illustrator</option>
-				<option value="trl">translator</option>
-			</select>
-			<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
-			<input type="button" value="+" id="add-author" onClick="addAuthor();">
-			<br>
+			<input type="button" value="+" id="add-author" onClick="addAuthor();"><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="author_listed" class="listed">
 
 			<div id="translit-family_name-block" class="translit-family_name-block translit-block translit-author hidden">
-				<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
+				<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated author</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
 				<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
 				<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
 				<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">

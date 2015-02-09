@@ -138,9 +138,9 @@ function addAuthor() {
 		var newdiv = document.createElement('div');
 		newdiv.className = 'added';
 		newdiv.setAttribute('id','family_name' + aCounter + '-block');
-		newdiv.innerHTML = '<label for="family_name' + aCounter + '" class="insert insert_family_name additional_insert" onClick=\'insertMenu("family_name' + aCounter + '");\'>Insert Diacritics</label><label for="given_name' + aCounter + '" class="insert insert_given_name additional_insert" onClick=\'insertMenu("given_name' + aCounter + '");\'>Insert Diacritics</label><br>';
+		newdiv.innerHTML = '    <label for="family_name' + aCounter + '" class="insert insert_family_name additional_insert" onClick=\'insertMenu("family_name' + aCounter + '");\'>Insert Diacritics</label><label for="given_name' + aCounter + '" class="insert insert_given_name additional_insert" onClick=\'insertMenu("given_name' + aCounter + '");\'>Insert Diacritics</label><br>';
 		newdiv.innerHTML += '<div id="insert-family_name' + aCounter + '" class="additional_menu"></div><div id="insert-given_name' + aCounter + '" class="insert-given_name additional_menu"></div>';
-		newdiv.innerHTML += '<span class="added-author"><input type="text" class="author translit-listen" id="family_name' + aCounter + '" placeholder="Family Name">, <input type="text" class="author translit-listen" id="given_name' + aCounter + '" placeholder="Given Name"> <select name="role' + aCounter + '" id="role'  + aCounter + '"><option value="art">artist</option><option selected value="aut">author</option><option value="ctb">contributor</option><option value="edt">editor</option><option value="ill">illustrator</option><option value="trl">translator</option></select></span>';
+		newdiv.innerHTML += '<span class="added-author"><input type="text" class="author translit-listen" id="family_name' + aCounter + '" placeholder="Family Name">, <input type="text" class="author translit-listen" id="given_name' + aCounter + '" placeholder="Given Name"></span>';
 		$("#author-block").append(newdiv);
 		var translit_div = document.createElement('div');
 		translit_div.className = 'translit-family_name' + aCounter + '-block translit-block translit-author hidden';
@@ -412,7 +412,6 @@ function fillISBN(record,head,fieldFunc,subfieldFunc) {
 function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 	//Transliteration is in author_array[1], normal author input in author_array[0]
 	var latin_index = checkExists(record.author[1]['family']) || checkExists(record.author[1]['given']) ? 1 : 0;
-	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'}
 
 	var author_content = '';
 	if(checkExists(record.author[latin_index]['family']) && checkExists(record.author[latin_index]['given'])) {
@@ -430,7 +429,7 @@ function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 		return head !== null ? ['',''] : '';
 	}
 
-	var author_subfields = [subfieldFunc('a',author_content),subfieldFunc('e', role_index[record.author[0]['role']] + '.'),subfieldFunc('4',record.author[0]['role'])];
+	var author_subfields = [subfieldFunc('a',author_content),subfieldFunc('e','author.'),subfieldFunc('4','aut')];
 	if (latin_index === 1) {
 		author_subfields.push(subfieldFunc('6','880-03'));
 	}
@@ -692,8 +691,6 @@ function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 		var authors = '';
 		var authors_directory = '';
 		var translit_counter = 4;
-		var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'}
-
 		for (var i = 0; i < record.additional_authors.length; i++) {
 			if (checkExists(record.additional_authors[i][0]['family']) || checkExists(record.additional_authors[i][0]['given'])) {
 				var latin_index = checkExists(record.additional_authors[i][1]['family']) || checkExists(record.additional_authors[i][1]['given']) ? 1 : 0;
@@ -710,7 +707,7 @@ function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 					}
 				}
 
-				var authors_subfield = [subfieldFunc('a',authors_content),subfieldFunc('e',role_index[record.additional_authors[i][0]['role']] + '.'),subfieldFunc('4',record.additional_authors[i][0]['role'])];
+				var authors_subfield = [subfieldFunc('a',authors_content),subfieldFunc('e','author.'),subfieldFunc('4','aut')];
 				if (latin_index === 1) {
 					if (translit_counter < 10) {
 						var translit_index = '0' + translit_counter;
@@ -1003,8 +1000,7 @@ function downloadXML(record,institution_info) {
 	downloadFile(text,'xml');
 }
 
-function fillAuthorMODS(family,given,role) {
-	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
+function fillAuthorMODS(family,given) {
 	if (checkExists(given) || checkExists(family)) {
 		var authorText = '    <name type="personal">\n';
 		if (checkExists(family)) {
@@ -1015,7 +1011,7 @@ function fillAuthorMODS(family,given,role) {
 			authorText += '        <namePart type="given">' + given + '</namePart>\n';
 		}
 
-		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n        </role>\n    </name>\n';
+		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">creator</roleTerm>\n        </role>\n    </name>\n';
 		return authorText;
 	}
 	else {
@@ -1052,11 +1048,11 @@ function downloadMODS(record,institution_info) {
 	}
 
 	var authorText = '';
-	authorText += fillAuthorMODS(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	authorText += fillAuthorMODS(record.author[0]['family'],record.author[0]['given']);
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			authorText += fillAuthorMODS(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
+			authorText += fillAuthorMODS(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given']);
 		}
 	}
 
@@ -1147,17 +1143,16 @@ function buildSpan(prop,content) {
 	return '<span itemprop="' + prop + '">' + content + '</span>';
 }
 
-function fillAuthorHTML(family,given,role) {
-	var role_index = { 'art': 'contributor', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'contributor', 'trl': 'contributor'};
+function fillAuthorHTML(family,given) {
 	if (checkExists(family) && checkExists(given)) {
-		return buildTag(role_index[role],family + ', ' + given,false,role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1));
+		return buildTag('author',family + ', ' + given,false,'Author');
 	}
 	else if (checkExists(family) || checkExists(given)) {
 		if (checkExists(family)) {
-			return buildTag(role_index[role],family,false,role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1));
+			return buildTag('author',family,false,'Author');
 		}
 		else {
-			return buildTag(role_index[role],given,false,role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1));
+			return buildTag('author',given,false,'Author');
 		}
 	}
 	else {
@@ -1191,11 +1186,11 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
 
-	displayTags += fillAuthorHTML(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	displayTags += fillAuthorHTML(record.author[0]['family'],record.author[0]['given']);
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			displayTags += fillAuthorHTML(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
+			displayTags += fillAuthorHTML(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given']);
 		}
 	}
 
@@ -1260,23 +1255,6 @@ function generateInstitutionInfo() {
 	return output;
 }
 
-//Author is the default role for 100, but if it isn't in the list then Artist can be used
-function find100(list) {
-	for (counter = 0; counter < list.length; counter++) {
-		if (list[counter][0]['role'] == 'aut') {
-			return list.splice(counter,1);
-		}
-	}
-
-	for (counter = 0; counter < list.length; counter++) {
-		if (list[counter][0]['role'] == 'art') {
-			return list.splice(counter,1);
-		}
-	}
-
-	return [[{'family':'','given':'','role':''},{'family':'','given':''}]];
-}
-
 $("#marc-maker").submit(function(event) {
 	var words = [];
 	for (var i = 0; i < counter; i++) {
@@ -1285,23 +1263,10 @@ $("#marc-maker").submit(function(event) {
 
 	var additional_names = [];
 	var translit_additional_names = [];
-	var complete_names_list = [
-		[
-			{
-				family: $("#family_name").val(),
-				given: $("#given_name").val(),
-				role: $("#role").val()
-			},
-			{
-				family: $("#translit_family_name").val(),
-				given: $("#translit_given_name").val()
-			}
-		]
-	];
+	var additional_names_test = [];
 	for (var i = 0; i < aCounter; i++) {
-		complete_names_list.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val(), "role": $("#role" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
+		additional_names_test.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
 	}
-	var entry100 = find100(complete_names_list);
 
 	var recordObject = {
 		title: [
@@ -1314,7 +1279,16 @@ $("#marc-maker").submit(function(event) {
 				subtitle: $("#translit_subtitle").val()
 			}
 		],
-		author: entry100[0],
+		author: [
+			{
+				family: $("#family_name").val(),
+				given: $("#given_name").val()
+			},
+			{
+				family: $("#translit_family_name").val(),
+				given: $("#translit_given_name").val()
+			}
+		],
 		publisher: $("#publisher").val(),
 		publication_year: $("#year").val(),
 		publication_place: $("#place").val(),
@@ -1334,7 +1308,7 @@ $("#marc-maker").submit(function(event) {
 		translit_place: $("#translit_place").val(),
 		notes: $("#notes").val(),
 		keywords: words,
-		additional_authors: complete_names_list
+		additional_authors: additional_names_test
 	};
 
 	var institution_info = generateInstitutionInfo();
