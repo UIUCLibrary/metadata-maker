@@ -242,6 +242,10 @@ input[type="number"] {
 	padding-bottom: 6px;
 }
 
+.added-keyword {
+	padding-top: 0px;
+}
+
 #disclaimer {
 	text-align: center;
 	font-size: 13px;

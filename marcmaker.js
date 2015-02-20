@@ -125,7 +125,7 @@ var counter = 1;
 function addKeyword() {
 	if (counter < 50) {
 		var newdiv = document.createElement('div');
-		newdiv.className = 'added';
+		newdiv.className = 'added added-keyword';
 		newdiv.innerHTML = '	<br><input type="text" class="keyword" id="keyword' + counter +'">';
 		$("#keywords").append(newdiv);
 		counter++;
