@@ -4,19 +4,17 @@
 	<meta charset="utf-8">
 	<title>Metadata Maker</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-	<script type="text/javascript">
-		var $j = jQuery.noConflict(true);
-	</script>-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>-->
 	<script src="webshim/js-webshim/minified/polyfiller.js"></script>
 	<script src="assignFAST/assignFASTExample.js"></script>
 	<script src="assignFAST/assignFASTGadget.js"></script>
 	<script src="assignFAST/assignFASTComplete.js"></script>
+	<script src="VIAF/jquery.viafauto.js"></script>
+	<script src="VIAF/jquery.viafauto.extended.js"></script>
+	<script src="VIAF/setVIAF.js"></script>
 
 	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
-	<!--<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/themes/smoothness/jquery-ui.css" rel="stylesheet">-->
+	<link href="http://jqueryui.com/jquery-wp-content/themes/jqueryui.com/style.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
 	<link href="marcmaker.css" rel="stylesheet" media="screen">
@@ -561,10 +559,9 @@
 		</div>
 
 		<div id="author-block">
-			<label for="author" class="heading">Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
-			<div id="insert-family_name"></div><div id="insert-given_name"></div>
-			<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
-			<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
+			<label for="author" class="heading">Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><br>
+			<div id="insert-family_name"></div>
+			<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name, Given Name">
 			<select name="role" id="role">
 				<option value="art">artist</option>
 				<option selected value="aut">author</option>
@@ -574,15 +571,14 @@
 				<option value="trl">translator</option>
 			</select>
 			<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
-			<input type="button" value="+" id="add-author" onClick="addAuthor();">
+			<input type="button" value="+" id="add-author" onClick="addAuthor(); setUpVIAF();">
 			<br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="author_listed" class="listed">
 
 			<div id="translit-family_name-block" class="translit-family_name-block translit-block translit-author hidden">
-				<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
-				<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
-				<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
-				<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
+				<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><br>
+				<div id="insert-translit_family_name"></div>
+				<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name, Given Name">
 			</div>
 		</div>
 
@@ -1019,11 +1015,6 @@ If a multi-volume set, do not record the number of pages, but instead record the
 			<input type="text" class="keyword required" required id="keyword0"> <label title="Record, in English, any descriptive terms that describe the content of this book. Record only one term or phrase in each box. E.g., Astronomy or Politics of Egypt"><span class="question-mark">?</span></label>
 			<input type="button" value="+" id="add-button" onClick="addKeyword(); setUpPage();">
 		</div>
-
-		<!--<div class="ui-widget">
-			<label for="FAST">FAST headings</label><br>
-			<input id="FAST" type="text" size="60"></input>
-		</div>-->
 
 		<div id="notes-block">
 			<label for="notes">Notes to the Cataloger</label><br>

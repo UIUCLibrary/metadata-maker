@@ -39,7 +39,8 @@ function toggleTranslit(id) {
 /*
  * If a listening field has been changed, send the id to the toggler.
  */
-$("#marc-maker").on('change','.translit-listen',function() {
+//$("#marc-maker").on('change','.translit-listen',function() {
+$("#marc-maker").on('blur','.translit-listen',function() {
 	toggleTranslit($(this).attr("id"));
 });
 
