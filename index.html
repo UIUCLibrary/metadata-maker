@@ -9,9 +9,6 @@
 	<script src="assignFAST/assignFASTExample.js"></script>
 	<script src="assignFAST/assignFASTGadget.js"></script>
 	<script src="assignFAST/assignFASTComplete.js"></script>
-	<script src="VIAF/jquery.viafauto.js"></script>
-	<script src="VIAF/jquery.viafauto.extended.js"></script>
-	<script src="VIAF/setVIAF.js"></script>
 
 	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
 	<link href="http://jqueryui.com/jquery-wp-content/themes/jqueryui.com/style.css" rel="stylesheet">
@@ -20,7 +17,7 @@
 	<link href="marcmaker.css" rel="stylesheet" media="screen">
 </head>
 
-<body onload="setUpPage()">
+<body onload="setUpPage(0)">
 	<h1>Metadata Maker</h1>
 	<noscript>WARNING: JavaScript is not enabled on this browser. This page requires JavaScript to function correctly.</noscript>
 	<!--Allow Safari and older versions of IE to behave as if they implement HTML5's 'required' attribute-->
@@ -571,7 +568,7 @@
 				<option value="trl">translator</option>
 			</select>
 			<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
-			<input type="button" value="+" id="add-author" onClick="addAuthor(); setUpVIAF();">
+			<input type="button" value="+" id="add-author" onClick="addAuthor();">
 			<br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="author_listed" class="listed">
 
@@ -1013,7 +1010,14 @@ If a multi-volume set, do not record the number of pages, but instead record the
 		<div id="keywords" class="standard-block">
 			<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>
 			<input type="text" class="keyword required" required id="keyword0"> <label title="Record, in English, any descriptive terms that describe the content of this book. Record only one term or phrase in each box. E.g., Astronomy or Politics of Egypt"><span class="question-mark">?</span></label>
-			<input type="button" value="+" id="add-button" onClick="addKeyword(); setUpPage();">
+			<input type="button" value="+" id="add-button" onClick="addKeyword();">
+		</div>
+
+		<div id="fast" class="standard-block">
+			<label for="fast" class="heading">FAST</label><br>
+			<input type="text" class="fastID hidden" id="fastID0">
+			<input type="text" class="fast" id="fast0">
+			<input type="button" value="+" id="add-fast" onClick="addFAST();">
 		</div>
 
 		<div id="notes-block">

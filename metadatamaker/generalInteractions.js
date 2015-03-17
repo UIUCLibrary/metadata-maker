@@ -154,6 +154,21 @@ function addKeyword() {
 };
 
 /*
+ * Add fast fields
+ */
+var fCounter = 1;
+function addFAST() {
+	if (fCounter < 50) {
+		var newdiv = document.createElement('div');
+		newdiv.className = 'added added-fast';
+		newdiv.innerHTML = '	<br><input type="text" class="fastID hidden" id="fastID' + fCounter + '"><input type="text" class="fast" id="fast' + fCounter +'">';
+		$("#fast").append(newdiv);
+		fCounter++;
+		setUpPage(fCounter-1);
+	}
+};
+
+/*
  * Adds additional input fields so multiple authors or other contributors can be added. Each input field behaves
  * just like the initial names field, including transliteration capabilities.
  */

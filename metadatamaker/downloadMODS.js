@@ -116,6 +116,13 @@ function downloadMODS(record,institution_info) {
 		}
 	}
 
+	var fastText = '';
+	if (checkExists(record.fast)) {
+		for (var c = 0; c < record.fast.length; c++) {
+			fastText += '    <subject authority="FAST" authorityURI="http://fast.oclc.org/" valueURI="http://id.worldcat.org/fast/' + record.fast[c][1] + '"/>\n'
+		}
+	}
+
 	var literatureText = '';
 	if (checkExists(record.literature_yes) && checkExists(record.literature_dropdown)) {
 		literatureText += '    <genre authority="marcgt">' + literatureTypes[record.literature_dropdown] + '</genre>\n'
@@ -126,6 +133,6 @@ function downloadMODS(record,institution_info) {
 	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + institution_info['mods']['recordContentSource'] + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + literatureText + defaultText3 + endText;
+	var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
 	downloadFile(text,'mods');
 }

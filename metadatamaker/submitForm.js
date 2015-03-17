@@ -57,8 +57,14 @@ function find100(list) {
 $("#marc-maker").submit(function(event) {
 	var words = [];
 	for (var i = 0; i < counter; i++) {
-		words[words.length] = $("#keyword" + i).val();
+		words.push($("#keyword" + i).val());
 	};
+
+	var fast_array = [];
+	for (var i = 0; i < fCounter; i++) {
+		fast_array.push([$("#fast" + i).val(),$("#fastID" + i).val()]);
+	}
+	console.log(fast_array);
 
 	var additional_names = [];
 	var translit_additional_names = [];
@@ -112,6 +118,7 @@ $("#marc-maker").submit(function(event) {
 		translit_place: $("#translit_place").val(),
 		notes: $("#notes").val(),
 		keywords: words,
+		fast: fast_array,
 		additional_authors: complete_names_list
 	};
 

@@ -618,7 +618,18 @@ function downloadHTML(record,institution_info) {
 	keywordsList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
 	displayTags += keywordsList;
 
-	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="Offer">\n\t\t\t\t<dt>Offer:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
+	if (checkExists(record.fast)) {
+		var FASTList = '\t\t\t<dt>FAST:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
+		for (var c = 0; c < record.fast.length; c++) {
+			if (record.fast[c][0] != '') {
+				FASTList += '\t\t\t\t\t<li itemprop="about" href="http://id.worldcat.org/fast/' + record.fast[c][1] + '">' + record.fast[c][0] + '</li>\n';
+			}
+		}
+		FASTList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+	}
+	displayTags += FASTList;
+
+	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Offer:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
 
 	var text = '<!DOCTYPE html>\n<html>\n<head>\n	<meta charset="utf-8">\n</head>\n\n<body>\n\t<div itemscope itemtype="http://schema.org/Book">\n' + metaTags + '\t\t<dl>\n' + displayTags + '\t\t</dl>\n\t</div>\n</body>\n</html>';
 	downloadFile(text,'html');
