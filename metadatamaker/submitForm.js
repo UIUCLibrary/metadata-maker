@@ -114,6 +114,7 @@ $("#marc-maker").submit(function(event) {
 		illustrations_yes: $("#illustrations-yes").is(':checked'),
 		dimensions: $("#dimensions").val(),
 		edition: $("#edition").val(),
+		translit_edition: $("#translit_edition").val(),
 		translit_publisher: $("#translit_publisher").val(),
 		translit_place: $("#translit_place").val(),
 		notes: $("#notes").val(),

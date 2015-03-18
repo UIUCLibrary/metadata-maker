@@ -508,6 +508,10 @@ function buildTag(prop,content,meta,label) {
 	}
 }
 
+function buildItemscopeTag(prop,type,label) {
+	return '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="' + type + '">\n' + '\t\t\t</div>\n';
+}
+
 /*
  * For labeling an element wtih a Scehema.org property when the element is part of an atypical HTML tag, and 
  * embeded umong other information
@@ -519,25 +523,26 @@ function buildSpan(prop,content) {
 	return '<span itemprop="' + prop + '">' + content + '</span>';
 }
 
-/*
- * Author output depends on how the name was entered
- */
-function fillAuthorHTML(family,given,role) {
+function listPerson(family,given,role) {
 	var role_index = { 'art': 'contributor', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'contributor', 'trl': 'contributor'};
+	var prop = role_index[role];
+	var output_string = '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="http://schema.org/Person">\n';
+	output_string += '\t\t\t\t<dt>' + role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1) + ':</dt>\n';
+	output_string += '\t\t\t\t<dd><b>';
 	if (checkExists(family) && checkExists(given)) {
-		return buildTag(role_index[role],family + ', ' + given,false,role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1));
+		output_string += buildSpan('familyName',family) + ', ' + buildSpan('givenName',given);
 	}
 	else if (checkExists(family) || checkExists(given)) {
 		if (checkExists(family)) {
-			return buildTag(role_index[role],family,false,role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1));
+			output_string += buildSpan('familyName',family);
 		}
 		else {
-			return buildTag(role_index[role],given,false,role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1));
+			output_string += buildSpan('givenName',given);
 		}
 	}
-	else {
-		return '';
-	}
+	output_string += '</b></dd>\n';
+	output_string += '\t\t\t</div>\n';
+	return output_string;
 }
 
 /*
@@ -574,11 +579,13 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
 
-	displayTags += fillAuthorHTML(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	if (checkExists(record.author[0]['role'])) {
+		displayTags += listPerson(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	}
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			displayTags += fillAuthorHTML(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
+			displayTags += listPerson(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
 		}
 	}
 
