@@ -24,7 +24,7 @@
 	<script>jQuery.webshims.polyfill('forms');</script>
 	<form id="marc-maker">
 		<div id="title-block">
-			<label for="title" class="heading">Title<span class="required_marker">*</span></label><label for="title" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</label><br>
+			<label for="title" class="heading">Title<span class="required_marker">*</span></label><label for="title" class=" insert_normal" onClick='insertMenu("title");'>Insert Diacritics</label><br>
 			<div id="insert-title"></div>
 			<input type="text" required id="title" class="required translit-listen">
 			<label title="Record the title as it appears on the title page. If the title includes a subtitle, record only the main title here, and the subtitle in the next field."><span class="question-mark">?</span></label>
@@ -959,14 +959,14 @@
 
 		<div id="publication-block">
 			<label for="date" class="heading">Date of publication</label><br>
-			<input type="number" class="date conditional" required id="year" min="1400">
+			<input type="number" class="date conditional" required id="year" min="0">
 			<label title="Record the year of publication if it appears on the piece. Do not record a copyright date here. Copyright dates should be recorded in the next field."><span class="question-mark">?</span></label><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
 		</div>
 
 		<div id="copyright-block">
 			<label for="cyear" class="heading">Copyright date</label><br>
-			<input type="number" class="date conditional" required id="cyear" min="1400">
+			<input type="number" class="date conditional" required id="cyear" min="0">
 			<label title="Record the year of copyright if it appears on the piece."><span class="question-mark">?</span></label><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="cyear_listed" class="listed">
 		</div>

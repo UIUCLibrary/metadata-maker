@@ -616,7 +616,7 @@ function fillTranslitPublisher(record,head,fieldFunc,subfieldFunc) {
 			translit_content.push(subfieldFunc('b',record.publisher + ','));
 		}
 
-		if (checkExists(record.copyright_year)) {
+		if (checkExists(record.publication_year)) {
 			translit_content.push(subfieldFunc('c',record.publication_year + '.'));
 		}
 		else if (checkExists(record.copyright_year)) {
@@ -625,6 +625,8 @@ function fillTranslitPublisher(record,head,fieldFunc,subfieldFunc) {
 		else {
 			translit_content.push(subfieldFunc('c','[date of publication not identified]'));
 		}
+
+		console.log(translit_content);
 
 		var publisher880 = fieldFunc('880',' ','1',translit_content);
 

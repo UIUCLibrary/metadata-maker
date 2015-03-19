@@ -148,8 +148,8 @@ $(".author").change(function() {
 /*
  * Set highest allowed year to next year
  */
-var present = new Date().getFullYear();
-$(".date").attr("max",present+1);
+//var present = new Date().getFullYear();
+$(".date").attr("max",1000000);
 
 /*
  * Add keyword fields
