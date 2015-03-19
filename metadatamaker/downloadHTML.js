@@ -583,7 +583,7 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
 
-	if (checkExists(record.author[0]['role'])) {
+	if (checkExists(record.author[0]['role']) && (checkExists(record.author[0]['given']) || checkExists(record.author[0]['family']))) {
 		displayTags += listPerson(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
 	}
 
