@@ -17,7 +17,7 @@ var currentSuggestIndexDefault = "suggest50";  //initial default value
 
 function setUpPage(number) {
 	// connect the autoSubject to the input areas
-	$('#fast' + number).autocomplete( {
+	$('#keyword' + number).autocomplete( {
 		source: autoSubjectExample, 
 		minLength: 1,
 		select: function(event, ui) {

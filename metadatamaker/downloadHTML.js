@@ -523,6 +523,10 @@ function buildSpan(prop,content) {
 	return '<span itemprop="' + prop + '">' + content + '</span>';
 }
 
+/*
+ * Create a new div for each person listed as a contributer, switching the itemscope to person. Separately label
+ * the family name and given name.
+ */
 function listPerson(family,given,role) {
 	var role_index = { 'art': 'contributor', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'contributor', 'trl': 'contributor'};
 	var prop = role_index[role];

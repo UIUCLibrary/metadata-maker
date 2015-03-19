@@ -56,15 +56,15 @@ function find100(list) {
  */
 $("#marc-maker").submit(function(event) {
 	var words = [];
-	for (var i = 0; i < counter; i++) {
-		words.push($("#keyword" + i).val());
-	};
-
 	var fast_array = [];
-	for (var i = 0; i < fCounter; i++) {
-		fast_array.push([$("#fast" + i).val(),$("#fastID" + i).val()]);
-	}
-	console.log(fast_array);
+	for (var i = 0; i < counter; i++) {
+		if(checkExists($("#fastID" + i).val()) && checkExists($("#keyword" + i).val())) {
+			fast_array.push([$("#keyword" + i).val(),$("#fastID" + i).val()]);
+		}
+		else {
+			words.push($("#keyword" + i).val());
+		}
+	};
 
 	var additional_names = [];
 	var translit_additional_names = [];

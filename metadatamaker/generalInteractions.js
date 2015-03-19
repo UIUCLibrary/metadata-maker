@@ -44,6 +44,18 @@ $("#marc-maker").on('blur','.translit-listen',function() {
 });
 
 /*
+ * If a keyword input being deleted or modified, clear the fastID recorded in case the user is inputing
+ * a term not in fast
+ */
+$("#marc-maker").on('keyup', function(e) {
+	if (e.keyCode === 8 || e.keyCode === 46) {
+		if ($(':focus')[0].id.indexOf('keyword') == 0) {
+			$('#fastID' + $(':focus')[0].id.substring(7)).val('');
+		}
+	}
+});
+
+/*
  * When the insert menu is open ESC will get rid of it
  */
 $(document).keyup(function(e) {
@@ -147,24 +159,10 @@ function addKeyword() {
 	if (counter < 50) {
 		var newdiv = document.createElement('div');
 		newdiv.className = 'added added-keyword';
-		newdiv.innerHTML = '	<br><input type="text" class="keyword" id="keyword' + counter +'">';
+		newdiv.innerHTML = '	<br><input type="text" class="fastID hidden" id="fastID' + counter + '"><input type="text" class="keyword" id="keyword' + counter +'">';
 		$("#keywords").append(newdiv);
 		counter++;
-	}
-};
-
-/*
- * Add fast fields
- */
-var fCounter = 1;
-function addFAST() {
-	if (fCounter < 50) {
-		var newdiv = document.createElement('div');
-		newdiv.className = 'added added-fast';
-		newdiv.innerHTML = '	<br><input type="text" class="fastID hidden" id="fastID' + fCounter + '"><input type="text" class="fast" id="fast' + fCounter +'">';
-		$("#fast").append(newdiv);
-		fCounter++;
-		setUpPage(fCounter-1);
+		setUpPage(counter-1);
 	}
 };
 
