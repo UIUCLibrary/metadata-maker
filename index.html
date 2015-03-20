@@ -24,7 +24,7 @@
 	<script>jQuery.webshims.polyfill('forms');</script>
 	<form id="marc-maker">
 		<div id="title-block">
-			<label for="title" class="heading">Title<span class="required_marker">*</span></label><label for="title" class=" insert_normal" onClick='insertMenu("title");'>Insert Diacritics</label><br>
+			<label for="title" class="heading">Title<span class="required_marker">*</span></label><label for="title" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</label><br>
 			<div id="insert-title"></div>
 			<input type="text" required id="title" class="required translit-listen">
 			<label title="Record the title as it appears on the title page. If the title includes a subtitle, record only the main title here, and the subtitle in the next field."><span class="question-mark">?</span></label>
@@ -38,7 +38,7 @@
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="subtitle_listed" class="listed">
 		</div>
 
-		<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block hidden">
+		<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title  hidden">
 			<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><label for="translit_title" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</label><br>
 			<div id="insert-translit_title" class="hidden translit translit-title"></div>
 			<input type="text" id="translit_title" class="hidden translit translit-title">

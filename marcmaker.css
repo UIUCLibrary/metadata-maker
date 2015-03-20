@@ -86,10 +86,11 @@ input[type="number"] {
 #subtitle-block {
 	padding: 3px;
 	width: 350px;
-	position: relative;
-	top: -68px;
-	left: 400px;
-	margin-bottom: -68px;
+	position: absolute;
+	left: 474px;
+	top: 106px;
+	/*margin-bottom: -68px;*/
+	margin-right: 1px;
 }
 
 /*#translit-title-block {
