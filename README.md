@@ -1,8 +1,9 @@
 # MetadataMaker
+Metadata Maker is a web application that is used for creating *good enough* quality metadata in four different formats depending on the needs of the system to which the metadata will be ingested. A live version of the tool hosted by the University of Illinois can be found at http://iisdev1.library.illinois.edu/marcmaker/
 
 ## Editing institution information
 
-The records produced by MetadataMaker list the University of Illinois at Urbana-Champaign as the institution that created the records, and as the location of the physical holding. To change the institution, edit the strings created in **generateInstitutionInfo()** in **marcmaker.js**.
+The records produced by MetadataMaker list the University of Illinois at Urbana-Champaign as the institution that created the records, and as the location of the physical holding. To change the institution, edit the strings created in **generateInstitutionInfo()** in **metadatamaker/submitForm.js**.
 
 ## Browser compatibility
 
