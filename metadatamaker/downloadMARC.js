@@ -470,7 +470,7 @@ function fillFAST(record,head,fieldFunc,subfieldFunc) {
 		var FAST_directory = '';
 		for (var i = 0; i < record.fast.length; i++) {
 			var FAST_subfield = [subfieldFunc('a',record.fast[i][0]),subfieldFunc('2','fast'),subfieldFunc('0','(OCoLC)' + record.fast[i][1])];
-			var new_content = fieldFunc('650',' ','7',FAST_subfield);
+			var new_content = fieldFunc('6' + record.fast[i][2].substring(1),record.fast[i][3],'7',FAST_subfield);
 			FAST += new_content;
 
 			//MARC

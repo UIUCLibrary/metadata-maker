@@ -22,6 +22,8 @@ function setUpPage(number) {
 		minLength: 1,
 		select: function(event, ui) {
 			$('#fastID' + number).val(ui.item.idroot);
+			$('#fastType' + number).val(ui.item.tag);
+			$('#fastInd' + number).val(ui.item.indicator);
 		} //end select
 	} 
 	).data( "autocomplete" )._renderItem = function( ul, item ) { formatSuggest(ul, item);};
