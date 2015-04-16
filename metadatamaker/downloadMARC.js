@@ -464,30 +464,48 @@ function fillKeywords(record,head,fieldFunc,subfieldFunc) {
 	}
 }
 
+function handleSpecialFAST(full_string,check,separating_character,second_field,FAST_subfield,subfieldFunc) {
+	var separator = full_string.lastIndexOf(separating_character);
+	if (separator != check) {
+		separator++;
+		if (separating_character == '/') {
+			var first = full_string.substring(0,separator-1);
+		}
+		else {
+			var first = full_string.substring(0,separator);
+		}
+		var second = full_string.substring(separator).trim();
+		FAST_subfield.push(subfieldFunc('a',first));
+		FAST_subfield.push(subfieldFunc(second_field,second));
+	}
+	else {
+		FAST_subfield.push(subfieldFunc('a',full_string));
+	}
+}
+
 function fillFAST(record,head,fieldFunc,subfieldFunc) {
 	if (checkExists(record.fast)) {
 		var FAST = '';
 		var FAST_directory = '';
 		for (var i = 0; i < record.fast.length; i++) {
 			var contentType = record.fast[i][2].substring(1);
-			/*var FAST_subfield = [];
+			var FAST_subfield = [];
 			if (contentType == '00') {
-
+				handleSpecialFAST(record.fast[i][0],record.fast[i][0].indexOf(','),',','d',FAST_subfield,subfieldFunc);
 			}
 			else if (contentType == '30') {
-
+				handleSpecialFAST(record.fast[i][0],-1,'.','p',FAST_subfield,subfieldFunc);
 			}
 			else if (contentType == '51') {
-
+				handleSpecialFAST(record.fast[i][0],-1,'/','z',FAST_subfield,subfieldFunc);
 			}
 			else {
-			FAST_subfield.push(subfieldFunc('a',record.fast[i][0]));
+				FAST_subfield.push(subfieldFunc('a',record.fast[i][0]));
 			}
 
 			FAST_subfield.push(subfieldFunc('2','fast'));
-			FAST_subfield.push(subfieldFunc('0','(OCoLC)' + record.fast[i][1]));*/
+			FAST_subfield.push(subfieldFunc('0','(OCoLC)' + record.fast[i][1]));
 
-			var FAST_subfield = [subfieldFunc('a',record.fast[i][0]),subfieldFunc('2','fast'),subfieldFunc('0','(OCoLC)' + record.fast[i][1])];
 			var new_content = fieldFunc('6' + contentType,record.fast[i][3],'7',FAST_subfield);
 			FAST += new_content;
 
