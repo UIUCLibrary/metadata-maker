@@ -469,13 +469,31 @@ function fillFAST(record,head,fieldFunc,subfieldFunc) {
 		var FAST = '';
 		var FAST_directory = '';
 		for (var i = 0; i < record.fast.length; i++) {
+			var contentType = record.fast[i][2].substring(1);
+			/*var FAST_subfield = [];
+			if (contentType == '00') {
+
+			}
+			else if (contentType == '30') {
+
+			}
+			else if (contentType == '51') {
+
+			}
+			else {
+			FAST_subfield.push(subfieldFunc('a',record.fast[i][0]));
+			}
+
+			FAST_subfield.push(subfieldFunc('2','fast'));
+			FAST_subfield.push(subfieldFunc('0','(OCoLC)' + record.fast[i][1]));*/
+
 			var FAST_subfield = [subfieldFunc('a',record.fast[i][0]),subfieldFunc('2','fast'),subfieldFunc('0','(OCoLC)' + record.fast[i][1])];
-			var new_content = fieldFunc('6' + record.fast[i][2].substring(1),record.fast[i][3],'7',FAST_subfield);
+			var new_content = fieldFunc('6' + contentType,record.fast[i][3],'7',FAST_subfield);
 			FAST += new_content;
 
 			//MARC
 			if (head !== null) {
-				var new_directory = createDirectory('650',new_content,head);
+				var new_directory = createDirectory('6' + contentType,new_content,head);
 				head += getByteLength(new_content);
 				FAST_directory += new_directory;
 			}
