@@ -44,6 +44,16 @@ function downloadMODS(record,institution_info) {
 		'|': 'No attempt to code'
 	}
 
+	var fastTypes = {
+		'00': 'name type="personal"',
+		'10': 'name type="corporate"',
+		'11': 'name type="conference"',
+		'30': 'titleInfo',
+		'50': 'topic',
+		'51': 'geographic',
+		'55': 'genre'
+	}
+
 	var startText = '<?xml version="1.0" encoding="UTF-8"?>\n<mods:mods xmlns:mods="http://www.loc.gov/mods/v3"\n    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3"\n    xmlns:xlink="http://www.w3.org/1999/xlink"\n    xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"\n    version="3.5">\n';
 
 	var defaultText1 = '    <typeOfResource>text</typeOfResource>\n';
@@ -119,7 +129,7 @@ function downloadMODS(record,institution_info) {
 	var fastText = '';
 	if (checkExists(record.fast)) {
 		for (var c = 0; c < record.fast.length; c++) {
-			fastText += '    <subject authority="FAST" authorityURI="http://fast.oclc.org/" valueURI="http://id.worldcat.org/fast/' + record.fast[c][1] + '"/>\n'
+			fastText += '    <subject>\n        <' + fastTypes[record.fast[c][2].substring(1)] + ' authority="FAST" authorityURI="http://fast.oclc.org/" valueURI="http://id.worldcat.org/fast/' + record.fast[c][1] + '"/>\n    </subject>\n'
 		}
 	}
 
