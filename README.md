@@ -17,6 +17,8 @@ The recommended browsers for MetadataMaker are Chrome and Firefox. MetadataMaker
 
 The file structure has been altered, placing the javascript files in subdirectories, and splitting marcmaker.js into more manageable chunks within the metadatamaker folder.
 
+**04-17-2015:** FAST keywords now map to a number of different 6XX fields in MARC and MARCXML depending on how the keyword is categorized (e.g. personal name, corporate name, event, etc.), and may store portions of the keyword in different subfields. Keyword type classification is also implemented for MODS.
+
 ## Contact info
 
 Comments and questions can be directed to Deren Kudeki at dkudeki@illinois.edu
