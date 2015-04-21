@@ -69,9 +69,12 @@ $(document).keyup(function(e) {
 /*
  * Inserts selected character at the end of the associated input, not where the cursor is
  */
-function insertChar(field,insert_value) {
+function insertChar(field,insert_value,insert_at) {
 	var current_contents = $("#" + field).val();
-	$("#" + field).val(current_contents + insert_value);
+	//var insert_at = $("#" + field)[0].selectionStart;
+	$("#" + field).val(current_contents.substring(0,insert_at) + insert_value + current_contents.substring(insert_at));
+	//console.log(current_contents.substring(0,insert_at));
+	//$("#" + field).val(current_contents.substring(0,insert_at));
 	$("#" + field).focus();
 	$("#insert-popup").remove();
 }
@@ -79,7 +82,7 @@ function insertChar(field,insert_value) {
 /*
  * When the Insert button is pressed, create a floating keyboard with characters to insert
  */
-function constructMenu(field) {
+function constructMenu(field,insert_at) {
 	var unicodes = ['0301','04D5','04D4','0357','0351','0306','00A3','0310','0327','030A','0325','0302','005E','00A9','0111','0110','0366','0323','00B7','02DD','0324','FE22','FE23','0333','00DF','00F0','00D0','20AC','0060','0300','030C','0313','0315','0328','00A1','00BF','0142','0141','007B','0321','FE20','FE21','0304','02B9','266D','266F','01A1','01A0','00F8','00D8','0153','0152','2117','00B1','0309','007D','0322','2113','2080','2081','2082','2083','2084','2085','2086','2087','2088','2089','2070','00B9','00B2','00B3','2074','2075','2076','2077','2078','2079','207D','207E','207B','207A','00FE','00DE','0303','007E','0131','02BA','01B0','01AF','0308','0332','005F','032E','03B1','2020','0263','00AE'];
 	var return_string = "	<div id='buttons'>\n";
 	for (var i = 0; i < unicodes.length; i++) {
@@ -98,7 +101,7 @@ function constructMenu(field) {
 			new_tag += 'normal-button';
 		}
 
-		new_tag += "' type='button' onClick='insertChar(\"" + field + "\",\"" + String.fromCharCode(parseInt(unicodes[i],16)) + "\")'>&#x" + unicodes[i] + "</button>";
+		new_tag += "' type='button' onClick='insertChar(\"" + field + "\",\"" + String.fromCharCode(parseInt(unicodes[i],16)) + "\"," + insert_at + ")'>&#x" + unicodes[i] + "</button>";
 
 		if (i%14 === 13) {
 			new_tag += "<br>\n";
@@ -118,9 +121,10 @@ function insertMenu(field) {
 		$("#insert-popup").remove();
 	}
 	else {
+		var insert_at = $("#" + field)[0].selectionStart;
 		var newdiv = document.createElement('div');
 		newdiv.setAttribute('id','insert-popup');
-		newdiv.innerHTML = constructMenu(field);
+		newdiv.innerHTML = constructMenu(field,insert_at);
 		$("#insert-" + field).append(newdiv);
 	}
 }

@@ -19,6 +19,8 @@ The file structure has been altered, placing the javascript files in subdirector
 
 **04-17-2015:** FAST keywords now map to a number of different 6XX fields in MARC and MARCXML depending on how the keyword is categorized (e.g. personal name, corporate name, event, etc.), and may store portions of the keyword in different subfields. Keyword type classification is also implemented for MODS.
 
+**04-21-2015:** Diacritics are now inserted at the cursor position
+
 ## Contact info
 
 Comments and questions can be directed to Deren Kudeki at dkudeki@illinois.edu
