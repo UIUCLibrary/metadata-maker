@@ -743,7 +743,7 @@ function fillTranslitAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 				}
 				translit_counter++;
 
-				var new_content = fieldFunc('880',' ','1',[subfieldFunc('6','700-' + translit_index),subfieldFunc('a',authors_content)]);
+				var new_content = fieldFunc('880','1',' ',[subfieldFunc('6','700-' + translit_index),subfieldFunc('a',authors_content)]);
 				authors880 += new_content;
 
 				//MARC
