@@ -23,4 +23,4 @@ The file structure has been altered, placing the javascript files in subdirector
 
 ## Contact info
 
-Comments and questions can be directed to Deren Kudeki at dkudeki@illinois.edu
+Comments and questions can be directed to Deren Kudeki at dkudeki@illinois.edu and Myung-Ja Han at mhan3@illinois.edu
