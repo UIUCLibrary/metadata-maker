@@ -111,12 +111,14 @@ input[type="number"] {
 }
 
 #author-block {
-	padding: 3px;
+	padding: 6px;
+	padding-left: 36px;
 	width: 700px;
 }
 
 #corporate-block {
 	padding: 6px;
+	padding-left: 36px;
 	width: 400px;
 }
 
