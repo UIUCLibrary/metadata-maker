@@ -2,79 +2,40 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Metadata Maker</title>
+	<title>Metadata Maker for Theses & Dissertations</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 	<script src="webshim/js-webshim/minified/polyfiller.js"></script>
-	<script src="assignFAST/assignFASTExample.js"></script>
-	<script src="assignFAST/assignFASTGadget.js"></script>
-	<script src="assignFAST/assignFASTComplete.js"></script>
 
-	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
-	<link href="http://jqueryui.com/jquery-wp-content/themes/jqueryui.com/style.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-	<link href="marcmaker.css" rel="stylesheet" media="screen">
+	<link href="metadatamaker-dissertation.css" rel="stylesheet" media="screen">
 </head>
 
-<body onload="setUpPage(0)">
-	<h1>Metadata Maker</h1>
+<body>
+	<h1>Metadata Maker for Theses & Dissertations</h1>
 	<noscript>WARNING: JavaScript is not enabled on this browser. This page requires JavaScript to function correctly.</noscript>
 	<!--Allow Safari and older versions of IE to behave as if they implement HTML5's 'required' attribute-->
 	<script>jQuery.webshims.polyfill('forms');</script>
 	<form id="marc-maker">
-		<div id="title-block">
-			<label for="title" class="heading">Title<span class="required_marker">*</span></label><label for="title" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</label><br>
+		<div id="title-block" class="standard-block">
+			<label for="title" class="heading">Title</label><label for="title" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</label><br>
 			<div id="insert-title"></div>
-			<input type="text" required id="title" class="required translit-listen">
+			<input type="text" required id="title">
 			<label title="Record the title as it appears on the title page. If the title includes a subtitle, record only the main title here, and the subtitle in the next field."><span class="question-mark">?</span></label>
 		</div>
 
-		<div id="subtitle-block">
-			<label for="subtitle" class="heading">Subtitle</label><label for="subtitle" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</label><br>
-			<div id="insert-subtitle"></div>
-			<input type="text" required id="subtitle" class="conditional">
-			<label title="Record the subtitle if one exists"><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="subtitle_listed" class="listed">
-		</div>
-
-		<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title  hidden">
-			<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><label for="translit_title" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</label><br>
-			<div id="insert-translit_title" class="hidden translit translit-title"></div>
-			<input type="text" id="translit_title" class="hidden translit translit-title">
-		</div>
-
-		<div id="translit-subtitle-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
-			<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><label for="translit_subtitle" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</label><br>
-			<div id="insert-translit_subtitle" class="hidden translit translit-title"></div>
-			<input type="text" id="translit_subtitle" class="hidden translit translit-title">
-		</div>
-
-		<div id="isbn-block" class="standard-block">
-			<label for="isbn" class="heading">ISBN</label><br>
-			<input type="text" required id="isbn" class="conditional">
-			<label title="Record an ISBN, if present. Do not record hyphens. If multiple ISBNs are present, record only one. E.g., 9781234567890 or 1234567890"><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="isbn_listed" class="listed">
-		</div>
-
-		<div id="edition-block" class="standard-block">
-			<label for="edition" class="heading">Edition statement</label><label for="edition" class="insert insert_normal" onClick='insertMenu("edition");'>Insert Diacritics</label><br>
-			<div id="insert-edition"></div>
-			<input type="text" class="conditional translit-listen" required id="edition">
-			<label title="Record an edition statement if it appears on the piece. E.g., First edition, 1st ed., etc."><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="edition_listed" class="listed">
-		</div>
-
-		<div id="translit-edition-block" class="translit-edition-block translit-block hidden standard-translit-block">
-			<label for="translit_edition" class="hidden translit heading translit-edition">Transliterated edition</label><label for="translit_edition" class="insert insert_normal hidden translit translit-edition" onClick='insertMenu("translit_edition");'>Insert Diacritics</label><br>
-			<div id="insert-translit_edition" class="hidden translit translit-edition"></div>
-			<input type="text" id="translit_edition" class="hidden translit translit-edition">
+		<div id="author-block">
+			<label for="author" class="heading">Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
+			<div id="insert-family_name"></div><div id="insert-given_name"></div>
+			<input type="text" class="author conditional" required id="family_name" placeholder="Family Name">, 
+			<input type="text" class="author conditional" required id="given_name" placeholder="Given Name">
+			<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
 		</div>
 
 		<div id="language-block" class="standard-block">
-			<label for="language" class="heading">Language<span class="required_marker">*</span></label><br>
-			<select name="language" required id="language" class="required">
-				<option selected disabled hidden value=''></option>
+			<label for="language" class="heading">Language</label><br>
+			<select name="language" required id="language">
 				<option value="abk">Abkhaz</option>
 				<option value="ace">Achinese</option>
 				<option value="ach">Acoli</option>
@@ -197,7 +158,7 @@
 				<option value="egy">Egyptian</option>
 				<option value="eka">Ekajuk</option>
 				<option value="elx">Elamite</option>
-				<option value="eng">English</option>
+				<option selected value="eng">English</option>
 				<option value="enm">English, Middle (1100-1500)</option>
 				<option value="ang">English, Old (ca. 450-1100)</option>
 				<option value="myv">Erzya</option>
@@ -562,472 +523,38 @@
 			</select>
 		</div>
 
-		<div id="author-block">
-			<label for="author" class="heading">Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
-			<div id="insert-family_name"></div><div id="insert-given_name"></div>
-			<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
-			<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
-			<select name="role" id="role">
-				<option value="art">artist</option>
-				<option selected value="aut">author</option>
-				<option value="ctb">contributor</option>
-				<option value="edt">editor</option>
-				<option value="ill">illustrator</option>
-				<option value="trl">translator</option>
-			</select>
-			<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
-			<input type="button" value="+" id="add-author" onClick="addAuthor();">
-			<br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="author_listed" class="listed">
-
-			<div id="translit-family_name-block" class="translit-family_name-block translit-block translit-author hidden">
-				<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
-				<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
-				<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
-				<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
-			</div>
-		</div>
-
-		<div id="publisher-block" class="standard-block">
-			<label for="publisher" class="heading">Name of publisher</label><label for="publisher" class="insert insert_normal" onClick='insertMenu("publisher");'>Insert Diacritics</label><br>
-			<div id="insert-publisher"></div>
-			<input type="text" required id="publisher" class="conditional translit-listen">
-			<label title="Record the name of the publisher as it appears on the piece. Prefer the name that appears on the title page."><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="publisher_listed" class="listed">
-		</div>
-
-		<div id="translit-publisher-block" class="translit-publisher-block translit-block hidden standard-translit-block">
-			<label for="translit_publisher" class="hidden translit heading translit-publisher">Transliterated publisher</label><label for="translit_publisher" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_publisher");'>Insert Diacritics</label><br>
-			<div id="insert-translit_publisher" class="hidden translit translit-publisher"></div>
-			<input type="text" id="translit_publisher" class="hidden translit translit-publisher">
-		</div>
-
-		<div id="place-block" class="standard-block">
-			<label for="place" class="heading">Place of publication</label><label for="place" class="insert insert_normal" onClick='insertMenu("place");'>Insert Diacritics</label><br>
-			<div id="insert-place"></div>
-			<input type="text" required id="place" class="conditional translit-listen">
-			<label title="Record the place of publication as it appears on the piece. Prefer the place that appears on the title page. If there is more than one place, record only one. E.g., Boston, Massachusetts"><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="place_listed" class="listed">
-		</div>
-
-		<div id="translit-place-block" class="translit-place-block translit-block hidden standard-translit-block">
-			<label for="translit_place" class="hidden translit heading translit-place">Transliterated place</label><label for="translit_place" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_place");'>Insert Diacritics</label><br>
-			<div id="insert-translit_place" class="hidden translit translit-publisher"></div>
-			<input type="text" id="translit_place" class="hidden translit translit-place">
-		</div>
-
-		<div id="country-block" class="standard-block">
-			<label for="country" class="heading">Country/State/Province of publication</label><br>
-			<select name="country" required id="country" class="conditional">
-				<option selected disabled hidden value=''></option>
-				<option value="af">Afghanistan</option>
-				<option value="alu">Alabama</option>
-				<option value="aku">Alaska</option>
-				<option value="aa">Albania</option>
-				<option value="abc">Alberta</option>
-				<option value="ae">Algeria</option>
-				<option value="as">American Samoa</option>
-				<option value="an">Andorra</option>
-				<option value="ao">Angola</option>
-				<option value="am">Anguilla</option>
-				<option value="ay">Antarctica</option>
-				<option value="aq">Antigua and Barbuda</option>
-				<option value="ag">Argentina</option>
-				<option value="azu">Arizona</option>
-				<option value="aru">Arkansas</option>
-				<option value="ai">Armenia (Republic)</option>
-				<option value="aw">Aruba</option>
-				<option value="at">Australia</option>
-				<option value="aca">Australian Capital Territory</option>
-				<option value="au">Austria</option>
-				<option value="aj">Azerbaijan</option>
-				<option value="bf">Bahamas</option>
-				<option value="ba">Bahrain</option>
-				<option value="bg">Bangladesh</option>
-				<option value="bb">Barbados</option>
-				<option value="bw">Belarus</option>
-				<option value="be">Belgium</option>
-				<option value="bh">Belize</option>
-				<option value="dm">Benin</option>
-				<option value="bm">Bermuda Islands</option>
-				<option value="bt">Bhutan</option>
-				<option value="bo">Bolivia</option>
-				<option value="bn">Bosnia and Hercegovina</option>
-				<option value="bs">Botswana</option>
-				<option value="bv">Bouvet Island</option>
-				<option value="bl">Brazil</option>
-				<option value="bcc">British Columbia</option>
-				<option value="bi">British Indian Ocean Territory</option>
-				<option value="vb">British Virgin Islands</option>
-				<option value="bx">Brunei</option>
-				<option value="bu">Bulgaria</option>
-				<option value="uv">Burkina Faso</option>
-				<option value="br">Burma</option>
-				<option value="bd">Burundi</option>
-				<option value="cv">Cabo Verde</option>
-				<option value="cau">California</option>
-				<option value="cb">Cambodia</option>
-				<option value="cm">Cameroon</option>
-				<option value="xxc">Canada</option>
-				<option value="ca">Caribbean Netherlands</option>
-				<option value="cj">Cayman Islands</option>
-				<option value="cx">Central African Republic</option>
-				<option value="cd">Chad</option>
-				<option value="cl">Chile</option>
-				<option value="cc">China</option>
-				<option value="ch">China (Republic : 1949- )</option>
-				<option value="xa">Christmas Island (Indian Ocean)</option>
-				<option value="xb">Cocos (Keeling) Islands</option>
-				<option value="ck">Colombia</option>
-				<option value="cou">Colorado</option>
-				<option value="cq">Comoros</option>
-				<option value="cf">Congo (Brazzaville)</option>
-				<option value="cg">Congo (Democratic Republic)</option>
-				<option value="ctu">Connecticut</option>
-				<option value="cw">Cook Islands</option>
-				<option value="xga">Coral Sea Islands Territory</option>
-				<option value="cr">Costa Rica</option>
-				<option value="iv">Côte d'Ivoire</option>
-				<option value="ci">Croatia</option>
-				<option value="cu">Cuba</option>
-				<option value="co">Curaçao</option>
-				<option value="cy">Cyprus</option>
-				<option value="xr">Czech Republic</option>
-				<option value="deu">Delaware</option>
-				<option value="dk">Denmark</option>
-				<option value="dcu">District of Columbia</option>
-				<option value="ft">Djibouti</option>
-				<option value="dq">Dominica</option>
-				<option value="dr">Dominican Republic</option>
-				<option value="ec">Ecuador</option>
-				<option value="ua">Egypt</option>
-				<option value="es">El Salvador</option>
-				<option value="enk">England</option>
-				<option value="eg">Equatorial Guinea</option>
-				<option value="ea">Eritrea</option>
-				<option value="er">Estonia</option>
-				<option value="et">Ethiopia</option>
-				<option value="fk">Falkland Islands</option>
-				<option value="fa">Faroe Islands</option>
-				<option value="fj">Fiji</option>
-				<option value="fi">Finland</option>
-				<option value="flu">Florida</option>
-				<option value="fr">France</option>
-				<option value="fg">French Guiana</option>
-				<option value="fp">French Polynesia</option>
-				<option value="go">Gabon</option>
-				<option value="gm">Gambia</option>
-				<option value="gz">Gaza Strip</option>
-				<option value="gau">Georgia</option>
-				<option value="gs">Georgia (Republic)</option>
-				<option value="gw">Germany</option>
-				<option value="gh">Ghana</option>
-				<option value="gi">Gibraltar</option>
-				<option value="gr">Greece</option>
-				<option value="gl">Greenland</option>
-				<option value="gd">Grenada</option>
-				<option value="gp">Guadeloupe</option>
-				<option value="gu">Guam</option>
-				<option value="gt">Guatemala</option>
-				<option value="gv">Guinea</option>
-				<option value="pg">Guinea-Bissau</option>
-				<option value="gy">Guyana</option>
-				<option value="ht">Haiti</option>
-				<option value="hiu">Hawaii</option>
-				<option value="hm">Heard and McDonald Islands</option>
-				<option value="ho">Honduras</option>
-				<option value="hu">Hungary</option>
-				<option value="ic">Iceland</option>
-				<option value="idu">Idaho</option>
-				<option value="ilu">Illinois</option>
-				<option value="ii">India</option>
-				<option value="inu">Indiana</option>
-				<option value="io">Indonesia</option>
-				<option value="iau">Iowa</option>
-				<option value="ir">Iran</option>
-				<option value="iq">Iraq</option>
-				<option value="iy">Iraq-Saudi Arabia Neutral Zone</option>
-				<option value="ie">Ireland</option>
-				<option value="is">Israel</option>
-				<option value="it">Italy</option>
-				<option value="jm">Jamaica</option>
-				<option value="ja">Japan</option>
-				<option value="ji">Johnston Atoll</option>
-				<option value="jo">Jordan</option>
-				<option value="ksu">Kansas</option>
-				<option value="kz">Kazakhstan</option>
-				<option value="kyu">Kentucky</option>
-				<option value="ke">Kenya</option>
-				<option value="gb">Kiribati</option>
-				<option value="kn">Korea (North)</option>
-				<option value="ko">Korea (South)</option>
-				<option value="kv">Kosovo</option>
-				<option value="ku">Kuwait</option>
-				<option value="kg">Kyrgyzstan</option>
-				<option value="ls">Laos</option>
-				<option value="lv">Latvia</option>
-				<option value="le">Lebanon</option>
-				<option value="lo">Lesotho</option>
-				<option value="lb">Liberia</option>
-				<option value="ly">Libya</option>
-				<option value="lh">Liechtenstein</option>
-				<option value="li">Lithuania</option>
-				<option value="lau">Louisiana</option>
-				<option value="lu">Luxembourg</option>
-				<option value="xn">Macedonia</option>
-				<option value="mg">Madagascar</option>
-				<option value="meu">Maine</option>
-				<option value="mw">Malawi</option>
-				<option value="my">Malaysia</option>
-				<option value="xc">Maldives</option>
-				<option value="ml">Mali</option>
-				<option value="mm">Malta</option>
-				<option value="mbc">Manitoba</option>
-				<option value="xe">Marshall Islands</option>
-				<option value="mq">Martinique</option>
-				<option value="mdu">Maryland</option>
-				<option value="mau">Massachusetts</option>
-				<option value="mu">Mauritania</option>
-				<option value="mf">Mauritius</option>
-				<option value="ot">Mayotte</option>
-				<option value="mx">Mexico</option>
-				<option value="miu">Michigan</option>
-				<option value="fm">Micronesia (Federated States)</option>
-				<option value="xf">Midway Islands</option>
-				<option value="mnu">Minnesota</option>
-				<option value="msu">Mississippi</option>
-				<option value="mou">Missouri</option>
-				<option value="mv">Moldova</option>
-				<option value="mc">Monaco</option>
-				<option value="mp">Mongolia</option>
-				<option value="mtu">Montana</option>
-				<option value="mo">Montenegro</option>
-				<option value="mj">Montserrat</option>
-				<option value="mr">Morocco</option>
-				<option value="mz">Mozambique</option>
-				<option value="sx">Namibia</option>
-				<option value="nu">Nauru</option>
-				<option value="nbu">Nebraska</option>
-				<option value="np">Nepal</option>
-				<option value="ne">Netherlands</option>
-				<option value="nvu">Nevada</option>
-				<option value="nkc">New Brunswick</option>
-				<option value="nl">New Caledonia</option>
-				<option value="nhu">New Hampshire</option>
-				<option value="nju">New Jersey</option>
-				<option value="nmu">New Mexico</option>
-				<option value="xna">New South Wales</option>
-				<option value="nyu">New York (State)</option>
-				<option value="nz">New Zealand</option>
-				<option value="nfc">Newfoundland and Labrador</option>
-				<option value="nq">Nicaragua</option>
-				<option value="ng">Niger</option>
-				<option value="nr">Nigeria</option>
-				<option value="xh">Niue</option>
-				<option value="xx">No place, unknown, or undetermined</option>
-				<option value="nx">Norfolk Island</option>
-				<option value="ncu">North Carolina</option>
-				<option value="ndu">North Dakota</option>
-				<option value="nik">Northern Ireland</option>
-				<option value="nw">Northern Mariana Islands</option>
-				<option value="xoa">Northern Territory</option>
-				<option value="ntc">Northwest Territories</option>
-				<option value="no">Norway</option>
-				<option value="nsc">Nova Scotia</option>
-				<option value="nuc">Nunavut</option>
-				<option value="ohu">Ohio</option>
-				<option value="oku">Oklahoma</option>
-				<option value="mk">Oman</option>
-				<option value="onc">Ontario</option>
-				<option value="oru">Oregon</option>
-				<option value="pk">Pakistan</option>
-				<option value="pw">Palau</option>
-				<option value="pn">Panama</option>
-				<option value="pp">Papua New Guinea</option>
-				<option value="pf">Paracel Islands</option>
-				<option value="py">Paraguay</option>
-				<option value="pau">Pennsylvania</option>
-				<option value="pe">Peru</option>
-				<option value="ph">Philippines</option>
-				<option value="pc">Pitcairn Island</option>
-				<option value="pl">Poland</option>
-				<option value="po">Portugal</option>
-				<option value="pic">Prince Edward Island</option>
-				<option value="pr">Puerto Rico</option>
-				<option value="qa">Qatar</option>
-				<option value="quc">Québec (Province)</option>
-				<option value="qea">Queensland</option>
-				<option value="re">Réunion</option>
-				<option value="riu">Rhode Island</option>
-				<option value="rm">Romania</option>
-				<option value="ru">Russia (Federation)</option>
-				<option value="rw">Rwanda</option>
-				<option value="xj">Saint Helena</option>
-				<option value="xd">Saint Kitts-Nevis</option>
-				<option value="xk">Saint Lucia</option>
-				<option value="xl">Saint Pierre and Miquelon</option>
-				<option value="xm">Saint Vincent and the Grenadines</option>
-				<option value="sc">Saint-Barthélemy</option>
-				<option value="st">Saint-Martin</option>
-				<option value="ws">Samoa</option>
-				<option value="sm">San Marino</option>
-				<option value="sf">Sao Tome and Principe</option>
-				<option value="snc">Saskatchewan</option>
-				<option value="su">Saudi Arabia</option>
-				<option value="stk">Scotland</option>
-				<option value="sg">Senegal</option>
-				<option value="rb">Serbia</option>
-				<option value="se">Seychelles</option>
-				<option value="sl">Sierra Leone</option>
-				<option value="si">Singapore</option>
-				<option value="sn">Sint Maarten</option>
-				<option value="xo">Slovakia</option>
-				<option value="xv">Slovenia</option>
-				<option value="bp">Solomon Islands</option>
-				<option value="so">Somalia</option>
-				<option value="sa">South Africa</option>
-				<option value="xra">South Australia</option>
-				<option value="scu">South Carolina</option>
-				<option value="sdu">South Dakota</option>
-				<option value="xs">South Georgia and the South Sandwich Islands</option>
-				<option value="sd">South Sudan</option>
-				<option value="sp">Spain</option>
-				<option value="sh">Spanish North Africa</option>
-				<option value="xp">Spratly Island</option>
-				<option value="ce">Sri Lanka</option>
-				<option value="sj">Sudan</option>
-				<option value="sr">Surinam</option>
-				<option value="sq">Swaziland</option>
-				<option value="sw">Sweden</option>
-				<option value="sz">Switzerland</option>
-				<option value="sy">Syria</option>
-				<option value="ta">Tajikistan</option>
-				<option value="tz">Tanzania</option>
-				<option value="tma">Tasmania</option>
-				<option value="tnu">Tennessee</option>
-				<option value="fs">Terres australes et antarctiques françaises</option>
-				<option value="txu">Texas</option>
-				<option value="th">Thailand</option>
-				<option value="em">Timor-Leste</option>
-				<option value="tg">Togo</option>
-				<option value="tl">Tokelau</option>
-				<option value="to">Tonga</option>
-				<option value="tr">Trinidad and Tobago</option>
-				<option value="ti">Tunisia</option>
-				<option value="tu">Turkey</option>
-				<option value="tk">Turkmenistan</option>
-				<option value="tc">Turks and Caicos Islands</option>
-				<option value="tv">Tuvalu</option>
-				<option value="ug">Uganda</option>
-				<option value="un">Ukraine</option>
-				<option value="ts">United Arab Emirates</option>
-				<option value="xxk">United Kingdom</option>
-				<option value="uik">United Kingdom Misc. Islands</option>
-				<option value="xxu">United States</option>
-				<option value="uc">United States Misc. Caribbean Islands</option>
-				<option value="up">United States Misc. Pacific Islands</option>
-				<option value="uy">Uruguay</option>
-				<option value="utu">Utah</option>
-				<option value="uz">Uzbekistan</option>
-				<option value="nn">Vanuatu</option>
-				<option value="vp">Various places</option>
-				<option value="vc">Vatican City</option>
-				<option value="ve">Venezuela</option>
-				<option value="vtu">Vermont</option>
-				<option value="vra">Victoria</option>
-				<option value="vm">Vietnam</option>
-				<option value="vi">Virgin Islands of the United States</option>
-				<option value="vau">Virginia</option>
-				<option value="wk">Wake Island</option>
-				<option value="wlk">Wales</option>
-				<option value="wf">Wallis and Futuna</option>
-				<option value="wau">Washington (State)</option>
-				<option value="wj">West Bank of the Jordan River</option>
-				<option value="wvu">West Virginia</option>
-				<option value="wea">Western Australia</option>
-				<option value="ss">Western Sahara</option>
-				<option value="wiu">Wisconsin</option>
-				<option value="wyu">Wyoming</option>
-				<option value="ye">Yemen</option>
-				<option value="ykc">Yukon Territory</option>
-				<option value="za">Zambia</option>
-				<option value="rh">Zimbabwe</option>
-			</select>
-			<label title="Select the country of publication from the drop-down menu. If published in the United States, Canada, Australia, or the United Kingdom, select the state, province, or geographic region"><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="country_listed" class="listed">
-		</div>
-
 		<div id="publication-block">
 			<label for="date" class="heading">Date of publication</label><br>
-			<input type="number" class="date conditional" required id="year" min="0">
+			<input type="number" class="date" required id="year" min="0">
 			<label title="Record the year of publication if it appears on the piece. Do not record a copyright date here. Copyright dates should be recorded in the next field."><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
 		</div>
 
-		<div id="copyright-block">
-			<label for="cyear" class="heading">Copyright date</label><br>
-			<input type="number" class="date conditional" required id="cyear" min="0">
-			<label title="Record the year of copyright if it appears on the piece."><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="cyear_listed" class="listed">
+		<div id="dissertation_type-block" class="standard-block">
+			<label for="dissertation_type" class="heading">Dissertation Type</label><br>
+			<select required id="dissertation_type">
+				<option selected disabled hidden value=''></option>
+				<option value="BA">BA</option>
+				<option value="BA">BS</option>
+				<option value="Ed.D">Ed.D</option>
+				<option value="MA">MA</option>
+				<option value="MS">MS</option>
+				<option value="PhD">PhD</option>
+			</select>
 		</div>
 
 		<div id="pages-block" class="standard-block">
-			<label for="number" class="heading">Number of</label>
-			<select name="vorp" id="vorp">
-				<option selected value="pages">pages</option>
-				<option value="volumes">volumes</option>
-			</select><br>
-			<input type="text" required id="pages" class="conditional">
-			<label title="Record the number of pages in each numbered sequence. E.g., 356 or xii, 254. Record the number from the last numbered page, and do not include unnumbered pages. 
-If a multi-volume set, do not record the number of pages, but instead record the number of physical volumes, E.g., 4"><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unpaged</span><input type="checkbox" id="pages_listed" class="listed">
+			<label for="pages" class="headding">Number of Pages</label><br>
+			<input type="number" required id="pages" min="1">
 		</div>
 
-		<div id="dimensions-block" class="standard-block">
-			<label for="dimensions" class="heading">Dimensions<span class="required_marker">*</span></label><br>
-			<input type="text" required id="dimensions" class="required"> cm
-			<label title="Record the height of the piece in cm. Always round up, so that if a piece measures 25.1 cm, record 26 cm"><span class="question-mark">?</span></label>
+		<div id="bibliographies-block" class="standard-block">
+			<label for="bib" class="heading">Bibliographies</label><br>
+			<input type="text" required id="bib">
 		</div>
 
-		<div id="literature-block" class="standard-block">
-			<label for="literature" class="heading">Is this item literature?</label><br>
-			<input type="radio" name="literature" id="literature-yes" value="yes">Yes
-			<input type="radio" name="literature" id="literature-no" value="no">No<br>
-			<select name="literature-dropdown" id="literature-dropdown" class="hidden">
-				<option selected disabled hidden value=''></option>
-				<option value="0">Not fiction (not further specified)</option>
-				<option value="1">Fiction (not further specified)</option>
-				<option value="d">Dramas</option>
-				<option value="e">Essays</option>
-				<option value="f">Novels</option>
-				<option value="h">Humor, satires, etc.</option>
-				<option value="i">Letters</option>
-				<option value="j">Short stories</option>
-				<option value="m">Mixed forms</option>
-				<option value="p">Poetry</option>
-				<option value="s">Speeches</option>
-				<option value="u">Unknown</option>
-			</select>
-		</div>
-
-		<div id="illustrations-block" class="standard-block">
-			<label for="illustrations" class="heading">Does the item include illustrations?</label><br>
-			<input type="radio" name="illustrations" id="illustrations-yes" value="yes">Yes
-			<input type="radio" name="illustrations" id="illustrations-no" value="no">No
-		</div>
-
-		<div id="keywords" class="standard-block">
-			<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>
-			<input type="text" class="fastID hidden" id="fastID0">
-			<input type="number" class="fastType hidden" id="fastType0">
-			<input type="text" class="fastInd hidden" id="fastInd0">
-			<input type="text" class="keyword required" required id="keyword0"> <label title="Record, in English, any descriptive terms that describe the content of this book. Record only one term or phrase in each box. E.g., Astronomy or Politics of Egypt"><span class="question-mark">?</span></label>
-			<input type="button" value="+" id="add-button" onClick="addKeyword();">
-		</div>
-
-		<div id="notes-block">
-			<label for="notes">Notes to the Cataloger</label><br>
-			<textarea id="notes"></textarea>
+		<div id="major-block" class="standard-block">
+			<label for="major" class="heading">Major</label><br>
+			<input type="text" required id="major">
 		</div>
 
 		<div id="save-as-block">
@@ -1039,37 +566,17 @@ If a multi-volume set, do not record the number of pages, but instead record the
 			<label for="filetype">Choose record formats:</label><br>
 			<input type="checkbox" id="MARC" class="filetype">MARC<br>
 			<input type="checkbox" id="MARCXML" class="filetype">MARCXML<br>
-			<input type="checkbox" id="MODS" class="filetype">MODS<br>
-			<input type="checkbox" id="HTML" class="filetype">HTML
 		</div>
 
 		<div id="buttons" class="standard-block">
 			<input type="submit" value="Make" id="make">
 			<input type="reset" value="Clear" id="Clear">
 		</div>
-
-		<div id="star" class="required_marker standard-block">
-			* Required field
-		</div>
 	</form>
 	<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
-	<div id="version">Version 1.1 – Updated on 04/21/2015</div>
-	
-	<script src="metadatamaker/generalInteractions.js"></script>
-	<script src="metadatamaker/downloadMARC.js"></script>
-	<script src="metadatamaker/downloadMODS.js"></script>
-	<script src="metadatamaker/downloadHTML.js"></script>
-	<script src="metadatamaker/submitForm.js"></script>
-	<script>
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	<div id="version">Version 1.1 – Updated on 03/20/2015. Metadata Maker for Theses & Dissertations created on 4/21/2015.</div>
 
-		ga('create', 'UA-59166088-1', 'auto');
-		ga('send', 'pageview');
-
-	</script>
+	<script src="js/metadatamaker.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,3 @@
-.hidden {
-	display: none;
-}
-
 body {
 	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	font-size: 14px;
@@ -48,66 +44,13 @@ input[type="number"] {
 	width: 55px;
 }
 
-.text-input {
-	border: 1px solid;
-	border-color: #d4d4d4;
-}
-
-.unlisted {
-	font-size: 10px;
-}
-
-.required_marker {
-	color: #FF0000;
-}
-
-#star {
-	font-size: 10px;
-	margin-bottom: -23px;
-}
-
 .standard-block {
-	padding: 3px;
+	padding: 5px;
 	width: 350px;
-}
-
-.standard-translit-block {
-	width: 350px;
-	position: relative;
-	left: 25px;
-}
-
-#title-block {
-	padding: 3px;
-	width: 350px;
-	height: 62px;
-}
-
-#subtitle-block {
-	padding: 3px;
-	width: 350px;
-	position: absolute;
-	left: 474px;
-	top: 106px;
-	/*margin-bottom: -68px;*/
-	margin-right: 1px;
-}
-
-/*#translit-title-block {
-	position: relative;
-	top: -22px;
-	margin-bottom: -22px;
-}*/
-
-#translit-subtitle-block {
-	position: relative;
-	top: -46px;
-	left: 425px;
-	margin-bottom: -46px;
 }
 
 #author-block {
-	padding: 3px;
+	padding: 5px;
 	width: 700px;
 }
 
@@ -116,43 +59,9 @@ input[type="number"] {
 	width: 150px;
 }
 
-#copyright-block {
-	padding: 3px;
-	width: 150px;
-	position: relative;
-	top: -68px;
-	left: 200px;
-	margin-bottom: -68px;
-}
-
-#add-button {
-	position: relative;
-	top: 0px;
-}
-
-#notes-block {
-	padding: 3px;
-}
-
-#notes {
-	min-width: 300px;
-	min-height: 100px;
-}
-
 #save-as-block {
-	padding: 3px;
+	padding: 5px;
 	width: 400px;
-}
-
-.added-author {
-	position: relative;
-	top: -10px;
-}
-
-.translit-author {
-	position: relative;
-	left: 25px;
-	width: 700px;
 }
 
 .insert {
@@ -180,18 +89,9 @@ input[type="number"] {
 	text-decoration: underline;
 }
 
-.additional_insert {
-	bottom: 5px;
-}
-
 #insert-given_name, .insert-given_name {
 	position: relative;
 	left: 264px;
-}
-
-.additional_menu {
-	position: relative;
-	bottom: 10px;
 }
 
 #insert-popup {
@@ -236,15 +136,6 @@ input[type="number"] {
 
 .bottom-right {
 	border: solid black 1px;
-}
-
-.added {
-	padding-top: 6px;
-	padding-bottom: 6px;
-}
-
-.added-keyword {
-	padding-top: 0px;
 }
 
 #disclaimer {
