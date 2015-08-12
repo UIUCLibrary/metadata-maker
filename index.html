@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Metadata Maker</title>
+	<title>Metadata Maker for Data Set</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 	<script src="webshim/js-webshim/minified/polyfiller.js"></script>
@@ -18,7 +18,7 @@
 </head>
 
 <body onload="setUpPage(0)">
-	<h1>Metadata Maker</h1>
+	<h1>Metadata Maker for Data Set</h1>
 	<noscript>WARNING: JavaScript is not enabled on this browser. This page requires JavaScript to function correctly.</noscript>
 	<!--Allow Safari and older versions of IE to behave as if they implement HTML5's 'required' attribute-->
 	<script>jQuery.webshims.polyfill('forms');</script>
@@ -48,27 +48,6 @@
 			<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><label for="translit_subtitle" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</label><br>
 			<div id="insert-translit_subtitle" class="hidden translit translit-title"></div>
 			<input type="text" id="translit_subtitle" class="hidden translit translit-title">
-		</div>
-
-		<div id="isbn-block" class="standard-block">
-			<label for="isbn" class="heading">ISBN</label><br>
-			<input type="text" required id="isbn" class="conditional">
-			<label title="Record an ISBN, if present. Do not record hyphens. If multiple ISBNs are present, record only one. E.g., 9781234567890 or 1234567890"><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="isbn_listed" class="listed">
-		</div>
-
-		<div id="edition-block" class="standard-block">
-			<label for="edition" class="heading">Edition statement</label><label for="edition" class="insert insert_normal" onClick='insertMenu("edition");'>Insert Diacritics</label><br>
-			<div id="insert-edition"></div>
-			<input type="text" class="conditional translit-listen" required id="edition">
-			<label title="Record an edition statement if it appears on the piece. E.g., First edition, 1st ed., etc."><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unlisted</span><input type="checkbox" id="edition_listed" class="listed">
-		</div>
-
-		<div id="translit-edition-block" class="translit-edition-block translit-block hidden standard-translit-block">
-			<label for="translit_edition" class="hidden translit heading translit-edition">Transliterated edition</label><label for="translit_edition" class="insert insert_normal hidden translit translit-edition" onClick='insertMenu("translit_edition");'>Insert Diacritics</label><br>
-			<div id="insert-translit_edition" class="hidden translit translit-edition"></div>
-			<input type="text" id="translit_edition" class="hidden translit translit-edition">
 		</div>
 
 		<div id="language-block" class="standard-block">
@@ -562,8 +541,9 @@
 			</select>
 		</div>
 
+		<div id="names_title" class="heading">Names<br></div>
 		<div id="author-block">
-			<label for="author" class="heading">Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
+			<label for="author" class="heading">Personal</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
 			<div id="insert-family_name"></div><div id="insert-given_name"></div>
 			<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
 			<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
@@ -588,6 +568,26 @@
 			</div>
 		</div>
 
+		<div id="corporate-block">
+			<label for="corporate_name" class="heading">Corporate/Organization</label><label for="corporate_name" class="insert insert_corporate" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
+			<div id="insert-corporate_name"></div>
+			<input type="text" class="corporate conditional translit-listen" required id="corporate_name">
+			<select name="role" id="corporate_role">
+				<option selected value="cre">creator</option>
+				<option value="ctb">contributor</option>
+			</select>
+			<label title="Enter the name of creators or contributors listed on the piece and select the appropriate role from the drop down menu."><span class="question-mark">?</span></label>
+			<input type="button" value="+" id="add-corporate" onClick="addCorporate();">
+			<br>
+			<span class="unlisted">Unlisted</span><input type="checkbox" id="corporate_name_listed" class="listed">
+			<!--<div id="translit-corporate_name-block" class="translit-corporate_name-block translit-block translit-corporate hidden">
+				<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
+				<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
+				<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
+				<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
+			</div>-->
+		</div>
+
 		<div id="publisher-block" class="standard-block">
 			<label for="publisher" class="heading">Name of publisher</label><label for="publisher" class="insert insert_normal" onClick='insertMenu("publisher");'>Insert Diacritics</label><br>
 			<div id="insert-publisher"></div>
@@ -600,6 +600,12 @@
 			<label for="translit_publisher" class="hidden translit heading translit-publisher">Transliterated publisher</label><label for="translit_publisher" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_publisher");'>Insert Diacritics</label><br>
 			<div id="insert-translit_publisher" class="hidden translit translit-publisher"></div>
 			<input type="text" id="translit_publisher" class="hidden translit translit-publisher">
+		</div>
+
+		<div id="web-url-block" class="standard-block">
+			<label for="web-url" class="heading">Web URL<span class="required_marker">*</span></label><label for="web-url" class="insert insert_normal" onClick='insertMenu("web-url");'>Insert Diacritics</label><br>
+			<div id="insert-web-url"></div>
+			<input type="text" required id="web-url">
 		</div>
 
 		<div id="place-block" class="standard-block">
@@ -971,51 +977,6 @@
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="cyear_listed" class="listed">
 		</div>
 
-		<div id="pages-block" class="standard-block">
-			<label for="number" class="heading">Number of</label>
-			<select name="vorp" id="vorp">
-				<option selected value="pages">pages</option>
-				<option value="volumes">volumes</option>
-			</select><br>
-			<input type="text" required id="pages" class="conditional">
-			<label title="Record the number of pages in each numbered sequence. E.g., 356 or xii, 254. Record the number from the last numbered page, and do not include unnumbered pages. 
-If a multi-volume set, do not record the number of pages, but instead record the number of physical volumes, E.g., 4"><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unpaged</span><input type="checkbox" id="pages_listed" class="listed">
-		</div>
-
-		<div id="dimensions-block" class="standard-block">
-			<label for="dimensions" class="heading">Dimensions<span class="required_marker">*</span></label><br>
-			<input type="text" required id="dimensions" class="required"> cm
-			<label title="Record the height of the piece in cm. Always round up, so that if a piece measures 25.1 cm, record 26 cm"><span class="question-mark">?</span></label>
-		</div>
-
-		<div id="literature-block" class="standard-block">
-			<label for="literature" class="heading">Is this item literature?</label><br>
-			<input type="radio" name="literature" id="literature-yes" value="yes">Yes
-			<input type="radio" name="literature" id="literature-no" value="no">No<br>
-			<select name="literature-dropdown" id="literature-dropdown" class="hidden">
-				<option selected disabled hidden value=''></option>
-				<option value="0">Not fiction (not further specified)</option>
-				<option value="1">Fiction (not further specified)</option>
-				<option value="d">Dramas</option>
-				<option value="e">Essays</option>
-				<option value="f">Novels</option>
-				<option value="h">Humor, satires, etc.</option>
-				<option value="i">Letters</option>
-				<option value="j">Short stories</option>
-				<option value="m">Mixed forms</option>
-				<option value="p">Poetry</option>
-				<option value="s">Speeches</option>
-				<option value="u">Unknown</option>
-			</select>
-		</div>
-
-		<div id="illustrations-block" class="standard-block">
-			<label for="illustrations" class="heading">Does the item include illustrations?</label><br>
-			<input type="radio" name="illustrations" id="illustrations-yes" value="yes">Yes
-			<input type="radio" name="illustrations" id="illustrations-no" value="no">No
-		</div>
-
 		<div id="keywords" class="standard-block">
 			<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>
 			<input type="text" class="fastID hidden" id="fastID0">
@@ -1038,9 +999,7 @@ If a multi-volume set, do not record the number of pages, but instead record the
 		<div id="formats-block" class="standard-block">
 			<label for="filetype">Choose record formats:</label><br>
 			<input type="checkbox" id="MARC" class="filetype">MARC<br>
-			<input type="checkbox" id="MARCXML" class="filetype">MARCXML<br>
-			<input type="checkbox" id="MODS" class="filetype">MODS<br>
-			<input type="checkbox" id="HTML" class="filetype">HTML
+			<input type="checkbox" id="MARCXML" class="filetype">MARCXML
 		</div>
 
 		<div id="buttons" class="standard-block">
@@ -1053,12 +1012,10 @@ If a multi-volume set, do not record the number of pages, but instead record the
 		</div>
 	</form>
 	<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
-	<div id="version">Version 1.1 – Updated on 04/21/2015</div>
+	<div id="version">Version 1.1 – Updated on 04/21/2015. Metadata Maker for Data Set created on 07/24/2015.</div>
 	
 	<script src="metadatamaker/generalInteractions.js"></script>
 	<script src="metadatamaker/downloadMARC.js"></script>
-	<script src="metadatamaker/downloadMODS.js"></script>
-	<script src="metadatamaker/downloadHTML.js"></script>
 	<script src="metadatamaker/submitForm.js"></script>
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

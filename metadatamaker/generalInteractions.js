@@ -195,6 +195,27 @@ function addAuthor() {
 	}
 }
 
+var cCounter = 0;
+function addCorporate() {
+	if (cCounter < 50) {
+		var newdiv = document.createElement('div');
+		newdiv.className = 'added_corporate';
+		newdiv.setAttribute('id','corporate_name' + cCounter + '-block');
+		newdiv.innerHTML = '<label for="corporate_name' + cCounter + '" class="insert insert_corporate" onClick=\'insertMenu("corporate_name' + cCounter + '");\'>Insert Diacritics</label><br>';
+		newdiv.innerHTML += '<div id="insert-corporate_name' + cCounter + '" class="additional_corporate_menu"></div>';
+		newdiv.innerHTML += '<span class="added-corporate"><input type="text" class="corporate translit-listen" id="corporate_name' + cCounter + '"> <select name="role' + cCounter + '" id="corporate_role'  + cCounter + '"><option selected value="cre">creator</option><option value="ctb">contributor</option></select></span>';
+		$("#corporate-block").append(newdiv);
+		/*var translit_div = document.createElement('div');
+		translit_div.className = 'translit-family_name' + aCounter + '-block translit-block translit-author hidden';
+		translit_div.setAttribute('id','translit-family_name' + aCounter + '-block');
+		translit_div.innerHTML = '<label for="translit_family_name' + aCounter + '" class="insert insert_family_name hidden translit translit-family_name' + aCounter + '" onClick=\'insertMenu("translit_family_name' + aCounter + '");\'>Insert Diacritics</label><label for="translit_given_name' + aCounter + '" class="insert insert_given_name hidden translit translit-family_name' + aCounter + '" onClick=\'insertMenu("translit_given_name' + aCounter + '");\'>Insert Diacritics</label><br>';
+		translit_div.innerHTML += '<div id="insert-translit_family_name' + aCounter + '"></div><div id="insert-translit_given_name' + aCounter + '"  class="insert-given_name"></div>';
+		translit_div.innerHTML += '<input type="text" id="translit_family_name' + aCounter + '" class="hidden translit translit-family_name' + aCounter + '" placeholder="Transliterated Family Name"><span class="hidden translit-family_name' + aCounter + '">, </span><input type="text" id="translit_given_name' + aCounter + '" class="hidden translit translit-family_name' + aCounter + '" placeholder="Transliterated Given Name">';
+		$("#family_name" + aCounter + '-block').append(translit_div);*/
+		cCounter++;
+	}
+}
+
 /*
  * Make all the conditionally required fields required, hide any fields that were revealed, remove fields that
  * were added
@@ -232,19 +253,6 @@ $(".listed").click(function() {
 	else {
 		$(field).attr("required","true");
 		$(field).removeAttr("disabled");
-	}
-});
-
-/*
- * Show or hide the literature dropdown based on response to radio button
- */
-$("input:radio[name=literature]").click(function() {
-	var value = $(this).val();
-	if (value === "yes") {
-		$("#literature-dropdown").show();
-	}
-	else {
-		$("#literature-dropdown").hide();
 	}
 });
 
