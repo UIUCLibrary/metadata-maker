@@ -45,6 +45,16 @@ function find100(list) {
 	return [[{'family':'','given':'','role':''},{'family':'','given':''}]];
 }
 
+function find110(list) {
+	for (var iterator = 0; iterator < list.length; iterator++) {
+		if (list[iterator]['role'] == 'cre') {
+			return list.splice(iterator,1);
+		}
+	}
+
+	return [{'corporate': '', 'role':''}];
+}
+
 /*
  * When the form is submitted, create an object with all user-submitted data. Pass that object to functions that
  * build a record around the data.
@@ -87,6 +97,18 @@ $("#marc-maker").submit(function(event) {
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
 
+	var complete_corporate_names_list = [
+		{
+			corporate: $("#corporate_name").val(),
+			role:  $("#corporate_role").val()
+		}
+	];
+	for (var i = 0; i < cCounter; i++) {
+		complete_corporate_names_list.push({"corporate": $("#corporate_name" + i).val(), "role": $("#corporate_role" + i).val()});
+	}
+
+	var entry110 = find110(complete_corporate_names_list);
+
 	var recordObject = {
 		title: [
 			{
@@ -99,18 +121,19 @@ $("#marc-maker").submit(function(event) {
 			}
 		],
 		author: entry100[0],
+		corporate_author: entry110[0],
 		publisher: $("#publisher").val(),
 		publication_year: $("#year").val(),
 		publication_place: $("#place").val(),
 		publication_country: $("#country").val(),
 		copyright_year: $("#cyear").val(),
-		language: $("#language").val(),
 		isbn: $("#isbn").val(),
+		item_number: $("#item-number").val(),
+		sudoc: $("#sudoc").val(),
+		report_number: $("#report-number").val(),
 		volume_or_page: $("#vorp").val(),
 		pages: $("#pages").val(),
 		unpaged: $("#pages_listed").is(':checked'),
-		literature_yes: $("#literature-yes").is(':checked'),
-		literature_dropdown: $("#literature-dropdown").val(),
 		illustrations_yes: $("#illustrations-yes").is(':checked'),
 		dimensions: $("#dimensions").val(),
 		edition: $("#edition").val(),
@@ -120,7 +143,8 @@ $("#marc-maker").submit(function(event) {
 		notes: $("#notes").val(),
 		keywords: words,
 		fast: fast_array,
-		additional_authors: complete_names_list
+		additional_authors: complete_names_list,
+		additional_corporate_names: complete_corporate_names_list
 	};
 
 	var institution_info = generateInstitutionInfo();
