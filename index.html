@@ -569,7 +569,7 @@
 		</div>
 
 		<div id="corporate-block">
-			<label for="corporate_name" class="heading">Corporate/Organization</label><label for="corporate_name" class="insert insert_corporate" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
+			<label for="corporate_name" class="heading">Corporate/Organization</label><label for="corporate_name" class="insert insert_corporate_name" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
 			<div id="insert-corporate_name"></div>
 			<input type="text" class="corporate conditional translit-listen" required id="corporate_name">
 			<select name="role" id="corporate_role">
@@ -580,12 +580,11 @@
 			<input type="button" value="+" id="add-corporate" onClick="addCorporate();">
 			<br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="corporate_name_listed" class="listed">
-			<!--<div id="translit-corporate_name-block" class="translit-corporate_name-block translit-block translit-corporate hidden">
-				<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
-				<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
-				<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
-				<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
-			</div>-->
+			<div id="translit-corporate_name-block" class="translit-corporate_name-block translit-block translit-corporate_name hidden">
+				<label for="translit_corporate_name" class="hidden translit heading translit-corporate_name">Transliterated name</label><label for="translit_corporate_name" class="insert insert_translit_corporate_name hidden translit translit-corporate_name" onClick='insertMenu("translit_corporate_name");'>Insert Diacritics</label><br>
+				<div id="insert-translit_corporate_name"></div>
+				<input type="text" id="translit_corporate_name" class="hidden translit translit-corporate_name">
+			</div>
 		</div>
 
 		<div id="publisher-block" class="standard-block">
