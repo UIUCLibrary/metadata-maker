@@ -105,7 +105,7 @@ function create008Field(record) {
 	//18-21
 
 	//22-32
-	array_of_008[25] = 'j'
+	array_of_008[26] = 'j'
 	array_of_008[29] = '0';
 	array_of_008[30] = '0';
 	array_of_008[31] = '0';
