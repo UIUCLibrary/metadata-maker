@@ -535,7 +535,7 @@ function fillAdditionalCorporateNames(record,head,fieldFunc,subfieldFunc) {
 		for (var i = 0; i < record.additional_corporate_names.length; i++) {
 			if (checkExists(record.additional_corporate_names[i][0]['corporate'])) {
 				var latin_index = checkExists(record.additional_corporate_names[i][1]['corporate']) ? 1 : 0;
-				var authors_subfield = [subfieldFunc('a',record.additional_corporate_names[i][latin_index]['corporate']),subfieldFunc('e',role_index[record.additional_corporate_names[i][latin_index]['role']] + '.'),subfieldFunc('4',record.additional_corporate_names[i][latin_index]['role'])];
+				var authors_subfield = [subfieldFunc('a',record.additional_corporate_names[i][latin_index]['corporate']),subfieldFunc('e',role_index[record.additional_corporate_names[i][0]['role']] + '.'),subfieldFunc('4',record.additional_corporate_names[i][0]['role'])];
 
 				if (latin_index === 1) {
 					if (translit_counter < 10) {
