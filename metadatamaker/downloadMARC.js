@@ -50,48 +50,81 @@ function getByteLength(text) {
  * Generates the MARC format's 008 controlfield for books
  */
 function create008Field(record) {
-	var controlfield008 = '';
+	var array_of_008 = [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '];
 
 	var timestamp = getTimestamp();
 	timestamp = timestamp.substring(2,8);
 
-	controlfield008 += timestamp;
+	//00-05
+	for (var i = 0; i < 6; i++) {
+		array_of_008[i] = timestamp[i];
+	};
 
-	if (checkExists(record.publication_year) && checkExists(record.copyright_year)) {
-		controlfield008 += 't' + record.publication_year + record.copyright_year;
+	//06-14
+	if ((checkExists(record.publication_year) && checkExists(record.copyright_year))) {
+		array_of_008[6] = 't';
+		var year_one = record.publication_year;
+		var year_two = record.copyright_year;
 	}
 	else if (checkExists(record.publication_year)) {
-		controlfield008 += 's' + record.publication_year + '    ';
+		array_of_008[6] = 's';
+		var year_one = record.publication_year;
+		var year_two = '    ';
 	}
 	else if (checkExists(record.copyright_year)) {
-		controlfield008 += 't' + record.copyright_year + record.copyright_year;
+		array_of_008[6] = 't';
+		var year_one = record.copyright_year;
+		var year_two = record.copyright_year;
 	}
 	else {
-		controlfield008 += 'nuuuuuuuu';
+		array_of_008[6] = 'n';
+		var year_one = 'uuuu';
+		var year_two = 'uuuu';
 	}
 
+	for (var i = 7; i < 11; i++) {
+		array_of_008[i] = year_one[i-7];
+	}
+
+	for (var i = 11; i < 15; i++) {
+		array_of_008[i] = year_two[i-11];
+	}
+
+	//15-17
 	if (checkExists(record.publication_country)) {
-		controlfield008 += record.publication_country;
-		if (record.publication_country.length === 2) {
-			controlfield008 += ' ';
+		for (var i = 15; i < 15+record.publication_country.length; i++) {
+			array_of_008[i] = record.publication_country[i-15];
 		}
+
 	}
 	else {
-		controlfield008 += 'xx ';
+		array_of_008[15] = 'x'
+		array_of_008[16] = 'x'
 	}
 
+	//18-21
 	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
-		controlfield008 += 'a   ';
-	}
-	else {
-		controlfield008 += '    '
+		array_of_008[18] = 'a'
 	}
 
-	controlfield008 += '      f000 ';
+	//22-32
+	array_of_008[28] = 'f';
+	array_of_008[29] = '0';
+	array_of_008[30] = '0';
+	array_of_008[31] = '0';
 
-	controlfield008 += '0';
+	//33
+	array_of_008[33] = '0';
 
-	controlfield008 += ' ' + 'eng' + ' d';
+	//34-39
+	array_of_008[35] = 'e';
+	array_of_008[36] = 'n';
+	array_of_008[37] = 'g';
+	array_of_008[39] = 'd';
+	var controlfield008 = '';
+	for (var i = 0; i < 40; i++) {
+		controlfield008 += array_of_008[i];
+	}
 
 	return controlfield008;
 }
