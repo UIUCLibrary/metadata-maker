@@ -47,12 +47,12 @@ function find100(list) {
 
 function find110(list) {
 	for (var iterator = 0; iterator < list.length; iterator++) {
-		if (list[iterator]['role'] == 'cre') {
+		if (list[iterator][0]['role'] == 'cre') {
 			return list.splice(iterator,1);
 		}
 	}
 
-	return [{'corporate': '', 'role':''}];
+	return [{'corporate':'', 'role':''},{'corporate':''}];
 }
 
 /*
@@ -99,15 +99,19 @@ $("#marc-maker").submit(function(event) {
 	var entry100 = find100(complete_names_list);
 
 	var complete_corporate_names_list = [
-		{
-			corporate: $("#corporate_name").val(),
-			role:  $("#corporate_role").val()
-		}
+		[
+			{
+				corporate: $("#corporate_name").val(),
+				role:  $("#corporate_role").val()
+			},
+			{
+				corporate: $("#translit_corporate_name").val()
+			}
+		]
 	];
 	for (var i = 0; i < cCounter; i++) {
-		complete_corporate_names_list.push({"corporate": $("#corporate_name" + i).val(), "role": $("#corporate_role" + i).val()});
+		complete_corporate_names_list.push([{"corporate": $("#corporate_name" + i).val(), "role": $("#corporate_role" + i).val()},{"corporate": $("#translit_corporate_name" + i).val()}]);
 	}
-
 	var entry110 = find110(complete_corporate_names_list);
 
 	var recordObject = {
