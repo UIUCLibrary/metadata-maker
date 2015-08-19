@@ -1,3 +1,8 @@
+function get(name) {
+	if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search)) {
+		return decodeURIComponent(name[1]);
+	}
+}
 /* 
  * Edit the strings in this function to attribute records to another institution
  */
@@ -15,6 +20,27 @@ function generateInstitutionInfo() {
 			name: 'University of Illinois at Urbana-Champaign'
 		}
 	};
+
+	marc = get('marc');
+	if (typeof marc !== 'undefined') {
+		output['marc'] = marc;
+	}
+	physicalLocation = get('physicalLocation');
+	if (typeof physicalLocation !== 'undefined') {
+		output['mods']['physicalLocation'] = physicalLocation;
+	}
+	recordContentSource = get('recordContentSource');
+	if (typeof recordContentSource !== 'undefined') {
+		output['mods']['recordContentSource'] = recordContentSource;
+	}
+	lcn = get('lcn');
+	if (typeof lcn !== 'undefined') {
+		output['html']['url']  = 'http://id.loc.gov/authorities/names/' + lcn;
+	}
+	n = get('n');
+	if (typeof n !== 'undefined') {
+		output['html']['name'] = n;
+	}
 
 	return output;
 }
