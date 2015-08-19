@@ -1027,7 +1027,7 @@ function downloadXML(record,institution_info) {
 	var controlfield008 = create008Field(record);
 	controlfield008 = '  <controlfield tag="008">' + controlfield008 + '</controlfield>\n'
 	
-	var default1 = createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a','UIU'),createMARCXMLSubfield('b','eng'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c','UIU')]);
+	var default1 = createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a',institution_info['marc']),createMARCXMLSubfield('b','eng'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c',institution_info['marc'])]);
 	var isbn = fillISBN(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var item_number = fillItemNumber(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var sudoc = fillSuDoc(record,null,createMARCXMLField,createMARCXMLSubfield);
