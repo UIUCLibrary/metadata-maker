@@ -491,6 +491,344 @@ function getLanguage(code) {
 	return langs[code];
 }
 
+function getCountry(code) {
+	var countries = {
+		"af":"Afghanistan",
+		"alu":"Alabama",
+		"aku":"Alaska",
+		"aa":"Albania",
+		"abc":"Alberta",
+		"ae":"Algeria",
+		"as":"American Samoa",
+		"an":"Andorra",
+		"ao":"Angola",
+		"am":"Anguilla",
+		"ay":"Antarctica",
+		"aq":"Antigua and Barbuda",
+		"ag":"Argentina",
+		"azu":"Arizona",
+		"aru":"Arkansas",
+		"ai":"Armenia (Republic)",
+		"aw":"Aruba",
+		"at":"Australia",
+		"aca":"Australian Capital Territory",
+		"au":"Austria",
+		"aj":"Azerbaijan",
+		"bf":"Bahamas",
+		"ba":"Bahrain",
+		"bg":"Bangladesh",
+		"bb":"Barbados",
+		"bw":"Belarus",
+		"be":"Belgium",
+		"bh":"Belize",
+		"dm":"Benin",
+		"bm":"Bermuda Islands",
+		"bt":"Bhutan",
+		"bo":"Bolivia",
+		"bn":"Bosnia and Hercegovina",
+		"bs":"Botswana",
+		"bv":"Bouvet Island",
+		"bl":"Brazil",
+		"bcc":"British Columbia",
+		"bi":"British Indian Ocean Territory",
+		"vb":"British Virgin Islands",
+		"bx":"Brunei",
+		"bu":"Bulgaria",
+		"uv":"Burkina Faso",
+		"br":"Burma",
+		"bd":"Burundi",
+		"cv":"Cabo Verde",
+		"cau":"California",
+		"cb":"Cambodia",
+		"cm":"Cameroon",
+		"xxc":"Canada",
+		"ca":"Caribbean Netherlands",
+		"cj":"Cayman Islands",
+		"cx":"Central African Republic",
+		"cd":"Chad",
+		"cl":"Chile",
+		"cc":"China",
+		"ch":"China (Republic : 1949- )",
+		"xa":"Christmas Island (Indian Ocean)",
+		"xb":"Cocos (Keeling) Islands",
+		"ck":"Colombia",
+		"cou":"Colorado",
+		"cq":"Comoros",
+		"cf":"Congo (Brazzaville)",
+		"cg":"Congo (Democratic Republic)",
+		"ctu":"Connecticut",
+		"cw":"Cook Islands",
+		"xga":"Coral Sea Islands Territory",
+		"cr":"Costa Rica",
+		"iv":"Côte d'Ivoire",
+		"ci":"Croatia",
+		"cu":"Cuba",
+		"co":"Curaçao",
+		"cy":"Cyprus",
+		"xr":"Czech Republic",
+		"deu":"Delaware",
+		"dk":"Denmark",
+		"dcu":"District of Columbia",
+		"ft":"Djibouti",
+		"dq":"Dominica",
+		"dr":"Dominican Republic",
+		"ec":"Ecuador",
+		"ua":"Egypt",
+		"es":"El Salvador",
+		"enk":"England",
+		"eg":"Equatorial Guinea",
+		"ea":"Eritrea",
+		"er":"Estonia",
+		"et":"Ethiopia",
+		"fk":"Falkland Islands",
+		"fa":"Faroe Islands",
+		"fj":"Fiji",
+		"fi":"Finland",
+		"flu":"Florida",
+		"fr":"France",
+		"fg":"French Guiana",
+		"fp":"French Polynesia",
+		"go":"Gabon",
+		"gm":"Gambia",
+		"gz":"Gaza Strip",
+		"gau":"Georgia",
+		"gs":"Georgia (Republic)",
+		"gw":"Germany",
+		"gh":"Ghana",
+		"gi":"Gibraltar",
+		"gr":"Greece",
+		"gl":"Greenland",
+		"gd":"Grenada",
+		"gp":"Guadeloupe",
+		"gu":"Guam",
+		"gt":"Guatemala",
+		"gv":"Guinea",
+		"pg":"Guinea-Bissau",
+		"gy":"Guyana",
+		"ht":"Haiti",
+		"hiu":"Hawaii",
+		"hm":"Heard and McDonald Islands",
+		"ho":"Honduras",
+		"hu":"Hungary",
+		"ic":"Iceland",
+		"idu":"Idaho",
+		"ilu":"Illinois",
+		"ii":"India",
+		"inu":"Indiana",
+		"io":"Indonesia",
+		"iau":"Iowa",
+		"ir":"Iran",
+		"iq":"Iraq",
+		"iy":"Iraq-Saudi Arabia Neutral Zone",
+		"ie":"Ireland",
+		"is":"Israel",
+		"it":"Italy",
+		"jm":"Jamaica",
+		"ja":"Japan",
+		"ji":"Johnston Atoll",
+		"jo":"Jordan",
+		"ksu":"Kansas",
+		"kz":"Kazakhstan",
+		"kyu":"Kentucky",
+		"ke":"Kenya",
+		"gb":"Kiribati",
+		"kn":"Korea (North)",
+		"ko":"Korea (South)",
+		"kv":"Kosovo",
+		"ku":"Kuwait",
+		"kg":"Kyrgyzstan",
+		"ls":"Laos",
+		"lv":"Latvia",
+		"le":"Lebanon",
+		"lo":"Lesotho",
+		"lb":"Liberia",
+		"ly":"Libya",
+		"lh":"Liechtenstein",
+		"li":"Lithuania",
+		"lau":"Louisiana",
+		"lu":"Luxembourg",
+		"xn":"Macedonia",
+		"mg":"Madagascar",
+		"meu":"Maine",
+		"mw":"Malawi",
+		"my":"Malaysia",
+		"xc":"Maldives",
+		"ml":"Mali",
+		"mm":"Malta",
+		"mbc":"Manitoba",
+		"xe":"Marshall Islands",
+		"mq":"Martinique",
+		"mdu":"Maryland",
+		"mau":"Massachusetts",
+		"mu":"Mauritania",
+		"mf":"Mauritius",
+		"ot":"Mayotte",
+		"mx":"Mexico",
+		"miu":"Michigan",
+		"fm":"Micronesia (Federated States)",
+		"xf":"Midway Islands",
+		"mnu":"Minnesota",
+		"msu":"Mississippi",
+		"mou":"Missouri",
+		"mv":"Moldova",
+		"mc":"Monaco",
+		"mp":"Mongolia",
+		"mtu":"Montana",
+		"mo":"Montenegro",
+		"mj":"Montserrat",
+		"mr":"Morocco",
+		"mz":"Mozambique",
+		"sx":"Namibia",
+		"nu":"Nauru",
+		"nbu":"Nebraska",
+		"np":"Nepal",
+		"ne":"Netherlands",
+		"nvu":"Nevada",
+		"nkc":"New Brunswick",
+		"nl":"New Caledonia",
+		"nhu":"New Hampshire",
+		"nju":"New Jersey",
+		"nmu":"New Mexico",
+		"xna":"New South Wales",
+		"nyu":"New York (State)",
+		"nz":"New Zealand",
+		"nfc":"Newfoundland and Labrador",
+		"nq":"Nicaragua",
+		"ng":"Niger",
+		"nr":"Nigeria",
+		"xh":"Niue",
+		"xx":"No place, unknown, or undetermined",
+		"nx":"Norfolk Island",
+		"ncu":"North Carolina",
+		"ndu":"North Dakota",
+		"nik":"Northern Ireland",
+		"nw":"Northern Mariana Islands",
+		"xoa":"Northern Territory",
+		"ntc":"Northwest Territories",
+		"no":"Norway",
+		"nsc":"Nova Scotia",
+		"nuc":"Nunavut",
+		"ohu":"Ohio",
+		"oku":"Oklahoma",
+		"mk":"Oman",
+		"onc":"Ontario",
+		"oru":"Oregon",
+		"pk":"Pakistan",
+		"pw":"Palau",
+		"pn":"Panama",
+		"pp":"Papua New Guinea",
+		"pf":"Paracel Islands",
+		"py":"Paraguay",
+		"pau":"Pennsylvania",
+		"pe":"Peru",
+		"ph":"Philippines",
+		"pc":"Pitcairn Island",
+		"pl":"Poland",
+		"po":"Portugal",
+		"pic":"Prince Edward Island",
+		"pr":"Puerto Rico",
+		"qa":"Qatar",
+		"quc":"Québec (Province)",
+		"qea":"Queensland",
+		"re":"Réunion",
+		"riu":"Rhode Island",
+		"rm":"Romania",
+		"ru":"Russia (Federation)",
+		"rw":"Rwanda",
+		"xj":"Saint Helena",
+		"xd":"Saint Kitts-Nevis",
+		"xk":"Saint Lucia",
+		"xl":"Saint Pierre and Miquelon",
+		"xm":"Saint Vincent and the Grenadines",
+		"sc":"Saint-Barthélemy",
+		"st":"Saint-Martin",
+		"ws":"Samoa",
+		"sm":"San Marino",
+		"sf":"Sao Tome and Principe",
+		"snc":"Saskatchewan",
+		"su":"Saudi Arabia",
+		"stk":"Scotland",
+		"sg":"Senegal",
+		"rb":"Serbia",
+		"se":"Seychelles",
+		"sl":"Sierra Leone",
+		"si":"Singapore",
+		"sn":"Sint Maarten",
+		"xo":"Slovakia",
+		"xv":"Slovenia",
+		"bp":"Solomon Islands",
+		"so":"Somalia",
+		"sa":"South Africa",
+		"xra":"South Australia",
+		"scu":"South Carolina",
+		"sdu":"South Dakota",
+		"xs":"South Georgia and the South Sandwich Islands",
+		"sd":"South Sudan",
+		"sp":"Spain",
+		"sh":"Spanish North Africa",
+		"xp":"Spratly Island",
+		"ce":"Sri Lanka",
+		"sj":"Sudan",
+		"sr":"Surinam",
+		"sq":"Swaziland",
+		"sw":"Sweden",
+		"sz":"Switzerland",
+		"sy":"Syria",
+		"ta":"Tajikistan",
+		"tz":"Tanzania",
+		"tma":"Tasmania",
+		"tnu":"Tennessee",
+		"fs":"Terres australes et antarctiques françaises",
+		"txu":"Texas",
+		"th":"Thailand",
+		"em":"Timor-Leste",
+		"tg":"Togo",
+		"tl":"Tokelau",
+		"to":"Tonga",
+		"tr":"Trinidad and Tobago",
+		"ti":"Tunisia",
+		"tu":"Turkey",
+		"tk":"Turkmenistan",
+		"tc":"Turks and Caicos Islands",
+		"tv":"Tuvalu",
+		"ug":"Uganda",
+		"un":"Ukraine",
+		"ts":"United Arab Emirates",
+		"xxk":"United Kingdom",
+		"uik":"United Kingdom Misc. Islands",
+		"xxu":"United States",
+		"uc":"United States Misc. Caribbean Islands",
+		"up":"United States Misc. Pacific Islands",
+		"uy":"Uruguay",
+		"utu":"Utah",
+		"uz":"Uzbekistan",
+		"nn":"Vanuatu",
+		"vp":"Various places",
+		"vc":"Vatican City",
+		"ve":"Venezuela",
+		"vtu":"Vermont",
+		"vra":"Victoria",
+		"vm":"Vietnam",
+		"vi":"Virgin Islands of the United States",
+		"vau":"Virginia",
+		"wk":"Wake Island",
+		"wlk":"Wales",
+		"wf":"Wallis and Futuna",
+		"wau":"Washington (State)",
+		"wj":"West Bank of the Jordan River",
+		"wvu":"West Virginia",
+		"wea":"Western Australia",
+		"ss":"Western Sahara",
+		"wiu":"Wisconsin",
+		"wyu":"Wyoming",
+		"ye":"Yemen",
+		"ykc":"Yukon Territory",
+		"za":"Zambia",
+		"rh":"Zimbabwe"
+	}
+	return countries[code];
+}
+
 /*
  * Basic tag layout for a single piece of data
  *
@@ -528,7 +866,7 @@ function buildSpan(prop,content) {
  * the family name and given name.
  */
 function listPerson(family,given,role) {
-	var role_index = { 'art': 'contributor', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'contributor', 'trl': 'contributor'};
+	var role_index = { 'art': 'contributor', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'contributor'};
 	var prop = role_index[role];
 	var output_string = '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="http://schema.org/Person">\n';
 	output_string += '\t\t\t\t<dt>' + role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1) + ':</dt>\n';
@@ -601,6 +939,21 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('publisher',record.publisher,false,'Publisher');
 	}
 
+	if (checkExists(record.publication_place) || checkExists(record.publication_country)) {
+		var content = '';
+		if (checkExists(record.publication_place)) {
+			content += '<span itemprop="addressLocality">' + record.publication_place + '</span>';
+			if (checkExists(record.publication_country)) {
+				content += ', ';
+			}
+		}
+		if (checkExists(record.publication_country)) {
+			content += '<span itemprop="addressRegion">' + getCountry(record.publication_country) + '</span>';
+		}
+		var publication_location = buildItemscopeTag('publication','http://schema.org/PublicationEvent',buildItemscopeTag('location','http://schema.org/PostalAddress','\t\t\t\t<dt>Publication Location:</dt>\n\t\t\t\t<dd><b>' + content + '</b></dd>\n'));
+		displayTags += publication_location;
+	}
+
 	if (checkExists(record.publication_year)) {
 		displayTags += buildTag('datePublished',record.publication_year,false,'Date of Publication');
 	}
@@ -618,18 +971,20 @@ function downloadHTML(record,institution_info) {
 
 	displayTags += '\t\t\t<dt>Language:</dt>\n\t\t\t<dd><b>' + getLanguage(record.language) + '</b></dd>\n';
 
-	var keywordsTag = record.keywords[0];
-	var keywordsList = '\t\t\t<dt>Keywords:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n\t\t\t\t\t<li>' + buildSpan('keywords',record.keywords[0]) + '</li>\n';
-	for (var c = 1; c < record.keywords.length; c++) {
-		if (record.keywords[c] !== '') {
-			keywordsTag += ', ' + record.keywords[c];
-			keywordsList += '\t\t\t\t\t<li itemprop="keywords">' + record.keywords[c] + '</li>\n';
+	if (record.keywords.length > 0) {
+		var keywordsTag = record.keywords[0];
+		var keywordsList = '\t\t\t<dt>Keywords:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n\t\t\t\t\t<li>' + buildSpan('keywords',record.keywords[0]) + '</li>\n';
+		for (var c = 1; c < record.keywords.length; c++) {
+			if (record.keywords[c] !== '') {
+				keywordsTag += ', ' + record.keywords[c];
+				keywordsList += '\t\t\t\t\t<li itemprop="keywords">' + record.keywords[c] + '</li>\n';
+			}
 		}
+		keywordsList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+		displayTags += keywordsList;
 	}
-	keywordsList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
-	displayTags += keywordsList;
 
-	if (checkExists(record.fast)) {
+	if (checkExists(record.fast) && record.fast.length > 0) {
 		var FASTList = '\t\t\t<dt>FAST:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
 		for (var c = 0; c < record.fast.length; c++) {
 			if (record.fast[c][0] != '') {
@@ -637,10 +992,10 @@ function downloadHTML(record,institution_info) {
 			}
 		}
 		FASTList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+		displayTags += FASTList;
 	}
-	displayTags += FASTList;
 
-	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Offer:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
+	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
 
 	var text = '<!DOCTYPE html>\n<html>\n<head>\n	<meta charset="utf-8">\n</head>\n\n<body>\n\t<div itemscope itemtype="http://schema.org/Book">\n' + metaTags + '\t\t<dl>\n' + displayTags + '\t\t</dl>\n\t</div>\n</body>\n</html>';
 	downloadFile(text,'html');
