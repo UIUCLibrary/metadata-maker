@@ -3,7 +3,17 @@ Metadata Maker is a web application that is used for creating *good enough* qual
 
 ## Editing institution information
 
-The records produced by MetadataMaker list the University of Illinois at Urbana-Champaign as the institution that created the records, and as the location of the physical holding. To change the institution, edit the strings created in **generateInstitutionInfo()** in **metadatamaker/submitForm.js**.
+By default the records produced by MetadataMaker list the University of Illinois at Urbana-Champaign as the institution that created the records, and as the location of the physical holding. To change the default institution in code, edit the strings created in **`generateInstitutionInfo()`** in **`metadatamaker/submitForm.js`**. The institution information can also be customized by setting certain values in the url. These values largely correspond to the variables in **`generateInstitutionInfo()`** are:
+
+* **marc** - corresponds to `output['marc']`
+* **physicalLocation** - corresponds to `output['mods']['physicalLocation']`
+* **recordContentSource** - corresponds to `output['mods']['recordContentSource']`
+* **lcn** - organization's LC authority number, used to construct the url in `output['html']['url']`
+* **n** - corresponds to `output['html']['name']`
+
+A custom url should look something like:
+
+	http://iisdev1.library.illinois.edu/marcmaker/?marc=_&physicalLocation=_&recordContentSource=_&lcn=_&n=_
 
 ## Browser compatibility
 
@@ -20,6 +30,10 @@ The file structure has been altered, placing the javascript files in subdirector
 **04-17-2015:** FAST keywords now map to a number of different 6XX fields in MARC and MARCXML depending on how the keyword is categorized (e.g. personal name, corporate name, event, etc.), and may store portions of the keyword in different subfields. Keyword type classification is also implemented for MODS.
 
 **04-21-2015:** Diacritics are now inserted at the cursor position
+
+**08-21-2015:** The 008 field is now constructed as an array of individual strings, making it easy to change when you know the index that needs changing.
+
+The information for the organization creating the record can be altered via the url. See the "Editing institution information" section above for more details.
 
 ## Contact info
 
