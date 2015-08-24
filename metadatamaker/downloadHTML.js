@@ -969,7 +969,7 @@ function downloadHTML(record,institution_info) {
 
 	displayTags += '\t\t\t<dt>Physical Description:</dt>\n\t\t\t<dd><b>' + buildSpan('numberOfPages',record.pages) + ' ' + record.volume_or_page + ill + '</b></dd>\n';
 
-	displayTags += '\t\t\t<dt>Language:</dt>\n\t\t\t<dd><b>' + getLanguage(record.language) + '</b></dd>\n';
+	displayTags += '\t\t\t<dt>Language:</dt>\n\t\t\t<dd><b>' + getLanguage('eng') + '</b></dd>\n';
 
 	if (record.keywords.length > 0) {
 		var keywordsTag = record.keywords[0];

@@ -111,7 +111,7 @@ function downloadMODS(record,institution_info) {
 		originText += '    </originInfo>\n';
 	}
 
-	var languageText = '    <language>\n        <languageTerm authority="iso639-2b" type="code">' + record.language + '</languageTerm>\n    </language>\n';
+	var languageText = '    <language>\n        <languageTerm authority="iso639-2b" type="code">' + 'eng' + '</languageTerm>\n    </language>\n';
 
 	var pagesText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.pages + ' ' + record.volume_or_page + '</extent>\n    </physicalDescription>\n'
 
