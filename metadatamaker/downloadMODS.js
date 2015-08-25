@@ -23,7 +23,7 @@ function fillAuthorMODS(family,given,role) {
 
 function fillCorporateAuthor(corporate_author) {
 	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
-	if (checkExists(corporate_author)) {
+	if (checkExists(corporate_author['corporate'])) {
 		var authorText = '    <name type="corporate">\n';
 		authorText += '        <namePart>' + corporate_author['corporate'] + '</namePart>\n';
 		authorText += '        <roleTerm type="text" authority="marcrelator">' + role_index[corporate_author['role']] + '</roleTerm>\n';
