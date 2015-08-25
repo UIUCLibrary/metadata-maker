@@ -846,8 +846,8 @@ function buildTag(prop,content,meta,label) {
 	}
 }
 
-function buildItemscopeTag(prop,type,label) {
-	return '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="' + type + '">\n' + '\t\t\t</div>\n';
+function buildItemscopeTag(prop,type,content) {
+	return '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="' + type + '">\n' + content + '\t\t\t</div>\n';
 }
 
 /*
@@ -911,7 +911,7 @@ function downloadHTML(record,institution_info) {
 	var metaTags = '';
 	var displayTags = '';
 
-	metaTags += buildTag('inLanguage',record.language,true,'');
+	metaTags += buildTag('inLanguage','eng',true,'');
 
 	var subtitleTag = '';
 	if (checkExists(record.title[0]['subtitle'])) {
