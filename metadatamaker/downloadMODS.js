@@ -21,6 +21,21 @@ function fillAuthorMODS(family,given,role) {
 	}
 }
 
+function fillCorporateAuthor(corporate_author) {
+	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
+	if (checkExists(corporate_author)) {
+		var authorText = '    <name type="corporate">\n';
+		authorText += '        <namePart>' + corporate_author['corporate'] + '</namePart>\n';
+		authorText += '        <roleTerm type="text" authority="marcrelator">' + role_index[corporate_author['role']] + '</roleTerm>\n';
+		authorText += '        <roleTerm type="code" authority="marcrelator">' + corporate_author['role'] + '</roleTerm>\n'
+		authorText += '    </name>\n'
+		return authorText;
+	}
+	else {
+		return '';
+	}
+}
+
 /*
  * Build a MODS record. Each DOM object is saved as a string, then all the strings are combined into one master text
  *
@@ -65,12 +80,26 @@ function downloadMODS(record,institution_info) {
 		var isbnText = '';
 	}
 
+	var sudocText = ''
+	if (checkExists(record.sudoc)) {
+		sudocText = '    <classification authority="sudocs">' + record.sudoc + '</classification>\n'
+	}
+
 	var authorText = '';
 	authorText += fillAuthorMODS(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
 			authorText += fillAuthorMODS(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
+		}
+	}
+
+	var corporateText = '';
+	corporateText += fillCorporateAuthor(record.corporate_author);
+
+	if (checkExists(record.additional_corporate_names)) {
+		for (var i = 0; i < record.additional_corporate_names.length; i++) {
+			corporateText += fillCorporateAuthor(record.additional_corporate_names[i]);
 		}
 	}
 
@@ -113,16 +142,19 @@ function downloadMODS(record,institution_info) {
 
 	var languageText = '    <language>\n        <languageTerm authority="iso639-2b" type="code">' + 'eng' + '</languageTerm>\n    </language>\n';
 
-	var pagesText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.pages + ' ' + record.volume_or_page + '</extent>\n    </physicalDescription>\n'
+	var pagesText = '';
+	if (checkExists(record.pages)) {
+		pagesText += '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.pages + ' ' + record.volume_or_page + '</extent>\n    </physicalDescription>\n';
+	}
 
-	var dimensionsText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n'
+	var dimensionsText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n';
 
 	var defaultText2 = '    <location>\n        <physicalLocation>' + institution_info['mods']['physicalLocation'] + '</physicalLocation>\n    </location>\n';
 
 	var keywordsText = '';
 	for (var c = 0; c < record.keywords.length; c++) {
 		if (record.keywords[c] !== '') {
-			keywordsText += '    <subject>\n        <topic>' + record.keywords[c] + '</topic>\n    </subject>\n'
+			keywordsText += '    <subject>\n        <topic>' + record.keywords[c] + '</topic>\n    </subject>\n';
 		}
 	}
 
@@ -143,6 +175,6 @@ function downloadMODS(record,institution_info) {
 	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + institution_info['mods']['recordContentSource'] + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
+	var text = startText + titleText + authorText + corporateText + defaultText1 + isbnText + sudocText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
 	downloadFile(text,'mods');
 }

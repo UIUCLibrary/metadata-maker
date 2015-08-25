@@ -921,7 +921,7 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
 
-	if (checkExists(record.author[0]['role']) && (checkExists(record.author[0]['given']) || checkExists(record.author[0]['family']))) {
+/*	if (checkExists(record.author[0]['role']) && (checkExists(record.author[0]['given']) || checkExists(record.author[0]['family']))) {
 		displayTags += listPerson(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
 	}
 
@@ -929,7 +929,7 @@ function downloadHTML(record,institution_info) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
 			displayTags += listPerson(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
 		}
-	}
+	}*/
 
 	if (checkExists(record.edition)) {
 		displayTags += buildTag('bookEdition',record.edition,false,'Edition Statement');
