@@ -21,7 +21,7 @@ function fillAuthorMODS(family,given,role) {
 	}
 }
 
-function fillCorporateAuthor(corporate_author) {
+function fillCorporateAuthorMODS(corporate_author) {
 	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
 	if (checkExists(corporate_author['corporate'])) {
 		var authorText = '    <name type="corporate">\n';
@@ -73,11 +73,9 @@ function downloadMODS(record,institution_info) {
 
 	var defaultText1 = '    <typeOfResource>text</typeOfResource>\n';
 
+	var isbnText = '';
 	if (checkExists(record.isbn)) {
-		var isbnText = '    <identifier type="isbn">' + record.isbn + '</identifier>\n';
-	}
-	else {
-		var isbnText = '';
+		isbnText = '    <identifier type="isbn">' + record.isbn + '</identifier>\n';
 	}
 
 	var sudocText = ''
@@ -95,11 +93,11 @@ function downloadMODS(record,institution_info) {
 	}
 
 	var corporateText = '';
-	corporateText += fillCorporateAuthor(record.corporate_author);
+	corporateText += fillCorporateAuthorMODS(record.corporate_author);
 
 	if (checkExists(record.additional_corporate_names)) {
 		for (var i = 0; i < record.additional_corporate_names.length; i++) {
-			corporateText += fillCorporateAuthor(record.additional_corporate_names[i]);
+			corporateText += fillCorporateAuthorMODS(record.additional_corporate_names[i]);
 		}
 	}
 
