@@ -158,7 +158,7 @@ $("#marc-maker").submit(function(event) {
 		publication_place: $("#place").val(),
 		publication_country: $("#country").val(),
 		copyright_year: $("#cyear").val(),
-		web_url: $("#web-url").val(),
+		web_url: 'http://' + $("#web-url").val(),
 		language: $("#language").val(),
 		translit_publisher: $("#translit_publisher").val(),
 		translit_place: $("#translit_place").val(),
@@ -177,6 +177,10 @@ $("#marc-maker").submit(function(event) {
 
 	if ($("#MARCXML").is(':checked')) {
 		downloadXML(recordObject,institution_info);
+	}
+
+	if ($("#HTML").is(':checked')) {
+		downloadHTML(recordObject,institution_info);
 	}
 
 	event.preventDefault();
