@@ -179,6 +179,10 @@ $("#marc-maker").submit(function(event) {
 		downloadXML(recordObject,institution_info);
 	}
 
+	if ($("#MODS").is(':checked')) {
+		downloadMODS(recordObject,institution_info);
+	}
+
 	if ($("#HTML").is(':checked')) {
 		downloadHTML(recordObject,institution_info);
 	}
