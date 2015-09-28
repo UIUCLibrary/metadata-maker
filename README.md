@@ -1,5 +1,5 @@
 # MetadataMaker
-Metadata Maker is a web application that is used for creating *good enough* quality metadata in four different formats depending on the needs of the system to which the metadata will be ingested. A live version of the tool hosted by the University of Illinois can be found at http://iisdev1.library.illinois.edu/marcmaker/
+Metadata Maker is a web application that is used for creating *good enough* quality metadata in four different formats depending on the needs of the system to which the metadata will be ingested. A live version of the tool hosted by the University of Illinois can be found at http://quest.library.illinois.edu/marcmaker/
 
 ## Editing institution information
 
@@ -13,7 +13,7 @@ By default the records produced by MetadataMaker list the University of Illinois
 
 A custom url should look something like:
 
-	http://iisdev1.library.illinois.edu/marcmaker/?marc=_&physicalLocation=_&recordContentSource=_&lcn=_&n=_
+	http://quest.library.illinois.edu/marcmaker/?marc=_&physicalLocation=_&recordContentSource=_&lcn=_&n=_
 
 ## Browser compatibility
 
