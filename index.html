@@ -9,7 +9,7 @@
 
 	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-	<link href="metadatamaker-dissertation.css" rel="stylesheet" media="screen">
+	<link href="metadatamaker.css" rel="stylesheet" media="screen">
 </head>
 
 <body>
@@ -566,6 +566,8 @@
 			<label for="filetype">Choose record formats:</label><br>
 			<input type="checkbox" id="MARC" class="filetype">MARC<br>
 			<input type="checkbox" id="MARCXML" class="filetype">MARCXML<br>
+			<input type="checkbox" id="MODS" class="filetype">MODS<br>
+			<input type="checkbox" id="HTML" class="filetype">HTML<br>
 		</div>
 
 		<div id="buttons" class="standard-block">
@@ -574,9 +576,13 @@
 		</div>
 	</form>
 	<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
-	<div id="version">Version 1.1 – Updated on 03/20/2015. Metadata Maker for Theses & Dissertations created on 4/21/2015.</div>
+	<div id="version">Version 1.1 – Updated on 09/28/2015. Metadata Maker for Theses & Dissertations created on 4/21/2015.</div>
 
-	<script src="js/metadatamaker.js"></script>
+	<script src="metadatamaker/generalInteractions.js"></script>
+	<script src="metadatamaker/downloadMARC.js"></script>
+	<script src="metadatamaker/downloadMODS.js"></script>
+	<script src="metadatamaker/downloadHTML.js"></script>
+	<script src="metadatamaker/submitForm.js"></script>
 </body>
 
 </html>
