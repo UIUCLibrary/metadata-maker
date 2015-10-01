@@ -74,5 +74,9 @@ $("#marc-maker").submit(function(event) {
 		downloadMODS(recordObject,institution_info);
 	}
 
+	if ($("#HTML").is(':checked')) {
+		downloadHTML(recordObject,institution_info);
+	}
+
 	event.preventDefault();
 });
