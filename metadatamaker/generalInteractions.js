@@ -1,5 +1,13 @@
 /*
  * If there are non-Latin characters, show transliteration field
+ * 	id - The HTML id of the input field that has lost focus (suggesting a change in content)
+ *
+ *	Most input fields are simply checked for non-roman characters, and their corresponding
+ *		transliteration field is shown if non-roman characters are detected and hidden if
+ *		no non-roman characters are detected. The exception is name fields, which are a 
+ *		little more complicated because two inputs are linked. As long as one of the two 
+ *		associated name fields has non-roman characters, both the name transliteration 
+ *		fields remain visible.
  */
 function toggleTranslit(id) {
 	//Regex for everything outside the standard character set
@@ -46,12 +54,14 @@ $("#marc-maker").on('blur','.translit-listen',function() {
 /*
  * If a keyword input being deleted or modified, clear the fastID recorded in case the user is inputing
  * a term not in fast
+ *
+ *	This specifically listens for keyCode 8 (backspace) and keyCode 46 (delete).
+ *	'$(':focus')[0].id.substring(7))'' is the number in the id of the keyword, which is always of the form
+ *		id = keyword#
  */
-$("#marc-maker").on('keyup', function(e) {
+$("#marc-maker").on('keyup','.keyword', function(e) {
 	if (e.keyCode === 8 || e.keyCode === 46) {
-		if ($(':focus')[0].id.indexOf('keyword') == 0) {
-			$('#fastID' + $(':focus')[0].id.substring(7)).val('');
-		}
+		$('#fastID' + $(':focus')[0].id.substring(7)).val('');
 	}
 });
 
