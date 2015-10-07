@@ -1,6 +1,6 @@
 /*
  * If there are non-Latin characters, show transliteration field
- * 	id - The HTML id of the input field that has lost focus (suggesting a change in content)
+ * 	id: The HTML id of the input field that has lost focus (suggesting a change in content)
  *
  *	Most input fields are simply checked for non-roman characters, and their corresponding
  *		transliteration field is shown if non-roman characters are detected and hidden if
@@ -66,7 +66,7 @@ $("#marc-maker").on('keyup','.keyword', function(e) {
 });
 
 /*
- * When the insert menu is open ESC will get rid of it
+ * When the diacritics insert menu is open ESC will get rid of it
  */
 $(document).keyup(function(e) {
 	if (e.keyCode === 27) {
@@ -78,19 +78,23 @@ $(document).keyup(function(e) {
 
 /*
  * Inserts selected character at the end of the associated input, not where the cursor is
+ *	field: The input field the diacritics menu is linked to
+ *	insert_value: The character that was selected from the diacritics menu
+ *	insert_at: The cursor position when insert_value was selected. Defaults to the end of the string if the input wasn't selected
  */
 function insertChar(field,insert_value,insert_at) {
 	var current_contents = $("#" + field).val();
-	//var insert_at = $("#" + field)[0].selectionStart;
 	$("#" + field).val(current_contents.substring(0,insert_at) + insert_value + current_contents.substring(insert_at));
-	//console.log(current_contents.substring(0,insert_at));
-	//$("#" + field).val(current_contents.substring(0,insert_at));
 	$("#" + field).focus();
 	$("#insert-popup").remove();
 }
 
 /*
- * When the Insert button is pressed, create a floating keyboard with characters to insert
+ * When the Insert button is pressed, create a floating keyboard with characters to insert into the corresponding field
+ *	field: The input field the diacritics menu is linked to
+ *	insert_at: The cursor position when insert_value was selected. Defaults to the end of the string if the input wasn't selected
+ *
+ *	Constructs and returns the HTML div for the popup diacritics menu
  */
 function constructMenu(field,insert_at) {
 	var unicodes = ['0301','04D5','04D4','0357','0351','0306','00A3','0310','0327','030A','0325','0302','005E','00A9','0111','0110','0366','0323','00B7','02DD','0324','FE22','FE23','0333','00DF','00F0','00D0','20AC','0060','0300','030C','0313','0315','0328','00A1','00BF','0142','0141','007B','0321','FE20','FE21','0304','02B9','266D','266F','01A1','01A0','00F8','00D8','0153','0152','2117','00B1','0309','007D','0322','2113','2080','2081','2082','2083','2084','2085','2086','2087','2088','2089','2070','00B9','00B2','00B3','2074','2075','2076','2077','2078','2079','207D','207E','207B','207A','00FE','00DE','0303','007E','0131','02BA','01B0','01AF','0308','0332','005F','032E','03B1','2020','0263','00AE'];
@@ -98,6 +102,7 @@ function constructMenu(field,insert_at) {
 	for (var i = 0; i < unicodes.length; i++) {
 		var new_tag = "<button value='" + String.fromCharCode(parseInt(unicodes[i],16)) + "' id='" + unicodes[i] + "' class='diacritics ";
 
+		//These class tags are for the css so that it looks like there is a 1px black border around everything
 		if (i%14 === 13 && i + 14 > unicodes.length) {
 			new_tag += 'bottom-right';
 		}
@@ -124,7 +129,10 @@ function constructMenu(field,insert_at) {
 }
 
 /*
- * Insert special characters into field
+ * Handles the reaction when Insert is clicked. If the menu is already displayed, this function will close it. If it
+ *	is not displayed, this function will open it.
+ *
+ *	field: The input field the diacritics menu is linked to
  */
 function insertMenu(field) {
 	if (document.getElementById("insert-popup")) {
@@ -140,7 +148,7 @@ function insertMenu(field) {
 }
 
 /*
- * when one of the author fields has been filled in, the other is no longer required
+ * When one of the author fields has been filled in, the other is no longer required
  */
 $(".author").change(function() {
 	var field = $(this).attr("id");
@@ -160,13 +168,12 @@ $(".author").change(function() {
 });
 
 /*
- * Set highest allowed year to next year
+ * Set highest allowed year
  */
-//var present = new Date().getFullYear();
 $(".date").attr("max",1000000);
 
 /*
- * Add keyword fields
+ * Add additional keyword fields
  */
 var counter = 1;
 function addKeyword() {
@@ -216,10 +223,15 @@ $(":reset").click(function() {
 	$(".added").remove();
 	$(".translit-block").css("padding","0px");
 	counter = 1;
+	aCounter = 0;
 });
 
 /*
- * If the attribute is listed, make it not required
+ * The checkboxes that remove the required element from their associated field are all part of the class called listed, and
+ *	all have an id with the form [associated input id]_listed. Once cliked, the associated field is no longer required, and
+ *	is disabled until the box is unclicked. Both family name and given name will be disabled and not required if the name 
+ *	checkbox is clicked, but will remain active if one of the fields is already filled in. If a box is unchecked, the field is
+ *	reverted to normal.
  */
 $(".listed").click(function() {
 	var field = $(this).attr("id");
@@ -260,6 +272,9 @@ $("input:radio[name=literature]").click(function() {
 
 /*
  * Check that an optional field has been input
+ *	attr: the field being checked
+ *
+ *	Return true if the field contains valid content, otherwise return false.
  */
 function checkExists(attr) {
 	if (typeof(attr) !== "undefined" && attr !== '' && attr !== null) {
@@ -272,6 +287,8 @@ function checkExists(attr) {
 
 /*
  * Once specific processing for a format has been done, create, and then download the resulting record
+ *	text: One long string that will be written to the file
+ *	filetype: What kind of file is being written (MARC,MARCXML,MODS,HTML)
  */
 function downloadFile(text,filetype) {
 	var download_file = document.createElement('a');
