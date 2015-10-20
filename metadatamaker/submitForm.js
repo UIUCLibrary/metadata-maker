@@ -55,7 +55,9 @@ $("#marc-maker").submit(function(event) {
 		publication_year: $("#year").val(),
 		language: $("#language").val(),
 		dissertation_type: $("#dissertation_type").val(),
+		leaf_or_page: $("#lorp").val(),
 		number_of_pages: $("#pages").val(),
+		illustrations_yes: $("#illustrations-yes").is(':checked'),
 		bibliographies: $("#bib").val(),
 		major: $("#major").val()
 	};

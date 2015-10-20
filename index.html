@@ -543,8 +543,18 @@
 		</div>
 
 		<div id="pages-block" class="standard-block">
-			<label for="pages" class="headding">Number of Pages</label><br>
+			<label for="number" class="heading">Number of</label>
+			<select name="lorp" id="lorp">
+				<option selected value="pages">pages</option>
+				<option value="leaves">leaves</option>
+			</select><br>
 			<input type="number" required id="pages" min="1">
+		</div>
+
+		<div id="illustrations-block" class="standard-block">
+			<label for="illustrations" class="heading">Does the item include illustrations?</label><br>
+			<input type="radio" name="illustrations" id="illustrations-yes" value="yes">Yes
+			<input type="radio" name="illustrations" id="illustrations-no" value="no">No
 		</div>
 
 		<div id="bibliographies-block" class="standard-block">

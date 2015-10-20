@@ -101,6 +101,7 @@ function create008Field(record) {
 	}
 
 	//22-32
+	array_of_008[24] = 'b';
 	array_of_008[29] = '0';
 	array_of_008[30] = '0';
 	array_of_008[31] = '0';
@@ -288,12 +289,27 @@ function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 
 function fillPhysical(record,head,fieldFunc,subfieldFunc) {
 	var label = 'pages';
-	if (record.number_of_pages == 1) {
-		label = label.substring(0,label.length-1);
+	if (record.number_of_pages === '0') {
+		var pages_string = '1 leaf (unpaged)';
+	}
+	else if (record.number_of_pages == 1) {
+		if (record.leaf_or_page === 'leaves') {
+			var pages_string = '1 leaf'
+		}
+		else {
+			var pages_string = '1 page';
+		}
+	}
+	else {
+		var pages_string = record.number_of_pages + ' ' + record.leaf_or_page;
 	}
 
 	var subfields = []
-	subfields.push(subfieldFunc('a',record.number_of_pages + ' ' + label + '. ;'));
+	subfields.push(subfieldFunc('a',pages_string + '. ;'));
+	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
+		subfields.push(subfieldFunc('b','illustrations ;'));
+	}
+	subfields.push(subfieldFunc('c','28 cm.'))
 	var physical = fieldFunc('300',' ',' ',subfields);
 
 	//MARC
@@ -314,7 +330,7 @@ function fillDissertationType(record,head,fieldFunc,subfieldFunc) {
 	pub_subfields.push(subfieldFunc('c','University of Illinois at Urbana-Champaign'));
 	pub_subfields.push(subfieldFunc('d',record.publication_year + '.'));
 
-	var pub = fieldFunc('502',' ','1',pub_subfields);
+	var pub = fieldFunc('502',' ',' ',pub_subfields);
 
 	//MARC
 	if (head !== null) {
@@ -334,7 +350,7 @@ function fillBibliography(record,head,fieldFunc,subfieldFunc) {
 		full_string = 'p' + full_string; 
 	}
 
-	var bib = fieldFunc('504',' ',' ',subfieldFunc('a',full_string));
+	var bib = fieldFunc('504',' ',' ',subfieldFunc('a','Includes bibliographical references (' + full_string + ')'));
 
 	//MARC
 	if (head != null) {
@@ -378,6 +394,10 @@ function downloadMARC(record) {
 	var controlfield008_directory = createDirectory('008',controlfield008_content,head);
 	head += controlfield008_content.length;
 
+	var cataloging_source_content = createContent('  ',[createSubfield('a','uiu'),createSubfield('e','rda'),createSubfield('c','uiu')]);
+	var cataloging_source_directory = createDirectory('040',cataloging_source_content,head)
+	head += cataloging_source_content.length
+
 	var title = fillTitle(record,head,createContentFill,createSubfield);
 	head += getByteLength(title[1]);
 
@@ -412,9 +432,9 @@ function downloadMARC(record) {
 	head += getByteLength(major[1]);
 
 	var end = String.fromCharCode(30) + String.fromCharCode(29);
-	var text = timestamp_directory + controlfield008_directory + title[0] + author[0] + pub[0] + physical[0] + default1_directory + default2_directory + default3_directory + dissertation[0] + bib[0] + major[0] + timestamp_content + controlfield008_content + title[1] + author[1] + pub[1] + physical[1] + default1_content + default2_content + default3_content + dissertation[1] + bib[1] + major[1] + end;
+	var text = timestamp_directory + controlfield008_directory + cataloging_source_directory + title[0] + author[0] + pub[0] + physical[0] + default1_directory + default2_directory + default3_directory + dissertation[0] + bib[0] + major[0] + timestamp_content + controlfield008_content + cataloging_source_content + title[1] + author[1] + pub[1] + physical[1] + default1_content + default2_content + default3_content + dissertation[1] + bib[1] + major[1] + end;
 	var leader_len = getByteLength(text) + 24;
-	var directory_len = 25 + timestamp_directory.length + controlfield008_directory.length + title[0].length + author[0].length + pub[0].length + physical[0].length + default1_directory.length + default2_directory.length + default3_directory.length + dissertation[0].length + bib[0].length + major[0].length;
+	var directory_len = 25 + timestamp_directory.length + controlfield008_directory.length + cataloging_source_directory.length + title[0].length + author[0].length + pub[0].length + physical[0].length + default1_directory.length + default2_directory.length + default3_directory.length + dissertation[0].length + bib[0].length + major[0].length;
 	var leader = addZeros(leader_len,'leader') + 'ntm a22' + addZeros(directory_len,'leader') + 'ki 4500';
 	text = leader + text;
 	downloadFile(text,'mrc');
@@ -429,6 +449,8 @@ function downloadXML(record) {
 	var controlfield008 = create008Field(record);
 	controlfield008 = '  <controlfield tag="008">' + controlfield008 + '</controlfield>\n';
 
+	var cataloging_source = createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a','uiu'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c','uiu')]);
+
 	var title = fillTitle(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var author = fillAuthor(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var pub = fillPublication(record,null,createMARCXMLField,createMARCXMLSubfield);
@@ -440,6 +462,6 @@ function downloadXML(record) {
 
 	var endText ='</record>\n';
 
-	var text = startText + timestamp + controlfield008 + title + author + pub + physical + default1 + dissertation + bibliography + major + endText;
+	var text = startText + timestamp + controlfield008 + cataloging_source + title + author + pub + physical + default1 + dissertation + bibliography + major + endText;
 	downloadFile(text,'xml');
 }

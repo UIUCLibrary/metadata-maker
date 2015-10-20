@@ -574,7 +574,11 @@ function downloadHTML(record,institution_info) {
 
 	displayTags += buildTag('datePublished',record.publication_year,false,'Date of Publication');
 
-	displayTags += '\t\t\t<dt>Physical Description:</dt>\n\t\t\t<dd><b>' + buildSpan('numberOfPages',record.number_of_pages) + 'pages</b></dd>\n';
+	displayTags += '\t\t\t<dt>Physical Description:</dt>\n\t\t\t<dd><b>' + buildSpan('numberOfPages',record.number_of_pages) + ' ' + record.leaf_or_page;
+	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
+		displayTags += '; illustrations';
+	}
+	displayTags += '</b></dd>\n';
 
 	displayTags += '\t\t\t<dt>Language:</dt>\n\t\t\t<dd><b>' + getLanguage(record.language) + '</b></dd>\n';
 
