@@ -344,11 +344,12 @@ function fillDissertationType(record,head,fieldFunc,subfieldFunc) {
 }
 
 function fillBibliography(record,head,fieldFunc,subfieldFunc) {
-	var full_string = 'p. ' + record.bibliographies;
+	var full_string = 'page';
 
-	if (full_string.indexOf('-') != -1) {
-		full_string = 'p' + full_string; 
+	if (record.bibliographies.indexOf('-') != -1) {
+		full_string += 's'; 
 	}
+	full_string += ' ' + record.bibliographies;
 
 	var bib = fieldFunc('504',' ',' ',subfieldFunc('a','Includes bibliographical references (' + full_string + ')'));
 
