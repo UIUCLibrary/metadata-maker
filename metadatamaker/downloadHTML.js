@@ -917,6 +917,8 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('alternateName',record.title[1]['title'] + translitSubTag,false,'Transliterated Title');
 	}
 
+	displayTags += buildTag('url','<a href="' + record.web_url + '">' + record.web_url + '</a>',false,'Web URL');
+
 	if (checkExists(record.isbn)) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
@@ -967,14 +969,8 @@ function downloadHTML(record,institution_info) {
 		ill = 'illustrations';
 	}
 
-	if (ill != '' || checkExists(record.pages)) {
+	if (ill != '') {
 		displayTags += '\t\t\t<dt>Physical Description:</dt>\n\t\t\t<dd><b>';
-		if (checkExists(record.pages)) {
-			displayTags += buildSpan('numberOfPages',record.pages) + ' ' + record.volume_or_page;
-		}
-		if (ill != '' && checkExists(record.pages)) {
-			displayTags += '; ';
-		}
 		if (ill != '') {
 			displayTags += ill;
 		}

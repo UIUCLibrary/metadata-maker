@@ -80,6 +80,11 @@ function downloadMODS(record,institution_info) {
 	}
 	titleText += '    </titleInfo>\n';
 
+	var urlText = '';
+	if (checkExists(record.web_url)) {
+		urlText += '    <location>\n        <url>' + record.web_url + '</url>\n    </location>\n';
+	}
+
 	var originText = '';
 	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.publication_year) || checkExists(record.copyright_year) || checkExists(record.edition)) {
 		originText += '    <originInfo>\n';
@@ -115,10 +120,8 @@ function downloadMODS(record,institution_info) {
 
 	var pagesText = '';
 	if (checkExists(record.pages)) {
-		pagesText += '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.pages + ' ' + record.volume_or_page + '</extent>\n    </physicalDescription>\n';
+		pagesText += '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>1 online resource</extent>\n    </physicalDescription>\n';
 	}
-
-	var dimensionsText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n'
 
 	var defaultText2 = '    <location>\n        <physicalLocation>' + institution_info['mods']['physicalLocation'] + '</physicalLocation>\n    </location>\n';
 
@@ -146,6 +149,6 @@ function downloadMODS(record,institution_info) {
 	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + institution_info['mods']['recordContentSource'] + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
+	var text = startText + titleText + authorText + defaultText1 + isbnText + urlText + originText + languageText + pagesText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
 	downloadFile(text,'mods');
 }
