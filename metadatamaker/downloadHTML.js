@@ -1014,6 +1014,37 @@ function downloadHTML(record,institution_info) {
 
 	displayTags += '\t\t\t<dt>Language:</dt>\n\t\t\t<dd><b>' + getLanguage(record.language) + '</b></dd>\n';
 
+	if (checkExists(record.datecollected)) {
+		displayTags += buildTag('dateCreated',record.datecollected,false,'Date the Data Was Collected');
+	}
+
+	if (checkExists(record.access_terms)) {
+		displayTags += buildTag('license',record.access_terms,false,'Access Terms');
+	}
+
+	if (checkExists(record.gcoverage)) {
+		displayTags += '\t\t\t<div itemprop"contentLocation" itemscope itemtype="http://schema.org/Place">\n\t\t\t\t<dt>Geographic Coverage:</dt>\n\t\t\t\t<dd><b><span itemprop="name">' + record.gcoverage + '</span></b></dd>\n\t\t\t</div>\n';
+//		displayTags += '\t\t\t<creativeWork>\n\t\t\t\t<contentLocation>\n\t\t\t\t\t<place>\n\t\t\t\t\t\t<name>' + record.gcoverage + '</name>\n\t\t\t\t\t</place>\n\t\t\t\t</contentLocation>\n\t\t\t</creativeWork>\n';
+//		displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
+	}
+
+	if (checkExists(record.ggranularity)) {
+		displayTags += '\t\t\t<div itemprop"contentLocation" itemscope itemtype="http://schema.org/Place">\n\t\t\t\t<dt>Geographic Granularity:</dt>\n\t\t\t\t<dd><b><span itemprop="name">' + record.ggranularity + '</span></b></dd>\n\t\t\t</div>\n';
+//		displayTags += '\t\t\t<creativeWork>\n\t\t\t\t<contentLocation>\n\t\t\t\t\t<place>\n\t\t\t\t\t\t<name>' + record.ggranularity + '</name>\n\t\t\t\t\t</place>\n\t\t\t\t</contentLocation>\n\t\t\t</creativeWork>\n';
+	}
+
+	if (checkExists(record.format)) {
+		displayTags += buildTag('fileFormat',record.format,false,'File Format');
+	}
+
+	if (checkExists(record.use_terms)) {
+		displayTags += buildTag('license',record.use_terms,false,'Use Terms and Conditions');
+	}
+
+	if (checkExists(record.daterange)) {
+		displayTags += buildTag('datasetTimeInterval',record.daterange,false,'Date Range of Content');
+	}
+
 	if (record.keywords.length > 0) {
 		console.log(record.keywords);
 		var keywordsTag = record.keywords[0];

@@ -159,6 +159,41 @@ function downloadMODS(record,institution_info) {
 
 	var defaultText2 = '    <location>\n        <physicalLocation>' + institution_info['mods']['physicalLocation'] + '</physicalLocation>\n    </location>\n';
 
+	var dateCollectedText = '';
+	if (checkExists(record.datecollected)) {
+		dateCollectedText = '    <originInfo>\n        <dateCaptured>' + record.datecollected + '</dateCaptured>\n    </originInfo>\n';
+	}
+
+	var accessText = '';
+	if (checkExists(record.access_terms)) {
+		accessText = '    <accessCondition displayLabel="Restricted">' + record.access_terms + '</accessCondition>\n';
+	}
+
+	var geographicCoverageText = '';
+	if (checkExists(record.gcoverage)) {
+		geographicCoverageText = '    <subject>\n        <geographic>' + record.gcoverage + '</geographic>\n    </subject>\n';
+	}
+
+	var geographicGranularityText = '';
+	if (checkExists(record.ggranularity)) {
+		geographicGranularityText = '    <subject>\n        <geographic>' + record.ggranularity + '</geographic>\n    </subject>\n';
+	}
+
+	var formatText = '';
+	if (checkExists(record.format)) {
+		formatText = '    <note>' + record.format + '</note>\n';
+	}
+
+	var useText = '';
+	if (checkExists(record.use_terms)) {
+		useText = '    <accessCondition type="use and reproduction" displayLabel="Restricted">' + record.use_terms + '</accessCondition>\n';
+	}
+
+	var dateRangeText = '';
+	if (checkExists(record.daterange)) {
+		dateRangeText = '    <subject>\n        <temporal>' + record.daterange + '</temporal>\n    </subject>\n';
+	}
+
 	var keywordsText = '';
 	for (var c = 0; c < record.keywords.length; c++) {
 		if (record.keywords[c] !== '') {
@@ -183,6 +218,6 @@ function downloadMODS(record,institution_info) {
 	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + institution_info['mods']['recordContentSource'] + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + corporateText + defaultText1 + genreText + isbnText + urlText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
+	var text = startText + titleText + authorText + corporateText + defaultText1 + genreText + isbnText + urlText + originText + languageText + pagesText + dimensionsText + defaultText2 + dateCollectedText + accessText + geographicCoverageText + geographicGranularityText + formatText + useText + dateRangeText + keywordsText + fastText + literatureText + defaultText3 + endText;
 	downloadFile(text,'mods');
 }

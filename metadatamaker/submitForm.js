@@ -166,7 +166,14 @@ $("#marc-maker").submit(function(event) {
 		keywords: words,
 		fast: fast_array,
 		additional_authors: complete_names_list,
-		additional_corporate_names: complete_corporate_names_list
+		additional_corporate_names: complete_corporate_names_list,
+		format: $("#format").val(),
+		daterange: $("#daterange").val(),
+		datecollected: $("#datecollected").val(),
+		gcoverage: $("#gcoverage").val(),
+		ggranularity: $("#ggranularity").val(),
+		access_terms: $("#access_terms").val(),
+		use_terms: $("#use_terms").val()
 	};
 
 	var institution_info = generateInstitutionInfo();
