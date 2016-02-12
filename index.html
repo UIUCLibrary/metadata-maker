@@ -602,9 +602,10 @@
 		</div>
 
 		<div id="web-url-block" class="standard-block">
-			<label for="web-url" class="heading">Web URL<span class="required_marker">*</span></label><label for="web-url" class="insert insert_normal" onClick='insertMenu("web-url");'>Insert Diacritics</label><br>
+			<label for="web-url" class="heading">Web URL</label><label for="web-url" class="insert insert_normal" onClick='insertMenu("web-url");'>Insert Diacritics</label><br>
 			<div id="insert-web-url"></div>
-			http://<input type="text" required id="web-url">
+			http://<input type="text" required id="web-url" class="conditional"><br>
+			<span class="unlisted">Unlisted</span><input type="checkbox" id="web-url_listed" class="listed">
 		</div>
 
 		<div id="place-block" class="standard-block">
