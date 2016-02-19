@@ -50,7 +50,7 @@ function getByteLength(text) {
  * Generates the MARC format's 008 controlfield for books
  */
 function create008Field(record) {
-		var array_of_008 = [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '];
+	var array_of_008 = [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '];
 
 	var timestamp = getTimestamp();
 	timestamp = timestamp.substring(2,8);
@@ -384,7 +384,15 @@ function fillMajor(record,head,fieldFunc,subfieldFunc) {
 	}
 }
 
-function downloadMARC(record) {
+/*
+ * Create a MARC record. The variable head is a running total of the length of the record so far. The directory/variable[0]
+ * variables number the field, point to the content, and list how long the content is. The content/variable[1] variables
+ * are simply the content of that field. Order is very important here.
+ *	record: Library with all the information input by the user
+ *	institution_info: Library containing multiple forms of the name of the cataloguing instutition. Defaults to 
+ *		University of Illinois at Urbana-Champaign
+ */
+function downloadMARC(record,institution_info) {
 	var head = 0;
 
 	var timestamp_content = String.fromCharCode(30) + getTimestamp();
@@ -441,17 +449,24 @@ function downloadMARC(record) {
 	downloadFile(text,'mrc');
 }
 
-function downloadXML(record) {
-	var startText = '<?xml version="1.0" encoding="utf-8"?>\n<record xmlns="http://www.loc.gov/MARC21/slim" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n  <leader>01447ntm a2200397ki 4500</leader>\n  <controlfield tag="001"></controlfield>\n';
+/*
+ * Create the MARCXML document
+ *	record: Library with all the information input by the user
+ *	institution_info: Library containing multiple forms of the name of the cataloguing instutition. Defaults to 
+ *		University of Illinois at Urbana-Champaign
+ */
+function downloadXML(record,institution_info) {
+	var startText = '<?xml version="1.0" encoding="utf-8"?>\n<record xmlns="http://www.loc.gov/MARC21/slim" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n  <leader>01447nam a2200397ki 4500</leader>\n  <controlfield tag="001"></controlfield>\n';
 	
 	var formatted_date = getTimestamp();
 	var timestamp = '  <controlfield tag="005">' + formatted_date + '</controlfield>\n';
 	
 	var controlfield008 = create008Field(record);
-	controlfield008 = '  <controlfield tag="008">' + controlfield008 + '</controlfield>\n';
-
-	var cataloging_source = createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a','uiu'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c','uiu')]);
-
+	controlfield008 = '  <controlfield tag="008">' + controlfield008 + '</controlfield>\n'
+	
+	var default1 = createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a',institution_info['marc']),createMARCXMLSubfield('b','eng'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c',institution_info['marc'])]);
+	var isbn = fillISBN(record,null,createMARCXMLField,createMARCXMLSubfield);
+	var author = fillAuthor(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var title = fillTitle(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var author = fillAuthor(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var pub = fillPublication(record,null,createMARCXMLField,createMARCXMLSubfield);
