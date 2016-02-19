@@ -25,10 +25,6 @@ The recommended browsers for MetadataMaker are Chrome and Firefox. MetadataMaker
 
 The information for the organization creating the record can be altered via the url. See the "Editing institution information" section above for more details.
 
-**08-21-2015:** The 008 field is now constructed as an array of individual strings, making it easy to change when you know the index that needs changing.
-
-The information for the organization creating the record can be altered via the url. See the "Editing institution information" section above for more details.
-
 ## Contact info
 
 Comments and questions can be directed to Deren Kudeki at dkudeki@illinois.edu and Myung-Ja Han at mhan3@illinois.edu

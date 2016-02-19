@@ -42,11 +42,9 @@ noscript {
 
 input[type="text"], input[type="number"], textarea {
 	width: 250px;	border: 1px;
-	height: 16px;
 	border-style: solid;
 	border-color: #d1d1d1;
 	padding: 2px;
-	line-height: 150%;
 
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
@@ -113,8 +111,10 @@ input[type="number"] {
 }
 
 #insert-popup {
+	width: 490px;
 	position: relative;
 	left: 167px;
+	margin-bottom: -245px;
 	bottom: -2px;
 	z-index: 10;
 }
