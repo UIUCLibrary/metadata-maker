@@ -67,6 +67,41 @@ input[type="number"] {
 	width: 350px;
 }
 
+.standard-translit-block {
+	width: 350px;
+	position: relative;
+	left: 25px;
+}
+
+#title-block {
+	padding: 3px;
+	width: 350px;
+	height: 62px;
+}
+
+#subtitle-block {
+	padding: 3px;
+	width: 350px;
+	position: relative;
+	left: 406px;
+	top: -68px;
+	margin-bottom: -68px;
+	margin-right: 1px;
+}
+
+/*#translit-title-block {
+	position: relative;
+	top: -22px;
+	margin-bottom: -22px;
+}*/
+
+#translit-subtitle-block {
+	position: relative;
+	top: -46px;
+	left: 425px;
+	margin-bottom: -46px;
+}
+
 #author-block {
 	padding: 5px;
 	width: 700px;
