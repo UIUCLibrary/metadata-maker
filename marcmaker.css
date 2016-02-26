@@ -21,7 +21,7 @@ h1 {
 	line-height: 26.3999996185303px;
 }
 
-noscript {
+noscript, #server_warning {
 	margin: 40px;
 	background-color: #FFFAAD;
 }
