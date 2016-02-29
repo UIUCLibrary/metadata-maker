@@ -98,16 +98,16 @@ input[type="number"] {
 #title-block {
 	padding: 3px;
 	width: 350px;
-	height: 62px;
+	height: 64px;
 }
 
 #subtitle-block {
 	padding: 3px;
 	width: 350px;
-	position: absolute;
-	left: 474px;
-	top: 106px;
-	/*margin-bottom: -68px;*/
+	position: relative;
+	left: 406px;
+	top: -70px;
+	margin-bottom: -70px;
 	margin-right: 1px;
 }
 
