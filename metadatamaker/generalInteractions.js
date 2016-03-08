@@ -76,6 +76,78 @@ $(document).keyup(function(e) {
 	}
 });
 
+function buildVersionLinkURL(version) {
+	current_url = window.location.href;
+
+	if ($('#version_name').attr('value') == 'monographs') {
+		new_url = current_url + version;
+	}
+	else {
+		last_slash = current_url.lastIndexOf('/');
+		new_url = current_url.substring(0,last_slash);
+		last_slash = new_url.lastIndexOf('/');
+		new_url = new_url.substring(0,last_slash + 1);
+		if (version != 'monographs') {
+			new_url += version;
+		}
+	}
+
+	return new_url
+}
+
+function buildVersionMenu() {
+	choices = {
+		dataset: 'Data Sets',
+		ebooks: 'E-Books',
+		govdocs: 'Government Documents',
+		monographs: 'Monographs',
+		theses: 'Theses & Dissertations'
+	};
+
+	choices_html = '<ul>';
+	for (var c in choices) {
+		if (c != $('#version_name').attr('value')) {
+			choices_html += '<a href="' + buildVersionLinkURL(c) + '" class="dropdown">';
+		}
+
+		choices_html += '<li id="' + c + '"';
+
+		if (c == $('#version_name').attr('value')) {
+			choices_html += ' class="current_version"';
+		}
+
+		choices_html += '>' + choices[c];
+
+		if (c == $('#version_name').attr('value')) {
+			choices_html += '<span style="float:right;">&#10003;</span>';
+		}
+
+		choices_html += '</li>';
+
+		if (c != $('#version_name').attr('value')) {
+			choices_html += '</a>';
+		}
+	}
+	choices_html += '</ul>';
+
+	return choices_html;
+}
+
+function toggleVersionMenu() {
+	if (document.getElementById("version-menu")) {
+		$("#version-menu").remove();
+		$('#arrow').removeClass('upsidedown');
+		$('#arrow').attr('src','arrow2.svg');
+	}
+	else {
+		var newdiv = document.createElement('div');
+		newdiv.setAttribute('id','version-menu');
+		newdiv.innerHTML = buildVersionMenu();
+		$("#version_title").append(newdiv);
+		$('#arrow').attr('src','arrow1.svg');
+	}
+}
+
 /*
  * Inserts selected character at the end of the associated input, not where the cursor is
  *	field: The input field the diacritics menu is linked to
