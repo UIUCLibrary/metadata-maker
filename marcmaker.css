@@ -36,6 +36,10 @@ body {
 	margin-bottom: 0px;
 }
 
+#insert {
+	float: left;
+}
+
 #version_title {
 	position: absolute;
 	top: 50%;
