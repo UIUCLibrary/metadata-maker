@@ -234,7 +234,7 @@ function addCorporate() {
 		newdiv.setAttribute('id','corporate_name' + cCounter + '-block');
 		newdiv.innerHTML = '<label for="corporate_name' + cCounter + '" class="insert insert_corporate" onClick=\'insertMenu("corporate_name' + cCounter + '");\'>Insert Diacritics</label><br>';
 		newdiv.innerHTML += '<div id="insert-corporate_name' + cCounter + '" class="additional_corporate_menu"></div>';
-		newdiv.innerHTML += '<span class="added-corporate"><input type="text" class="corporate translit-listen" id="corporate_name' + cCounter + '"> <select name="role' + cCounter + '" id="corporate_role'  + cCounter + '"><option value="cre">creator</option><option selected value="ctb">contributor</option></select></span>';
+		newdiv.innerHTML += '<span class="added-corporate"><input type="text" class="corporate translit-listen" id="corporate_name' + cCounter + '"> <select name="role' + cCounter + '" id="corporate_role'  + cCounter + '"><option selected value="cre">creator</option><option value="ctb">contributor</option></select></span>';
 		$("#corporate-block").append(newdiv);
 		/*var translit_div = document.createElement('div');
 		translit_div.className = 'translit-family_name' + aCounter + '-block translit-block translit-author hidden';
