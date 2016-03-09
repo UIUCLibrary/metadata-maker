@@ -134,16 +134,12 @@ function buildVersionMenu() {
 }
 
 function toggleVersionMenu() {
-	if (document.getElementById("version-menu")) {
-		$("#version-menu").remove();
-		$('#arrow').removeClass('upsidedown');
+	if (!$('#version_menu').hasClass('hidden')) {
+		$('#version_menu').addClass('hidden')
 		$('#arrow').attr('src','arrow2.svg');
 	}
 	else {
-		var newdiv = document.createElement('div');
-		newdiv.setAttribute('id','version-menu');
-		newdiv.innerHTML = buildVersionMenu();
-		$("#version_title").append(newdiv);
+		$('#version_menu').removeClass('hidden');
 		$('#arrow').attr('src','arrow1.svg');
 	}
 }

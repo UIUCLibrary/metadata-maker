@@ -26,10 +26,40 @@
 				Metadata Maker for
 			</div>
 			<div id="version_selector" onClick="toggleVersionMenu()">
-				<div id="version_name" value="monographs">
-					Monographs
+				<div id="version_name" value="govdocs">
+					Government Documents
 				</div>
 				<img src="arrow2.svg" id="arrow">
+				<div id="version_menu" class="hidden">
+					<ul id="version_menu_content">
+						<a class="dropdown" href="http://iisdev1.library.illinois.edu/marcmaker/dataset/">
+							<li id="dataset">
+								Data Sets
+							</li>
+						</a>
+						<a class="dropdown" href="http://iisdev1.library.illinois.edu/marcmaker/ebooks/">
+							<li id="ebooks">
+								E-Books
+							</li>
+						</a>
+						<a class="dropdown" onClick="return false;" href="http://iisdev1.library.illinois.edu/marcmaker/">
+							<li id="govdocs" class="current_version">
+								Government Documents
+								<span id="checkmark">&#10003;</span>
+							</li>
+						</a>
+						<a class="dropdown" href="http://iisdev1.library.illinois.edu/marcmaker/">
+							<li id="monographs">
+								Monographs
+							</li>
+						</a>
+						<a class="dropdown" href="http://iisdev1.library.illinois.edu/marcmaker/theses/">
+							<li id="theses">
+								Theses & Dissertations
+							</li>
+						</a>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
