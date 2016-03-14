@@ -133,6 +133,17 @@ function buildVersionMenu() {
 	return choices_html;
 }
 
+function toggleInsertMenu() {
+	if (!$('#version_menu').hasClass('hidden')) {
+		$('#version_menu').addClass('hidden')
+		$('#insert_arrow').attr('src','arrow2.svg');
+	}
+	else {
+		$('#version_menu').removeClass('hidden');
+		$('#insert_arrow').attr('src','arrow1.svg');
+	}
+}
+
 function toggleVersionMenu() {
 	if (!$('#version_menu').hasClass('hidden')) {
 		$('#version_menu').addClass('hidden')
