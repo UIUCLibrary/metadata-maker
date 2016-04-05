@@ -34,6 +34,11 @@ body {
 	line-height: 26.3999996185303px;
 	margin-top: 0px;
 	margin-bottom: 0px;
+	min-width: 1190px;
+}
+
+#content {
+	margin-top: 75px;
 }
 
 #insert {
@@ -41,8 +46,8 @@ body {
 	float: left;
 	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	font-size: 20px;
-	padding-top: 12px;
-	padding-bottom: 12px;
+	padding-top: 11px;
+	padding-bottom: 11px;
 	padding-left: 12px;
 	padding-right: 12px;
 	cursor: pointer;
@@ -53,6 +58,54 @@ body {
 
 #insert:hover {
 	background-color: #E8E9EB;
+}
+
+#global-insert-menu {
+	position: absolute;
+	top: 50px;
+	left: 0px;
+	width: 100%;
+	background-color: white;
+	box-shadow: 1px 5px 8px rgba(102, 102, 102, 0.3);
+	z-index: -1;
+	border-top: 1px solid #E8E9EB;
+}
+
+#diacritics-buttons {
+	box-shadow: 1px 5px 8px rgba(102, 102, 102, 0.3);
+	z-index: 21;
+}
+
+.menu_line {
+	margin: auto;
+	width: 1223px;
+	background-color: #E8E9EB;
+}
+
+.top_normal {
+	margin-right: 1px;
+}
+
+.top_end {
+
+}
+
+.middle_normal {
+	margin-top: 1px;
+	margin-right: 1px;
+	margin-bottom: 1px;
+}
+
+.middle_end {
+
+}
+
+.bottom_normal {
+	margin-right: 1px;
+}
+
+.bottom_end {
+
 }
 
 #version_title {
@@ -120,7 +173,7 @@ body {
 /*	white-space:nowrap;*/
 	background-color: #ffffff;
 	text-align: left;
-	z-index: 21;
+	z-index: 22;
 	box-shadow: 1px 5px 8px rgba(102, 102, 102, 0.3);
 /*	margin-right: -275px;*/
 	display:inline-block;
@@ -176,14 +229,21 @@ li:hover {
 	position: absolute;
 }
 
-#warning_system {
-	padding-top: 50px;
+#warning_system, #server_warning {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	background-color: #FFFAAD;
+	padding: 10px;
+	border-left: 1px solid #fecc7e;
+	border-top: 1px solid #fecc7e;
+	z-index: 100;
 }
 
-noscript, #server_warning {
+/*noscript, #server_warning {
 	margin: 40px;
 	background-color: #FFFAAD;
-}
+}*/
 
 .question-mark {
 	font-family: Lato;
@@ -381,6 +441,24 @@ input[type="number"] {
 	left: 167px;
 	bottom: -2px;
 	z-index: 10;
+}
+
+.global_diacritics {
+	height: 35px;
+	width: 35px;
+	background-color: white;
+/*	border-top: solid black 0px;
+	border-left: solid black 0px;*/
+	border: 0px;
+	vertical-align: middle;
+	font-size: 16px;
+	line-height: 16px;
+	-moz-user-focus: ignore;
+	cursor: pointer;
+}
+
+.global_diacritics:hover {
+	background: #ededed;
 }
 
 .diacritics {

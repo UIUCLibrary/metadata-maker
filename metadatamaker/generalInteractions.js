@@ -1,3 +1,5 @@
+var lastfocus;
+
 /*
  * If there are non-Latin characters, show transliteration field
  * 	id: The HTML id of the input field that has lost focus (suggesting a change in content)
@@ -43,6 +45,11 @@ function toggleTranslit(id) {
 		$(".translit-" + id + "-block").css("padding","0px");
 	}
 }
+
+$("#marc-maker").on('blur','input[type=text]', function() {
+	lastfocus = $(this)[0].id;
+	console.log(lastfocus);
+});
 
 /*
  * If a listening field has been changed, send the id to the toggler.
@@ -133,17 +140,6 @@ function buildVersionMenu() {
 	return choices_html;
 }
 
-function toggleInsertMenu() {
-	if (!$('#version_menu').hasClass('hidden')) {
-		$('#version_menu').addClass('hidden')
-		$('#insert_arrow').attr('src','arrow2.svg');
-	}
-	else {
-		$('#version_menu').removeClass('hidden');
-		$('#insert_arrow').attr('src','arrow1.svg');
-	}
-}
-
 function toggleVersionMenu() {
 	if (!$('#version_menu').hasClass('hidden')) {
 		$('#version_menu').addClass('hidden')
@@ -166,6 +162,13 @@ function insertChar(field,insert_value,insert_at) {
 	$("#" + field).val(current_contents.substring(0,insert_at) + insert_value + current_contents.substring(insert_at));
 	$("#" + field).focus();
 	$("#insert-popup").remove();
+}
+
+function globalCharInsertion(insert_value) {
+	var current_contents = $("#" + lastfocus).val();
+	var insert_at = $("#" + lastfocus)[0].selectionStart;
+	$("#" + lastfocus).val(current_contents.substring(0,insert_at) + insert_value + current_contents.substring(insert_at));
+	$("#" + lastfocus).focus();
 }
 
 function findClosestFactors(list_length) {
@@ -237,6 +240,54 @@ function constructMenu(field,insert_at) {
 	return return_string;
 }
 
+function constructInsertFoldout() {
+	var unicodes = ['0301','04D5','04D4','0357','0351','0306','00A3','0310','0327','030A','0325','0302','005E','00A9','0111','0110','0366','0323','00B7','02DD','0324','FE22','FE23','0333','00DF','00F0','00D0','20AC','220E','0060','0300','030C','0313','0315','0328','00A1','00BF','0142','0141','007B','0321','FE20','FE21','0304','02B9','266D','266F','01A1','01A0','00F8','00D8','0153','0152','2117','00B1','0309','007D','0322','2113','01C2','2080','2081','2082','2083','2084','2085','2086','2087','2088','2089','208D','208B','00AE','208A','208E','0307','2070','00B9','00B2','00B3','2074','2075','2076','2077','2078','2079','207D','207B','207A','207E','00FE','00DE','0303','007E','0131','02BA','01B0','01AF','0308','0332','005F','032E'];
+//	var return_string = "	<div id='diacritics-buttons' style='width: " + dimensions['width'] * 35 + "px; margin-bottom: -" + dimensions['height'] * 35 + "px;'>\n";
+	var return_string = "";
+	for (var i = 0; i < unicodes.length; i++) {
+		var new_tag = "<button value='" + String.fromCharCode(parseInt(unicodes[i],16)) + "' id='" + unicodes[i] + "' class='global_diacritics' type='button'>&#x" + unicodes[i] + "</button>";
+		return_string += new_tag;
+	}
+
+	console.log(return_string);
+	return return_string;
+}
+
+function constructInsertMenu() {
+	var unicodes = ['0301','04D5','04D4','0357','0351','0306','00A3','0310','0327','030A','0325','0302','005E','00A9','0111','0110','0366','0323','00B7','02DD','0324','FE22','FE23','0333','00DF','00F0','00D0','20AC','220E','0060','0300','030C','0313','0315','0328','00A1','00BF','0142','0141','007B','0321','FE20','FE21','0304','02B9','266D','266F','01A1','01A0','00F8','00D8','0153','0152','2117','00B1','0309','007D','0322','2113','01C2','2080','2081','2082','2083','2084','2085','2086','2087','2088','2089','208D','208B','00AE','208A','208E','0307','2070','00B9','00B2','00B3','2074','2075','2076','2077','2078','2079','207D','207B','207A','207E','00FE','00DE','0303','007E','0131','02BA','01B0','01AF','0308','0332','005F','032E'];
+	var dimensions = findClosestFactors(unicodes.length);
+	var return_string = "	<div id='diacritics-buttons' style='width: " + dimensions['width'] * 35 + "px; margin-bottom: -" + dimensions['height'] * 35 + "px;'>\n";
+	for (var i = 0; i < unicodes.length; i++) {
+		var new_tag = "<button value='" + String.fromCharCode(parseInt(unicodes[i],16)) + "' id='" + unicodes[i] + "' class='diacritics ";
+
+		//These class tags are for the css so that it looks like there is a 1px black border around everything
+		if (Math.ceil(i/dimensions['width']) == dimensions['height'] && Math.floor(i/dimensions['width']) != Math.floor((i+1)/dimensions['width'])) {
+			new_tag += 'bottom-right';
+		}
+		else if (Math.ceil((i+1)/dimensions['width']) == dimensions['height']) {
+			new_tag += 'last-row';
+		}
+		else if (Math.floor(i/dimensions['width']) != Math.floor((i+1)/dimensions['width'])) {
+			new_tag += 'row-end';
+		}
+		else {
+			new_tag += 'normal-button';
+		}
+
+		new_tag += "' type='button'>&#x" + unicodes[i] + "</button>";
+
+		if (i%dimensions['width'] === dimensions['width'] - 1) {
+			new_tag += "<br>\n";
+		}
+
+		return_string += new_tag;
+	};
+	return_string += "	</div>";
+	return return_string;
+}
+
+/*$("#global-insert-menu").html(constructInsertFoldout());*/
+
 /*
  * Handles the reaction when Insert is clicked. If the menu is already displayed, this function will close it. If it
  *	is not displayed, this function will open it.
@@ -253,6 +304,23 @@ function insertMenu(field) {
 		newdiv.setAttribute('id','insert-popup');
 		newdiv.innerHTML = constructMenu(field,insert_at);
 		$("#insert-" + field).append(newdiv);
+	}
+}
+
+function toggleInsertMenu() {
+	if (typeof lastfocus != 'undefined') {
+		$("#" + lastfocus).focus();
+	}
+
+	if (!$('#global-insert-menu').hasClass('hidden')) {
+		$('#global-insert-menu').addClass('hidden');
+		$('#content').css('margin-top','75px');
+		$('#insert_arrow').attr('src','arrow2.svg');
+	}
+	else {
+		$('#global-insert-menu').removeClass('hidden');
+		$('#content').css('margin-top','183px');
+		$('#insert_arrow').attr('src','arrow1.svg');
 	}
 }
 
