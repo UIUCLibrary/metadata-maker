@@ -357,25 +357,43 @@ $("#institution_menu").submit(function(event) {
 	var lcno = $("#lcno").val();
 	var name = $("#org_name").val();
 
+	var current_url = window.location.href;
+	if (current_url.substring(current_url.length-1,current_url.length) != '?') {
+		var custom_string = '?';
+	}
+	else {
+		var custom_string = '';
+	}
+
 	if (checkExists(name)) {
 		$("#institution_name").html(name);
 	}
 
 	var ids = ['marc_code','physicalLocation','recordContentSource','lcno','org_name'];
 	var variables = [marc,physicalLocation,recordContentSource,lcno,name];
+	var url_variables = ['marc','physicalLocation','recordContentSource','lcn','n']
 
 	for (var index = 0; index < ids.length; index++) {
 		if (checkExists(variables[index])) {
 			$("#" + ids[index]).attr("placeholder",variables[index]);
 			$("#" + ids[index]).val('');
+			custom_string += '&' + url_variables[index] + '=' + variables[index];
+		}
+		else {
+			existing_content = get(url_variables[index]);
+			if (typeof(existing_content) !== 'undefined') {
+				custom_string += '&' + url_variables[index] + '=' + existing_content;
+			}
 		}
 	}
 
-	var current_url = window.location.href;
-	var custom_string = 'marc=' + marc + '&physicalLocation=' + physicalLocation + '&recordContentSource=' + recordContentSource + '&lcn=' + lcno + '&n=' + name;
+/*	var current_url = window.location.href;
+	var custom_string = ''
+
+	'marc=' + marc + '&physicalLocation=' + physicalLocation + '&recordContentSource=' + recordContentSource + '&lcn=' + lcno + '&n=' + name;
 	if (current_url.substring(current_url.length-1,current_url.length) != '?') {
 		custom_string = '?' + custom_string;
-	}
+	}*/
 	window.history.replaceState(null,null,custom_string);
 /*	$("#vanilla").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/" + custom_string + "')");
 	$("#theses").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/theses/" + custom_string + "')");
