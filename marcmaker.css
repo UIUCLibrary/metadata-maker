@@ -34,7 +34,7 @@ body {
 	line-height: 26.3999996185303px;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	min-width: 1190px;
+	min-width: 1239px;
 }
 
 #content {
@@ -71,11 +71,6 @@ body {
 	border-top: 1px solid #E8E9EB;
 }
 
-#diacritics-buttons {
-	box-shadow: 1px 5px 8px rgba(102, 102, 102, 0.3);
-	z-index: 21;
-}
-
 .menu_line {
 	margin: auto;
 	width: 1223px;
@@ -86,26 +81,110 @@ body {
 	margin-right: 1px;
 }
 
-.top_end {
-
-}
-
 .middle_normal {
 	margin-top: 1px;
 	margin-right: 1px;
 	margin-bottom: 1px;
 }
 
-.middle_end {
-
-}
-
 .bottom_normal {
 	margin-right: 1px;
 }
 
-.bottom_end {
+#institution {
+	position: relative;
+	float: right;
+	height: 40px;
+	width: 271px;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	font-size: 13px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 12px;
+	padding-right: 6px;
+	cursor: pointer;
 
+	-webkit-transition: background-color 0.2s; /* Safari */
+    transition: background-color 0.2s;
+}
+
+#institution:hover {
+	background-color: #E8E9EB;
+}
+
+#institution_content {
+	position: relative;
+	float: left;
+	width: 246px;
+}
+
+#institution_text, #institution_name {
+	text-align: right;
+	height: 20px;
+	line-height: 20px;
+}
+
+#institution_name {
+	color: #1D84F6;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#institution_menu {
+	border-top: 1px solid #E8E9EB;
+
+	position: fixed;
+	top: 50px;
+	right: 0%;
+	background-color: white;
+	padding: 15px;
+	z-index: 22;
+
+	box-shadow: 1px 5px 8px rgba(102, 102, 102, 0.3);
+}
+
+#institution_menu input[type="text"] {
+	width: 350px;
+	border: 1px;
+	border-style: solid;
+	border-color: #d1d1d1;
+	height: 22px;
+	padding: 3px;
+	font-size: 14px;
+	margin-bottom: 5px;
+
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+#institution_menu input[type="text"]:focus {
+	border-color: #1D84F6;
+}
+
+#submit_institution_info {
+	margin-left: 68px;
+	margin-right: 68px;
+	margin-top: 10px;
+	background-color:#1D84F6;
+	border:1px solid #1D84F6;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	font-size:17px;
+	padding:7px 40px;
+	padding-left: ;
+	text-decoration:none;
+}
+
+#submit_institution_info:hover {
+	color:#d1d1d1;
+}
+
+#submit_institution_info:active {
+	color:#000000;
 }
 
 #version_title {
@@ -159,6 +238,16 @@ body {
 	width: 13px;
 	position: relative;
 	padding-top: 9px;
+}
+
+#institution_arrow {
+	float: right;
+	height: 13px;
+	width: 13px;
+	position: relative;
+	padding-top: 15px;
+	padding-left: 6px;
+	padding-right: 6px;
 }
 
 #version_menu {

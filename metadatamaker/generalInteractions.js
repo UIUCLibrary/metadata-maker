@@ -1,6 +1,21 @@
 var lastfocus;
 
 /*
+ * Check that an optional field has been input
+ *	attr: the field being checked
+ *
+ *	Return true if the field contains valid content, otherwise return false.
+ */
+function checkExists(attr) {
+	if (typeof(attr) !== "undefined" && attr !== '' && attr !== null) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+/*
  * If there are non-Latin characters, show transliteration field
  * 	id: The HTML id of the input field that has lost focus (suggesting a change in content)
  *
@@ -324,6 +339,52 @@ function toggleInsertMenu() {
 	}
 }
 
+function toggleInstitutionMenu() {
+	if (!$('#institution_menu').hasClass('hidden')) {
+		$('#institution_menu').addClass('hidden');
+		$('#institution_arrow').attr('src','arrow2.svg');
+	}
+	else {
+		$('#institution_menu').removeClass('hidden');
+		$('#institution_arrow').attr('src','arrow1.svg');
+	}
+}
+
+$("#institution_menu").submit(function(event) {
+	var marc = $("#marc_code").val();
+	var physicalLocation = $("#physicalLocation").val();
+	var recordContentSource = $("#recordContentSource").val();
+	var lcno = $("#lcno").val();
+	var name = $("#org_name").val();
+
+	if (checkExists(name)) {
+		$("#institution_name").html(name);
+	}
+
+	var ids = ['marc_code','physicalLocation','recordContentSource','lcno','org_name'];
+	var variables = [marc,physicalLocation,recordContentSource,lcno,name];
+
+	for (var index = 0; index < ids.length; index++) {
+		if (checkExists(variables[index])) {
+			$("#" + ids[index]).attr("placeholder",variables[index]);
+			$("#" + ids[index]).val('');
+		}
+	}
+
+	var current_url = window.location.href;
+	var custom_string = 'marc=' + marc + '&physicalLocation=' + physicalLocation + '&recordContentSource=' + recordContentSource + '&lcn=' + lcno + '&n=' + name;
+	if (current_url.substring(current_url.length-1,current_url.length) != '?') {
+		custom_string = '?' + custom_string;
+	}
+	window.history.replaceState(null,null,custom_string);
+/*	$("#vanilla").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/" + custom_string + "')");
+	$("#theses").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/theses/" + custom_string + "')");
+	$("#dataset").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/dataset/" + custom_string + "')");
+	$("#govdocs").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/govdocs/" + custom_string + "')");*/
+
+	event.preventDefault();
+});
+
 /*
  * When one of the author fields has been filled in, the other is no longer required
  */
@@ -446,21 +507,6 @@ $("input:radio[name=literature]").click(function() {
 		$("#literature-dropdown").hide();
 	}
 });
-
-/*
- * Check that an optional field has been input
- *	attr: the field being checked
- *
- *	Return true if the field contains valid content, otherwise return false.
- */
-function checkExists(attr) {
-	if (typeof(attr) !== "undefined" && attr !== '' && attr !== null) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
 
 /*
  * Once specific processing for a format has been done, create, and then download the resulting record
