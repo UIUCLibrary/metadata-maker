@@ -61,11 +61,6 @@ function toggleTranslit(id) {
 	}
 }
 
-$("#marc-maker").on('blur','input[type=text]', function() {
-	lastfocus = $(this)[0].id;
-	console.log(lastfocus);
-});
-
 /*
  * If a listening field has been changed, send the id to the toggler.
  */
@@ -98,74 +93,6 @@ $(document).keyup(function(e) {
 	}
 });
 
-function buildVersionLinkURL(version) {
-	current_url = window.location.href;
-
-	if ($('#version_name').attr('value') == 'monographs') {
-		new_url = current_url + version;
-	}
-	else {
-		last_slash = current_url.lastIndexOf('/');
-		new_url = current_url.substring(0,last_slash);
-		last_slash = new_url.lastIndexOf('/');
-		new_url = new_url.substring(0,last_slash + 1);
-		if (version != 'monographs') {
-			new_url += version;
-		}
-	}
-
-	return new_url
-}
-
-function buildVersionMenu() {
-	choices = {
-		dataset: 'Data Sets',
-		ebooks: 'E-Books',
-		govdocs: 'Government Documents',
-		monographs: 'Monographs',
-		theses: 'Theses & Dissertations'
-	};
-
-	choices_html = '<ul>';
-	for (var c in choices) {
-		if (c != $('#version_name').attr('value')) {
-			choices_html += '<a href="' + buildVersionLinkURL(c) + '" class="dropdown">';
-		}
-
-		choices_html += '<li id="' + c + '"';
-
-		if (c == $('#version_name').attr('value')) {
-			choices_html += ' class="current_version"';
-		}
-
-		choices_html += '>' + choices[c];
-
-		if (c == $('#version_name').attr('value')) {
-			choices_html += '<span style="float:right;">&#10003;</span>';
-		}
-
-		choices_html += '</li>';
-
-		if (c != $('#version_name').attr('value')) {
-			choices_html += '</a>';
-		}
-	}
-	choices_html += '</ul>';
-
-	return choices_html;
-}
-
-function toggleVersionMenu() {
-	if (!$('#version_menu').hasClass('hidden')) {
-		$('#version_menu').addClass('hidden')
-		$('#arrow').attr('src','arrow2.svg');
-	}
-	else {
-		$('#version_menu').removeClass('hidden');
-		$('#arrow').attr('src','arrow1.svg');
-	}
-}
-
 /*
  * Inserts selected character at the end of the associated input, not where the cursor is
  *	field: The input field the diacritics menu is linked to
@@ -177,13 +104,6 @@ function insertChar(field,insert_value,insert_at) {
 	$("#" + field).val(current_contents.substring(0,insert_at) + insert_value + current_contents.substring(insert_at));
 	$("#" + field).focus();
 	$("#insert-popup").remove();
-}
-
-function globalCharInsertion(insert_value) {
-	var current_contents = $("#" + lastfocus).val();
-	var insert_at = $("#" + lastfocus)[0].selectionStart;
-	$("#" + lastfocus).val(current_contents.substring(0,insert_at) + insert_value + current_contents.substring(insert_at));
-	$("#" + lastfocus).focus();
 }
 
 function findClosestFactors(list_length) {
@@ -321,87 +241,6 @@ function insertMenu(field) {
 		$("#insert-" + field).append(newdiv);
 	}
 }
-
-function toggleInsertMenu() {
-	if (typeof lastfocus != 'undefined') {
-		$("#" + lastfocus).focus();
-	}
-
-	if (!$('#global-insert-menu').hasClass('hidden')) {
-		$('#global-insert-menu').addClass('hidden');
-		$('#content').css('margin-top','75px');
-		$('#insert_arrow').attr('src','arrow2.svg');
-	}
-	else {
-		$('#global-insert-menu').removeClass('hidden');
-		$('#content').css('margin-top','183px');
-		$('#insert_arrow').attr('src','arrow1.svg');
-	}
-}
-
-function toggleInstitutionMenu() {
-	if (!$('#institution_menu').hasClass('hidden')) {
-		$('#institution_menu').addClass('hidden');
-		$('#institution_arrow').attr('src','arrow2.svg');
-	}
-	else {
-		$('#institution_menu').removeClass('hidden');
-		$('#institution_arrow').attr('src','arrow1.svg');
-	}
-}
-
-$("#institution_menu").submit(function(event) {
-	var marc = $("#marc_code").val();
-	var physicalLocation = $("#physicalLocation").val();
-	var recordContentSource = $("#recordContentSource").val();
-	var lcno = $("#lcno").val();
-	var name = $("#org_name").val();
-
-	var current_url = window.location.href;
-	if (current_url.substring(current_url.length-1,current_url.length) != '?') {
-		var custom_string = '?';
-	}
-	else {
-		var custom_string = '';
-	}
-
-	if (checkExists(name)) {
-		$("#institution_name").html(name);
-	}
-
-	var ids = ['marc_code','physicalLocation','recordContentSource','lcno','org_name'];
-	var variables = [marc,physicalLocation,recordContentSource,lcno,name];
-	var url_variables = ['marc','physicalLocation','recordContentSource','lcn','n']
-
-	for (var index = 0; index < ids.length; index++) {
-		if (checkExists(variables[index])) {
-			$("#" + ids[index]).attr("placeholder",variables[index]);
-			$("#" + ids[index]).val('');
-			custom_string += '&' + url_variables[index] + '=' + variables[index];
-		}
-		else {
-			existing_content = get(url_variables[index]);
-			if (typeof(existing_content) !== 'undefined') {
-				custom_string += '&' + url_variables[index] + '=' + existing_content;
-			}
-		}
-	}
-
-/*	var current_url = window.location.href;
-	var custom_string = ''
-
-	'marc=' + marc + '&physicalLocation=' + physicalLocation + '&recordContentSource=' + recordContentSource + '&lcn=' + lcno + '&n=' + name;
-	if (current_url.substring(current_url.length-1,current_url.length) != '?') {
-		custom_string = '?' + custom_string;
-	}*/
-	window.history.replaceState(null,null,custom_string);
-/*	$("#vanilla").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/" + custom_string + "')");
-	$("#theses").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/theses/" + custom_string + "')");
-	$("#dataset").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/dataset/" + custom_string + "')");
-	$("#govdocs").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/govdocs/" + custom_string + "')");*/
-
-	event.preventDefault();
-});
 
 /*
  * When one of the author fields has been filled in, the other is no longer required
