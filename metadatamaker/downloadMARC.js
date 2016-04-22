@@ -240,7 +240,7 @@ function fillTitle(record,head,fieldFunc,subfieldFunc) {
 }
 
 function fillPublication(record,head,fieldFunc,subfieldFunc) {
-	var subfields = [subfieldFunc('a','Urbana, Ill. :'),subfieldFunc('b','University of Illinois at Urbana-Champaign,'),subfieldFunc('c',record.publication_year)];
+	var subfields = [subfieldFunc('a','Urbana, Ill. :'),subfieldFunc('b','University of Illinois at Urbana-Champaign,'),subfieldFunc('c',record.publication_year + '.')];
 	var pub = fieldFunc('264',' ','1',subfields);
 
 	//MARC
@@ -351,7 +351,7 @@ function fillBibliography(record,head,fieldFunc,subfieldFunc) {
 	}
 	full_string += ' ' + record.bibliographies;
 
-	var bib = fieldFunc('504',' ',' ',subfieldFunc('a','Includes bibliographical references (' + full_string + ')'));
+	var bib = fieldFunc('504',' ',' ',subfieldFunc('a','Includes bibliographical references (' + full_string + ').'));
 
 	//MARC
 	if (head != null) {
@@ -395,7 +395,7 @@ function downloadMARC(record) {
 	var controlfield008_directory = createDirectory('008',controlfield008_content,head);
 	head += controlfield008_content.length;
 
-	var cataloging_source_content = createContent('  ',[createSubfield('a','uiu'),createSubfield('e','rda'),createSubfield('c','uiu')]);
+	var cataloging_source_content = createContent('  ',[createSubfield('a','UIU'),createSubfield('b','eng'),createSubfield('e','rda'),createSubfield('c','UIU')]);
 	var cataloging_source_directory = createDirectory('040',cataloging_source_content,head)
 	head += cataloging_source_content.length
 
@@ -450,7 +450,7 @@ function downloadXML(record) {
 	var controlfield008 = create008Field(record);
 	controlfield008 = '  <controlfield tag="008">' + controlfield008 + '</controlfield>\n';
 
-	var cataloging_source = createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a','uiu'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c','uiu')]);
+	var cataloging_source = createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a','UIU'),createMARCXMLSubfield('b','eng'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c','UIU')]);
 
 	var title = fillTitle(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var author = fillAuthor(record,null,createMARCXMLField,createMARCXMLSubfield);
