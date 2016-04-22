@@ -366,3 +366,50 @@ function getTimestamp() {
 	date = date.toISOString();
 	return date.substring(0,4) + date.substring(5,7) + date.substring(8,10) + date.substring(11,13) + date.substring(14,16) + date.substring(17,21);
 }
+
+/*
+ * If the institution info has already been set by the url, use that information to replace the default values.
+ */
+$(document).ready(function() {
+	if (typeof get('version') !== 'undefined') {
+
+	}
+	else {
+
+	}
+/*	var hash = location.hash.replace('#','');
+
+	if (hash != '') {
+		$('.version').addClass('hidden');
+		$('#' + hash).removeClass('hidden');
+	}
+	else {
+		$('.version').addClass('hidden');
+		$('#monographs').removeClass('hidden');
+	}*/
+
+/*	if (typeof get('marc') !== 'undefined') {
+		$('#marc_code').attr('placeholder',get('marc'));
+	}
+
+	if (typeof get('physicalLocation') !== 'undefined') {
+		$('#physicalLocation').attr('placeholder',get('physicalLocation'));
+	}
+
+	if (typeof get('recordContentSource') !== 'undefined') {
+		$('#recordContentSource').attr('placeholder',get('recordContentSource'));
+	}
+
+	if (typeof get('lcn') !== 'undefined') {
+		$('#lcno').attr('placeholder',get('lcn'));
+	}
+
+	if (typeof get('n') !== 'undefined') {
+		$('#org_name').attr('placeholder',get('n'));
+		$('#institution_name').html(get('n'));
+	}
+	else {
+		$('#org_name').attr('placeholder','University of Illinois at Urbana-Champaign');
+		$('#institution_name').html('University of Illinois at Urbana-Champaign');
+	}*/
+});

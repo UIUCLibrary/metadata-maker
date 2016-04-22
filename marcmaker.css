@@ -95,6 +95,15 @@ input[type="number"] {
 	left: 25px;
 }
 
+.translit-corporate_name-block {
+	position: relative;
+	left: 25px;
+}
+
+.insert_translit_corporate_name {
+	left: -140px;
+}
+
 #title-block {
 	padding: 3px;
 	width: 350px;
@@ -124,9 +133,25 @@ input[type="number"] {
 	margin-bottom: -46px;
 }
 
+#names_title {
+	padding: 3px;
+}
+
+/*This will have to be changed in JavaScript depending on what the version is. Sometimes it will look
+	like corporate-block*/
 #author-block {
 	padding: 3px;
 	width: 700px;
+}
+
+#corporate-block {
+	padding: 6px;
+	padding-left: 36px;
+	width: 400px;
+}
+
+.insert_corporate_name {
+	left: -146px;
 }
 
 #publication-block {
@@ -212,6 +237,11 @@ input[type="number"] {
 	bottom: 10px;
 }
 
+.additional_corporate_menu {
+	position: relative;
+	bottom: 3px;
+}
+
 #insert-popup {
 	position: relative;
 	left: 167px;
@@ -254,9 +284,13 @@ input[type="number"] {
 	border: solid black 1px;
 }
 
-.added {
+.added, .added_corporate {
 	padding-top: 6px;
 	padding-bottom: 6px;
+}
+
+.added_corporate {
+	margin-top: -7px;
 }
 
 .added-keyword {
