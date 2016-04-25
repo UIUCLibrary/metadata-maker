@@ -305,7 +305,7 @@ function fillPhysical(record,head,fieldFunc,subfieldFunc) {
 	}
 
 	var subfields = []
-	subfields.push(subfieldFunc('a',pages_string + '. ;'));
+	subfields.push(subfieldFunc('a',pages_string + ' ;'));
 	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
 		subfields.push(subfieldFunc('b','illustrations ;'));
 	}
