@@ -17,6 +17,7 @@
 	<link href="marcmaker.css" rel="stylesheet" media="screen">
 
 	<script src="analytics.js"></script>
+	<script src="metadatamaker/bisg.js"></script>
 </head>
 
 <body onload="setUpPage(0)">
@@ -1008,66 +1009,75 @@
 		</div>
 
 		<div id="subject_headings">
-			<label for="root-subject">BISG Subject Heading</label><br>
-			<select id="root-subject">
-				<option selected value=''></option>
-				<option value="ANTIQUES & COLLECTIBLES">ANTIQUES & COLLECTIBLES</option>
-				<option value="ARCHITECTURE">ARCHITECTURE</option>
-				<option value="ART">ART</option>
-				<option value="BIBLES">BIBLES</option>
-				<option value="BIOGRAPHY & AUTOBIOGRAPHY">BIOGRAPHY & AUTOBIOGRAPHY</option>
-				<option value="BODY, MIND & SPIRIT">BODY, MIND & SPIRIT</option>
-				<option value="BUSINESS & ECONOMICS">BUSINESS & ECONOMICS</option>
-				<option value="COMICS & GRAPHIC NOVELS">COMICS & GRAPHIC NOVELS</option>
-				<option value="COMPUTERS">COMPUTERS</option>
-				<option value="COOKING">COOKING</option>
-				<option value="CRAFTS & HOBBIES">CRAFTS & HOBBIES</option>
-				<option value="DESIGN">DESIGN</option>
-				<option value="DRAMA">DRAMA</option>
-				<option value="EDUCATION">EDUCATION</option>
-				<option value="FAMILY & RELATIONSHIPS">FAMILY & RELATIONSHIPS</option>
-				<option value="FICTION">FICTION</option>
-				<option value="FOREIGN LANGUAGE STUDY">FOREIGN LANGUAGE STUDY</option>
-				<option value="GAMES">GAMES</option>
-				<option value="GARDENING">GARDENING</option>
-				<option value="HEALTH & FITNESS">HEALTH & FITNESS</option>
-				<option value="HISTORY">HISTORY</option>
-				<option value="HOUSE & HOME">HOUSE & HOME</option>
-				<option value="HUMOR">HUMOR</option>
-				<option value="JUVENILE FICTION">JUVENILE FICTION</option>
-				<option value="JUVENILE NONFICTION">JUVENILE NONFICTION</option>
-				<option value="LANGUAGE ARTS & DISCIPLINES">LANGUAGE ARTS & DISCIPLINES</option>
-				<option value="LAW">LAW</option>
-				<option value="LITERARY COLLECTIONS">LITERARY COLLECTIONS</option>
-				<option value="LITERARY CRITICISM">LITERARY CRITICISM</option>
-				<option value="MATHEMATICS">MATHEMATICS</option>
-				<option value="MEDICAL">MEDICAL</option>
-				<option value="MUSIC">MUSIC</option>
-				<option value="NATURE">NATURE</option>
-				<option value="PERFORMING ARTS">PERFORMING ARTS</option>
-				<option value="PETS">PETS</option>
-				<option value="PHILOSOPHY">PHILOSOPHY</option>
-				<option value="PHOTOGRAPHY">PHOTOGRAPHY</option>
-				<option value="POETRY">POETRY</option>
-				<option value="POLITICAL SCIENCE">POLITICAL SCIENCE</option>
-				<option value="PSYCHOLOGY">PSYCHOLOGY</option>
-				<option value="REFERENCE">REFERENCE</option>
-				<option value="RELIGION">RELIGION</option>
-				<option value="SCIENCE">SCIENCE</option>
-				<option value="SELF-HELP">SELF-HELP</option>
-				<option value="SOCIAL SCIENCE">SOCIAL SCIENCE</option>
-				<option value="SPORTS & RECREATION">SPORTS & RECREATION</option>
-				<option value="STUDY AIDS">STUDY AIDS</option>
-				<option value="TECHNOLOGY & ENGINEERING">TECHNOLOGY & ENGINEERING</option>
-				<option value="TRANSPORTATION">TRANSPORTATION</option>
-				<option value="TRAVEL">TRAVEL</option>
-				<option value="TRUE CRIME">TRUE CRIME</option>
-				<option value="YOUNG ADULT FICTION">YOUNG ADULT FICTION</option>
-				<option value="YOUNG ADULT NONFICTION">YOUNG ADULT NONFICTION</option>
-			</select>
-			<select id="leaf-subject">
-				<option selected value=''></option>
-			</select>
+			<label for="root-subject0" class="heading">BISG Subject Heading</label> <input type="button" value="+" id="add-subject" onclick="addSubject();"><br>
+			<div id="subject0-block">
+				<div id="selection_id0"></div>
+				<select id="root-subject0" class="root-subject">
+					<option selected value=""></option>
+					<option>ANTIQUES & COLLECTIBLES</option>
+					<option>ARCHITECTURE</option>
+					<option>ART</option>
+					<option>BIBLES</option>
+					<option>BIOGRAPHY & AUTOBIOGRAPHY</option>
+					<option>BODY, MIND & SPIRIT</option>
+					<option>BUSINESS & ECONOMICS</option>
+					<option>COMICS & GRAPHIC NOVELS</option>
+					<option>COMPUTERS</option>
+					<option>COOKING</option>
+					<option>CRAFTS & HOBBIES</option>
+					<option>DESIGN</option>
+					<option>DRAMA</option>
+					<option>EDUCATION</option>
+					<option>FAMILY & RELATIONSHIPS</option>
+					<option>FICTION</option>
+					<option>FOREIGN LANGUAGE STUDY</option>
+					<option>GAMES</option>
+					<option>GARDENING</option>
+					<option>HEALTH & FITNESS</option>
+					<option>HISTORY</option>
+					<option>HOUSE & HOME</option>
+					<option>HUMOR</option>
+					<option>JUVENILE FICTION</option>
+					<option>JUVENILE NONFICTION</option>
+					<option>LANGUAGE ARTS & DISCIPLINES</option>
+					<option>LAW</option>
+					<option>LITERARY COLLECTIONS</option>
+					<option>LITERARY CRITICISM</option>
+					<option>MATHEMATICS</option>
+					<option>MEDICAL</option>
+					<option>MUSIC</option>
+					<option>NATURE</option>
+					<option>PERFORMING ARTS</option>
+					<option>PETS</option>
+					<option>PHILOSOPHY</option>
+					<option>PHOTOGRAPHY</option>
+					<option>POETRY</option>
+					<option>POLITICAL SCIENCE</option>
+					<option>PSYCHOLOGY</option>
+					<option>REFERENCE</option>
+					<option>RELIGION</option>
+					<option>SCIENCE</option>
+					<option>SELF-HELP</option>
+					<option>SOCIAL SCIENCE</option>
+					<option>SPORTS & RECREATION</option>
+					<option>STUDY AIDS</option>
+					<option>TECHNOLOGY & ENGINEERING</option>
+					<option>TRANSPORTATION</option>
+					<option>TRAVEL</option>
+					<option>TRUE CRIME</option>
+					<option>YOUNG ADULT FICTION</option>
+					<option>YOUNG ADULT NONFICTION</option>
+				</select>
+<!--			<select id="level1-subject0" class="level1-subject hidden">
+
+				</select><br>
+				<select id="level2-subject0" class="level2-subject hidden">
+
+				</select><br>
+				<select id="level3-subject0" class="level3-subject hidden">
+
+				</select><br>-->
+			</div>
 		</div>
 
 		<div id="keywords" class="standard-block">
