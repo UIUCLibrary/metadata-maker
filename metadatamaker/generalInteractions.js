@@ -431,7 +431,7 @@ var subjectIDs = {};
 function setSubject(path,root,block_number) {
 	progression = ['root-subject','level1-subject','level2-subject','level3-subject']
 
-	if (path[0] !== path[0].toUpperCase() || path[0] == 'LGBT') {
+	if (path[0] !== path[0].toUpperCase() || path[0] == 'LGBT' || path[0] == 'AIDS & HIV') {
 		path.unshift(root)
 	}
 	console.log(path)

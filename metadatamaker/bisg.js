@@ -17835,7 +17835,7 @@ function getBISG() {
 					"see also": [
 						[
 							"BODY, MIND & SPIRIT",
-							"Witchcraft)",
+							"Witchcraft",
 							"",
 							"",
 							""
