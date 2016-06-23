@@ -131,12 +131,14 @@ $("#marc-maker").submit(function(event) {
 		new_subject['root'] = $("#root-subject" + i + " option:selected").text();
 		if ($("#level1-subject" + i + " option:selected").length > 0) {
 			new_subject['level1'] = $("#level1-subject" + i + " option:selected").text();
-		}
-		if ($("#level2-subject" + i + " option:selected").length > 0) {
-			new_subject['level2'] = $("#level2-subject" + i + " option:selected").text();
-		}
-		if ($("#level3-subject" + i + " option:selected").length > 0) {
-			new_subject['level3'] = $("#level3-subject" + i + " option:selected").text();
+
+			if ($("#level2-subject" + i + " option:selected").length > 0) {
+				new_subject['level2'] = $("#level2-subject" + i + " option:selected").text();
+
+				if ($("#level3-subject" + i + " option:selected").length > 0) {
+					new_subject['level3'] = $("#level3-subject" + i + " option:selected").text();
+				}
+			}
 		}
 
 		if (typeof attr !== typeof undefined && attr !== false) {
