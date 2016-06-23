@@ -310,6 +310,7 @@ $("#subject_headings").on('change','.root-subject',function() {
 		$('#verification' + bloc_number).html('Invalid Subject Heading <span style="color: red;">&#x2717;</span>');
 		$("#verification" + bloc_number).removeClass('verified');
 		$("#verification" + bloc_number).addClass('unverified');
+		$("#verification" + bloc_number).removeAttr('value');
 		$("#subject" + bloc_number + "-block").removeClass('valid');
 	}
 
@@ -350,12 +351,14 @@ $("#subject_headings").on('change','.level1-subject',function() {
 		$('#verification' + bloc_number).html('Valid Subject Heading <span style="color: #1D84F6;">&#x2713;</span>');
 		$("#verification" + bloc_number).removeClass('unverified');
 		$("#verification" + bloc_number).addClass('verified');
+		$("#verification" + bloc_number).attr('value',$("#level1-subject" + bloc_number + " option:selected").attr('value'));
 		$("#subject" + bloc_number + "-block").addClass('valid');
 	}
 	else {
 		$('#verification' + bloc_number).html('Invalid Subject Heading <span style="color: red;">&#x2717;</span>');
 		$("#verification" + bloc_number).removeClass('verified');
 		$("#verification" + bloc_number).addClass('unverified');
+		$("#verification" + bloc_number).removeAttr('value');
 		$("#subject" + bloc_number + "-block").removeClass('valid');
 	}
 
@@ -407,12 +410,14 @@ $("#subject_headings").on('change','.level2-subject',function() {
 		$('#verification' + bloc_number).html('Valid Subject Heading <span style="color: #1D84F6;">&#x2713;</span>');
 		$("#verification" + bloc_number).removeClass('unverified');
 		$("#verification" + bloc_number).addClass('verified');
+		$("#verification" + bloc_number).attr('value',$("#level2-subject" + bloc_number + " option:selected").attr('value'));
 		$("#subject" + bloc_number + "-block").addClass('valid');
 	}
 	else {
 		$('#verification' + bloc_number).html('Invalid Subject Heading <span style="color: red;">&#x2717;</span>');
 		$("#verification" + bloc_number).removeClass('verified');
 		$("#verification" + bloc_number).addClass('unverified');
+		$("#verification" + bloc_number).removeAttr('value');
 		$("#subject" + bloc_number + "-block").removeClass('valid');
 	}
 
@@ -458,12 +463,14 @@ $("#subject_headings").on('change','.level3-subject',function() {
 		$('#verification' + bloc_number).html('Valid Subject Heading <span style="color: #1D84F6;">&#x2713;</span>');
 		$("#verification" + bloc_number).removeClass('unverified');
 		$("#verification" + bloc_number).addClass('verified');
+		$("#verification" + bloc_number).attr('value',$("#level3-subject" + bloc_number + " option:selected").attr('value'));
 		$("#subject" + bloc_number + "-block").addClass('valid');
 	}
 	else {
 		$('#verification' + bloc_number).html('Invalid Subject Heading <span style="color: red;">&#x2717;</span>');
 		$("#verification" + bloc_number).removeClass('verified');
 		$("#verification" + bloc_number).addClass('unverified');
+		$("#verification" + bloc_number).removeAttr('value');
 		$("#subject" + bloc_number + "-block").removeClass('valid');
 	}
 

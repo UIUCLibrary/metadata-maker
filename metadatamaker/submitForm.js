@@ -122,6 +122,29 @@ $("#marc-maker").submit(function(event) {
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
 
+	var subject_list = []
+
+	for (var i = 0; i < sCounter; i++) {
+		var new_subject = {}
+		var attr = $("#verification" + i).attr('value');
+		new_subject['id_number'] = attr;
+		new_subject['root'] = $("#root-subject" + i + " option:selected").text();
+		if ($("#level1-subject" + i + " option:selected").length > 0) {
+			new_subject['level1'] = $("#level1-subject" + i + " option:selected").text();
+		}
+		if ($("#level2-subject" + i + " option:selected").length > 0) {
+			new_subject['level2'] = $("#level2-subject" + i + " option:selected").text();
+		}
+		if ($("#level3-subject" + i + " option:selected").length > 0) {
+			new_subject['level3'] = $("#level3-subject" + i + " option:selected").text();
+		}
+
+		if (typeof attr !== typeof undefined && attr !== false) {
+			subject_list.push(new_subject)
+		}
+	}
+	console.log(subject_list);
+
 	var recordObject = {
 		title: [
 			{
@@ -153,7 +176,8 @@ $("#marc-maker").submit(function(event) {
 		notes: $("#notes").val(),
 		keywords: words,
 		fast: fast_array,
-		additional_authors: complete_names_list
+		additional_authors: complete_names_list,
+		subjects: subject_list
 	};
 
 	var institution_info = generateInstitutionInfo();
