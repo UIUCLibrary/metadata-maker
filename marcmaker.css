@@ -272,3 +272,21 @@ input[type="number"] {
 	text-align: center;
 	font-size: 10px;
 }
+
+.subject-block {
+	margin-left: 15px;
+/*	margin-top: 1px;*/
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+/*	border-left: 1px;
+	border-bottom: 1px;
+	border-top: 0px;
+	border-right: 0px;
+	border-style: solid;
+	border-color: #E8E9EB;*/
+}
+
+.unverified {
+	color: #747475;
+}
