@@ -128,7 +128,23 @@ function downloadMODS(record,institution_info) {
 	var keywordsText = '';
 	for (var c = 0; c < record.keywords.length; c++) {
 		if (record.keywords[c] !== '') {
-			keywordsText += '    <subject>\n        <topic>' + record.keywords[c] + '</topic>\n    </subject>\n'
+			keywordsText += '    <subject>\n        <topic>' + record.keywords[c] + '</topic>\n    </subject>\n';
+		}
+	}
+
+	var subjectsText = '';
+	if (record.subjects.length > 0) {
+		for (var c = 0; c < record.subjects.length; c++) {
+			var subject_string = record.subjects[c]['root'] + '--' + record.subjects[c]['level1'];
+			if ('level2' in record.subjects[c]) {
+				subject_string += '--' + record.subjects[c]['level2'];
+
+				if ('level3' in record.subjects[c]) {
+					subject_string += '--' + record.subjects[c]['level3'];
+				}
+			}
+
+			subjectsText += '    <subject authority="bisacsh">\n        <topic>' + subject_string + '</topic>\n    </subject>\n';
 		}
 	}
 
@@ -149,6 +165,6 @@ function downloadMODS(record,institution_info) {
 	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + institution_info['mods']['recordContentSource'] + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + defaultText1 + isbnText + urlText + originText + languageText + pagesText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
+	var text = startText + titleText + authorText + defaultText1 + isbnText + urlText + originText + languageText + pagesText + defaultText2 + keywordsText + subjectsText + fastText + literatureText + defaultText3 + endText;
 	downloadFile(text,'mods');
 }

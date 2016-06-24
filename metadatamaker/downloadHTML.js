@@ -993,6 +993,25 @@ function downloadHTML(record,institution_info) {
 		displayTags += keywordsList;
 	}
 
+	if (record.subjects.length > 0) {
+		var subjectsList = '\t\t\t<dt>Subjects:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
+		for (var c = 0; c < record.subjects.length; c++) {
+			var new_subject = record.subjects[c]['root'] + '--' + record.subjects[c]['level1'];
+
+			if ('level2' in record.subjects[c]) {
+				new_subject += '--' + record.subjects[c]['level2'];
+
+				if ('level3' in record.subjects[c]) {
+					new_subject += '--' + record.subjects[c]['level3'];
+				}
+			}
+
+			subjectsList += '\t\t\t\t\t<li itemprop="about">' + new_subject + '</li>\n';
+		}
+		subjectsList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+		displayTags += subjectsList;
+	}
+
 	if (checkExists(record.fast) && record.fast.length > 0) {
 		var FASTList = '\t\t\t<dt>FAST:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
 		for (var c = 0; c < record.fast.length; c++) {

@@ -145,7 +145,6 @@ $("#marc-maker").submit(function(event) {
 			subject_list.push(new_subject)
 		}
 	}
-	console.log(subject_list);
 
 	var recordObject = {
 		title: [
