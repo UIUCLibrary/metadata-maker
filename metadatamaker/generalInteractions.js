@@ -348,6 +348,10 @@ function downloadFile(text,filetype) {
 		filename += '_MODS';
 		filetype = 'xml';
 	}
+	else if (filetype === 'onix') {
+		filename += '_ONIX';
+		filetype = 'xml';
+	}
 
 	download_file.setAttribute('download', filename + '.' + filetype);
 	var clickReplacement = new MouseEvent('click', {

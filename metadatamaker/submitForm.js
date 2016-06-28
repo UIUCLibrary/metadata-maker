@@ -199,5 +199,9 @@ $("#marc-maker").submit(function(event) {
 		downloadHTML(recordObject,institution_info);
 	}
 
+	if ($("#ONIX").is(':checked')) {
+		downloadONIX(recordObject,institution_info);
+	}
+
 	event.preventDefault();
 });
