@@ -1,4 +1,4 @@
-function getBISG() {
+function getBISAC() {
 	var bisg = {
 		"ANTIQUES & COLLECTIBLES": {
 			"leaves": {

@@ -116,6 +116,29 @@ function addTitles(record) {
 	return title_detail;
 }
 
+function addSubjects(scheme_identifier,scheme_version,scheme_name,subject_code,subject_heading) {
+	var new_subject = '\t\t\t<Subject>\n';
+
+	new_subject += '\t\t\t\t<SubjectSchemeIdentifier>' + scheme_identifier + '</SubjectSchemeIdentifier>\n';
+
+	if (checkExists(scheme_version)) {
+		new_subject += '\t\t\t\t<SubjectSchemeVersion>' + scheme_version + '</SubjectSchemeVersion>\n';
+	}
+
+	if (checkExists(scheme_name)) {
+		new_subject += '\t\t\t\t<SubjectSchemeName>' + scheme_name + '</SubjectSchemeName>\n';
+	}
+
+	if (checkExists(subject_code)) {
+		new_subject += '\t\t\t\t<SubjectCode>' + subject_code + '</SubjectCode>\n';
+	}
+
+	new_subject += '\t\t\t\t<SubjectHeadingText>' + subject_heading + '</SubjectHeadingText>\n';
+
+	new_subject += '\t\t\t</Subject>\n';
+	return new_subject;
+}
+
 function addDescriptiveDetails(record) {
 	var descriptive_detail = '\t\t<DescriptiveDetail>\n';
 
@@ -164,6 +187,34 @@ function addDescriptiveDetails(record) {
 		descriptive_detail += '01';
 	}
 	descriptive_detail += '</Illustrated>\n';
+
+	if (record.subjects.length > 0) {
+		for (var i = 0; i < record.subjects.length; i++) {
+			var new_term = record.subjects[i]['root'] + '--' + record.subjects[i]['level1'];
+
+			if ('level2' in record.subjects[i]) {
+				new_term += '--' + record.subjects[i]['level2'];
+
+				if ('level3' in record.subjects[i]) {
+					new_term += '--' + record.subjects[i]['level3'];
+				}
+			}
+
+			descriptive_detail += addSubjects('10','2015',null,record.subjects[i]['id_number'],new_term);
+		}
+	}
+
+	if (record.fast.length > 0) {
+		for (var i = 0; i < record.fast.length; i++) {
+			descriptive_detail += addSubjects('24',null,'FAST',record.fast[i][1],record.fast[i][0]);
+		}
+	}
+
+	if (record.keywords.length > 0) {
+		for (var i = 0; i < record.keywords.length; i++) {
+			descriptive_detail += addSubjects('20',null,null,null,record.keywords[i]);
+		}
+	}
 
 	descriptive_detail += '\t\t</DescriptiveDetail>\n';
 
@@ -231,7 +282,25 @@ function addProduct(record) {
 
 	var publication_detail = addPublicationDetails(record);
 
-	return record_reference + notification_type + isbn + descriptive_detail + publication_detail
+	var product_supply = '\t\t<ProductSupply>\n';
+
+	product_supply += '\t\t\t<ProductDetail>\n';
+	product_supply += '\t\t\t\t<Supplier>\n';
+	product_supply += '\t\t\t\t\t<SupplierRole>09</SupplierRole>\n';
+	if (checkExists(record.publisher)) {
+		product_supply += '\t\t\t\t\t<SupplierName>' + record.publisher + '</SupplierName>\n';
+	}
+	product_supply += '\t\t\t\t\t<Website>\n';
+	product_supply += '\t\t\t\t\t\t<WebsiteRole>18</WebsiteRole>\n';
+	product_supply += '\t\t\t\t\t\t<WebsiteLink>' + record.web_url + '</WebsiteLink>\n';
+	product_supply += '\t\t\t\t\t</Website>\n';
+	product_supply += '\t\t\t\t</Supplier>\n';
+	product_supply += '\t\t\t\t<ProductAvailability>20</ProductAvailability>\n';
+	product_supply += '\t\t\t</ProductDetail>\n';
+
+	product_supply += '\t\t</ProductSupply>\n';
+
+	return record_reference + notification_type + isbn + descriptive_detail + publication_detail + product_supply
 }
 
 function downloadONIX(record,institution_info) {

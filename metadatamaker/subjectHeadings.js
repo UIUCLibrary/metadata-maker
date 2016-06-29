@@ -51,7 +51,7 @@ function addSubject() {
 		var newdiv = document.createElement('div');
 		newdiv.className = 'added added-subject subject-block';
 		newdiv.setAttribute('id','subject' + sCounter + '-block');
-		newdiv.innerHTML = '<div id="verification' + sCounter + '" class="verification unverified">Invalid Subject Heading <span style="color: red;">&#x2717;</span></div>' + buildSubjectMenus(getBISG(),sCounter);
+		newdiv.innerHTML = '<div id="verification' + sCounter + '" class="verification unverified">Invalid Subject Heading <span style="color: red;">&#x2717;</span></div>' + buildSubjectMenus(getBISAC(),sCounter);
 		$("#subject_headings").append(newdiv);
 		sCounter++;
 	}
@@ -143,7 +143,7 @@ function removeRedundantPaths(paths,root) {
 		}
 
 		test_path = test_path.concat(paths[path])
-		var taxonomy = getBISG();
+		var taxonomy = getBISAC();
 
 
 		var test_path_pointer = 0
@@ -264,7 +264,7 @@ function buildDynamicSubjectMenu(taxonomy,iteration,level,parent_level,path) {
 		var newdiv = $("<select></select>").attr('id',level + '-subject' + iteration).addClass(level + '-subject');
 		fillDynamicSubjectMenu(taxonomy_pointer,iteration,level,path,newdiv)
 //		console.log(newdiv)
-	//	newdiv.innerHTML = buildSubjectMenus(getBISG(),sCounter);
+	//	newdiv.innerHTML = buildSubjectMenus(getBISAC(),sCounter);
 //		console.log("#" + parent_level + '-subject' + iteration)
 	//	$("#" + 'subject' + iteration + '-block').append($('<br>'));
 		$("#" + 'subject' + iteration + '-block').append(newdiv);
@@ -306,7 +306,7 @@ $("#subject_headings").on('change','.root-subject',function() {
 	$("#level1-subject" + bloc_number + " option:eq(0)").prop('selected', true);*/
 
 	if (selected != '') {
-		buildDynamicSubjectMenu(getBISG(),bloc_number,'level1','root',[selected])
+		buildDynamicSubjectMenu(getBISAC(),bloc_number,'level1','root',[selected])
 		$('#verification' + bloc_number).html('Invalid Subject Heading <span style="color: red;">&#x2717;</span>');
 		$("#verification" + bloc_number).removeClass('verified');
 		$("#verification" + bloc_number).addClass('unverified');
@@ -316,7 +316,7 @@ $("#subject_headings").on('change','.root-subject',function() {
 
 /*	if (class_name.length > 1) {
 		if (selected != '') {
-			buildDynamicSubjectMenu(getBISG(),bloc_number,'level1','root',[selected])
+			buildDynamicSubjectMenu(getBISAC(),bloc_number,'level1','root',[selected])
 			$(".level1").addClass('hidden');
 			$("#level1-subject" + bloc_number).removeClass('hidden');
 			$(class_name).removeClass('hidden');
@@ -362,7 +362,7 @@ $("#subject_headings").on('change','.level1-subject',function() {
 		$("#subject" + bloc_number + "-block").removeClass('valid');
 	}
 
-	var taxonomy = getBISG();
+	var taxonomy = getBISAC();
 
 	if (selected != '') {
 		buildDynamicSubjectMenu(taxonomy,bloc_number,'level2','level1',[root,selected])
@@ -421,7 +421,7 @@ $("#subject_headings").on('change','.level2-subject',function() {
 		$("#subject" + bloc_number + "-block").removeClass('valid');
 	}
 
-	var taxonomy = getBISG();
+	var taxonomy = getBISAC();
 
 	if (selected != '') {
 		buildDynamicSubjectMenu(taxonomy,bloc_number,'level3','level2',[root,selected1,selected])
@@ -474,7 +474,7 @@ $("#subject_headings").on('change','.level3-subject',function() {
 		$("#subject" + bloc_number + "-block").removeClass('valid');
 	}
 
-	var taxonomy = getBISG();
+	var taxonomy = getBISAC();
 
 	checkSubjectIDs(taxonomy[root]['leaves'][selected1]['leaves'][selected2]['leaves'][selected],bloc_number)
 
