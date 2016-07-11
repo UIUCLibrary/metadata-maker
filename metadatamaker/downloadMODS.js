@@ -6,11 +6,11 @@ function fillAuthorMODS(family,given,role) {
 	if (checkExists(given) || checkExists(family)) {
 		var authorText = '    <name type="personal">\n';
 		if (checkExists(family)) {
-			authorText += '        <namePart type="family">' + family + '</namePart>\n';
+			authorText += '        <namePart type="family">' + escapeXML(family) + '</namePart>\n';
 		}
 
 		if (checkExists(given)) {
-			authorText += '        <namePart type="given">' + given + '</namePart>\n';
+			authorText += '        <namePart type="given">' + escapeXML(given) + '</namePart>\n';
 		}
 
 		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n        </role>\n    </name>\n';
@@ -103,15 +103,15 @@ function downloadMODS(record,institution_info) {
 		}
 	}
 
-	var titleText = '    <titleInfo>\n        <title>' + record.title[0]['title'] + '</title>\n';
+	var titleText = '    <titleInfo>\n        <title>' + escapeXML(record.title[0]['title']) + '</title>\n';
 	if (checkExists(record.title[0]['subtitle'])) {
-		titleText += '        <subTitle>' + record.title[0]['subtitle'] + '</subTitle>\n';
+		titleText += '        <subTitle>' + escapeXML(record.title[0]['subtitle']) + '</subTitle>\n';
 	}
 	titleText += '    </titleInfo>\n';
 
 	var urlText = '';
 	if (checkExists(record.web_url)) {
-		urlText += '    <location>\n        <url>' + record.web_url + '</url>\n    </location>\n';
+		urlText += '    <location>\n        <url>' + escapeXML(record.web_url) + '</url>\n    </location>\n';
 	}
 
 	var originText = '';
@@ -123,11 +123,11 @@ function downloadMODS(record,institution_info) {
 		}
 
 		if (checkExists(record.publication_place)) {
-			originText += '        <place>\n            <placeTerm type="text">' + record.publication_place + '</placeTerm>\n        </place>\n';
+			originText += '        <place>\n            <placeTerm type="text">' + escapeXML(record.publication_place) + '</placeTerm>\n        </place>\n';
 		}
 
 		if (checkExists(record.publisher)) {
-			originText += '        <publisher>' + record.publisher + '</publisher>\n';
+			originText += '        <publisher>' + escapeXML(record.publisher) + '</publisher>\n';
 		}
 
 		if (checkExists(record.publication_year)) {
@@ -139,7 +139,7 @@ function downloadMODS(record,institution_info) {
 		}
 
 		if (checkExists(record.edition)) {
-			originText += '        <edition>' + record.edition + '</edition>\n';
+			originText += '        <edition>' + escapeXML(record.edition) + '</edition>\n';
 		}
 
 		originText += '    </originInfo>\n';
@@ -157,54 +157,54 @@ function downloadMODS(record,institution_info) {
 		dimensionsText += '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n';
 	}
 
-	var defaultText2 = '    <location>\n        <physicalLocation>' + institution_info['mods']['physicalLocation'] + '</physicalLocation>\n    </location>\n';
+	var defaultText2 = '    <location>\n        <physicalLocation>' + escapeXML(institution_info['mods']['physicalLocation']) + '</physicalLocation>\n    </location>\n';
 
 	var dateCollectedText = '';
 	if (checkExists(record.datecollected)) {
-		dateCollectedText = '    <originInfo>\n        <dateCaptured>' + record.datecollected + '</dateCaptured>\n    </originInfo>\n';
+		dateCollectedText = '    <originInfo>\n        <dateCaptured>' + escapeXML(record.datecollected) + '</dateCaptured>\n    </originInfo>\n';
 	}
 
 	var accessText = '';
 	if (checkExists(record.access_terms)) {
-		accessText = '    <accessCondition displayLabel="Restricted">' + record.access_terms + '</accessCondition>\n';
+		accessText = '    <accessCondition displayLabel="Restricted">' + escapeXML(record.access_terms) + '</accessCondition>\n';
 	}
 
 	var geographicCoverageText = '';
 	if (checkExists(record.gcoverage)) {
-		geographicCoverageText = '    <subject>\n        <geographic>' + record.gcoverage + '</geographic>\n    </subject>\n';
+		geographicCoverageText = '    <subject>\n        <geographic>' + escapeXML(record.gcoverage) + '</geographic>\n    </subject>\n';
 	}
 
 	var geographicGranularityText = '';
 	if (checkExists(record.ggranularity)) {
-		geographicGranularityText = '    <subject>\n        <geographic>' + record.ggranularity + '</geographic>\n    </subject>\n';
+		geographicGranularityText = '    <subject>\n        <geographic>' + escapeXML(record.ggranularity) + '</geographic>\n    </subject>\n';
 	}
 
 	var formatText = '';
 	if (checkExists(record.format)) {
-		formatText = '    <note>' + record.format + '</note>\n';
+		formatText = '    <note>' + escapeXML(record.format) + '</note>\n';
 	}
 
 	var useText = '';
 	if (checkExists(record.use_terms)) {
-		useText = '    <accessCondition type="use and reproduction" displayLabel="Restricted">' + record.use_terms + '</accessCondition>\n';
+		useText = '    <accessCondition type="use and reproduction" displayLabel="Restricted">' + escapeXML(record.use_terms) + '</accessCondition>\n';
 	}
 
 	var dateRangeText = '';
 	if (checkExists(record.daterange)) {
-		dateRangeText = '    <subject>\n        <temporal>' + record.daterange + '</temporal>\n    </subject>\n';
+		dateRangeText = '    <subject>\n        <temporal>' + escapeXML(record.daterange) + '</temporal>\n    </subject>\n';
 	}
 
 	var keywordsText = '';
 	for (var c = 0; c < record.keywords.length; c++) {
 		if (record.keywords[c] !== '') {
-			keywordsText += '    <subject>\n        <topic>' + record.keywords[c] + '</topic>\n    </subject>\n'
+			keywordsText += '    <subject>\n        <topic>' + escapeXML(record.keywords[c]) + '</topic>\n    </subject>\n'
 		}
 	}
 
 	var fastText = '';
 	if (checkExists(record.fast)) {
 		for (var c = 0; c < record.fast.length; c++) {
-			fastText += '    <subject>\n        <' + fastTypes[record.fast[c][2].substring(1)] + ' authority="FAST" authorityURI="http://fast.oclc.org/" valueURI="http://id.worldcat.org/fast/' + record.fast[c][1] + '"/>\n    </subject>\n'
+			fastText += '    <subject>\n        <' + fastTypes[record.fast[c][2].substring(1)] + ' authority="FAST" authorityURI="http://fast.oclc.org/" valueURI="http://id.worldcat.org/fast/' + escapeXML(record.fast[c][1]) + '"/>\n    </subject>\n'
 		}
 	}
 
@@ -215,7 +215,7 @@ function downloadMODS(record,institution_info) {
 
 	var timestamp = getTimestamp();
 	var formatted_date = timestamp.substring(2,8);
-	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + institution_info['mods']['recordContentSource'] + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
+	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + escapeXML(institution_info['mods']['recordContentSource']) + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
 	var text = startText + titleText + authorText + corporateText + defaultText1 + genreText + isbnText + urlText + originText + languageText + pagesText + dimensionsText + defaultText2 + dateCollectedText + accessText + geographicCoverageText + geographicGranularityText + formatText + useText + dateRangeText + keywordsText + fastText + literatureText + defaultText3 + endText;
