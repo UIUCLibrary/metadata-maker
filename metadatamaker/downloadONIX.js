@@ -64,21 +64,21 @@ function addContributor(author,counter) {
 	new_contributor += '\t\t\t\t<ContributorRole>' + role_index[author[0]['role']] + '</ContributorRole>\n';
 
 	if (checkExists(author[0]['family']) && checkExists(author[0]['given'])) {
-		new_contributor += '\t\t\t\t<PersonName>' + author[0]['given'] + ' ' + author[0]['family'] + '</PersonName>\n';
+		new_contributor += '\t\t\t\t<PersonName>' + escapeXML(author[0]['given'] + ' ' + author[0]['family']) + '</PersonName>\n';
 	}
 	else if (checkExists(author[0]['family'])) {
-		new_contributor += '\t\t\t\t<PersonName>' + author[0]['family'] + '</PersonName>\n';
+		new_contributor += '\t\t\t\t<PersonName>' + escapeXML(author[0]['family']) + '</PersonName>\n';
 	}
 	else if (checkExists(author[0]['given'])) {
-		new_contributor += '\t\t\t\t<PersonName>' + author[0]['given'] + '</PersonName>\n';
+		new_contributor += '\t\t\t\t<PersonName>' + escapeXML(author[0]['given']) + '</PersonName>\n';
 	}
 
 	if (checkExists(author[0]['given'])) {
-		new_contributor += '\t\t\t\t<NamesBeforeKey>' + author[0]['given'] + '</NamesBeforeKey>\n';
+		new_contributor += '\t\t\t\t<NamesBeforeKey>' + escapeXML(author[0]['given']) + '</NamesBeforeKey>\n';
 	}
 
 	if (checkExists(author[0]['family'])) {
-		new_contributor += '\t\t\t\t<KeyNames>' + author[0]['family'] + '</KeyNames>\n';
+		new_contributor += '\t\t\t\t<KeyNames>' + escapeXML(author[0]['family']) + '</KeyNames>\n';
 	}
 
 	new_contributor += '\t\t\t</Contributor>\n';
@@ -95,20 +95,20 @@ function addTitles(record) {
 
 		if (checkExists(prefix)) {
 			title_detail += '\t\t\t\t\t<TitlePrefix>' + prefix + '</TitlePrefix>\n';
-			title_detail += '\t\t\t\t\t<TitleWithoutPrefix>' + record.title[latin_index]['title'].substring(prefix.length + 1) + '</TitleWithoutPrefix>\n';
+			title_detail += '\t\t\t\t\t<TitleWithoutPrefix>' + escapeXML(record.title[latin_index]['title'].substring(prefix.length + 1)) + '</TitleWithoutPrefix>\n';
 		}
 		else {
 			title_detail += '\t\t\t\t\t<NoPrefix/>\n';
-			title_detail += '\t\t\t\t\t<TitleWithoutPrefix>' + record.title[latin_index]['title'] + '</TitleWithoutPrefix>\n';
+			title_detail += '\t\t\t\t\t<TitleWithoutPrefix>' + escapeXML(record.title[latin_index]['title']) + '</TitleWithoutPrefix>\n';
 		}
 	}
 	else {
 		title_detail += '\t\t\t\t\t<NoPrefix/>\n';
-		title_detail += '\t\t\t\t\t<TitleWithoutPrefix>' + record.title[latin_index]['title'] + '</TitleWithoutPrefix>\n';
+		title_detail += '\t\t\t\t\t<TitleWithoutPrefix>' + escapeXML(record.title[latin_index]['title']) + '</TitleWithoutPrefix>\n';
 	}
 
 	if (checkExists(record.title[0]['subtitle'])) {
-		title_detail += '\t\t\t\t\t<Subtitle>' + record.title[latin_index]['subtitle'] + '</Subtitle>\n';
+		title_detail += '\t\t\t\t\t<Subtitle>' + escapeXML(record.title[latin_index]['subtitle']) + '</Subtitle>\n';
 	}
 
 	title_detail += '\t\t\t\t</TitleElement>\n\t\t\t</TitleDetail>\n';
@@ -119,21 +119,21 @@ function addTitles(record) {
 function addSubjects(scheme_identifier,scheme_version,scheme_name,subject_code,subject_heading) {
 	var new_subject = '\t\t\t<Subject>\n';
 
-	new_subject += '\t\t\t\t<SubjectSchemeIdentifier>' + scheme_identifier + '</SubjectSchemeIdentifier>\n';
+	new_subject += '\t\t\t\t<SubjectSchemeIdentifier>' + escapeXML(scheme_identifier) + '</SubjectSchemeIdentifier>\n';
 
 	if (checkExists(scheme_version)) {
-		new_subject += '\t\t\t\t<SubjectSchemeVersion>' + scheme_version + '</SubjectSchemeVersion>\n';
+		new_subject += '\t\t\t\t<SubjectSchemeVersion>' + escapeXML(scheme_version) + '</SubjectSchemeVersion>\n';
 	}
 
 	if (checkExists(scheme_name)) {
-		new_subject += '\t\t\t\t<SubjectSchemeName>' + scheme_name + '</SubjectSchemeName>\n';
+		new_subject += '\t\t\t\t<SubjectSchemeName>' + escapeXML(scheme_name) + '</SubjectSchemeName>\n';
 	}
 
 	if (checkExists(subject_code)) {
-		new_subject += '\t\t\t\t<SubjectCode>' + subject_code + '</SubjectCode>\n';
+		new_subject += '\t\t\t\t<SubjectCode>' + escapeXML(subject_code) + '</SubjectCode>\n';
 	}
 
-	new_subject += '\t\t\t\t<SubjectHeadingText>' + subject_heading + '</SubjectHeadingText>\n';
+	new_subject += '\t\t\t\t<SubjectHeadingText>' + escapeXML(subject_heading) + '</SubjectHeadingText>\n';
 
 	new_subject += '\t\t\t</Subject>\n';
 	return new_subject;
@@ -171,7 +171,7 @@ function addDescriptiveDetails(record) {
 	}
 
 	if (checkExists(record.edition)) {
-		descriptive_detail += '\t\t\t<EditionStatement>' + record.edition + '</EditionStatement>\n';
+		descriptive_detail += '\t\t\t<EditionStatement>' + escapeXML(record.edition) + '</EditionStatement>\n';
 	}
 	else {
 		descriptive_detail += '\t\t\t<NoEdition/>\n';
@@ -228,12 +228,12 @@ function addPublicationDetails(record) {
 		if (checkExists(record.publisher)) {
 			publication_detail += '\t\t\t<Publisher>\n';
 			publication_detail += '\t\t\t\t<PublishingRole>01</PublishingRole>\n';
-			publication_detail += '\t\t\t\t<PublisherName>' + record.publisher + '</PublisherName>\n';
+			publication_detail += '\t\t\t\t<PublisherName>' + escapeXML(record.publisher) + '</PublisherName>\n';
 			publication_detail += '\t\t\t</Publisher>\n';
 		}
 
 		if (checkExists(record.publication_place)) {
-			publication_detail += '\t\t\t<CityOfPublication>' + record.publication_place + '</CityOfPublication>\n';
+			publication_detail += '\t\t\t<CityOfPublication>' + escapeXML(record.publication_place) + '</CityOfPublication>\n';
 		}
 
 		if (checkExists(record.publication_country)) {
@@ -288,11 +288,11 @@ function addProduct(record) {
 	product_supply += '\t\t\t\t<Supplier>\n';
 	product_supply += '\t\t\t\t\t<SupplierRole>09</SupplierRole>\n';
 	if (checkExists(record.publisher)) {
-		product_supply += '\t\t\t\t\t<SupplierName>' + record.publisher + '</SupplierName>\n';
+		product_supply += '\t\t\t\t\t<SupplierName>' + escapeXML(record.publisher) + '</SupplierName>\n';
 	}
 	product_supply += '\t\t\t\t\t<Website>\n';
 	product_supply += '\t\t\t\t\t\t<WebsiteRole>18</WebsiteRole>\n';
-	product_supply += '\t\t\t\t\t\t<WebsiteLink>' + record.web_url + '</WebsiteLink>\n';
+	product_supply += '\t\t\t\t\t\t<WebsiteLink>' + escapeXML(record.web_url) + '</WebsiteLink>\n';
 	product_supply += '\t\t\t\t\t</Website>\n';
 	product_supply += '\t\t\t\t</Supplier>\n';
 	product_supply += '\t\t\t\t<ProductAvailability>20</ProductAvailability>\n';
@@ -304,7 +304,7 @@ function addProduct(record) {
 }
 
 function downloadONIX(record,institution_info) {
-	var startText = '<?xml version="1.0" encoding="utf-8"?>\n<ONIXMessage xmlns="http://ns.editeur.org/onix/3.0/reference" xsi:schemaLocation="http://ns.editeur.org/onix/3.0/reference [insert local file here]" release="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n'
+	var startText = '<?xml version="1.0" encoding="utf-8"?>\n<ONIXMessage>\n'
 
 	var headerText = '\t<Header>\n';
 	headerText += addHeader(record);
