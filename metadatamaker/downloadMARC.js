@@ -164,7 +164,7 @@ function createDirectory(number,content,head) {
  * Create a MARCXML subfield
  */
 function createMARCXMLSubfield(code,content) {
-	return '    <subfield code="' + code + '">' + content + '</subfield>\n';
+	return '    <subfield code="' + code + '">' + escapeXML(content) + '</subfield>\n';
 }
 
 /*

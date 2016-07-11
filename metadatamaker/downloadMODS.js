@@ -5,11 +5,11 @@ function fillAuthorMODS(family,given) {
 	if (checkExists(given) || checkExists(family)) {
 		var authorText = '    <name type="personal">\n';
 		if (checkExists(family)) {
-			authorText += '        <namePart type="family">' + family + '</namePart>\n';
+			authorText += '        <namePart type="family">' + escapeXML(family) + '</namePart>\n';
 		}
 
 		if (checkExists(given)) {
-			authorText += '        <namePart type="given">' + given + '</namePart>\n';
+			authorText += '        <namePart type="given">' + escapeXML(given) + '</namePart>\n';
 		}
 
 		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">author</roleTerm>\n            <roleTerm authority="marcrelator" type="code">aut</roleTerm>\n        </role>\n    </name>\n';
@@ -47,9 +47,9 @@ function downloadMODS(record,institution_info) {
 
 	var pagesText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.number_of_pages + ' ' + record.leaf_or_page + '</extent>\n    </physicalDescription>\n';
 
-	var majorText = '    <note type="thesis">Thesis (' + record.major + ')-- University of Illinois at Urbana-Champaign, ' + record.publication_year + '.</note>\n';
+	var majorText = '    <note type="thesis">Thesis (' + escapeXML(record.major) + ')-- University of Illinois at Urbana-Champaign, ' + record.publication_year + '.</note>\n';
 
-	var bibText = '    <note type="bibliography">' + record.bibliographies + '.</note>\n';
+	var bibText = '    <note type="bibliography">' + escapeXML(record.bibliographies) + '.</note>\n';
 
 	var defaultText2 = '    <location>\n        <physicalLocation>University of Illinois at Urbana-Champaign, Library</physicalLocation>\n    </location>\n';
 
