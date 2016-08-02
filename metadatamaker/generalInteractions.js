@@ -321,6 +321,34 @@ $("input:radio[name=literature]").click(function() {
 	}
 });
 
+function getQueryVariable(variable) {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+
+function setVersion() {
+	var versions = ['not_datasets','not_ebooks','not_monographs','not_govdocs','not_theses']
+	var version = getQueryVariable('version');
+	if (version == false) {
+		version = 'monographs';
+	}
+	
+	var exclude_class = 'not_' + version
+
+	for (var i = 0; i < versions.length; i++) {
+		if (versions[i] != exclude_class) {
+			$("." + versions[i]).css('display','');
+		}
+	}
+
+	$("." + exclude_class).css('display','none')
+}
+
 /*
  *	How the page reacts to a change in the version
  */
@@ -328,6 +356,7 @@ $(".version_selector").click(function() {
 	var id = $(this).attr('id').substring(10);
 
 	var current_url = window.location.href;
+	console.log(current_url)
 	if (current_url.substring(current_url.length-1,current_url.length) != '?') {
 		var custom_string = '?';
 	}
@@ -335,31 +364,9 @@ $(".version_selector").click(function() {
 		var custom_string = '';
 	}
 
-	custom_string += '&version=' + id;
-
-//	if (checkExists(name)) {
-//		$("#institution_name").html(name);
-//	}
-//
-//	var ids = ['marc_code','physicalLocation','recordContentSource','lcno','org_name'];
-//	var variables = [marc,physicalLocation,recordContentSource,lcno,name];
-//	var url_variables = ['marc','physicalLocation','recordContentSource','lcn','n']
-//
-//	for (var index = 0; index < ids.length; index++) {
-//		if (checkExists(variables[index])) {
-//			$("#" + ids[index]).attr("placeholder",variables[index]);
-//			$("#" + ids[index]).val('');
-//			custom_string += '&' + url_variables[index] + '=' + variables[index];
-//		}
-//		else {
-//			existing_content = get(url_variables[index]);
-//			if (typeof(existing_content) !== 'undefined') {
-//				custom_string += '&' + url_variables[index] + '=' + existing_content;
-//			}
-//		}
-//	}
-
+	custom_string += 'version=' + id;
 	window.history.replaceState(null,null,custom_string);
+	setVersion();
 });
 
 /*

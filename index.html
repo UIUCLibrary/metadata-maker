@@ -103,7 +103,7 @@
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="report-number_listed" class="listed">
 		</div>
 
-		<div id="language-block" class="standard-block datasets not_datasets ebooks not_govdocs monographs theses">
+		<div id="language-block" class="standard-block datasets ebooks not_govdocs monographs theses">
 			<label for="language" class="heading">Language<span class="required_marker">*</span></label><br>
 			<select name="language" required id="language" class="required">
 				<option selected disabled hidden value=''></option>
@@ -595,7 +595,7 @@
 		</div>
 
 <!--		<div id="names_title" class="heading">Names<br></div>-->
-		<div id="author-block" calss="dataset ebooks not_govdocs monographs theses">
+		<div id="author-block" class="datasets ebooks not_govdocs monographs theses">
 			<label for="author" class="heading">Personal Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
 			<div id="insert-family_name"></div><div id="insert-given_name"></div>
 			<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
@@ -621,7 +621,7 @@
 			</div>
 		</div>
 
-		<div id="corporate-block">
+		<div id="corporate-block" class="datasets not_ebooks govdocs not_monographs not_theses">
 				<label for="corporate_name" class="heading">Corporate/Organization Names</label><label for="corporate_name" class="insert insert_corporate_name" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
 				<div id="insert-corporate_name"></div>
 				<input type="text" class="corporate conditional translit-listen" required id="corporate_name">
@@ -640,7 +640,7 @@
 				</div>
 			</div>
 
-		<div id="publisher-block" class="standard-block">
+		<div id="publisher-block" class="standard-block datasets ebooks govdocs monographs not_theses">
 			<label for="publisher" class="heading">Name of publisher</label><label for="publisher" class="insert insert_normal" onClick='insertMenu("publisher");'>Insert Diacritics</label><br>
 			<div id="insert-publisher"></div>
 			<input type="text" required id="publisher" class="conditional translit-listen">
@@ -648,20 +648,20 @@
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="publisher_listed" class="listed">
 		</div>
 
-		<div id="translit-publisher-block" class="translit-publisher-block translit-block hidden standard-translit-block">
+		<div id="translit-publisher-block" class="translit-publisher-block translit-block hidden standard-translit-block datasets ebooks govdocs monographs not_theses">
 			<label for="translit_publisher" class="hidden translit heading translit-publisher">Transliterated publisher</label><label for="translit_publisher" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_publisher");'>Insert Diacritics</label><br>
 			<div id="insert-translit_publisher" class="hidden translit translit-publisher"></div>
 			<input type="text" id="translit_publisher" class="hidden translit translit-publisher">
 		</div>
 
-		<div id="web-url-block" class="standard-block">
+		<div id="web-url-block" class="standard-block datasets ebooks not_govdocs not_monographs not_theses">
 			<label for="web-url" class="heading">Web URL</label><label for="web-url" class="insert insert_normal" onClick='insertMenu("web-url");'>Insert Diacritics</label><br>
 			<div id="insert-web-url"></div>
 			http://<input type="text" required id="web-url" class="conditional"><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="web-url_listed" class="listed">
 		</div>
 
-		<div id="place-block" class="standard-block">
+		<div id="place-block" class="standard-block datasets ebooks govdocs monographs not_theses">
 			<label for="place" class="heading">Place of publication</label><label for="place" class="insert insert_normal" onClick='insertMenu("place");'>Insert Diacritics</label><br>
 			<div id="insert-place"></div>
 			<input type="text" required id="place" class="conditional translit-listen">
@@ -669,368 +669,368 @@
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="place_listed" class="listed">
 		</div>
 
-		<div id="translit-place-block" class="translit-place-block translit-block hidden standard-translit-block">
+		<div id="translit-place-block" class="translit-place-block translit-block hidden standard-translit-block datasets ebooks govdocs monographs not_theses">
 			<label for="translit_place" class="hidden translit heading translit-place">Transliterated place</label><label for="translit_place" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_place");'>Insert Diacritics</label><br>
 			<div id="insert-translit_place" class="hidden translit translit-publisher"></div>
 			<input type="text" id="translit_place" class="hidden translit translit-place">
 		</div>
 
-		<div id="country-block" class="standard-block">
+		<div id="country-block" class="standard-block dataests ebooks govdocs monographs not_theses">
 			<label for="country" class="heading">Country/State/Province of publication</label><br>
 			<select name="country" required id="country" class="conditional">
 				<option selected disabled hidden value=''></option>
-				<option class="not_state" value="af">Afghanistan</option>
-				<option class="state" value="alu">Alabama</option>
-				<option class="state" value="aku">Alaska</option>
-				<option class="not_state" value="aa">Albania</option>
-				<option class="not_state" value="abc">Alberta</option>
-				<option class="not_state" value="ae">Algeria</option>
-				<option class="not_state" value="as">American Samoa</option>
-				<option class="not_state" value="an">Andorra</option>
-				<option class="not_state" value="ao">Angola</option>
-				<option class="not_state" value="am">Anguilla</option>
-				<option class="not_state" value="ay">Antarctica</option>
-				<option class="not_state" value="aq">Antigua and Barbuda</option>
-				<option class="not_state" value="ag">Argentina</option>
-				<option class="state" value="azu">Arizona</option>
-				<option class="state" value="aru">Arkansas</option>
-				<option class="not_state" value="ai">Armenia (Republic)</option>
-				<option class="not_state" value="aw">Aruba</option>
-				<option class="not_state" value="at">Australia</option>
-				<option class="not_state" value="aca">Australian Capital Territory</option>
-				<option class="not_state" value="au">Austria</option>
-				<option class="not_state" value="aj">Azerbaijan</option>
-				<option class="not_state" value="bf">Bahamas</option>
-				<option class="not_state" value="ba">Bahrain</option>
-				<option class="not_state" value="bg">Bangladesh</option>
-				<option class="not_state" value="bb">Barbados</option>
-				<option class="not_state" value="bw">Belarus</option>
-				<option class="not_state" value="be">Belgium</option>
-				<option class="not_state" value="bh">Belize</option>
-				<option class="not_state" value="dm">Benin</option>
-				<option class="not_state" value="bm">Bermuda Islands</option>
-				<option class="not_state" value="bt">Bhutan</option>
-				<option class="not_state" value="bo">Bolivia</option>
-				<option class="not_state" value="bn">Bosnia and Hercegovina</option>
-				<option class="not_state" value="bs">Botswana</option>
-				<option class="not_state" value="bv">Bouvet Island</option>
-				<option class="not_state" value="bl">Brazil</option>
-				<option class="not_state" value="bcc">British Columbia</option>
-				<option class="not_state" value="bi">British Indian Ocean Territory</option>
-				<option class="not_state" value="vb">British Virgin Islands</option>
-				<option class="not_state" value="bx">Brunei</option>
-				<option class="not_state" value="bu">Bulgaria</option>
-				<option class="not_state" value="uv">Burkina Faso</option>
-				<option class="not_state" value="br">Burma</option>
-				<option class="not_state" value="bd">Burundi</option>
-				<option class="not_state" value="cv">Cabo Verde</option>
-				<option class="state" value="cau">California</option>
-				<option class="not_state" value="cb">Cambodia</option>
-				<option class="not_state" value="cm">Cameroon</option>
-				<option class="not_state" value="xxc">Canada</option>
-				<option class="not_state" value="ca">Caribbean Netherlands</option>
-				<option class="not_state" value="cj">Cayman Islands</option>
-				<option class="not_state" value="cx">Central African Republic</option>
-				<option class="not_state" value="cd">Chad</option>
-				<option class="not_state" value="cl">Chile</option>
-				<option class="not_state" value="cc">China</option>
-				<option class="not_state" value="ch">China (Republic : 1949- )</option>
-				<option class="not_state" value="xa">Christmas Island (Indian Ocean)</option>
-				<option class="not_state" value="xb">Cocos (Keeling) Islands</option>
-				<option class="not_state" value="ck">Colombia</option>
-				<option class="state" value="cou">Colorado</option>
-				<option class="not_state" value="cq">Comoros</option>
-				<option class="not_state" value="cf">Congo (Brazzaville)</option>
-				<option class="not_state" value="cg">Congo (Democratic Republic)</option>
-				<option class="state" value="ctu">Connecticut</option>
-				<option class="not_state" value="cw">Cook Islands</option>
-				<option class="not_state" value="xga">Coral Sea Islands Territory</option>
-				<option class="not_state" value="cr">Costa Rica</option>
-				<option class="not_state" value="iv">Côte d'Ivoire</option>
-				<option class="not_state" value="ci">Croatia</option>
-				<option class="not_state" value="cu">Cuba</option>
-				<option class="not_state" value="co">Curaçao</option>
-				<option class="not_state" value="cy">Cyprus</option>
-				<option class="not_state" value="xr">Czech Republic</option>
-				<option class="state" value="deu">Delaware</option>
-				<option class="not_state" value="dk">Denmark</option>
-				<option class="state" value="dcu">District of Columbia</option>
-				<option class="not_state" value="ft">Djibouti</option>
-				<option class="not_state" value="dq">Dominica</option>
-				<option class="not_state" value="dr">Dominican Republic</option>
-				<option class="not_state" value="ec">Ecuador</option>
-				<option class="not_state" value="ua">Egypt</option>
-				<option class="not_state" value="es">El Salvador</option>
-				<option class="not_state" value="enk">England</option>
-				<option class="not_state" value="eg">Equatorial Guinea</option>
-				<option class="not_state" value="ea">Eritrea</option>
-				<option class="not_state" value="er">Estonia</option>
-				<option class="not_state" value="et">Ethiopia</option>
-				<option class="not_state" value="fk">Falkland Islands</option>
-				<option class="not_state" value="fa">Faroe Islands</option>
-				<option class="not_state" value="fj">Fiji</option>
-				<option class="not_state" value="fi">Finland</option>
-				<option class="state" value="flu">Florida</option>
-				<option class="not_state" value="fr">France</option>
-				<option class="not_state" value="fg">French Guiana</option>
-				<option class="not_state" value="fp">French Polynesia</option>
-				<option class="not_state" value="go">Gabon</option>
-				<option class="not_state" value="gm">Gambia</option>
-				<option class="not_state" value="gz">Gaza Strip</option>
-				<option class="state" value="gau">Georgia</option>
-				<option class="not_state" value="gs">Georgia (Republic)</option>
-				<option class="not_state" value="gw">Germany</option>
-				<option class="not_state" value="gh">Ghana</option>
-				<option class="not_state" value="gi">Gibraltar</option>
-				<option class="not_state" value="gr">Greece</option>
-				<option class="not_state" value="gl">Greenland</option>
-				<option class="not_state" value="gd">Grenada</option>
-				<option class="not_state" value="gp">Guadeloupe</option>
-				<option class="not_state" value="gu">Guam</option>
-				<option class="not_state" value="gt">Guatemala</option>
-				<option class="not_state" value="gv">Guinea</option>
-				<option class="not_state" value="pg">Guinea-Bissau</option>
-				<option class="not_state" value="gy">Guyana</option>
-				<option class="not_state" value="ht">Haiti</option>
-				<option class="state" value="hiu">Hawaii</option>
-				<option class="not_state" value="hm">Heard and McDonald Islands</option>
-				<option class="not_state" value="ho">Honduras</option>
-				<option class="not_state" value="hu">Hungary</option>
-				<option class="not_state" value="ic">Iceland</option>
-				<option class="state" value="idu">Idaho</option>
-				<option class="state" value="ilu">Illinois</option>
-				<option class="not_state" value="ii">India</option>
-				<option class="state" value="inu">Indiana</option>
-				<option class="not_state" value="io">Indonesia</option>
-				<option class="state" value="iau">Iowa</option>
-				<option class="not_state" value="ir">Iran</option>
-				<option class="not_state" value="iq">Iraq</option>
-				<option class="not_state" value="iy">Iraq-Saudi Arabia Neutral Zone</option>
-				<option class="not_state" value="ie">Ireland</option>
-				<option class="not_state" value="is">Israel</option>
-				<option class="not_state" value="it">Italy</option>
-				<option class="not_state" value="jm">Jamaica</option>
-				<option class="not_state" value="ja">Japan</option>
-				<option class="not_state" value="ji">Johnston Atoll</option>
-				<option class="not_state" value="jo">Jordan</option>
-				<option class="state" value="ksu">Kansas</option>
-				<option class="not_state" value="kz">Kazakhstan</option>
-				<option class="state" value="kyu">Kentucky</option>
-				<option class="not_state" value="ke">Kenya</option>
-				<option class="not_state" value="gb">Kiribati</option>
-				<option class="not_state" value="kn">Korea (North)</option>
-				<option class="not_state" value="ko">Korea (South)</option>
-				<option class="not_state" value="kv">Kosovo</option>
-				<option class="not_state" value="ku">Kuwait</option>
-				<option class="not_state" value="kg">Kyrgyzstan</option>
-				<option class="not_state" value="ls">Laos</option>
-				<option class="not_state" value="lv">Latvia</option>
-				<option class="not_state" value="le">Lebanon</option>
-				<option class="not_state" value="lo">Lesotho</option>
-				<option class="not_state" value="lb">Liberia</option>
-				<option class="not_state" value="ly">Libya</option>
-				<option class="not_state" value="lh">Liechtenstein</option>
-				<option class="not_state" value="li">Lithuania</option>
-				<option class="state" value="lau">Louisiana</option>
-				<option class="not_state" value="lu">Luxembourg</option>
-				<option class="not_state" value="xn">Macedonia</option>
-				<option class="not_state" value="mg">Madagascar</option>
-				<option class="state" value="meu">Maine</option>
-				<option class="not_state" value="mw">Malawi</option>
-				<option class="not_state" value="my">Malaysia</option>
-				<option class="not_state" value="xc">Maldives</option>
-				<option class="not_state" value="ml">Mali</option>
-				<option class="not_state" value="mm">Malta</option>
-				<option class="not_state" value="mbc">Manitoba</option>
-				<option class="not_state" value="xe">Marshall Islands</option>
-				<option class="not_state" value="mq">Martinique</option>
-				<option class="state" value="mdu">Maryland</option>
-				<option class="state" value="mau">Massachusetts</option>
-				<option class="not_state" value="mu">Mauritania</option>
-				<option class="not_state" value="mf">Mauritius</option>
-				<option class="not_state" value="ot">Mayotte</option>
-				<option class="not_state" value="mx">Mexico</option>
-				<option class="state" value="miu">Michigan</option>
-				<option class="not_state" value="fm">Micronesia (Federated States)</option>
-				<option class="not_state" value="xf">Midway Islands</option>
-				<option class="state" value="mnu">Minnesota</option>
-				<option class="state" value="msu">Mississippi</option>
-				<option class="state" value="mou">Missouri</option>
-				<option class="not_state" value="mv">Moldova</option>
-				<option class="not_state" value="mc">Monaco</option>
-				<option class="not_state" value="mp">Mongolia</option>
-				<option class="state" value="mtu">Montana</option>
-				<option class="not_state" value="mo">Montenegro</option>
-				<option class="not_state" value="mj">Montserrat</option>
-				<option class="not_state" value="mr">Morocco</option>
-				<option class="not_state" value="mz">Mozambique</option>
-				<option class="not_state" value="sx">Namibia</option>
-				<option class="not_state" value="nu">Nauru</option>
-				<option class="state" value="nbu">Nebraska</option>
-				<option class="not_state" value="np">Nepal</option>
-				<option class="not_state" value="ne">Netherlands</option>
-				<option class="state" value="nvu">Nevada</option>
-				<option class="not_state" value="nkc">New Brunswick</option>
-				<option class="not_state" value="nl">New Caledonia</option>
-				<option class="state" value="nhu">New Hampshire</option>
-				<option class="state" value="nju">New Jersey</option>
-				<option class="state" value="nmu">New Mexico</option>
-				<option class="not_state" value="xna">New South Wales</option>
-				<option class="state" value="nyu">New York (State)</option>
-				<option class="not_state" value="nz">New Zealand</option>
-				<option class="not_state" value="nfc">Newfoundland and Labrador</option>
-				<option class="not_state" value="nq">Nicaragua</option>
-				<option class="not_state" value="ng">Niger</option>
-				<option class="not_state" value="nr">Nigeria</option>
-				<option class="not_state" value="xh">Niue</option>
-				<option class="not_state" value="xx">No place, unknown, or undetermined</option>
-				<option class="not_state" value="nx">Norfolk Island</option>
-				<option class="state" value="ncu">North Carolina</option>
-				<option class="state" value="ndu">North Dakota</option>
-				<option class="not_state" value="nik">Northern Ireland</option>
-				<option class="not_state" value="nw">Northern Mariana Islands</option>
-				<option class="not_state" value="xoa">Northern Territory</option>
-				<option class="not_state" value="ntc">Northwest Territories</option>
-				<option class="not_state" value="no">Norway</option>
-				<option class="not_state" value="nsc">Nova Scotia</option>
-				<option class="not_state" value="nuc">Nunavut</option>
-				<option class="state" value="ohu">Ohio</option>
-				<option class="state" value="oku">Oklahoma</option>
-				<option class="not_state" value="mk">Oman</option>
-				<option class="not_state" value="onc">Ontario</option>
-				<option class="state" value="oru">Oregon</option>
-				<option class="not_state" value="pk">Pakistan</option>
-				<option class="not_state" value="pw">Palau</option>
-				<option class="not_state" value="pn">Panama</option>
-				<option class="not_state" value="pp">Papua New Guinea</option>
-				<option class="not_state" value="pf">Paracel Islands</option>
-				<option class="not_state" value="py">Paraguay</option>
-				<option class="state" value="pau">Pennsylvania</option>
-				<option class="not_state" value="pe">Peru</option>
-				<option class="not_state" value="ph">Philippines</option>
-				<option class="not_state" value="pc">Pitcairn Island</option>
-				<option class="not_state" value="pl">Poland</option>
-				<option class="not_state" value="po">Portugal</option>
-				<option class="not_state" value="pic">Prince Edward Island</option>
-				<option class="not_state" value="pr">Puerto Rico</option>
-				<option class="not_state" value="qa">Qatar</option>
-				<option class="not_state" value="quc">Québec (Province)</option>
-				<option class="not_state" value="qea">Queensland</option>
-				<option class="not_state" value="re">Réunion</option>
-				<option class="state" value="riu">Rhode Island</option>
-				<option class="not_state" value="rm">Romania</option>
-				<option class="not_state" value="ru">Russia (Federation)</option>
-				<option class="not_state" value="rw">Rwanda</option>
-				<option class="not_state" value="xj">Saint Helena</option>
-				<option class="not_state" value="xd">Saint Kitts-Nevis</option>
-				<option class="not_state" value="xk">Saint Lucia</option>
-				<option class="not_state" value="xl">Saint Pierre and Miquelon</option>
-				<option class="not_state" value="xm">Saint Vincent and the Grenadines</option>
-				<option class="not_state" value="sc">Saint-Barthélemy</option>
-				<option class="not_state" value="st">Saint-Martin</option>
-				<option class="not_state" value="ws">Samoa</option>
-				<option class="not_state" value="sm">San Marino</option>
-				<option class="not_state" value="sf">Sao Tome and Principe</option>
-				<option class="not_state" value="snc">Saskatchewan</option>
-				<option class="not_state" value="su">Saudi Arabia</option>
-				<option class="not_state" value="stk">Scotland</option>
-				<option class="not_state" value="sg">Senegal</option>
-				<option class="not_state" value="rb">Serbia</option>
-				<option class="not_state" value="se">Seychelles</option>
-				<option class="not_state" value="sl">Sierra Leone</option>
-				<option class="not_state" value="si">Singapore</option>
-				<option class="not_state" value="sn">Sint Maarten</option>
-				<option class="not_state" value="xo">Slovakia</option>
-				<option class="not_state" value="xv">Slovenia</option>
-				<option class="not_state" value="bp">Solomon Islands</option>
-				<option class="not_state" value="so">Somalia</option>
-				<option class="not_state" value="sa">South Africa</option>
-				<option class="not_state" value="xra">South Australia</option>
-				<option class="state" value="scu">South Carolina</option>
-				<option class="state" value="sdu">South Dakota</option>
-				<option class="not_state" value="xs">South Georgia and the South Sandwich Islands</option>
-				<option class="not_state" value="sd">South Sudan</option>
-				<option class="not_state" value="sp">Spain</option>
-				<option class="not_state" value="sh">Spanish North Africa</option>
-				<option class="not_state" value="xp">Spratly Island</option>
-				<option class="not_state" value="ce">Sri Lanka</option>
-				<option class="not_state" value="sj">Sudan</option>
-				<option class="not_state" value="sr">Surinam</option>
-				<option class="not_state" value="sq">Swaziland</option>
-				<option class="not_state" value="sw">Sweden</option>
-				<option class="not_state" value="sz">Switzerland</option>
-				<option class="not_state" value="sy">Syria</option>
-				<option class="not_state" value="ta">Tajikistan</option>
-				<option class="not_state" value="tz">Tanzania</option>
-				<option class="not_state" value="tma">Tasmania</option>
-				<option class="state" value="tnu">Tennessee</option>
-				<option class="not_state" value="fs">Terres australes et antarctiques françaises</option>
-				<option class="state" value="txu">Texas</option>
-				<option class="not_state" value="th">Thailand</option>
-				<option class="not_state" value="em">Timor-Leste</option>
-				<option class="not_state" value="tg">Togo</option>
-				<option class="not_state" value="tl">Tokelau</option>
-				<option class="not_state" value="to">Tonga</option>
-				<option class="not_state" value="tr">Trinidad and Tobago</option>
-				<option class="not_state" value="ti">Tunisia</option>
-				<option class="not_state" value="tu">Turkey</option>
-				<option class="not_state" value="tk">Turkmenistan</option>
-				<option class="not_state" value="tc">Turks and Caicos Islands</option>
-				<option class="not_state" value="tv">Tuvalu</option>
-				<option class="not_state" value="ug">Uganda</option>
-				<option class="not_state" value="un">Ukraine</option>
-				<option class="not_state" value="ts">United Arab Emirates</option>
-				<option class="not_state" value="xxk">United Kingdom</option>
-				<option class="not_state" value="uik">United Kingdom Misc. Islands</option>
-				<option class="not_state" value="xxu">United States</option>
-				<option class="not_state" value="uc">United States Misc. Caribbean Islands</option>
-				<option class="not_state" value="up">United States Misc. Pacific Islands</option>
-				<option class="not_state" value="uy">Uruguay</option>
-				<option class="state" value="utu">Utah</option>
-				<option class="not_state" value="uz">Uzbekistan</option>
-				<option class="not_state" value="nn">Vanuatu</option>
-				<option class="not_state" value="vp">Various places</option>
-				<option class="not_state" value="vc">Vatican City</option>
-				<option class="not_state" value="ve">Venezuela</option>
-				<option class="state" value="vtu">Vermont</option>
-				<option class="not_state" value="vra">Victoria</option>
-				<option class="not_state" value="vm">Vietnam</option>
-				<option class="not_state" value="vi">Virgin Islands of the United States</option>
-				<option class="state" value="vau">Virginia</option>
-				<option class="not_state" value="wk">Wake Island</option>
-				<option class="not_state" value="wlk">Wales</option>
-				<option class="not_state" value="wf">Wallis and Futuna</option>
-				<option class="state" value="wau">Washington (State)</option>
-				<option class="not_state" value="wj">West Bank of the Jordan River</option>
-				<option class="state" value="wvu">West Virginia</option>
-				<option class="not_state" value="wea">Western Australia</option>
-				<option class="not_state" value="ss">Western Sahara</option>
-				<option class="state" value="wiu">Wisconsin</option>
-				<option class="state" value="wyu">Wyoming</option>
-				<option class="not_state" value="ye">Yemen</option>
-				<option class="not_state" value="ykc">Yukon Territory</option>
-				<option class="not_state" value="za">Zambia</option>
-				<option class="not_state" value="rh">Zimbabwe</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="af">Afghanistan</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="alu">Alabama</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="aku">Alaska</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="aa">Albania</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="abc">Alberta</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ae">Algeria</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="as">American Samoa</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="an">Andorra</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ao">Angola</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="am">Anguilla</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ay">Antarctica</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="aq">Antigua and Barbuda</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ag">Argentina</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="azu">Arizona</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="aru">Arkansas</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ai">Armenia (Republic)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="aw">Aruba</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="at">Australia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="aca">Australian Capital Territory</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="au">Austria</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="aj">Azerbaijan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bf">Bahamas</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ba">Bahrain</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bg">Bangladesh</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bb">Barbados</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bw">Belarus</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="be">Belgium</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bh">Belize</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="dm">Benin</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bm">Bermuda Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bt">Bhutan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bo">Bolivia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bn">Bosnia and Hercegovina</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bs">Botswana</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bv">Bouvet Island</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bl">Brazil</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bcc">British Columbia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bi">British Indian Ocean Territory</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="vb">British Virgin Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bx">Brunei</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bu">Bulgaria</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="uv">Burkina Faso</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="br">Burma</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bd">Burundi</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cv">Cabo Verde</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="cau">California</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cb">Cambodia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cm">Cameroon</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xxc">Canada</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ca">Caribbean Netherlands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cj">Cayman Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cx">Central African Republic</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cd">Chad</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cl">Chile</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cc">China</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ch">China (Republic : 1949- )</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xa">Christmas Island (Indian Ocean)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xb">Cocos (Keeling) Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ck">Colombia</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="cou">Colorado</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cq">Comoros</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cf">Congo (Brazzaville)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cg">Congo (Democratic Republic)</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="ctu">Connecticut</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cw">Cook Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xga">Coral Sea Islands Territory</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cr">Costa Rica</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="iv">Côte d'Ivoire</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ci">Croatia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cu">Cuba</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="co">Curaçao</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="cy">Cyprus</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xr">Czech Republic</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="deu">Delaware</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="dk">Denmark</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="dcu">District of Columbia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ft">Djibouti</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="dq">Dominica</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="dr">Dominican Republic</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ec">Ecuador</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ua">Egypt</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="es">El Salvador</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="enk">England</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="eg">Equatorial Guinea</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ea">Eritrea</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="er">Estonia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="et">Ethiopia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="fk">Falkland Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="fa">Faroe Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="fj">Fiji</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="fi">Finland</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="flu">Florida</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="fr">France</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="fg">French Guiana</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="fp">French Polynesia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="go">Gabon</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gm">Gambia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gz">Gaza Strip</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="gau">Georgia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gs">Georgia (Republic)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gw">Germany</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gh">Ghana</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gi">Gibraltar</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gr">Greece</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gl">Greenland</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gd">Grenada</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gp">Guadeloupe</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gu">Guam</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gt">Guatemala</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gv">Guinea</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pg">Guinea-Bissau</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gy">Guyana</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ht">Haiti</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="hiu">Hawaii</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="hm">Heard and McDonald Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ho">Honduras</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="hu">Hungary</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ic">Iceland</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="idu">Idaho</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="ilu">Illinois</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ii">India</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="inu">Indiana</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="io">Indonesia</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="iau">Iowa</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ir">Iran</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="iq">Iraq</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="iy">Iraq-Saudi Arabia Neutral Zone</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ie">Ireland</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="is">Israel</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="it">Italy</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="jm">Jamaica</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ja">Japan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ji">Johnston Atoll</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="jo">Jordan</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="ksu">Kansas</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="kz">Kazakhstan</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="kyu">Kentucky</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ke">Kenya</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="gb">Kiribati</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="kn">Korea (North)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ko">Korea (South)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="kv">Kosovo</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ku">Kuwait</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="kg">Kyrgyzstan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ls">Laos</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="lv">Latvia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="le">Lebanon</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="lo">Lesotho</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="lb">Liberia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ly">Libya</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="lh">Liechtenstein</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="li">Lithuania</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="lau">Louisiana</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="lu">Luxembourg</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xn">Macedonia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mg">Madagascar</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="meu">Maine</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mw">Malawi</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="my">Malaysia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xc">Maldives</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ml">Mali</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mm">Malta</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mbc">Manitoba</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xe">Marshall Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mq">Martinique</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="mdu">Maryland</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="mau">Massachusetts</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mu">Mauritania</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mf">Mauritius</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ot">Mayotte</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mx">Mexico</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="miu">Michigan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="fm">Micronesia (Federated States)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xf">Midway Islands</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="mnu">Minnesota</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="msu">Mississippi</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="mou">Missouri</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mv">Moldova</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mc">Monaco</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mp">Mongolia</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="mtu">Montana</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mo">Montenegro</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mj">Montserrat</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mr">Morocco</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mz">Mozambique</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sx">Namibia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nu">Nauru</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="nbu">Nebraska</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="np">Nepal</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ne">Netherlands</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="nvu">Nevada</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nkc">New Brunswick</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nl">New Caledonia</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="nhu">New Hampshire</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="nju">New Jersey</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="nmu">New Mexico</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xna">New South Wales</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="nyu">New York (State)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nz">New Zealand</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nfc">Newfoundland and Labrador</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nq">Nicaragua</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ng">Niger</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nr">Nigeria</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xh">Niue</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xx">No place, unknown, or undetermined</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nx">Norfolk Island</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="ncu">North Carolina</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="ndu">North Dakota</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nik">Northern Ireland</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nw">Northern Mariana Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xoa">Northern Territory</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ntc">Northwest Territories</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="no">Norway</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nsc">Nova Scotia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nuc">Nunavut</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="ohu">Ohio</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="oku">Oklahoma</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="mk">Oman</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="onc">Ontario</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="oru">Oregon</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pk">Pakistan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pw">Palau</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pn">Panama</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pp">Papua New Guinea</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pf">Paracel Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="py">Paraguay</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="pau">Pennsylvania</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pe">Peru</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ph">Philippines</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pc">Pitcairn Island</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pl">Poland</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="po">Portugal</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pic">Prince Edward Island</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="pr">Puerto Rico</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="qa">Qatar</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="quc">Québec (Province)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="qea">Queensland</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="re">Réunion</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="riu">Rhode Island</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="rm">Romania</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ru">Russia (Federation)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="rw">Rwanda</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xj">Saint Helena</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xd">Saint Kitts-Nevis</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xk">Saint Lucia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xl">Saint Pierre and Miquelon</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xm">Saint Vincent and the Grenadines</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sc">Saint-Barthélemy</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="st">Saint-Martin</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ws">Samoa</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sm">San Marino</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sf">Sao Tome and Principe</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="snc">Saskatchewan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="su">Saudi Arabia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="stk">Scotland</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sg">Senegal</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="rb">Serbia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="se">Seychelles</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sl">Sierra Leone</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="si">Singapore</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sn">Sint Maarten</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xo">Slovakia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xv">Slovenia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="bp">Solomon Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="so">Somalia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sa">South Africa</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xra">South Australia</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="scu">South Carolina</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="sdu">South Dakota</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xs">South Georgia and the South Sandwich Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sd">South Sudan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sp">Spain</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sh">Spanish North Africa</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xp">Spratly Island</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ce">Sri Lanka</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sj">Sudan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sr">Surinam</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sq">Swaziland</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sw">Sweden</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sz">Switzerland</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="sy">Syria</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ta">Tajikistan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="tz">Tanzania</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="tma">Tasmania</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="tnu">Tennessee</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="fs">Terres australes et antarctiques françaises</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="txu">Texas</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="th">Thailand</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="em">Timor-Leste</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="tg">Togo</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="tl">Tokelau</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="to">Tonga</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="tr">Trinidad and Tobago</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ti">Tunisia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="tu">Turkey</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="tk">Turkmenistan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="tc">Turks and Caicos Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="tv">Tuvalu</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ug">Uganda</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="un">Ukraine</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ts">United Arab Emirates</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xxk">United Kingdom</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="uik">United Kingdom Misc. Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="xxu">United States</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="uc">United States Misc. Caribbean Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="up">United States Misc. Pacific Islands</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="uy">Uruguay</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="utu">Utah</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="uz">Uzbekistan</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="nn">Vanuatu</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="vp">Various places</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="vc">Vatican City</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ve">Venezuela</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="vtu">Vermont</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="vra">Victoria</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="vm">Vietnam</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="vi">Virgin Islands of the United States</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="vau">Virginia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="wk">Wake Island</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="wlk">Wales</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="wf">Wallis and Futuna</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="wau">Washington (State)</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="wj">West Bank of the Jordan River</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="wvu">West Virginia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="wea">Western Australia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ss">Western Sahara</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="wiu">Wisconsin</option>
+				<option class="not_datasets not_ebooks govdocs not_monographs not_theses" value="wyu">Wyoming</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ye">Yemen</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="ykc">Yukon Territory</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="za">Zambia</option>
+				<option class="datasets ebooks not_govdocs monographs not_theses" value="rh">Zimbabwe</option>
 			</select>
 			<label title="Select the country of publication from the drop-down menu. If published in the United States, Canada, Australia, or the United Kingdom, select the state, province, or geographic region"><span class="question-mark">?</span></label><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="country_listed" class="listed">
 		</div>
 
-		<div id="publication-block">
+		<div id="publication-block" class="datasets ebooks govdocs monographs theses">
 			<label for="date" class="heading">Date of publication</label><br>
 			<input type="number" class="date conditional" required id="year" min="0">
 			<label title="Record the year of publication if it appears on the piece. Do not record a copyright date here. Copyright dates should be recorded in the next field."><span class="question-mark">?</span></label><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
 		</div>
 
-		<div id="copyright-block">
+		<div id="copyright-block" class="datasets ebooks govdocs monographs not_theses">
 			<label for="cyear" class="heading">Copyright date</label><br>
 			<input type="number" class="date conditional" required id="cyear" min="0">
 			<label title="Record the year of copyright if it appears on the piece."><span class="question-mark">?</span></label><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="cyear_listed" class="listed">
 		</div>
 
-		<div id="dissertation_type-block" class="standard-block">
+		<div id="dissertation_type-block" class="standard-block not_datasets not_ebooks not_govdocs not_monographs theses">
 			<label for="dissertation_type" class="heading">Dissertation Type</label><br>
 			<select required id="dissertation_type">
 				<option selected disabled hidden value=''></option>
@@ -1043,12 +1043,12 @@
 			</select>
 		</div>
 
-		<div id="major-block" class="standard-block">
+		<div id="major-block" class="standard-block not_datasets not_ebooks not_govdocs not_monographs theses">
 			<label for="major" class="heading">Major</label><br>
 			<input type="text" required id="major">
 		</div>
 
-		<div id="pages-block" class="standard-block">
+		<div id="pages-block" class="standard-block not_datasets not_ebooks govodcs monographs theses">
 			<label for="number" class="heading">Number of</label>
 			<select name="vorp" id="vorp">
 				<option selected value="pages">pages</option>
@@ -1060,18 +1060,18 @@ If a multi-volume set, do not record the number of pages, but instead record the
 			<span class="unlisted">Unpaged</span><input type="checkbox" id="pages_listed" class="listed">
 		</div>
 
-		<div id="dimensions-block" class="standard-block">
+		<div id="dimensions-block" class="standard-block not_datasets not_ebooks govodcs monographs not_theses">
 			<label for="dimensions" class="heading">Dimensions<span class="required_marker">*</span></label><br>
 			<input type="text" required id="dimensions" class="required"> cm
 			<label title="Record the height of the piece in cm. Always round up, so that if a piece measures 25.1 cm, record 26 cm"><span class="question-mark">?</span></label>
 		</div>
 
-		<div id="bibliographies-block" class="standard-block">
+		<div id="bibliographies-block" class="standard-block not_datasets not_ebooks not_govdocs not_monographs theses">
 			<label for="bib" class="heading">Bibliographies</label><br>
 			<input type="text" required id="bib">
 		</div>
 
-		<div id="literature-block" class="standard-block">
+		<div id="literature-block" class="standard-block not_datasets ebooks not_govdocs monographs not_theses">
 			<label for="literature" class="heading">Is this item literature?</label><br>
 			<input type="radio" name="literature" id="literature-yes" value="yes">Yes
 			<input type="radio" name="literature" id="literature-no" value="no">No<br>
@@ -1092,48 +1092,48 @@ If a multi-volume set, do not record the number of pages, but instead record the
 			</select>
 		</div>
 
-		<div id="illustrations-block" class="standard-block">
+		<div id="illustrations-block" class="standard-block not_datasets ebooks govdocs monographs theses">
 			<label for="illustrations" class="heading">Does the item include illustrations?</label><br>
 			<input type="radio" name="illustrations" id="illustrations-yes" value="yes">Yes
 			<input type="radio" name="illustrations" id="illustrations-no" value="no">No
 		</div>
 
-		<div id="format-block" class="standard-block dataset">
+		<div id="format-block" class="standard-block datasets not_ebooks not_govdocs not_monographs not_theses">
 			<label for="format" class="heading">File format</label><br>
 			<input type="text" id="format"><br>
 		</div>
 
-		<div id="daterange-block" class="standard-block dataset">
+		<div id="daterange-block" class="standard-block datasets not_ebooks not_govdocs not_monographs not_theses">
 			<label for="daterange" class="heading">Date range of content</label><br>
 			<input type="text" id="daterange"><br>
 		</div>
 
-		<div id="datecollected-block" class="standard-block dataset">
+		<div id="datecollected-block" class="standard-block datasets not_ebooks not_govdocs not_monographs not_theses">
 			<label for="datecollected" class="heading">Date the data was collected</label><br>
 			<input type="text" id="datecollected"><br>
 		</div>
 
-		<div id="gcoverage-block" class="standard-block dataset">
+		<div id="gcoverage-block" class="standard-block datasets not_ebooks not_govdocs not_monographs not_theses">
 			<label for="gcoverage" class="heading">Geographic coverage</label><br>
 			<input type="text" id="gcoverage"><br>
 		</div>
 
-		<div id="ggranularity-block" class="standard-block dataset">
+		<div id="ggranularity-block" class="standard-block datasets not_ebooks not_govdocs not_monographs not_theses">
 			<label for="ggranularity" class="heading">Geographic granularity</label><br>
 			<input type="text" id="ggranularity"><br>
 		</div>
 
-		<div id="access_terms-block" class="standard-block dataset">
+		<div id="access_terms-block" class="standard-block datasets not_ebooks not_govdocs not_monographs not_theses">
 			<label for="access_terms" class="heading">Access terms</label><br>
 			<input type="text" id="access_terms"><br>
 		</div>
 
-		<div id="use_terms-block" class="standard-block dataset">
+		<div id="use_terms-block" class="standard-block datasets not_ebooks not_govdocs not_monographs not_theses">
 			<label for="use_terms" class="heading">Use terms and conditions</label><br>
 			<input type="text" id="use_terms"><br>
 		</div>
 
-		<div id="subject_headings">
+		<div id="subject_headings" class="not_datasets ebooks not_govdocs not_monographs not_theses">
 			<label for="root-subject0" class="heading">BISAC Subject Heading</label> <input type="button" value="+" id="add-subject" onclick="addSubject();"><br>
 			<div id="subject0-block" class="subject-block">
 				<div id="verification0" class="verification unverified">Invalid Subject Heading <span style="color: red;">&#x2717;</span></div>
@@ -1196,7 +1196,7 @@ If a multi-volume set, do not record the number of pages, but instead record the
 			</div>
 		</div>
 
-		<div id="keywords" class="standard-block">
+		<div id="keywords" class="standard-block datasets ebooks govdocs monographs not_theses">
 			<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>
 			<input type="text" class="fastID hidden" id="fastID0">
 			<input type="number" class="fastType hidden" id="fastType0">
@@ -1205,26 +1205,26 @@ If a multi-volume set, do not record the number of pages, but instead record the
 			<input type="button" value="+" id="add-button" onClick="addKeyword();">
 		</div>
 
-		<div id="notes-block">
+		<div id="notes-block" class="datasets ebooks govdocs monographs not_theses">
 			<label for="notes">Notes to the Cataloger</label><br>
 			<textarea id="notes"></textarea>
 		</div>
 
-		<div id="save-as-block">
+		<div id="save-as-block" class="datasets ebooks govdocs monographs theses">
 			<label for="filename">Save as</label>
 			<input type="text" id="filename" placeholder="record">.[file type]
 		</div>
 
-		<div id="formats-block" class="standard-block">
+		<div id="formats-block" class="standard-block datasets ebooks govdocs monographs theses">
 			<label for="filetype">Choose record formats:</label><br>
-			<input type="checkbox" id="MARC" class="filetype">MARC<br>
-			<input type="checkbox" id="MARCXML" class="filetype">MARCXML<br>
-			<input type="checkbox" id="MODS" class="filetype">MODS<br>
-			<input type="checkbox" id="HTML" class="filetype">HTML<br>
-			<input type="checkbox" id="ONIX" class="filetype">ONIX
+			<div class="datasets ebooks govdocs monographs theses"><input type="checkbox" id="MARC" class="filetype">MARC</div>
+			<div class="datasets ebooks govdocs monographs theses"><input type="checkbox" id="MARCXML" class="filetype">MARCXML</div>
+			<div class="datasets ebooks govdocs monographs theses"><input type="checkbox" id="MODS" class="filetype">MODS</div>
+			<div class="datasets ebooks govdocs monographs theses"><input type="checkbox" id="HTML" class="filetype">HTML</div>
+			<div class="not_datasets ebooks not_govdocs not_monographs not_theses"><input type="checkbox" id="ONIX" class="filetype">ONIX</div>
 		</div>
 
-		<div id="buttons" class="standard-block">
+		<div id="buttons" class="standard-block datasets ebooks govdocs monographs theses">
 			<input type="submit" value="Make" id="make">
 			<input type="reset" value="Clear" id="Clear">
 		</div>

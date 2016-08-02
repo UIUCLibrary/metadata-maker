@@ -2,6 +2,21 @@
 	display: none;
 }
 
+.not_datasets {
+}
+
+.not_ebooks {
+}
+
+.not_govdocs {
+}
+
+.not_monographs{
+}
+
+.not_theses {
+}
+
 *:focus {
     outline: 0;
 }
