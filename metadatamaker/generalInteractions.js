@@ -326,8 +326,40 @@ $("input:radio[name=literature]").click(function() {
  */
 $(".version_selector").click(function() {
 	var id = $(this).attr('id').substring(10);
-	console.log(id);
-	window.location.hash = 'version=' + id;
+
+	var current_url = window.location.href;
+	if (current_url.substring(current_url.length-1,current_url.length) != '?') {
+		var custom_string = '?';
+	}
+	else {
+		var custom_string = '';
+	}
+
+	custom_string += '&version=' + id;
+
+//	if (checkExists(name)) {
+//		$("#institution_name").html(name);
+//	}
+//
+//	var ids = ['marc_code','physicalLocation','recordContentSource','lcno','org_name'];
+//	var variables = [marc,physicalLocation,recordContentSource,lcno,name];
+//	var url_variables = ['marc','physicalLocation','recordContentSource','lcn','n']
+//
+//	for (var index = 0; index < ids.length; index++) {
+//		if (checkExists(variables[index])) {
+//			$("#" + ids[index]).attr("placeholder",variables[index]);
+//			$("#" + ids[index]).val('');
+//			custom_string += '&' + url_variables[index] + '=' + variables[index];
+//		}
+//		else {
+//			existing_content = get(url_variables[index]);
+//			if (typeof(existing_content) !== 'undefined') {
+//				custom_string += '&' + url_variables[index] + '=' + existing_content;
+//			}
+//		}
+//	}
+
+	window.history.replaceState(null,null,custom_string);
 });
 
 /*
