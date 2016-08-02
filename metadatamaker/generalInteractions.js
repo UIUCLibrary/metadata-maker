@@ -322,6 +322,15 @@ $("input:radio[name=literature]").click(function() {
 });
 
 /*
+ *	How the page reacts to a change in the version
+ */
+$(".version_selector").click(function() {
+	var id = $(this).attr('id').substring(10);
+	console.log(id);
+	window.location.hash = 'version=' + id;
+});
+
+/*
  * Check that an optional field has been input
  *	attr: the field being checked
  *

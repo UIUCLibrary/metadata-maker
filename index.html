@@ -26,15 +26,22 @@
 	<!--Allow Safari and older versions of IE to behave as if they implement HTML5's 'required' attribute-->
 	<script>jQuery.webshims.polyfill('forms');</script>
 	<script src="metadatamaker/checkServer.js"></script>
+	<div id="version_selector">
+		<input type="button" class="version_selector" value="Data Sets" id="switch_to_datasets">
+		<input type="button" class="version_selector" value="E-Books" id="switch_to_ebooks">
+		<input type="button" class="version_selector" value="Government Documents" id="switch_to_govdocs">
+		<input type="button" class="version_selector" value="Monographs" id="switch_to_monographs">
+		<input type="button" class="version_selector" value="Theses & Dissertations" id="switch_to_theses">
+	</div>
 	<form id="marc-maker">
-		<div id="title-block">
+		<div id="title-block" class="datasets ebooks govdocs monographs theses">
 			<label for="title" class="heading">Title<span class="required_marker">*</span></label><label for="title" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</label><br>
 			<div id="insert-title"></div>
 			<input type="text" required id="title" class="required translit-listen">
 			<label title="Record the title as it appears on the title page. If the title includes a subtitle, record only the main title here, and the subtitle in the next field."><span class="question-mark">?</span></label>
 		</div>
 
-		<div id="subtitle-block">
+		<div id="subtitle-block" class="datasets ebooks govdocs monographs not_theses">
 			<label for="subtitle" class="heading">Subtitle</label><label for="subtitle" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</label><br>
 			<div id="insert-subtitle"></div>
 			<input type="text" required id="subtitle" class="conditional">
@@ -42,26 +49,26 @@
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="subtitle_listed" class="listed">
 		</div>
 
-		<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title  hidden">
+		<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden datasets ebooks govdocs monographs theses">
 			<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><label for="translit_title" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</label><br>
 			<div id="insert-translit_title" class="hidden translit translit-title"></div>
 			<input type="text" id="translit_title" class="hidden translit translit-title">
 		</div>
 
-		<div id="translit-subtitle-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
+		<div id="translit-subtitle-block" class="translit-title-block translit-block standard-translit-block translit-title hidden datasets ebooks govdocs monographs not_theses">
 			<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><label for="translit_subtitle" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</label><br>
 			<div id="insert-translit_subtitle" class="hidden translit translit-title"></div>
 			<input type="text" id="translit_subtitle" class="hidden translit translit-title">
 		</div>
 
-		<div id="isbn-block" class="standard-block">
+		<div id="isbn-block" class="standard-block not_datasets ebooks govdocs monographs not_theses">
 			<label for="isbn" class="heading">ISBN</label><br>
 			<input type="text" required id="isbn" class="conditional">
 			<label title="Record an ISBN, if present. Do not record hyphens. If multiple ISBNs are present, record only one. E.g., 9781234567890 or 1234567890"><span class="question-mark">?</span></label><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="isbn_listed" class="listed">
 		</div>
 
-		<div id="edition-block" class="standard-block">
+		<div id="edition-block" class="standard-block not_datasets ebooks govdocs monographs not_theses">
 			<label for="edition" class="heading">Edition statement</label><label for="edition" class="insert insert_normal" onClick='insertMenu("edition");'>Insert Diacritics</label><br>
 			<div id="insert-edition"></div>
 			<input type="text" class="conditional translit-listen" required id="edition">
@@ -69,34 +76,34 @@
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="edition_listed" class="listed">
 		</div>
 
-		<div id="translit-edition-block" class="translit-edition-block translit-block hidden standard-translit-block">
+		<div id="translit-edition-block" class="translit-edition-block translit-block hidden standard-translit-block not_datasets ebooks govdocs monographs not_theses">
 			<label for="translit_edition" class="hidden translit heading translit-edition">Transliterated edition</label><label for="translit_edition" class="insert insert_normal hidden translit translit-edition" onClick='insertMenu("translit_edition");'>Insert Diacritics</label><br>
 			<div id="insert-translit_edition" class="hidden translit translit-edition"></div>
 			<input type="text" id="translit_edition" class="hidden translit translit-edition">
 		</div>
 
-		<div id="item-number-block" class="standard-block">
+		<div id="item-number-block" class="standard-block not_datasets not_ebooks govdocs not_monographs not_theses">
 			<label for="item-number" class="heading">Item number</label><label for="item-number" class="insert insert_normal" onClick='insertMenu("item-number");'>Insert Diacritics</label></br>
 			<div id="insert-item-number"></div>
 			<input type="text" class="conditional" required id="item-number"><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="item-number_listed" class="listed">
 		</div>
 
-		<div id="sudoc-block" class="standard-block">
+		<div id="sudoc-block" class="standard-block not_datasets not_ebooks govdocs not_monographs not_theses">
 			<label for="sudoc" class="heading">SuDoc classification</label><label for="sudoc" class="insert insert_normal" onClick='insertMenu("sudoc");'>Insert Diacritics</label></br>
 			<div id="insert-sudoc"></div>
 			<input type="text" class="conditional" required id="sudoc"><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="sudoc_listed" class="listed">
 		</div>
 
-		<div id="report-number-block" class="standard-block">
+		<div id="report-number-block" class="standard-block not_datasets not_ebooks govdocs not_monographs not_theses">
 			<label for="report-number" class="heading">Report number</label><label for="report-number" class="insert insert_normal" onClick='insertMenu("report-number");'>Insert Diacritics</label></br>
 			<div id="insert-report-number"></div>
 			<input type="text" class="conditional" required id="report-number"><br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="report-number_listed" class="listed">
 		</div>
 
-		<div id="language-block" class="standard-block">
+		<div id="language-block" class="standard-block datasets not_datasets ebooks not_govdocs monographs theses">
 			<label for="language" class="heading">Language<span class="required_marker">*</span></label><br>
 			<select name="language" required id="language" class="required">
 				<option selected disabled hidden value=''></option>
@@ -588,12 +595,12 @@
 		</div>
 
 <!--		<div id="names_title" class="heading">Names<br></div>-->
-		<div id="author-block">
+		<div id="author-block" calss="dataset ebooks not_govdocs monographs theses">
 			<label for="author" class="heading">Personal Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
 			<div id="insert-family_name"></div><div id="insert-given_name"></div>
 			<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
 			<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
-			<select name="role" id="role">
+			<select name="role" id="role" class="dataset ebooks not_govdocs monographs not_theses">
 				<option value="art">artist</option>
 				<option selected value="aut">author</option>
 				<option value="ctb">contributor</option>
@@ -602,7 +609,7 @@
 				<option value="trl">translator</option>
 			</select>
 			<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
-			<input type="button" value="+" id="add-author" onClick="addAuthor();">
+			<input type="button" value="+" id="add-author" onClick="addAuthor();" class="datasets ebooks not_govdocs monographs not_theses">
 			<br>
 			<span class="unlisted">Unlisted</span><input type="checkbox" id="author_listed" class="listed">
 
@@ -1213,7 +1220,8 @@ If a multi-volume set, do not record the number of pages, but instead record the
 			<input type="checkbox" id="MARC" class="filetype">MARC<br>
 			<input type="checkbox" id="MARCXML" class="filetype">MARCXML<br>
 			<input type="checkbox" id="MODS" class="filetype">MODS<br>
-			<input type="checkbox" id="HTML" class="filetype">HTML
+			<input type="checkbox" id="HTML" class="filetype">HTML<br>
+			<input type="checkbox" id="ONIX" class="filetype">ONIX
 		</div>
 
 		<div id="buttons" class="standard-block">
