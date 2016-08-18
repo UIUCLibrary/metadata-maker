@@ -521,18 +521,19 @@ function fillFAST(record,head,fieldFunc,subfieldFunc) {
 		var FAST_directory = '';
 		for (var i = 0; i < record.fast.length; i++) {
 			var contentType = record.fast[i][2].substring(1);
+			var subjectHeading = record.fast[i][0].substring(0,record.fast[i][0].lastIndexOf('(')-1)
 			var FAST_subfield = [];
 			if (contentType == '00') {
-				handleSpecialFAST(record.fast[i][0],record.fast[i][0].indexOf(','),',','d',FAST_subfield,subfieldFunc);
+				handleSpecialFAST(subjectHeading,subjectHeading.indexOf(','),',','d',FAST_subfield,subfieldFunc);
 			}
 			else if (contentType == '30') {
-				handleSpecialFAST(record.fast[i][0],-1,'.','p',FAST_subfield,subfieldFunc);
+				handleSpecialFAST(subjectHeading,-1,'.','p',FAST_subfield,subfieldFunc);
 			}
 			else if (contentType == '51') {
-				handleSpecialFAST(record.fast[i][0],-1,'/','z',FAST_subfield,subfieldFunc);
+				handleSpecialFAST(subjectHeading,-1,'/','z',FAST_subfield,subfieldFunc);
 			}
 			else {
-				FAST_subfield.push(subfieldFunc('a',record.fast[i][0]));
+				FAST_subfield.push(subfieldFunc('a',subjectHeading));
 			}
 
 			FAST_subfield.push(subfieldFunc('2','fast'));
