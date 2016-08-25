@@ -13,7 +13,7 @@ attaches the autocomplete function to the search box
 */
 
 
-var currentSuggestIndexDefault = "suggestall";  //initial default value
+var currentSuggestIndexDefault = "suggest50";  //initial default value
 
 function setUpPage(number) {
 	// connect the autoSubject to the input areas
@@ -42,5 +42,5 @@ function autoSubjectExample(request, response) {
 	For this example, replace the common subfield break of -- with  /
 */
 function exampleStyle(res) {
-	return res["auth"].replace("--","/") + ' (' + getTypeFromTag(res['tag']) + ')';    
+	return res["auth"].replace("--","/");    
 }
