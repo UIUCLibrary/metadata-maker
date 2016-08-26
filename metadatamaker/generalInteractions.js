@@ -252,6 +252,18 @@ $(":reset").click(function() {
 	$(".hidden").hide();
 	$(".added").remove();
 	$(".translit-block").css("padding","0px");
+
+	//Clear subjects
+	$("#level3-subject0").remove();
+	$("#level2-subject0").remove();
+	$("#level1-subject0").remove();
+
+	$('#verification0').html('Invalid Subject Heading <span style="color: red;">&#x2717;</span>');
+	$("#verification0").removeClass('verified');
+	$("#verification0").addClass('unverified');
+	$("#verification0").removeAttr('value');
+	$("#subject0-block").removeClass('valid');
+	
 	counter = 1;
 	aCounter = 0;
 });

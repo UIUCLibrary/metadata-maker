@@ -305,13 +305,14 @@ $("#subject_headings").on('change','.root-subject',function() {
 	$("#level2-subject" + bloc_number + " option:eq(0)").prop('selected', true);
 	$("#level1-subject" + bloc_number + " option:eq(0)").prop('selected', true);*/
 
+	$('#verification' + bloc_number).html('Invalid Subject Heading <span style="color: red;">&#x2717;</span>');
+	$("#verification" + bloc_number).removeClass('verified');
+	$("#verification" + bloc_number).addClass('unverified');
+	$("#verification" + bloc_number).removeAttr('value');
+	$("#subject" + bloc_number + "-block").removeClass('valid');
+
 	if (selected != '') {
 		buildDynamicSubjectMenu(getBISAC(),bloc_number,'level1','root',[selected])
-		$('#verification' + bloc_number).html('Invalid Subject Heading <span style="color: red;">&#x2717;</span>');
-		$("#verification" + bloc_number).removeClass('verified');
-		$("#verification" + bloc_number).addClass('unverified');
-		$("#verification" + bloc_number).removeAttr('value');
-		$("#subject" + bloc_number + "-block").removeClass('valid');
 	}
 
 /*	if (class_name.length > 1) {
