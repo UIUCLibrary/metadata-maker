@@ -124,9 +124,18 @@ input[type="number"] {
 	margin-bottom: -46px;
 }
 
-#author-block {
+#names_title {
 	padding: 3px;
-	width: 700px;
+}
+
+#corporate-block {
+	padding: 6px;
+	padding-left: 36px;
+	width: 400px;
+}
+
+.insert_corporate_name {
+	left: -146px;
 }
 
 #publication-block {
@@ -148,11 +157,11 @@ input[type="number"] {
 	top: 0px;
 }
 
-#notes-block {
+#notes-block, #description-block {
 	padding: 3px;
 }
 
-#notes {
+#notes, #description {
 	min-width: 300px;
 	min-height: 100px;
 }

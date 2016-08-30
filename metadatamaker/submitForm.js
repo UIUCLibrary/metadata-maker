@@ -55,29 +55,22 @@ function generateInstitutionInfo() {
 }
 
 /*
- * The first listed author should be placed in 100. If no author is listed, then the first
- * listed artist should be placed in 100. If neither role is listed, then we return a person
- * with no name or role listed.
+ * The first listed corporation that is listed as a creator should be placed in 110.
+ * If creator is not listed, then we return a corporation with no name or role listed.
  *
- * list: List of people. Each person is a list of two objects. The first object contains the
- *		 person's family name, given name, and role in creating the piece being catalogued.
- *		 The second object contains the transliterated family name and given name of the same
- *		 person if applicable. Otherwise those two fields are empty strings.
+ * list: List of corporations. Each corporation is a list of two objects. The first object contains the
+ *		 corporate name, and role in creating the piece being catalogued.
+ *		 The second object contains the transliterated corporate name of the same
+ *		 corporation if applicable. Otherwise those two fields are empty strings.
  */
-function find100(list) {
-	for (iterator = 0; iterator < list.length; iterator++) {
-		if (list[iterator][0]['role'] == 'aut') {
+function find110(list) {
+	for (var iterator = 0; iterator < list.length; iterator++) {
+		if (list[iterator][0]['role'] == 'cre') {
 			return list.splice(iterator,1);
 		}
 	}
 
-	for (iterator = 0; iterator < list.length; iterator++) {
-		if (list[iterator][0]['role'] == 'art') {
-			return list.splice(iterator,1);
-		}
-	}
-
-	return [[{'family':'','given':'','role':''},{'family':'','given':''}]];
+	return [[{'corporate':'', 'role':''},{'corporate':''}]];
 }
 
 /*
@@ -101,26 +94,21 @@ $("#marc-maker").submit(function(event) {
 		}
 	};
 
-	var additional_names = [];
-	var translit_additional_names = [];
-	var complete_names_list = [
+	var complete_corporate_names_list = [
 		[
 			{
-				family: $("#family_name").val(),
-				given: $("#given_name").val(),
-				role: $("#role").val()
+				corporate: $("#corporate_name").val(),
+				role:  $("#corporate_role").val()
 			},
 			{
-				family: $("#translit_family_name").val(),
-				given: $("#translit_given_name").val()
+				corporate: $("#translit_corporate_name").val()
 			}
 		]
 	];
-	for (var i = 0; i < aCounter; i++) {
-		complete_names_list.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val(), "role": $("#role" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
+	for (var i = 0; i < cCounter; i++) {
+		complete_corporate_names_list.push([{"corporate": $("#corporate_name" + i).val(), "role": $("#corporate_role" + i).val()},{"corporate": $("#translit_corporate_name" + i).val()}]);
 	}
-	//Find the first listed author or artist
-	var entry100 = find100(complete_names_list);
+	var entry110 = find110(complete_corporate_names_list);
 
 	var recordObject = {
 		title: [
@@ -133,29 +121,37 @@ $("#marc-maker").submit(function(event) {
 				subtitle: $("#translit_subtitle").val()
 			}
 		],
-		author: entry100[0],
+		corporate_author: entry110[0],
 		publisher: $("#publisher").val(),
 		publication_year: $("#year").val(),
 		publication_place: $("#place").val(),
 		publication_country: $("#country").val(),
 		copyright_year: $("#cyear").val(),
 		language: $("#language").val(),
-		isbn: $("#isbn").val(),
+		issn: $("#issn").val(),
 		volume_or_page: $("#vorp").val(),
 		pages: $("#pages").val(),
+		volume_or_page: 'volumes',
 		unpaged: $("#pages_listed").is(':checked'),
 		literature_yes: $("#literature-yes").is(':checked'),
 		literature_dropdown: $("#literature-dropdown").val(),
-		illustrations_yes: $("#illustrations-yes").is(':checked'),
+		resource_type: $("#resource_type").val(),
+		government_publication_yes: $("#government_publication-yes").is(':checked'),
+		current_publication_frequency: $("#current_publication_frequency").val(),
+		current_publication_frequency_date: $("#current_publication_frequency_date").val(),
+		description: $("#description").val(),
+		web_url: $("#web-url").val(),
+		preceding_title: $("#preceding_title").val(),
+		relationship_with_preceding_title: $("#relationship_with_preceding_title").val(),
+		succeeding_title: $("#succeeding_title").val(),
+		relationship_with_succeeding_title: $("#relationship_with_succeeding_title").val(),
 		dimensions: $("#dimensions").val(),
-		edition: $("#edition").val(),
-		translit_edition: $("#translit_edition").val(),
 		translit_publisher: $("#translit_publisher").val(),
 		translit_place: $("#translit_place").val(),
 		notes: $("#notes").val(),
 		keywords: words,
 		fast: fast_array,
-		additional_authors: complete_names_list
+		additional_corporate_names: complete_corporate_names_list
 	};
 
 	var institution_info = generateInstitutionInfo();

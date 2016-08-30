@@ -931,10 +931,6 @@ function downloadHTML(record,institution_info) {
 		}
 	}
 
-	if (checkExists(record.edition)) {
-		displayTags += buildTag('bookEdition',record.edition,false,'Edition Statement');
-	}
-
 	if (checkExists(record.publisher)) {
 		displayTags += buildTag('publisher',record.publisher,false,'Publisher');
 	}
@@ -956,10 +952,6 @@ function downloadHTML(record,institution_info) {
 
 	if (checkExists(record.publication_year)) {
 		displayTags += buildTag('datePublished',record.publication_year,false,'Date of Publication');
-	}
-
-	if (checkExists(record.copyright_year)) {
-		displayTags += buildTag('copyrightYear',record.copyright_year,false,'Date of Copyright');
 	}
 
 	var ill = '';

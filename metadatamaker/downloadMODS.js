@@ -1,19 +1,16 @@
 /*
- * Author output depends on how the name was entered
+ * Corporate output depends on how the name was entered
  */
-function fillAuthorMODS(family,given,role) {
-	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
-	if (checkExists(given) || checkExists(family)) {
-		var authorText = '    <name type="personal">\n';
-		if (checkExists(family)) {
-			authorText += '        <namePart type="family">' + escapeXML(family) + '</namePart>\n';
-		}
-
-		if (checkExists(given)) {
-			authorText += '        <namePart type="given">' + escapeXML(given) + '</namePart>\n';
-		}
-
-		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n        </role>\n    </name>\n';
+function fillCorporateMODS(corporate,role) {
+	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
+	if (checkExists(corporate)) {
+		var authorText = '    <name type="corporate">\n';
+		authorText += '        <namePart>' + corporate + '</namePart>\n';
+		authorText += '        <role>\n';
+		authorText += '            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n';
+		authorText += '            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n';
+		authorText += '        </role>\n';
+		authorText += '    </name>\n';
 		return authorText;
 	}
 	else {
@@ -54,23 +51,69 @@ function downloadMODS(record,institution_info) {
 		'55': 'genre'
 	}
 
+	var resourceTypes = {
+		'#': 'None of the following',
+		'd': 'Updating database',
+		'l': 'Updating loose-leaf',
+		'm': 'Monographic series',
+		'n': 'Newspaper',
+		'p': 'Periodical',
+		'w': 'Updating Web site',
+		'|': 'No attempt to code'
+	}
+
+	var frequencyTypes = {
+		'#': 'No determinable frequency',
+		'a': 'Annual',
+		'b': 'Bimonthly',
+		'c': 'Semiweekly',
+		'd': 'Daily',
+		'e': 'Biweekly',
+		'f': 'Semiannual',
+		'g': 'Biennial',
+		'h': 'Triennial',
+		'i': 'Three times a week',
+		'j': 'Three times a month',
+		'k': 'Continuously updated',
+		'm': 'Monthly',
+		'q': 'Quarterly',
+		's': 'Semimonthly',
+		't': 'Three times a year',
+		'u': 'Unknown',
+		'w': 'Weekly',
+		'z': 'Other',
+		'n': 'Normalized irregular',
+		'r': 'Regular',
+		'u': 'Unknown',
+		'x': 'Completely irregular',
+		'|': 'No attempt to code'
+	}
+
 	var startText = '<?xml version="1.0" encoding="UTF-8"?>\n<mods:mods xmlns:mods="http://www.loc.gov/mods/v3"\n    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3"\n    xmlns:xlink="http://www.w3.org/1999/xlink"\n    xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"\n    version="3.5">\n';
 
 	var defaultText1 = '    <typeOfResource>text</typeOfResource>\n';
 
-	if (checkExists(record.isbn)) {
-		var isbnText = '    <identifier type="isbn">' + record.isbn + '</identifier>\n';
-	}
-	else {
-		var isbnText = '';
+	var issnText = '';
+	if (checkExists(record.issn)) {
+		issnText += '    <identifier type="issn">' + record.issn + '</identifier>\n';
 	}
 
-	var authorText = '';
-	authorText += fillAuthorMODS(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	var resourceTypeText = '';
+	if (checkExists(record.resource_type)) {
+		resourceTypeText += '    <genre>' + resourceTypes[record.resource_type] + '</genre>\n';
+	}
 
-	if (checkExists(record.additional_authors)) {
-		for (var i = 0; i < record.additional_authors.length; i++) {
-			authorText += fillAuthorMODS(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
+	var governmentText = '';
+	if (checkExists(record.government_publication_yes) && record.government_publication_yes == true) {
+		governmentText += '    <genre>Government Publication</genre>\n';
+	}
+
+	var corporateText = ''
+	corporateText += fillCorporateMODS(record.corporate_author[0]['corporate'],record.corporate_author[0]['role']);
+
+	if (checkExists(record.additional_corporate_names)) {
+		for (var i = 0; i < record.additional_corporate_names.length; i++) {
+			corporateText += fillCorporateMODS(record.additional_corporate_names[i][0]['corporate'],record.additional_corporate_names[i][0]['role']);
 		}
 	}
 
@@ -80,8 +123,13 @@ function downloadMODS(record,institution_info) {
 	}
 	titleText += '    </titleInfo>\n';
 
+	var urlText = '';
+	if (checkExists(record.web_url)) {
+		urlText += '    <relatedItem type="otherFormat" displayLabel="Online version:">\n        <titleInfo>\n            <title>' + escapeXML(record.title[0]['title']) + '</title>\n        </titleInfo>\n        <identifier type="url">' + escapeXML(record.web_url) + '</identifier>\n    </relatedItem>\n';
+	}
+
 	var originText = '';
-	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.publication_year) || checkExists(record.copyright_year) || checkExists(record.edition)) {
+	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.publication_year) || checkExists(record.copyright_year)) {
 		originText += '    <originInfo>\n';
 
 		if (checkExists(record.publication_country)) {
@@ -97,15 +145,15 @@ function downloadMODS(record,institution_info) {
 		}
 
 		if (checkExists(record.publication_year)) {
-			originText += '        <dateIssued>' + record.publication_year + '</dateIssued>\n';
+			originText += '        <dateIssued point="start" encoding="marc">\n';
+			originText += '            <dateIssued>' + record.publication_year + '</dateIssued>\n';
+			originText += '        </dateIssued>\n';
 		}
 
 		if (checkExists(record.copyright_year)) {
-			originText += '        <copyrightDate>' + record.copyright_year + '</copyrightDate>\n';
-		}
-
-		if (checkExists(record.edition)) {
-			originText += '        <edition>' + escapeXML(record.edition) + '</edition>\n';
+			originText += '        <dateIssued point="end" encoding="marc">\n';
+			originText += '            <dateIssued>' + record.copyright_year + '</dateIssued>\n';
+			originText += '        </dateIssued>\n';
 		}
 
 		originText += '    </originInfo>\n';
@@ -121,6 +169,36 @@ function downloadMODS(record,institution_info) {
 	var dimensionsText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n'
 
 	var defaultText2 = '    <location>\n        <physicalLocation>' + escapeXML(institution_info['mods']['physicalLocation']) + '</physicalLocation>\n    </location>\n';
+
+	var frequencyText = '';
+	if (checkExists(record.current_publication_frequency) || checkExists(record.current_publication_frequency_date)) {
+		frequencyText += '    <originInfo>\n';
+
+		if (checkExists(record.current_publication_frequency)) {
+			frequencyText += '        <frequency>' + frequencyTypes[record.current_publication_frequency] + '</frequency>\n';
+		}
+
+		if (checkExists(record.current_publication_frequency_date)) {
+			frequencyText += '        <dateIssued>' + record.current_publication_frequency_date + '</dateIssued>\n';
+		}
+
+		frequencyText += '    </originInfo>\n';
+	}
+
+	var descriptionText = '';
+	if (checkExists(record.description)) {
+		descriptionText += '    <notes>' + escapeXML(record.description) + '</notes>\n';
+	}
+
+	var precedingText = '';
+	if (checkExists(record.preceding_title)) {
+		precedingText += '    <relatedItem type="preceding">\n        <titleInfo>\n            <title>' + escapeXML(record.preceding_title) + '</title>\n        </titleInfo>\n    </relatedItem>\n';
+	}
+
+	var succeedingText = '';
+	if (checkExists(record.succeeding_title)) {
+		succeedingText += '    <relatedItem type="succeeding">\n        <titleInfo>\n            <title>' + escapeXML(record.succeeding_title) + '</title>\n        </titleInfo>\n    </relatedItem>\n';
+	}
 
 	var keywordsText = '';
 	for (var c = 0; c < record.keywords.length; c++) {
@@ -146,6 +224,6 @@ function downloadMODS(record,institution_info) {
 	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + escapeXML(institution_info['mods']['recordContentSource']) + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
+	var text = startText + titleText + urlText + corporateText + defaultText1 + issnText + resourceTypeText + governmentText + originText + languageText + pagesText + dimensionsText + defaultText2 + frequencyText + descriptionText + precedingText + succeedingText + keywordsText + fastText + literatureText + defaultText3 + endText;
 	downloadFile(text,'mods');
 }
