@@ -956,9 +956,8 @@
 
 		<div id="pages-block" class="standard-block">
 			<label for="number" class="heading">Number of Volumes</label>
-			<input type="text" required id="pages" class="conditional">
-			<label title="Record the number of volumes in each numbered sequence. E.g., 4"><span class="question-mark">?</span></label><br>
-			<span class="unlisted">Unpaged</span><input type="checkbox" id="pages_listed" class="listed">
+			<input type="text" id="pages">
+			<label title="Record the number of volumes in each numbered sequence. E.g., 4"><span class="question-mark">?</span></label>
 		</div>
 
 		<div id="dimensions-block" class="standard-block">
@@ -1062,12 +1061,13 @@
 
 		<div id="preceding_title-block" class="standard-block">
 			<label for="preceding_title" class="heading">Preceding title</label><br>
-			<input type="text" id="preceding_title">
+			<input type="text" required id="preceding_title" class="conditional"><br>
+			<span class="unlisted">Unlisted</span><input type="checkbox" id="preceding_title_listed" class="listed">
 		</div>
 
 		<div id="relationship_with_preceding_title-block" class="standard-block">
 			<label for="relationship_with_preceding_title" class="heading">Relationship with preceding title</label><br>
-			<select name="relationship_with_preceding_title-dropdown" id="relationship_with_preceding_title">
+			<select name="relationship_with_preceding_title-dropdown" required id="relationship_with_preceding_title" class="conditional">
 				<option selected disabled hidden value=''></option>
 				<option value="0">Continues</option>
 				<option value="1">Continues in part</option>
@@ -1077,17 +1077,19 @@
 				<option value="5">Absorbed</option>
 				<option value="6">Absorbed in part</option>
 				<option value="7">Separated from</option>
-			</select>
+			</select><br>
+			<span class="unlisted">Unlisted</span><input type="checkbox" id="relationship_with_preceding_title_listed" class="listed">
 		</div>
 
 		<div id="succeeding_title-block" class="standard-block">
 			<label for="succeeding_title" class="heading">Succeeding title</label><br>
-			<input type="text" id="succeeding_title">
+			<input type="text" required id="succeeding_title" class="conditional"><br>
+			<span class="unlisted">Unlisted</span><input type="checkbox" id="succeeding_title_listed" class="listed">
 		</div>
 
 		<div id="relationship_with_succeeding_title-block" class="standard-block">
 			<label for="relationship_with_succeeding_title" class="heading">Relationship with succeeding title</label><br>
-			<select name="relationship_with_succeeding_title-dropdown" id="relationship_with_succeeding_title">
+			<select name="relationship_with_succeeding_title-dropdown" required id="relationship_with_succeeding_title" class="conditional">
 				<option selected disabled hidden value=''></option>
 				<option value="0">Continued by</option>
 				<option value="1">Continued in part by</option>
@@ -1098,7 +1100,8 @@
 				<option value="6">Split into ... and ...</option>
 				<option value="7">Merged with ... to form ...</option>
 				<option value="8">Changed back to</option>
-			</select>
+			</select><br>
+			<span class="unlisted">Unlisted</span><input type="checkbox" id="relationship_with_succeeding_title_listed" class="listed">
 		</div>
 
 		<div id="keywords" class="standard-block">

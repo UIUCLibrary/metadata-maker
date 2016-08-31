@@ -401,7 +401,7 @@ function fillPhysical(record,head,fieldFunc,subfieldFunc) {
 	var physical_subfields = [];
 
 	if (record.pages === '0' || record.unpaged || (record.volume_or_page === 'volumes' && record.pages === '1')) {
-		var pages_string = '1 volume (unpaged)';
+		var pages_string = '1 volume';
 	}
 	else {
 		var pages_string = record.pages + ' ' + record.volume_or_page;
