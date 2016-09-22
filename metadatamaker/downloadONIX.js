@@ -21,7 +21,7 @@ function addHeader(record) {
 	return sender + addressee + message_number + sentDateTime
 }
 
-function getNonfilingCount(title,lang) {
+function getPrefix(title,lang) {
 	if (lang === 'eng') {
 		if (title.substring(0,2) === 'A ') {
 			return 'A';
@@ -91,7 +91,7 @@ function addTitles(record) {
 
 	var latin_index = checkExists(record.title[1]['title']) || checkExists(record.title[1]['subtitle']) ? 1 : 0;
 	if (record.language == 'eng' || record.language == 'fre') {
-		var prefix = getNonfilingCount(record.title[latin_index]['title'],record.language)
+		var prefix = getPrefix(record.title[latin_index]['title'],record.language)
 
 		if (checkExists(prefix)) {
 			title_detail += '\t\t\t\t\t<TitlePrefix>' + prefix + '</TitlePrefix>\n';
