@@ -713,8 +713,8 @@ function fillSubjects(record,head,fieldFunc,subfieldFunc) {
 
 		for (var index = 0; index < record.subjects.length; index++) {
 			var subject_subfields = []
-			subject_subfields.push(subfieldFunc('a',record.subjects[index]['id_number'].substring(0,3)));
-			subject_subfields.push(subfieldFunc('x',record.subjects[index]['root']));
+//			subject_subfields.push(subfieldFunc('a',record.subjects[index]['id_number'].substring(0,3)));
+			subject_subfields.push(subfieldFunc('a',record.subjects[index]['root']));
 			subject_subfields.push(subfieldFunc('x',record.subjects[index]['level1']));
 
 			if ('level2' in record.subjects[index]) {
