@@ -1,19 +1,10 @@
-/*
- *	Reads the 'name' variable from the URL and returns the value. Used for passing custom institution info.
- *		if the value has not been passed the function will return undefined.
- *
- *	name: String with the name of an expected variable in the URL
- */
 function get(name) {
 	if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search)) {
 		return decodeURIComponent(name[1]);
 	}
 }
 /* 
- * Edit the strings in this output to attribute records to another institution. The second half of the
- *		function checks the URL for custom info. If that info exists, it overwrites the defaults.
- *
- *	Returns the institution info
+ * Edit the strings in this function to attribute records to another institution
  */
 function generateInstitutionInfo() {
 	var output = {
