@@ -150,8 +150,7 @@ function downloadMODS(record,institution_info) {
 	var defaultText2 = '    <location>\n        <physicalLocation>' + escapeXML(institution_info['mods']['physicalLocation']) + '</physicalLocation>\n    </location>\n';
 
 	var keywordsText = '';
-	for (var c = 0; c < record.keywords.length; c++) {
-		if (record.keywords[c] !== '') {
+	for (var c = 0; c < record.keywords.len
 			keywordsText += '    <subject>\n        <topic>' + escapeXML(record.keywords[c]) + '</topic>\n    </subject>\n';
 		}
 	}
