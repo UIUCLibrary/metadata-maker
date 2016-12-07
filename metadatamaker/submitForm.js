@@ -4,7 +4,10 @@ function get(name) {
 	}
 }
 /* 
- * Edit the strings in this function to attribute records to another institution
+ * Edit the strings in this output to attribute records to another institution. The second half of the
+ *		function checks the URL for custom info. If that info exists, it overwrites the defaults.
+ *
+ *	Returns the institution info
  */
 function generateInstitutionInfo() {
 	var output = {

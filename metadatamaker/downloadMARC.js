@@ -989,6 +989,9 @@ function fillTranslitAdditionalCorporateAuthors(record,head,fieldFunc,subfieldFu
  * Create a MARC record. The variable head is a running total of the length of the record so far. The directory/variable[0]
  * variables number the field, point to the content, and list how long the content is. The content/variable[1] variables
  * are simply the content of that field. Order is very important here.
+ *	record: Library with all the information input by the user
+ *	institution_info: Library containing multiple forms of the name of the cataloguing instutition. Defaults to 
+ *		University of Illinois at Urbana-Champaign
  */
 function downloadMARC(record,institution_info) {
 	var head = 0;
@@ -1112,6 +1115,9 @@ function downloadMARC(record,institution_info) {
 
 /*
  * Create the MARCXML document
+ *	record: Library with all the information input by the user
+ *	institution_info: Library containing multiple forms of the name of the cataloguing instutition. Defaults to 
+ *		University of Illinois at Urbana-Champaign
  */
 function downloadXML(record,institution_info) {
 	var startText = '<?xml version="1.0" encoding="utf-8"?>\n<record xmlns="http://www.loc.gov/MARC21/slim" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n  <leader>01447mam a2200397ki 4500</leader>\n';
