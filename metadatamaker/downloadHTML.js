@@ -866,9 +866,6 @@ function buildSpan(prop,content) {
  * the family name and given name.
  */
 function listPerson(family,given,role) {
-	if (role != 'aut') {
-		role = 'ctb';
-	}
 	var role_index = { 'art': 'contributor', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'contributor'};
 	var prop = role_index[role];
 	var output_string = '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="http://schema.org/Person">\n';
@@ -888,18 +885,6 @@ function listPerson(family,given,role) {
 	output_string += '</b></dd>\n';
 	output_string += '\t\t\t</div>\n';
 	return output_string;
-}
-
-function listCorporation(corporation) {
-	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
-	var prop = role_index[corporation['role']];
-	var output_string = '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="http://schema.org/Organization">\n';
-	output_string += '\t\t\t\t<dt>' + prop.charAt(0).toUpperCase() + prop.slice(1) + ':</dt>\n';
-	output_string += '\t\t\t\t<dd><b>'
-	output_string += buildSpan('legalName',corporation['corporate']);
-	output_string += '</b></dd>\n';
-	output_string += '\t\t\t</div>\n';
-	return output_string
 }
 
 /*
@@ -944,21 +929,7 @@ function downloadHTML(record,institution_info) {
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			if (checkExists(record.additional_authors[i][0]['family']) || checkExists(record.additional_authors[i][0]['given'])) {
-				displayTags += listPerson(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
-			}
-		}
-	}
-
-	if (checkExists(record.corporate_author[0]['corporate'])) {
-		displayTags += listCorporation(record.corporate_author[0]);
-	}
-
-	if (checkExists(record.additional_corporate_names)) {
-		for (var i = 0; i < record.additional_corporate_names.length; i++) {
-			if (checkExists(record.additional_corporate_names[i][0]['corporate'])) {
-				displayTags += listCorporation(record.additional_corporate_names[i][0]);
-			}
+			displayTags += listPerson(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
 		}
 	}
 
@@ -998,14 +969,8 @@ function downloadHTML(record,institution_info) {
 		ill = 'illustrations';
 	}
 
-	if (ill != '' || checkExists(record.pages)) {
+	if (ill != '') {
 		displayTags += '\t\t\t<dt>Physical Description:</dt>\n\t\t\t<dd><b>';
-		if (checkExists(record.pages)) {
-			displayTags += buildSpan('numberOfPages',record.pages) + ' ' + record.volume_or_page;
-		}
-		if (ill != '' && checkExists(record.pages)) {
-			displayTags += '; ';
-		}
 		if (ill != '') {
 			displayTags += ill;
 		}
@@ -1013,37 +978,6 @@ function downloadHTML(record,institution_info) {
 	}
 
 	displayTags += '\t\t\t<dt>Language:</dt>\n\t\t\t<dd><b>' + getLanguage(record.language) + '</b></dd>\n';
-
-	if (checkExists(record.datecollected)) {
-		displayTags += buildTag('dateCreated',record.datecollected,false,'Date the Data Was Collected');
-	}
-
-	if (checkExists(record.access_terms)) {
-		displayTags += buildTag('license',record.access_terms,false,'Access Terms');
-	}
-
-	if (checkExists(record.gcoverage)) {
-		displayTags += '\t\t\t<div itemprop"contentLocation" itemscope itemtype="http://schema.org/Place">\n\t\t\t\t<dt>Geographic Coverage:</dt>\n\t\t\t\t<dd><b><span itemprop="name">' + record.gcoverage + '</span></b></dd>\n\t\t\t</div>\n';
-//		displayTags += '\t\t\t<creativeWork>\n\t\t\t\t<contentLocation>\n\t\t\t\t\t<place>\n\t\t\t\t\t\t<name>' + record.gcoverage + '</name>\n\t\t\t\t\t</place>\n\t\t\t\t</contentLocation>\n\t\t\t</creativeWork>\n';
-//		displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
-	}
-
-	if (checkExists(record.ggranularity)) {
-		displayTags += '\t\t\t<div itemprop"contentLocation" itemscope itemtype="http://schema.org/Place">\n\t\t\t\t<dt>Geographic Granularity:</dt>\n\t\t\t\t<dd><b><span itemprop="name">' + record.ggranularity + '</span></b></dd>\n\t\t\t</div>\n';
-//		displayTags += '\t\t\t<creativeWork>\n\t\t\t\t<contentLocation>\n\t\t\t\t\t<place>\n\t\t\t\t\t\t<name>' + record.ggranularity + '</name>\n\t\t\t\t\t</place>\n\t\t\t\t</contentLocation>\n\t\t\t</creativeWork>\n';
-	}
-
-	if (checkExists(record.format)) {
-		displayTags += buildTag('fileFormat',record.format,false,'File Format');
-	}
-
-	if (checkExists(record.use_terms)) {
-		displayTags += buildTag('license',record.use_terms,false,'Use Terms and Conditions');
-	}
-
-	if (checkExists(record.daterange)) {
-		displayTags += buildTag('datasetTimeInterval',record.daterange,false,'Date Range of Content');
-	}
 
 	if (record.keywords.length > 0) {
 		console.log(record.keywords);
@@ -1059,6 +993,25 @@ function downloadHTML(record,institution_info) {
 		displayTags += keywordsList;
 	}
 
+	if (record.subjects.length > 0) {
+		var subjectsList = '\t\t\t<dt>Subjects:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
+		for (var c = 0; c < record.subjects.length; c++) {
+			var new_subject = record.subjects[c]['root'] + '--' + record.subjects[c]['level1'];
+
+			if ('level2' in record.subjects[c]) {
+				new_subject += '--' + record.subjects[c]['level2'];
+
+				if ('level3' in record.subjects[c]) {
+					new_subject += '--' + record.subjects[c]['level3'];
+				}
+			}
+
+			subjectsList += '\t\t\t\t\t<li itemprop="about">' + new_subject + '</li>\n';
+		}
+		subjectsList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+		displayTags += subjectsList;
+	}
+
 	if (checkExists(record.fast) && record.fast.length > 0) {
 		var FASTList = '\t\t\t<dt>FAST:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
 		for (var c = 0; c < record.fast.length; c++) {
@@ -1072,6 +1025,6 @@ function downloadHTML(record,institution_info) {
 
 	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
 
-	var text = '<!DOCTYPE html>\n<html>\n<head>\n	<meta charset="utf-8">\n</head>\n\n<body>\n\t<div itemscope itemtype="http://schema.org/Dataset">\n' + metaTags + '\t\t<dl>\n' + displayTags + '\t\t</dl>\n\t</div>\n</body>\n</html>';
+	var text = '<!DOCTYPE html>\n<html>\n<head>\n	<meta charset="utf-8">\n</head>\n\n<body>\n\t<div itemscope itemtype="http://schema.org/Book">\n' + metaTags + '\t\t<dl>\n' + displayTags + '\t\t</dl>\n\t</div>\n</body>\n</html>';
 	downloadFile(text,'html');
 }

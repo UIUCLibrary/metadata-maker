@@ -21,16 +21,14 @@ function fillAuthorMODS(family,given,role) {
 	}
 }
 
-function fillCorporateMODS(corporate,role) {
+function fillCorporateAuthorMODS(corporate_author) {
 	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
-	if (checkExists(corporate)) {
+	if (checkExists(corporate_author['corporate'])) {
 		var authorText = '    <name type="corporate">\n';
-		authorText += '        <namePart>' + corporate + '</namePart>\n';
-		authorText += '        <role>\n';
-		authorText += '            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n';
-		authorText += '            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n';
-		authorText += '        </role>\n';
-		authorText += '    </name>\n';
+		authorText += '        <namePart>' + escapeXML(corporate_author['corporate']) + '</namePart>\n';
+		authorText += '        <roleTerm type="text" authority="marcrelator">' + role_index[corporate_author['role']] + '</roleTerm>\n';
+		authorText += '        <roleTerm type="code" authority="marcrelator">' + corporate_author['role'] + '</roleTerm>\n'
+		authorText += '    </name>\n'
 		return authorText;
 	}
 	else {
@@ -73,16 +71,16 @@ function downloadMODS(record,institution_info) {
 
 	var startText = '<?xml version="1.0" encoding="UTF-8"?>\n<mods:mods xmlns:mods="http://www.loc.gov/mods/v3"\n    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.loc.gov/mods/v3"\n    xmlns:xlink="http://www.w3.org/1999/xlink"\n    xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"\n    version="3.5">\n';
 
-	//var defaultText1 = '    <typeOfResource>text</typeOfResource>\n';
-	var defaultText1 = '';
+	var defaultText1 = '    <typeOfResource>text</typeOfResource>\n';
 
-	var genreText = '    <genre type="dct">dataset</genre>\n';
-
+	var isbnText = '';
 	if (checkExists(record.isbn)) {
-		var isbnText = '    <identifier type="isbn">' + record.isbn + '</identifier>\n';
+		isbnText = '    <identifier type="isbn">' + record.isbn + '</identifier>\n';
 	}
-	else {
-		var isbnText = '';
+
+	var sudocText = ''
+	if (checkExists(record.sudoc)) {
+		sudocText = '    <classification authority="sudocs">' + escapeXML(record.sudoc) + '</classification>\n'
 	}
 
 	var authorText = '';
@@ -94,12 +92,12 @@ function downloadMODS(record,institution_info) {
 		}
 	}
 
-	var corporateText = ''
-	corporateText += fillCorporateMODS(record.corporate_author[0]['corporate'],record.corporate_author[0]['role']);
+	var corporateText = '';
+	corporateText += fillCorporateAuthorMODS(record.corporate_author);
 
 	if (checkExists(record.additional_corporate_names)) {
 		for (var i = 0; i < record.additional_corporate_names.length; i++) {
-			corporateText += fillCorporateMODS(record.additional_corporate_names[i][0]['corporate'],record.additional_corporate_names[i][0]['role']);
+			corporateText += fillCorporateAuthorMODS(record.additional_corporate_names[i]);
 		}
 	}
 
@@ -108,11 +106,6 @@ function downloadMODS(record,institution_info) {
 		titleText += '        <subTitle>' + escapeXML(record.title[0]['subtitle']) + '</subTitle>\n';
 	}
 	titleText += '    </titleInfo>\n';
-
-	var urlText = '';
-	if (checkExists(record.web_url)) {
-		urlText += '    <location>\n        <url>' + escapeXML(record.web_url) + '</url>\n    </location>\n';
-	}
 
 	var originText = '';
 	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.publication_year) || checkExists(record.copyright_year) || checkExists(record.edition)) {
@@ -145,59 +138,21 @@ function downloadMODS(record,institution_info) {
 		originText += '    </originInfo>\n';
 	}
 
-	var languageText = '    <language>\n        <languageTerm authority="iso639-2b" type="code">' + record.language + '</languageTerm>\n    </language>\n';
+	var languageText = '    <language>\n        <languageTerm authority="iso639-2b" type="code">' + 'eng' + '</languageTerm>\n    </language>\n';
 
 	var pagesText = '';
 	if (checkExists(record.pages)) {
-		pagesText += '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.pages + ' ' + record.volume_or_page + '</extent>\n    </physicalDescription>\n';
+		pagesText += record.pages + ' ' + record.volume_or_page + '; ';
 	}
 
-	var dimensionsText = '';
-	if (checkExists(record.dimensions)) {
-		dimensionsText += '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n';
-	}
+	var dimensionsText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + pagesText + record.dimensions + ' cm</extent>\n    </physicalDescription>\n';
 
 	var defaultText2 = '    <location>\n        <physicalLocation>' + escapeXML(institution_info['mods']['physicalLocation']) + '</physicalLocation>\n    </location>\n';
-
-	var dateCollectedText = '';
-	if (checkExists(record.datecollected)) {
-		dateCollectedText = '    <originInfo>\n        <dateCaptured>' + escapeXML(record.datecollected) + '</dateCaptured>\n    </originInfo>\n';
-	}
-
-	var accessText = '';
-	if (checkExists(record.access_terms)) {
-		accessText = '    <accessCondition displayLabel="Restricted">' + escapeXML(record.access_terms) + '</accessCondition>\n';
-	}
-
-	var geographicCoverageText = '';
-	if (checkExists(record.gcoverage)) {
-		geographicCoverageText = '    <subject>\n        <geographic>' + escapeXML(record.gcoverage) + '</geographic>\n    </subject>\n';
-	}
-
-	var geographicGranularityText = '';
-	if (checkExists(record.ggranularity)) {
-		geographicGranularityText = '    <subject>\n        <geographic>' + escapeXML(record.ggranularity) + '</geographic>\n    </subject>\n';
-	}
-
-	var formatText = '';
-	if (checkExists(record.format)) {
-		formatText = '    <note>' + escapeXML(record.format) + '</note>\n';
-	}
-
-	var useText = '';
-	if (checkExists(record.use_terms)) {
-		useText = '    <accessCondition type="use and reproduction" displayLabel="Restricted">' + escapeXML(record.use_terms) + '</accessCondition>\n';
-	}
-
-	var dateRangeText = '';
-	if (checkExists(record.daterange)) {
-		dateRangeText = '    <subject>\n        <temporal>' + escapeXML(record.daterange) + '</temporal>\n    </subject>\n';
-	}
 
 	var keywordsText = '';
 	for (var c = 0; c < record.keywords.length; c++) {
 		if (record.keywords[c] !== '') {
-			keywordsText += '    <subject>\n        <topic>' + escapeXML(record.keywords[c]) + '</topic>\n    </subject>\n'
+			keywordsText += '    <subject>\n        <topic>' + escapeXML(record.keywords[c]) + '</topic>\n    </subject>\n';
 		}
 	}
 
@@ -218,6 +173,6 @@ function downloadMODS(record,institution_info) {
 	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + escapeXML(institution_info['mods']['recordContentSource']) + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + corporateText + defaultText1 + genreText + isbnText + urlText + originText + languageText + pagesText + dimensionsText + defaultText2 + dateCollectedText + accessText + geographicCoverageText + geographicGranularityText + formatText + useText + dateRangeText + keywordsText + fastText + literatureText + defaultText3 + endText;
+	var text = startText + titleText + authorText + corporateText + defaultText1 + isbnText + sudocText + originText + languageText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
 	downloadFile(text,'mods');
 }
