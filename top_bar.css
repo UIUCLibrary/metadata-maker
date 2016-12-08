@@ -5,7 +5,7 @@
 	height: 50px;
 	background-color: #ffffff;
 	z-index: 20;
-	box-shadow: 1px 1px 8px rgba(102, 102, 102, 0.3);
+	box-shadow: 0px 1px 2px rgba(102, 102, 102, 0.3);
 
 	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
 /*	text-align: center;*/
@@ -48,7 +48,7 @@
 	left: 0px;
 	width: 100%;
 	background-color: white;
-	box-shadow: 1px 5px 8px rgba(102, 102, 102, 0.3);
+	box-shadow: 0px 1px 2px rgba(102, 102, 102, 0.3);
 	z-index: -1;
 	border-top: 1px solid #E8E9EB;
 }
