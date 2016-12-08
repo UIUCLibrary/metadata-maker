@@ -174,7 +174,8 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 689px;
+/*	width: 689px;*/
+	width: fit-content;
 }
 
 #version_static {
