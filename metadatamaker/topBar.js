@@ -1,3 +1,13 @@
+function pushParametersToLinks() {
+	var current_url = window.location.href;
+	var start_index = current_url.indexOf('?');
+	$(".dropdown").each(function() {
+		$(this).attr('href',$(this).attr('href') + current_url.substring(start_index));
+	});
+}
+
+window.onload = pushParametersToLinks;
+
 /*
  * Remember the last field that was selected, so the insert menu can send characters there.
  */
@@ -205,6 +215,9 @@ $("#institution_menu").submit(function(event) {
 		custom_string = '?' + custom_string;
 	}*/
 	window.history.replaceState(null,null,custom_string);
+	$(".dropdown").each(function() {
+		$(this).attr('href',$(this).attr('href') + custom_string);
+	});
 /*	$("#vanilla").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/" + custom_string + "')");
 	$("#theses").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/theses/" + custom_string + "')");
 	$("#dataset").attr('onclick',"window.open('http://quest.library.illinois.edu/marcmaker/dataset/" + custom_string + "')");
