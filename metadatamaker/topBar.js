@@ -1,9 +1,11 @@
 function pushParametersToLinks() {
 	var current_url = window.location.href;
 	var start_index = current_url.indexOf('?');
-	$(".dropdown").each(function() {
-		$(this).attr('href',$(this).attr('href') + current_url.substring(start_index));
-	});
+	if (start_index > 0) {
+		$(".dropdown").each(function() {
+			$(this).attr('href',$(this).attr('href') + current_url.substring(start_index));
+		});
+	};
 }
 
 window.onload = pushParametersToLinks;
