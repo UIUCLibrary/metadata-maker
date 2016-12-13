@@ -13,7 +13,6 @@ function fillAuthorMODS(family,given) {
 		}
 
 		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">author</roleTerm>\n            <roleTerm authority="marcrelator" type="code">aut</roleTerm>\n        </role>\n    </name>\n';
-		authorText += '    </name>\n';
 		return authorText;
 	}
 	else {
