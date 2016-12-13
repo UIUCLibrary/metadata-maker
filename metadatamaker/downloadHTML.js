@@ -921,13 +921,15 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
 
-	if (checkExists(record.author[0]['role']) && (checkExists(record.author[0]['given']) || checkExists(record.author[0]['family']))) {
-		displayTags += listPerson(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	if (checkExists(record.corporate_author[0]['corporate'])) {
+		displayTags += listCorporation(record.corporate_author[0]);
 	}
 
-	if (checkExists(record.additional_authors)) {
-		for (var i = 0; i < record.additional_authors.length; i++) {
-			displayTags += listPerson(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
+	if (checkExists(record.additional_corporate_names)) {
+		for (var i = 0; i < record.additional_corporate_names.length; i++) {
+			if (checkExists(record.additional_corporate_names[i][0]['corporate'])) {
+				displayTags += listCorporation(record.additional_corporate_names[i][0]);
+			}
 		}
 	}
 
