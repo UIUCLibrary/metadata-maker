@@ -1,19 +1,10 @@
-/*
- *	Reads the 'name' variable from the URL and returns the value. Used for passing custom institution info.
- *		if the value has not been passed the function will return undefined.
- *
- *	name: String with the name of an expected variable in the URL
- */
 function get(name) {
 	if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search)) {
 		return decodeURIComponent(name[1]);
 	}
 }
 /* 
- * Edit the strings in this output to attribute records to another institution. The second half of the
- *		function checks the URL for custom info. If that info exists, it overwrites the defaults.
- *
- *	Returns the institution info
+ * Edit the strings in this function to attribute records to another institution
  */
 function generateInstitutionInfo() {
 	var output = {
@@ -82,12 +73,12 @@ function find100(list) {
 
 function find110(list) {
 	for (var iterator = 0; iterator < list.length; iterator++) {
-		if (list[iterator]['role'] == 'cre') {
+		if (list[iterator][0]['role'] == 'cre') {
 			return list.splice(iterator,1);
 		}
 	}
 
-	return [{'corporate': '', 'role':''}];
+	return [{'corporate':'', 'role':''},{'corporate':''}];
 }
 
 /*
@@ -129,19 +120,24 @@ $("#marc-maker").submit(function(event) {
 	for (var i = 0; i < aCounter; i++) {
 		complete_names_list.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val(), "role": $("#role" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
 	}
+
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
 
 	var complete_corporate_names_list = [
-		{
-			corporate: $("#corporate_name").val(),
-			role:  $("#corporate_role").val()
-		}
+		[
+			{
+				corporate: $("#corporate_name").val(),
+				role:  $("#corporate_role").val()
+			},
+			{
+				corporate: $("#translit_corporate_name").val()
+			}
+		]
 	];
 	for (var i = 0; i < cCounter; i++) {
-		complete_corporate_names_list.push({"corporate": $("#corporate_name" + i).val(), "role": $("#corporate_role" + i).val()});
+		complete_corporate_names_list.push([{"corporate": $("#corporate_name" + i).val(), "role": $("#corporate_role" + i).val()},{"corporate": $("#translit_corporate_name" + i).val()}]);
 	}
-
 	var entry110 = find110(complete_corporate_names_list);
 
 	var recordObject = {
@@ -162,24 +158,22 @@ $("#marc-maker").submit(function(event) {
 		publication_place: $("#place").val(),
 		publication_country: $("#country").val(),
 		copyright_year: $("#cyear").val(),
-		isbn: $("#isbn").val(),
-		item_number: $("#item-number").val(),
-		sudoc: $("#sudoc").val(),
-		report_number: $("#report-number").val(),
-		volume_or_page: $("#vorp").val(),
-		pages: $("#pages").val(),
-		unpaged: $("#pages_listed").is(':checked'),
-		illustrations_yes: $("#illustrations-yes").is(':checked'),
-		dimensions: $("#dimensions").val(),
-		edition: $("#edition").val(),
-		translit_edition: $("#translit_edition").val(),
+		web_url: 'http://' + $("#web-url").val(),
+		language: $("#language").val(),
 		translit_publisher: $("#translit_publisher").val(),
 		translit_place: $("#translit_place").val(),
 		notes: $("#notes").val(),
 		keywords: words,
 		fast: fast_array,
 		additional_authors: complete_names_list,
-		additional_corporate_names: complete_corporate_names_list
+		additional_corporate_names: complete_corporate_names_list,
+		format: $("#format").val(),
+		daterange: $("#daterange").val(),
+		datecollected: $("#datecollected").val(),
+		gcoverage: $("#gcoverage").val(),
+		ggranularity: $("#ggranularity").val(),
+		access_terms: $("#access_terms").val(),
+		use_terms: $("#use_terms").val()
 	};
 
 	var institution_info = generateInstitutionInfo();
