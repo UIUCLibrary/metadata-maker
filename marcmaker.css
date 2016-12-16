@@ -293,7 +293,11 @@ input[type="number"] {
 	font-size: 13px;
 }
 
-#version {
+#version, #code {
 	text-align: center;
 	font-size: 10px;
+}
+
+#code {
+	display: block;
 }
