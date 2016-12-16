@@ -301,7 +301,7 @@ li:hover {
 	position: absolute;
 }
 
-#warning_system, #server_warning {
+#server_warning {
 	position: fixed;
 	bottom: 0;
 	right: 0;
