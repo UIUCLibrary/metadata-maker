@@ -384,7 +384,7 @@ function fillMajor(record,head,fieldFunc,subfieldFunc) {
 	}
 }
 
-function downloadMARC(record) {
+function downloadMARC(record,institution_info) {
 	var head = 0;
 
 	var timestamp_content = String.fromCharCode(30) + getTimestamp();
@@ -395,7 +395,7 @@ function downloadMARC(record) {
 	var controlfield008_directory = createDirectory('008',controlfield008_content,head);
 	head += controlfield008_content.length;
 
-	var cataloging_source_content = createContent('  ',[createSubfield('a','UIU'),createSubfield('b','eng'),createSubfield('e','rda'),createSubfield('c','UIU')]);
+	var cataloging_source_content = createContent('  ',[createSubfield('a',institution_info['marc']),createSubfield('b','eng'),createSubfield('e','rda'),createSubfield('c',institution_info['marc'])]);
 	var cataloging_source_directory = createDirectory('040',cataloging_source_content,head)
 	head += cataloging_source_content.length
 
@@ -441,7 +441,7 @@ function downloadMARC(record) {
 	downloadFile(text,'mrc');
 }
 
-function downloadXML(record) {
+function downloadXML(record,institution_info) {
 	var startText = '<?xml version="1.0" encoding="utf-8"?>\n<record xmlns="http://www.loc.gov/MARC21/slim" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n  <leader>01447ntm a2200397ki 4500</leader>\n';
 	
 	var formatted_date = getTimestamp();
@@ -450,7 +450,7 @@ function downloadXML(record) {
 	var controlfield008 = create008Field(record);
 	controlfield008 = '  <controlfield tag="008">' + controlfield008 + '</controlfield>\n';
 
-	var cataloging_source = createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a','UIU'),createMARCXMLSubfield('b','eng'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c','UIU')]);
+	var cataloging_source = createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a',institution_info['marc']),createMARCXMLSubfield('b','eng'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c',institution_info['marc'])]);
 
 	var title = fillTitle(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var author = fillAuthor(record,null,createMARCXMLField,createMARCXMLSubfield);

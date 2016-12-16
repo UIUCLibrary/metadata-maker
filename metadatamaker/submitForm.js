@@ -65,11 +65,11 @@ $("#marc-maker").submit(function(event) {
 	var institution_info = generateInstitutionInfo();
 
 	if ($("#MARC").is(':checked')) {
-		downloadMARC(recordObject);
+		downloadMARC(recordObject,institution_info);
 	}
 
 	if ($("#MARCXML").is(':checked')) {
-		downloadXML(recordObject);
+		downloadXML(recordObject,institution_info);
 	}
 
 	if ($("#MODS").is(':checked')) {

@@ -50,11 +50,11 @@ function downloadMODS(record,institution_info) {
 
 	var bibText = '    <note type="bibliography">' + escapeXML(record.bibliographies) + '.</note>\n';
 
-	var defaultText2 = '    <location>\n        <physicalLocation>University of Illinois at Urbana-Champaign, Library</physicalLocation>\n    </location>\n';
+	var defaultText2 = '    <location>\n        <physicalLocation>' + escapeXML(institution_info['mods']['physicalLocation']) + '</physicalLocation>\n    </location>\n';
 
 	var timestamp = getTimestamp();
 	var formatted_date = timestamp.substring(2,8);
-	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">UIU</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
+	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + escapeXML(institution_info['mods']['recordContentSource']) + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
 	var text = startText + titleText + authorText + defaultText1 + originText + languageText + pagesText + majorText + defaultText2 + defaultText3 + endText;

@@ -584,7 +584,7 @@ function downloadHTML(record,institution_info) {
 
 	displayTags += '\t\t\t<dt>Thesis:</dt>\n\t\t\t<dd><b>Thesis (' + record.major + ')-- University of Illinois at Urbana-Champaign, ' + record.publication_year + '.</b></dd>\n';
 
-	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="http://id.loc.gov/authorities/names/n79066210">University of Illinois at Urbana-Champaign</span></b></dd>\n\t\t\t</div>\n'; 
+	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
 
 	var text = '<!DOCTYPE html>\n<html>\n<head>\n	<meta charset="utf-8">\n</head>\n\n<body>\n\t<div itemscope itemtype="http://schema.org/Book">\n' + metaTags + '\t\t<dl>\n' + displayTags + '\t\t</dl>\n\t</div>\n</body>\n</html>';
 	downloadFile(text,'html');
