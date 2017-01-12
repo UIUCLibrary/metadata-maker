@@ -92,6 +92,7 @@ function downloadMODS(record,institution_info) {
 		}
 	}
 
+<<<<<<< HEAD
 	var corporateText = '';
 	corporateText += fillCorporateAuthorMODS(record.corporate_author);
 
@@ -101,6 +102,8 @@ function downloadMODS(record,institution_info) {
 		}
 	}
 
+=======
+>>>>>>> version-1.1
 	var titleText = '    <titleInfo>\n        <title>' + escapeXML(record.title[0]['title']) + '</title>\n';
 	if (checkExists(record.title[0]['subtitle'])) {
 		titleText += '        <subTitle>' + escapeXML(record.title[0]['subtitle']) + '</subTitle>\n';
@@ -152,7 +155,11 @@ function downloadMODS(record,institution_info) {
 	var keywordsText = '';
 	for (var c = 0; c < record.keywords.length; c++) {
 		if (record.keywords[c] !== '') {
+<<<<<<< HEAD
 			keywordsText += '    <subject>\n        <topic>' + escapeXML(record.keywords[c]) + '</topic>\n    </subject>\n';
+=======
+			keywordsText += '    <subject>\n        <topic>' + escapeXML(record.keywords[c]) + '</topic>\n    </subject>\n'
+>>>>>>> version-1.1
 		}
 	}
 
