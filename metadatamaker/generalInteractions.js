@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	setUpPage(0);
+});
+
 /*
  * If there are non-Latin characters, show transliteration field
  * 	id: The HTML id of the input field that has lost focus (suggesting a change in content)
