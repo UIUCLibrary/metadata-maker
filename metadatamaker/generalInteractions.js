@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	setUpPage(0);
+});
+
 /*
  * If there are non-Latin characters, show transliteration field
  */
