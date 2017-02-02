@@ -1,6 +1,6 @@
 $(document).ready(function() {
-	setUpPage(0);
 	setUpInstitution();
+	setUpPage(0);
 });
 
 /*
