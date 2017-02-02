@@ -20,7 +20,7 @@ $("#marc-maker").on('blur','input[type=text]', function() {
 /*
  * If the institution info has already been set by the url, use that information to replace the default values.
  */
-$(document).ready(function() {
+function setUpInstitution() {
 	if (typeof get('marc') !== 'undefined') {
 		$('#marc_code').attr('placeholder',get('marc'));
 	}
@@ -45,7 +45,7 @@ $(document).ready(function() {
 		$('#org_name').attr('placeholder','University of Illinois at Urbana-Champaign');
 		$('#institution_name').html('University of Illinois at Urbana-Champaign');
 	}
-});
+}
 
 /*
  * Creates links for the version dropdown menu, to send you to the correct version when clicked
