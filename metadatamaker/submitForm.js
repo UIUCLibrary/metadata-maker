@@ -122,6 +122,13 @@ $("#marc-maker").submit(function(event) {
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
 
+	var accompanying_matter_selections = [];
+	for (var i = 0; i <= 13; i++) {
+		if($("#accompanying-matter" + i.toString()).is(":checked")) {
+			accompanying_matter_selections.push($("#accompanying-matter" + i.toString()).val());
+		}
+	}
+
 	var recordObject = {
 		title: [
 			{
@@ -149,10 +156,19 @@ $("#marc-maker").submit(function(event) {
 		illustrations_yes: $("#illustrations-yes").is(':checked'),
 		dimensions: $("#dimensions").val(),
 		edition: $("#edition").val(),
+		composition_form: $("#composition-form-dropdown").val(),
+		music_format: $("#music-format-dropdown").val(),
+		music_parts: $("#music-parts-dropdown").val(),
+		target_audience: $("#target-audience-dropdown").val(),
+		item_form: $("#item-form-dropdown").val(),
+		literary_text: $("#literary-text-dropdown").val(),
+		transposition_arrangement: $("#transposition-arrangement-dropdown").val(),
+		accompanying_matters: accompanying_matter_selections,
 		translit_edition: $("#translit_edition").val(),
 		translit_publisher: $("#translit_publisher").val(),
 		translit_place: $("#translit_place").val(),
 		notes: $("#notes").val(),
+		formatted_contents_note: $("#formatted-contents-note").val(),
 		keywords: words,
 		fast: fast_array,
 		additional_authors: complete_names_list

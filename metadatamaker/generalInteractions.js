@@ -374,3 +374,38 @@ function getTimestamp() {
 function escapeXML(content) {
 	return content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
 }
+
+$('input.accompanying-matter').on('change', function(evt) {
+	if($('input.accompanying-matter:checked').length >= 5) {
+		for (var i = 0; i <= 13; i++) {
+			var new_id = "#accompanying-matter" + i.toString();
+			if(!$(new_id).is(':checked')) {
+				$(new_id).attr("disabled","true");
+			}
+		}
+	}
+	else {
+		for (var i = 0; i <= 13; i++) {
+			var new_id = "#accompanying-matter" + i.toString();
+			if(!$(new_id).is(':checked')) {
+				$(new_id).removeAttr("disabled");
+			}
+		}
+	}
+});
+
+$("#accompanying-matter0").on('change', function(evt) {
+	if($(this).is(':checked')) {
+		for (var i = 1; i <= 13; i++) {
+			var new_id = "#accompanying-matter" + i.toString();
+			$(new_id).attr("disabled","true");
+			$(new_id).removeAttr("checked");
+		}
+	}
+	else {
+		for (var i = 1; i <= 13; i++) {
+			var new_id = "#accompanying-matter" + i.toString();
+			$(new_id).removeAttr("disabled");
+		}
+	}
+})

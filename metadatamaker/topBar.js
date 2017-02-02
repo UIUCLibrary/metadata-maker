@@ -15,7 +15,6 @@ window.onload = pushParametersToLinks;
  */
 $("#marc-maker").on('blur','input[type=text]', function() {
 	lastfocus = $(this)[0].id;
-	console.log(lastfocus);
 });
 
 /*

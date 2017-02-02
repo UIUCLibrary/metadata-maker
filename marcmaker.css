@@ -125,7 +125,7 @@ input[type="number"] {
 	margin-bottom: -46px;
 }
 
-#author-block {
+#author-block, #accompanying-matter-block {
 	padding: 3px;
 	width: 700px;
 }
@@ -149,11 +149,11 @@ input[type="number"] {
 	top: 0px;
 }
 
-#notes-block {
+#notes-block, #formatted-contents-note-block {
 	padding: 3px;
 }
 
-#notes {
+#notes, #formatted-contents-note {
 	min-width: 300px;
 	min-height: 100px;
 }
@@ -276,4 +276,8 @@ input[type="number"] {
 
 #code {
 	display: block;
+}
+
+.accompanying-matter {
+	margin-left: 15px;
 }

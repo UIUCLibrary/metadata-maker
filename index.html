@@ -32,8 +32,8 @@
 				Metadata Maker for
 			</div>
 			<div id="version_selector" onClick="toggleVersionMenu()">
-				<div id="version_name" value="monographs">
-					Monographs
+				<div id="version_name" value="scores">
+					Scores
 				</div>
 				<img src="arrow2.svg" id="arrow">
 				<div id="version_menu" class="hidden">
@@ -54,8 +54,13 @@
 							</li>
 						</a>
 						<a class="dropdown" onClick="return false;" href="/marcmaker/">
-							<li id="monographs" class="current_version">
+							<li id="monographs">
 								Monographs
+							</li>
+						</a>
+						<a class="dropdown" href="/marcmaker/scores/">
+							<li id="scores" class="current_version">
+								Scores
 								<span id="checkmark">&#10003;</span>
 							</li>
 						</a>
@@ -1106,6 +1111,220 @@
 				<input type="radio" name="illustrations" id="illustrations-no" value="no">No
 			</div>
 
+			<div id="composition-form" class="standard-block">
+				<label for="composition-form" class="heading">Form of composition<span class="required_marker">*</span></label><br>
+				<select required name="composition-form-dropdown" id="composition-form-dropdown" class="required">
+					<option selected disabled hidden value=''></option>
+					<option value="an">Anthems</option>
+					<option value="bd">Ballads</option>
+					<option value="bg">Bluegrass music</option>
+					<option value="bl">Blues</option>
+					<option value="bt">Ballets</option>
+					<option value="ca">Chaconnes</option>
+					<option value="cb">Chants, Other religions</option>
+					<option value="cc">Chant, Christian</option>
+					<option value="cg">Concerti grossi</option>
+					<option value="ch">Chorales</option>
+					<option value="cl">Chorale preludes</option>
+					<option value="cn">Canons and rounds</option>
+					<option value="co">Concertos</option>
+					<option value="cp">Chansons, polyphonic</option>
+					<option value="cr">Carols</option>
+					<option value="cs">Chance compositions</option>
+					<option value="ct">Cantatas</option>
+					<option value="cy">Country music</option>
+					<option value="cz">Canzonas</option>
+					<option value="df">Dance forms</option>
+					<option value="dv">Divertimentos, serenades, cassations, divertissements, and notturni</option>
+					<option value="fg">Fugues</option>
+					<option value="fl">Flamenco</option>
+					<option value="fm">Folk music</option>
+					<option value="ft">Fantasias</option>
+					<option value="gm">Gospel music</option>
+					<option value="hy">Hymns</option>
+					<option value="jz">Jazz</option>
+					<option value="mc">Musical revues and comedies</option>
+					<option value="md">Madrigals</option>
+					<option value="mi">Minuets</option>
+					<option value="mo">Motets</option>
+					<option value="mp">Motion picture music</option>
+					<option value="mr">Marches</option>
+					<option value="ms">Masses</option>
+					<option value="mu">Multiple forms</option>
+					<option value="mz">Mazurkas</option>
+					<option value="nc">Nocturnes</option>
+					<option value="nn">Not applicable</option>
+					<option value="op">Operas</option>
+					<option value="or">Oratorios</option>
+					<option value="ov">Overtures</option>
+					<option value="pg">Program music</option>
+					<option value="pm">Passion music</option>
+					<option value="po">Polonaises</option>
+					<option value="pp">Popular music</option>
+					<option value="pr">Preludes</option>
+					<option value="ps">Passacaglias</option>
+					<option value="pt">Part-songs</option>
+					<option value="pv">Pavans</option>
+					<option value="rc">Rock music</option>
+					<option value="rd">Rondos</option>
+					<option value="rg">Ragtime music</option>
+					<option value="ri">Ricercars</option>
+					<option value="rp">Rhapsodies</option>
+					<option value="rq">Requiems</option>
+					<option value="sd">Square dance music</option>
+					<option value="sg">Songs</option>
+					<option value="sn">Sonatas</option>
+					<option value="sp">Symphonic poems</option>
+					<option value="st">Studies and exercises</option>
+					<option value="su">Suites</option>
+					<option value="sy">Symphonies</option>
+					<option value="tc">Toccatas</option>
+					<option value="tl">Teatro lirico</option>
+					<option value="ts">Trio-sonatas</option>
+					<option value="uu">Unknown</option>
+					<option value="vi">Villancicos</option>
+					<option value="vr">Variations</option>
+					<option value="wz">Waltzes</option>
+					<option value="za">Zarzuelas</option>
+					<option value="zz">Other</option>
+					<option value="  ">no attempt code</option>
+				</select>
+			</div>
+
+			<div id="music-format" class="standard-block">
+				<label for="music-format" class="heading">Format of music<span class="required_marker">*</span></label><br>
+				<select required name="music-format-dropdown" id="music-format-dropdown" class="required">
+					<option selected disabled hidden value=''></option>
+					<option value="a">Full score</option>
+					<option value="b">Miniature or study score</option>
+					<option value="c">Accompaniment reduced for keyboard</option>
+					<option value="d">Voice score with accompaniment omitted</option>
+					<option value="e">Condensed score or piano-conductor score</option>
+					<option value="g">Close score</option>
+					<option value="h">Chorus score</option>
+					<option value="i">Condensed score</option>
+					<option value="j">Performer-conductor part</option>
+					<option value="k">Vocal score</option>
+					<option value="l">Score</option>
+					<option value="m">Multiple score formats</option>
+					<option value="n">Not applicable</option>
+					<option value="p">Piano score</option>
+					<option value="u">Unknown</option>
+					<option value="z">Other</option>
+					<option value=" ">no attempt code</option>
+				</select>
+			</div>
+
+			<div id="music-parts" class="standard-block">
+				<label for="music-parts" class="heading">Music parts<span class="required_marker">*</span></label><br>
+				<select required name="music-parts-dropdown" id="music-parts-dropdown" class="required">
+					<option selected disabled hidden value=''></option>
+					<option value="#">No parts in hand or not specified</option>
+					<option value="d">Instrumental and vocal parts</option>
+					<option value="e">Instrumental parts</option>
+					<option value="f">Vocal parts</option>
+					<option value="n">Not applicable</option>
+					<option value="u">Unknown</option>
+					<option value=" ">no attempt code</option>
+				</select>
+			</div>
+
+			<div id="target-audience" class="standard-block">
+				<label for="target-audience" class="heading">Target audience<span class="required_marker">*</span></label><br>
+				<select required name="target-audience-dropdown" id="target-audience-dropdown" class="required">
+					<option selected disabled hidden value=''></option>
+					<option value="#">Unknown or unspecified</option>
+					<option value="a">Preschool</option>
+					<option value="b">Primary</option>
+					<option value="c">Pre-adolescent</option>
+					<option value="d">Adolescent</option>
+					<option value="e">Adult</option>
+					<option value="f">Specialized</option>
+					<option value="g">General</option>
+					<option value="j">Juvenile</option>
+					<option value=" ">no attempt code</option>
+				</select>
+			</div>
+
+			<div id="item-form" class="standard-block">
+				<label for="item-form" class="heading">Form of item<span class="required_marker">*</span></label><br>
+				<select required name="item-form-dropdown" id="item-form-dropdown" class="required">
+					<option selected disabled hidden value=''></option>
+					<option value="#">None of the following</option>
+					<option value="a">Microfilm</option>
+					<option value="b">Microfiche</option>
+					<option value="c">Microopaque</option>
+					<option value="d">Large print</option>
+					<option value="f">Braille</option>
+					<option value="o">Online</option>
+					<option value="q">Direct electronic</option>
+					<option value="r">Regular print reproduction</option>
+					<option value="s">Electronic</option>
+					<option value=" ">no attempt code</option>
+				</select>
+			</div>
+
+			<div id="accompanying-matter-block">
+				<label for="accompanying-matter-block" class="heading">Accopanying matter</label><br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter0" value="#">No accompanying matter<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter1" value="a">Discography<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter2" value="b">Bibliography<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter3" value="c">Thematic index<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter4" value="d">Libretto or text<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter5" value="e">Biography of composer or author<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter6" value="f">Biography of performer or history of ensemble<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter7" value="g">Technical and/or historical information on instruments<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter8" value="h">Technical information on music<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter9" value="i">Historical information<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter10" value="k">Ethnological information<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter11" value="r">Instructional materials<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter12" value="s">Music<br>
+				<input type="checkbox" class="accompanying-matter" id="accompanying-matter13" value="z">Other<br>
+			</div>
+
+			<div id="literary-text" class="standard-block">
+				<label for="literary-text" class="heading">Literary text for sound recordings<span class="required_marker">*</span></label><br>
+				<select required name="literary-text-dropdown" id="literary-text-dropdown" class="required">
+					<option selected disabled hidden value=''></option>
+					<option value="#">Item is a music sound recording</option>
+					<option value="a">Autobiography</option>
+					<option value="b">Biography</option>
+					<option value="c">Conference proceedings</option>
+					<option value="d">Drama</option>
+					<option value="e">Essays</option>
+					<option value="f">Fiction</option>
+					<option value="g">Reporting</option>
+					<option value="h">History</option>
+					<option value="i">Instruction</option>
+					<option value="j">Language instruction</option>
+					<option value="k">Comedy</option>
+					<option value="l">Lectures, speeches</option>
+					<option value="m">Memoirs</option>
+					<option value="n">Not applicable</option>
+					<option value="o">Folktales</option>
+					<option value="p">Poetry</option>
+					<option value="r">Rehearsals</option>
+					<option value="s">Sounds</option>
+					<option value="t">Interviews</option>
+					<option value="z">Other</option>
+					<option value=" ">no attempt code</option>
+				</select>
+			</div>
+
+			<div id="transposition-arrangement" class="standard-block">
+				<label for="transposition-arrangement" class="heading">Transposition and arrangement<span class="required_marker">*</span></label><br>
+				<select required name="transposition-arrangement-dropdown" id="transposition-arrangement-dropdown" class="required">
+					<option selected disabled hidden value=''></option>
+					<option value="#">Not arrangement or transposition or not specified</option>
+					<option value="a">Transposition</option>
+					<option value="b">Arrangement</option>
+					<option value="c">Both transposed and arranged</option>
+					<option value="n">Not applicable</option>
+					<option value="u">Unknown</option>
+					<option value=" ">no attempt code</option>
+				</select>
+			</div>
+
 			<div id="keywords" class="standard-block">
 				<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>
 				<input type="text" class="fastID hidden" id="fastID0">
@@ -1113,6 +1332,11 @@
 				<input type="text" class="fastInd hidden" id="fastInd0">
 				<input type="text" class="keyword required" required id="keyword0"> <label title="Record, in English, any descriptive terms that describe the content of this book. Record only one term or phrase in each box. E.g., Astronomy or Politics of Egypt"><span class="question-mark">?</span></label>
 				<input type="button" value="+" id="add-button" onClick="addKeyword();">
+			</div>
+
+			<div id="formatted-contents-note-block">
+				<label for="formatted-contents-note">Formatted Contents Note</label><br>
+				<textarea id="formatted-contents-note"></textarea>
 			</div>
 
 			<div id="notes-block">
@@ -1143,7 +1367,7 @@
 			</div>
 		</form>
 		<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
-		<div id="version">Version 1.1 – Updated on 12/07/2016</div>
+		<div id="version">Version 1.1 – Updated on 02/02/2017</div>
 		<a id="code" href="https://github.com/dkudeki/metadata-maker">GitHub</div>
 		
 		<script src="metadatamaker/generalInteractions.js"></script>

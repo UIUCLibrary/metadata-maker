@@ -98,26 +98,54 @@ function create008Field(record) {
 
 	}
 	else {
-		array_of_008[15] = 'x'
-		array_of_008[16] = 'x'
+		array_of_008[15] = 'x';
+		array_of_008[16] = 'x';
 	}
 
-	//18-21
-	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
-		array_of_008[18] = 'a'
+	//18-19
+	if (checkExists(record.composition_form)) {
+		array_of_008[18] = record.composition_form[0];
+		array_of_008[19] = record.composition_form[1];
 	}
 
-	//22-32
-	array_of_008[29] = '0';
-	array_of_008[30] = '0';
-	array_of_008[31] = '0';
+	//20
+	if (checkExists(record.music_format)) {
+		array_of_008[20] = record.music_format;
+	}
 
-	//33
-	if (checkExists(record.literature_yes) && checkExists(record.literature_dropdown)) {
-		array_of_008[33] = record.literature_dropdown;
+	//21
+	if (checkExists(record.music_parts)) {
+		array_of_008[21] = record.music_parts;
+	}
+
+	//22
+	if (checkExists(record.target_audience)) {
+		array_of_008[22] = record.target_audience;
+	}
+
+	//23
+	if (checkExists(record.item_form)) {
+		array_of_008[23] = record.item_form;
+	}
+
+	//24-29
+	if (record.accompanying_matters.length > 0) {
+		for (var i = 0; i < record.accompanying_matters.length; i++) {
+			array_of_008[24 + i] = record.accompanying_matters[i];
+		}
 	}
 	else {
-		array_of_008[33] = '0';
+		array_of_008[24] = '#';
+	}
+
+	//30-32
+	if (checkExists(record.literary_text)) {
+		array_of_008[30] = record.literary_text;
+	}
+
+	//33
+	if (checkExists(record.transposition_arrangement)) {
+		array_of_008[33] = record.transposition_arrangement;
 	}
 
 	//34-39
@@ -462,6 +490,25 @@ function fillNotes(record,head,fieldFunc,subfieldFunc) {
 		//MARCXML
 		else {
 			return notes;
+		}
+	}
+	else {
+		return head !== null ? ['',''] : '';
+	}
+}
+
+function fillFormattedContentNote(record,head,fieldFunc,subfieldFunc) {
+	if (checkExists(record.formatted_contents_note)) {
+		var formatted_contents_note = fieldFunc('505','0',' ',[subfieldFunc('a',record.formatted_contents_note)]);
+
+		//MARC
+		if (head !== null) {
+			var notes_directory = createDirectory('505',formatted_contents_note,head);
+			return [notes_directory,formatted_contents_note];
+		}
+		//MARCXML
+		else {
+			return formatted_contents_note;
 		}
 	}
 	else {
@@ -860,6 +907,9 @@ function downloadMARC(record,institution_info) {
 	var notes = fillNotes(record,head,createContentFill,createSubfield);
 	head += getByteLength(notes[1]);
 
+	var formatted_contents_note = fillFormattedContentNote(record,head,createContentFill,createSubfield);
+	head += getByteLength(formatted_contents_note[1]);
+
 	var keywords = fillKeywords(record,head,createContentFill,createSubfield);
 	head = keywords[2];
 
@@ -885,9 +935,9 @@ function downloadMARC(record,institution_info) {
 	head = authors880[2];
 
 	var end = String.fromCharCode(30) + String.fromCharCode(29);
-	var text = timestamp_directory + controlfield008_directory + isbn[0] + default1_directory + author[0] + title[0] + edition[0] + pub[0] + copyright[0] + physical[0] + default2_directory + default3_directory + default4_directory + notes[0] + keywords[0] + fast[0] + additional_authors[0] + title880[0] + edition880[0] + publisher880[0] + author880[0] + authors880[0] + timestamp_content + controlfield008_content + isbn[1] + default1_content + author[1] + title[1] + edition[1] + pub[1] + copyright[1] + physical[1] + default2_content + default3_content + default4_content + notes[1] + keywords[1] + fast[1] + additional_authors[1] + title880[1] + edition880[1] + publisher880[1] + author880[1] + authors880[1] + end;
+	var text = timestamp_directory + controlfield008_directory + isbn[0] + default1_directory + author[0] + title[0] + edition[0] + pub[0] + copyright[0] + physical[0] + default2_directory + default3_directory + default4_directory + notes[0] + formatted_contents_note[0] + keywords[0] + fast[0] + additional_authors[0] + title880[0] + edition880[0] + publisher880[0] + author880[0] + authors880[0] + timestamp_content + controlfield008_content + isbn[1] + default1_content + author[1] + title[1] + edition[1] + pub[1] + copyright[1] + physical[1] + default2_content + default3_content + default4_content + notes[1] + formatted_contents_note[1] + keywords[1] + fast[1] + additional_authors[1] + title880[1] + edition880[1] + publisher880[1] + author880[1] + authors880[1] + end;
 	var leader_len = getByteLength(text) + 24;
-	var directory_len = 25 + timestamp_directory.length + controlfield008_directory.length + isbn[0].length + default1_directory.length + author[0].length + title[0].length + edition[0].length + pub[0].length + copyright[0].length + physical[0].length + default2_directory.length + default3_directory.length + default4_directory.length + notes[0].length + keywords[0].length + fast[0].length + additional_authors[0].length + title880[0].length + edition880[0].length + publisher880[0].length + author880[0].length + authors880[0].length;
+	var directory_len = 25 + timestamp_directory.length + controlfield008_directory.length + isbn[0].length + default1_directory.length + author[0].length + title[0].length + edition[0].length + pub[0].length + copyright[0].length + physical[0].length + default2_directory.length + default3_directory.length + default4_directory.length + notes[0].length + formatted_contents_note[0].length + keywords[0].length + fast[0].length + additional_authors[0].length + title880[0].length + edition880[0].length + publisher880[0].length + author880[0].length + authors880[0].length;
 	var leader = addZeros(leader_len,'leader') + 'nam a22' + addZeros(directory_len,'leader') + 'ki 4500';
 	text = leader + text;
 	downloadFile(text,'mrc');
@@ -918,6 +968,7 @@ function downloadXML(record,institution_info) {
 	var physical = fillPhysical(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var default2 = createMARCXMLField('336',' ',' ',[createMARCXMLSubfield('a','text'),createMARCXMLSubfield('b','txt'),createMARCXMLSubfield('2','rdacontent')]) + createMARCXMLField('337',' ',' ',[createMARCXMLSubfield('a','unmediated'),createMARCXMLSubfield('b','n'),createMARCXMLSubfield('2','rdamedia')]) + createMARCXMLField('338',' ',' ',[createMARCXMLSubfield('a','volume'),createMARCXMLSubfield('b','nc'),createMARCXMLSubfield('2','rdacarrier')]);
 	var notes = fillNotes(record,null,createMARCXMLField,createMARCXMLSubfield);
+	var formatted_contents_note = fillFormattedContentNote(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var keywords = fillKeywords(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var fast = fillFAST(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var additional_authors = fillAdditionalAuthors(record,null,createMARCXMLField,createMARCXMLSubfield);
@@ -928,6 +979,6 @@ function downloadXML(record,institution_info) {
 	var authors880 = fillTranslitAdditionalAuthors(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var endText ='</record>\n';
 
-	var text = startText + timestamp + controlfield008 + isbn + default1 + author + title + edition + publication + copyright + physical + default2 + notes + keywords + fast + additional_authors + title880 + edition880 + publisher880 + author880 + authors880 + endText;
+	var text = startText + timestamp + controlfield008 + isbn + default1 + author + title + edition + publication + copyright + physical + default2 + notes + formatted_contents_note + keywords + fast + additional_authors + title880 + edition880 + publisher880 + author880 + authors880 + endText;
 	downloadFile(text,'xml');
 }
