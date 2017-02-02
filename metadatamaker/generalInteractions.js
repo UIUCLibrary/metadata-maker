@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	setUpInstitution();
 	setUpPage(0);
 });
 
