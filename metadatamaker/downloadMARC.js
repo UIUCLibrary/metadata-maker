@@ -139,8 +139,10 @@ function create008Field(record) {
 	}
 
 	//30-32
-	if (checkExists(record.literary_text)) {
-		array_of_008[30] = record.literary_text;
+	if (record.literary_text.length > 0) {
+		for (var i = 0; i < record.literary_text.length; i++) {
+			array_of_008[30 + i] = record.literary_text[i];
+		}
 	}
 
 	//33

@@ -278,6 +278,6 @@ input[type="number"] {
 	display: block;
 }
 
-.accompanying-matter {
+.accompanying-matter, .literary-text {
 	margin-left: 15px;
 }

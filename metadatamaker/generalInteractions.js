@@ -376,7 +376,7 @@ function escapeXML(content) {
 }
 
 $('input.accompanying-matter').on('change', function(evt) {
-	if($('input.accompanying-matter:checked').length >= 5) {
+	if($('input.accompanying-matter:checked').length >= 6) {
 		for (var i = 0; i <= 13; i++) {
 			var new_id = "#accompanying-matter" + i.toString();
 			if(!$(new_id).is(':checked')) {
@@ -408,4 +408,23 @@ $("#accompanying-matter0").on('change', function(evt) {
 			$(new_id).removeAttr("disabled");
 		}
 	}
-})
+});
+
+$('input.literary-text').on('change', function(evt) {
+	if($('input.literary-text:checked').length >= 2) {
+		for (var i = 0; i <= 20; i++) {
+			var new_id = "#literary-text" + i.toString();
+			if(!$(new_id).is(':checked')) {
+				$(new_id).attr("disabled","true");
+			}
+		}
+	}
+	else {
+		for (var i = 0; i <= 20; i++) {
+			var new_id = "#literary-text" + i.toString();
+			if(!$(new_id).is(':checked')) {
+				$(new_id).removeAttr("disabled");
+			}
+		}
+	}
+});
