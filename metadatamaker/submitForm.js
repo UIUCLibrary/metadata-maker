@@ -166,7 +166,6 @@ $("#marc-maker").submit(function(event) {
 		music_format: $("#music-format-dropdown").val(),
 		music_parts: $("#music-parts-dropdown").val(),
 		target_audience: $("#target-audience-dropdown").val(),
-		item_form: $("#item-form-dropdown").val(),
 		transposition_arrangement: $("#transposition-arrangement-dropdown").val(),
 		accompanying_matters: accompanying_matter_selections,
 		translit_edition: $("#translit_edition").val(),

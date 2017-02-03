@@ -123,12 +123,7 @@ function create008Field(record) {
 		array_of_008[22] = record.target_audience;
 	}
 
-	//23
-	if (checkExists(record.item_form)) {
-		array_of_008[23] = record.item_form;
-	}
-
-	//24-29
+	//23-29
 	if (record.accompanying_matters.length > 0) {
 		for (var i = 0; i < record.accompanying_matters.length; i++) {
 			array_of_008[24 + i] = record.accompanying_matters[i];
