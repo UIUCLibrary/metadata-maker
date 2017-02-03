@@ -66,6 +66,12 @@ function generateInstitutionInfo() {
  */
 function find100(list) {
 	for (iterator = 0; iterator < list.length; iterator++) {
+		if (list[iterator][0]['role'] == 'cmp') {
+			return list.splice(iterator,1);
+		}
+	}
+
+	for (iterator = 0; iterator < list.length; iterator++) {
 		if (list[iterator][0]['role'] == 'aut') {
 			return list.splice(iterator,1);
 		}
