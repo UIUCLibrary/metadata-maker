@@ -138,14 +138,7 @@ function create008Field(record) {
 		array_of_008[24] = '#';
 	}
 
-	//30-32
-	if (record.literary_text.length > 0) {
-		for (var i = 0; i < record.literary_text.length; i++) {
-			array_of_008[30 + i] = record.literary_text[i];
-		}
-	}
-
-	//33
+	//30-33
 	if (checkExists(record.transposition_arrangement)) {
 		array_of_008[33] = record.transposition_arrangement;
 	}
@@ -617,7 +610,7 @@ function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 		var authors = '';
 		var authors_directory = '';
 		var translit_counter = 5;
-		var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'}
+		var role_index = { 'art': 'artist', 'aut': 'author', 'cmp': 'composer', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'}
 
 		for (var i = 0; i < record.additional_authors.length; i++) {
 			if (checkExists(record.additional_authors[i][0]['family']) || checkExists(record.additional_authors[i][0]['given'])) {

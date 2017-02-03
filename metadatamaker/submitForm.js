@@ -135,13 +135,6 @@ $("#marc-maker").submit(function(event) {
 		}
 	}
 
-	var literary_text_selections = [];
-	for (var i = 0; i <= 20; i++) {
-		if($("#literary-text" + i.toString()).is(":checked")) {
-			literary_text_selections.push($("#literary-text" + i.toString()).val());
-		}
-	}
-
 	var recordObject = {
 		title: [
 			{
@@ -174,7 +167,6 @@ $("#marc-maker").submit(function(event) {
 		music_parts: $("#music-parts-dropdown").val(),
 		target_audience: $("#target-audience-dropdown").val(),
 		item_form: $("#item-form-dropdown").val(),
-		literary_text: literary_text_selections,
 		transposition_arrangement: $("#transposition-arrangement-dropdown").val(),
 		accompanying_matters: accompanying_matter_selections,
 		translit_edition: $("#translit_edition").val(),
