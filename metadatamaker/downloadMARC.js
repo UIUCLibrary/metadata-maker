@@ -109,21 +109,14 @@ function create008Field(record) {
 	}
 
 	//20
-	if (checkExists(record.music_format)) {
-		array_of_008[20] = record.music_format;
-	}
+	array_of_008[20] = 'l';
 
 	//21
 	if (checkExists(record.music_parts)) {
 		array_of_008[21] = record.music_parts;
 	}
 
-	//22
-	if (checkExists(record.target_audience)) {
-		array_of_008[22] = record.target_audience;
-	}
-
-	//23-29
+	//22-29
 	if (record.accompanying_matters.length > 0) {
 		for (var i = 0; i < record.accompanying_matters.length; i++) {
 			array_of_008[24 + i] = record.accompanying_matters[i];
@@ -133,7 +126,10 @@ function create008Field(record) {
 		array_of_008[24] = '#';
 	}
 
-	//30-33
+	//30-31
+	array_of_008[30] = 'n';
+
+	//32-33
 	if (checkExists(record.transposition_arrangement)) {
 		array_of_008[33] = record.transposition_arrangement;
 	}
