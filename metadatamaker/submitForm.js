@@ -121,6 +121,8 @@ $("#marc-maker").submit(function(event) {
 				subtitle: $("#translit_subtitle").val()
 			}
 		],
+		varying_title_type: $("#varying-title-dropdown").val(),
+		varying_title: $("#varying_title").val(),
 		corporate_author: entry110[0],
 		publisher: $("#publisher").val(),
 		publication_year: $("#year").val(),

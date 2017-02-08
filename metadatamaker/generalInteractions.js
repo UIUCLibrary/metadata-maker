@@ -318,6 +318,16 @@ $("input:radio[name=literature]").click(function() {
 	}
 });
 
+$("#marc-maker").on('change',"#varying-title-dropdown",function () {
+	var value = $(this).val();
+	if (value == '') {
+		$("#varying-title-block").addClass('hidden');
+	}
+	else {
+		$("#varying-title-block").removeClass('hidden');
+	}
+});
+
 /*
  * Check that an optional field has been input
  *	attr: the field being checked

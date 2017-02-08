@@ -140,6 +140,19 @@
 				<input type="text" id="translit_subtitle" class="hidden translit translit-title">
 			</div>
 
+			<div id="varying-title-dropdown-block" class="standard-block">
+				<label for="varying-title-dropdown" class="heading">Varying title</label>
+				<select name="varying-title-dropdown" id="varying-title-dropdown">
+					<option selected value=''></option>
+					<option value="other">Other title</option>
+					<option value="parallel">Parallel title (title in another language)</option>
+				</select>
+			</div>
+
+			<div id="varying-title-block" class="standard-block hidden">
+				<input type="text" id="varying_title">
+			</div>
+
 			<div id="issn-block" class="standard-block">
 				<label for="issn" class="heading">ISSN</label><br>
 				<input type="text" required id="issn" class="conditional">

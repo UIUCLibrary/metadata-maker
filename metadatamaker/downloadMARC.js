@@ -342,6 +342,34 @@ function fillTitle(record,head,fieldFunc,subfieldFunc) {
 	}
 }
 
+function fillVaryingTitle(record,head,fieldFunc,subfieldFunc) {
+	if ((record.varying_title_type != '') && checkExists(record.varying_title)) {
+		if (record.varying_title_type == 'other') {
+			var var_title_ind1 = '1';
+			var var_title_ind2 = '3';
+		}
+		else {
+			var var_title_ind1 = '3';
+			var var_title_ind2 = '1';
+		}
+
+		var varying_title = fieldFunc('246',var_title_ind1,var_title_ind2,[subfieldFunc('a',record.varying_title)]);
+
+		//MARC
+		if (head != null) {
+			var varying_title_directory = createDirectory('246',varying_title,head);
+			return [varying_title_directory,varying_title];
+		}
+		//MARCXML
+		else {
+			return varying_title;
+		}
+	}
+	else {
+		return head !== null ? ['',''] : '';
+	}
+}
+
 function fillPublication(record,head,fieldFunc,subfieldFunc) {
 	var pub_subfields = [];
 	if (checkExists(record.publication_place)) {
@@ -911,6 +939,9 @@ function downloadMARC(record,institution_info) {
 	var title = fillTitle(record,head,createContentFill,createSubfield);
 	head += getByteLength(title[1]);
 
+	var varying_title = fillVaryingTitle(record,head,createContentFill,createSubfield);
+	head += getByteLength(varying_title[1]);
+
 	var pub = fillPublication(record,head,createContentFill,createSubfield);
 	head += getByteLength(pub[1]);
 
@@ -972,9 +1003,9 @@ function downloadMARC(record,institution_info) {
 	head = corporations880[2];
 
 	var end = String.fromCharCode(30) + String.fromCharCode(29);
-	var text = timestamp_directory + controlfield006_directory + controlfield008_directory + issn[0] + default1_directory + corporate_author[0] + title[0] + pub[0] + physical[0] + frequency[0] + default2_directory + default3_directory + default4_directory + notes[0] + description[0] + keywords[0] + fast[0] + additional_corporate_authors[0] + preceding_title[0] + succeeding_title[0] + web_url[0] + title880[0] + edition880[0] + publisher880[0] + corporate880[0] + corporations880[0] + timestamp_content + controlfield006_content + controlfield008_content + issn[1] + default1_content + corporate_author[1] + title[1] + pub[1] + physical[1] + frequency[1] + default2_content + default3_content + default4_content + notes[1] + description[1] + keywords[1] + fast[1] + additional_corporate_authors[1] + preceding_title[1] + succeeding_title[1] + web_url[1] + title880[1] + edition880[1] + publisher880[1] + corporate880[1] + corporations880[1] + end;
+	var text = timestamp_directory + controlfield006_directory + controlfield008_directory + issn[0] + default1_directory + corporate_author[0] + title[0] + varying_title[0] + pub[0] + physical[0] + frequency[0] + default2_directory + default3_directory + default4_directory + notes[0] + description[0] + keywords[0] + fast[0] + additional_corporate_authors[0] + preceding_title[0] + succeeding_title[0] + web_url[0] + title880[0] + edition880[0] + publisher880[0] + corporate880[0] + corporations880[0] + timestamp_content + controlfield006_content + controlfield008_content + issn[1] + default1_content + corporate_author[1] + title[1] + varying_title[1] + pub[1] + physical[1] + frequency[1] + default2_content + default3_content + default4_content + notes[1] + description[1] + keywords[1] + fast[1] + additional_corporate_authors[1] + preceding_title[1] + succeeding_title[1] + web_url[1] + title880[1] + edition880[1] + publisher880[1] + corporate880[1] + corporations880[1] + end;
 	var leader_len = getByteLength(text) + 24;
-	var directory_len = 25 + timestamp_directory.length + controlfield006_directory.length + controlfield008_directory.length + issn[0].length + default1_directory.length + corporate_author[0].length + title[0].length + pub[0].length + physical[0].length + frequency[0].length + default2_directory.length + default3_directory.length + default4_directory.length + notes[0].length + description[0].length + keywords[0].length + fast[0].length + additional_corporate_authors[0].length + preceding_title[0].length + succeeding_title[0].length + web_url[0].length + title880[0].length + edition880[0].length + publisher880[0].length + corporate880[0].length + corporations880[0].length;
+	var directory_len = 25 + timestamp_directory.length + controlfield006_directory.length + controlfield008_directory.length + issn[0].length + default1_directory.length + corporate_author[0].length + title[0].length + varying_title[0].length + pub[0].length + physical[0].length + frequency[0].length + default2_directory.length + default3_directory.length + default4_directory.length + notes[0].length + description[0].length + keywords[0].length + fast[0].length + additional_corporate_authors[0].length + preceding_title[0].length + succeeding_title[0].length + web_url[0].length + title880[0].length + edition880[0].length + publisher880[0].length + corporate880[0].length + corporations880[0].length;
 	var leader = addZeros(leader_len,'leader') + 'nam a22' + addZeros(directory_len,'leader') + 'ki 4500';
 	text = leader + text;
 	downloadFile(text,'mrc');
@@ -1002,6 +1033,7 @@ function downloadXML(record,institution_info) {
 	var issn = fillISSN(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var corporate_author = fillCorporateAuthor(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var title = fillTitle(record,null,createMARCXMLField,createMARCXMLSubfield);
+	var varying_title = fillVaryingTitle(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var publication = fillPublication(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var physical = fillPhysical(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var frequency = fillPublicationFrequency(record,null,createMARCXMLField,createMARCXMLSubfield);
@@ -1021,6 +1053,6 @@ function downloadXML(record,institution_info) {
 	var corporations880 = fillTranslitAdditionalCorporateAuthors(record,null,createMARCXMLField,createMARCXMLSubfield);
 	var endText ='</record>\n';
 
-	var text = startText + timestamp + controlfield006 + controlfield008 + issn + default1 + corporate_author + title + publication + physical + frequency + default2 + notes + description + keywords + fast + additional_corporate_authors + preceding_title + succeeding_title + web_url + title880 + edition880 + publisher880 + corporate880 + corporations880 + endText;
+	var text = startText + timestamp + controlfield006 + controlfield008 + issn + default1 + corporate_author + title + varying_title + publication + physical + frequency + default2 + notes + description + keywords + fast + additional_corporate_authors + preceding_title + succeeding_title + web_url + title880 + edition880 + publisher880 + corporate880 + corporations880 + endText;
 	downloadFile(text,'xml');
 }
