@@ -328,6 +328,17 @@ $("#marc-maker").on('change',"#varying-title-dropdown",function () {
 	}
 });
 
+$("#marc-maker").on('change',"#publication-status-dropdown", function () {
+	var value = $(this).val();
+
+	if (value == 'current') {
+		$("#volumes-block").addClass('hidden');
+	}
+	else {
+		$("#volumes-block").removeClass('hidden');
+	}
+});
+
 /*
  * Check that an optional field has been input
  *	attr: the field being checked

@@ -129,7 +129,7 @@ function downloadMODS(record,institution_info) {
 	}
 
 	var originText = '';
-	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.publication_year) || checkExists(record.copyright_year)) {
+	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.starting_year) || checkExists(record.ending_year)) {
 		originText += '    <originInfo>\n';
 
 		if (checkExists(record.publication_country)) {
@@ -144,15 +144,15 @@ function downloadMODS(record,institution_info) {
 			originText += '        <publisher>' + escapeXML(record.publisher) + '</publisher>\n';
 		}
 
-		if (checkExists(record.publication_year)) {
+		if (checkExists(record.starting_year)) {
 			originText += '        <dateIssued point="start" encoding="marc">\n';
-			originText += '            <dateIssued>' + record.publication_year + '</dateIssued>\n';
+			originText += '            <dateIssued>' + record.starting_year + '</dateIssued>\n';
 			originText += '        </dateIssued>\n';
 		}
 
-		if (checkExists(record.copyright_year)) {
+		if (checkExists(record.ending_year)) {
 			originText += '        <dateIssued point="end" encoding="marc">\n';
-			originText += '            <dateIssued>' + record.copyright_year + '</dateIssued>\n';
+			originText += '            <dateIssued>' + record.ending_year + '</dateIssued>\n';
 			originText += '        </dateIssued>\n';
 		}
 
@@ -162,8 +162,8 @@ function downloadMODS(record,institution_info) {
 	var languageText = '    <language>\n        <languageTerm authority="iso639-2b" type="code">' + record.language + '</languageTerm>\n    </language>\n';
 
 	var pagesText = '';
-	if (checkExists(record.pages)) {
-		pagesText += '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.pages + ' ' + record.volume_or_page + '</extent>\n    </physicalDescription>\n';
+	if (checkExists(record.volumes)) {
+		pagesText += '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.volumes + ' volumes</extent>\n    </physicalDescription>\n';
 	}
 
 	var dimensionsText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n'

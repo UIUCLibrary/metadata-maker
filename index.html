@@ -1040,23 +1040,33 @@
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="country_listed" class="listed">
 			</div>
 
-			<div id="publication-block">
-				<label for="date" class="heading">Starting date</label><br>
+			<div id="starting-block">
+				<label for="year" class="heading">Starting date</label><br>
 				<input type="number" class="date conditional" required id="year" min="0">
-				<label title="Record the year of publication if it appears on the piece. Do not record a copyright date here. Copyright dates should be recorded in the next field."><span class="question-mark">?</span></label><br>
+				<label title="Record the starting year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
 			</div>
 
-			<div id="copyright-block">
-				<label for="cyear" class="heading">Ending date</label><br>
-				<input type="number" class="date conditional" required id="cyear" min="0">
-				<label title="Record the year of copyright if it appears on the piece."><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="cyear_listed" class="listed">
+			<div id="ending-block">
+				<label for="edate" class="heading">Ending date</label><br>
+				<input type="number" class="date conditional" required id="edate" min="0">
+				<label title="Record the ending year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="edate_listed" class="listed">
 			</div>
 
-			<div id="pages-block" class="standard-block">
+			<div id="publication-status-block" class="standard-block">
+				<label for="publication-status-dropdown" class="heading">Publication status</label><br>
+				<select name="publication-status-dropdown" id="publication-status-dropdown">
+					<option selected disabled hidden value=''></option>
+					<option value="current">Currently published</option>
+					<option value="ceased">Ceased</option>
+					<option value="unknown">Unknown</option>
+				</select>
+			</div>
+
+			<div id="volumes-block" class="standard-block hidden">
 				<label for="number" class="heading">Number of Volumes</label>
-				<input type="text" id="pages">
+				<input type="text" id="volumes">
 				<label title="Record the number of volumes in each numbered sequence. E.g., 4"><span class="question-mark">?</span></label>
 			</div>
 

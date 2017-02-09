@@ -952,8 +952,8 @@ function downloadHTML(record,institution_info) {
 		displayTags += publication_location;
 	}
 
-	if (checkExists(record.publication_year)) {
-		displayTags += buildTag('datePublished',record.publication_year,false,'Date of Publication');
+	if (checkExists(record.starting_year)) {
+		displayTags += buildTag('datePublished',record.starting_year,false,'Date of Publication');
 	}
 
 	var ill = '';
@@ -961,13 +961,10 @@ function downloadHTML(record,institution_info) {
 		ill = 'illustrations';
 	}
 
-	if (ill != '' || checkExists(record.pages)) {
+	if (ill != '' || checkExists(record.volumes)) {
 		displayTags += '\t\t\t<dt>Physical Description:</dt>\n\t\t\t<dd><b>';
-		if (checkExists(record.pages)) {
-			displayTags += buildSpan('numberOfPages',record.pages) + ' ' + record.volume_or_page;
-		}
-		if (ill != '' && checkExists(record.pages)) {
-			displayTags += '; ';
+		if (checkExists(record.volumes)) {
+			displayTags += buildSpan('numberOfPages',record.volumes) + ' volumes';
 		}
 		if (ill != '') {
 			displayTags += ill;
