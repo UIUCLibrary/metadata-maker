@@ -57,6 +57,10 @@ function create006Field(record) {
 	
 	array_of_006[2] = record.regularity;
 
+	array_of_006[12] = '0'
+
+	array_of_006[17] = '0'
+
 	var controlfield006 = '';
 	for (var i = 0; i < array_of_006.length; i++) {
 		controlfield006 += array_of_006[i];
@@ -160,15 +164,7 @@ function create008Field(record) {
 	array_of_008[30] = '0';
 	array_of_008[31] = '0';
 
-	//33
-	if (checkExists(record.literature_yes) && checkExists(record.literature_dropdown)) {
-		array_of_008[33] = record.literature_dropdown;
-	}
-	else {
-		array_of_008[33] = '0';
-	}
-
-	//34
+	//33-34
 	array_of_008[34] = '0';
 
 	//35-39
