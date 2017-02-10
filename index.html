@@ -1040,18 +1040,25 @@
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="country_listed" class="listed">
 			</div>
 
-			<div id="starting-block">
-				<label for="year" class="heading">Starting date</label><br>
-				<input type="number" class="date conditional" required id="year" min="0">
-				<label title="Record the starting year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
+			<div id="publication-year-block" class="standard-block">
+				<label for="publication_year" class="heading">Publication year</label><br>
+				<input type="number" class="date" id="publication_year" min="0">			
 			</div>
 
-			<div id="ending-block">
-				<label for="edate" class="heading">Ending date</label><br>
-				<input type="number" class="date conditional" required id="edate" min="0">
-				<label title="Record the ending year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="edate_listed" class="listed">
+			<div class="standard-block">
+				<div id="starting-block">
+					<label for="year" class="heading">Starting date</label><br>
+					<input type="number" class="date conditional" required id="year" min="0">
+					<label title="Record the starting year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
+					<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
+				</div>
+
+				<div id="ending-block">
+					<label for="edate" class="heading">Ending date</label><br>
+					<input type="number" class="date conditional" required id="edate" min="0">
+					<label title="Record the ending year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
+					<span class="unlisted">Unlisted</span><input type="checkbox" id="edate_listed" class="listed">
+				</div>
 			</div>
 
 			<div id="publication-status-block" class="standard-block">
@@ -1147,9 +1154,15 @@
 				</select>
 			</div>
 
-			<div id="current_publication_frequency_date-block" class="standard-block">
-				<label for="current_publication_frequency_date" class="heading">Date of current publication frequency</label><br>
-				<input type="number" class="date conditional" id="current_publication_frequency_date" min="0">
+			<div id="regularity-block" class="standard-block">
+				<label for="regularity_dropdown" class="heading">Regularity<span class="required_marker">*</span></label><br>
+				<select name="regularity_dropdown" required id="regularity_dropdown" class="required">
+					<option selected disabled hidden value=''></option>
+					<option value="r">Regular</option>
+					<option value="u">Unknown</option>
+					<option value="n">Normalized Irregular</option>
+					<option value="x">Completely irregular</option>
+				</select>
 			</div>
 
 			<div id="description-block">
@@ -1251,7 +1264,7 @@
 			</div>
 		</form>
 		<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
-		<div id="version">Version 1.1 – Updated on 02/02/2017</div>
+		<div id="version">Version 1.1 – Updated on 02/10/2017</div>
 		<a id="code" href="https://github.com/dkudeki/metadata-maker/tree/Serials">GitHub</div>
 		
 		<script src="metadatamaker/generalInteractions.js"></script>

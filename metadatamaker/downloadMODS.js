@@ -171,18 +171,8 @@ function downloadMODS(record,institution_info) {
 	var defaultText2 = '    <location>\n        <physicalLocation>' + escapeXML(institution_info['mods']['physicalLocation']) + '</physicalLocation>\n    </location>\n';
 
 	var frequencyText = '';
-	if (checkExists(record.current_publication_frequency) || checkExists(record.current_publication_frequency_date)) {
-		frequencyText += '    <originInfo>\n';
-
-		if (checkExists(record.current_publication_frequency)) {
-			frequencyText += '        <frequency>' + frequencyTypes[record.current_publication_frequency] + '</frequency>\n';
-		}
-
-		if (checkExists(record.current_publication_frequency_date)) {
-			frequencyText += '        <dateIssued>' + record.current_publication_frequency_date + '</dateIssued>\n';
-		}
-
-		frequencyText += '    </originInfo>\n';
+	if (checkExists(record.current_publication_frequency)) {
+		frequencyText += '    <originInfo>\n         <frequency>' + frequencyTypes[record.current_publication_frequency] + '</frequency>\n    </originInfo>\n';
 	}
 
 	var descriptionText = '';

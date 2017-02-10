@@ -52,15 +52,10 @@ function create006Field(record) {
 	array_of_006[0] = 's';
 
 	if (checkExists(record.current_publication_frequency)) {
-		if (record.current_publication_frequency in ['n','r','u','x']) {
-			array_of_006[1] = '|'
-			array_of_006[2] = record.current_publication_frequency
-		}
-		else {
-			array_of_006[1] = record.current_publication_frequency
-			array_of_006[2] = '|'
-		}
+		array_of_006[1] = record.current_publication_frequency
 	}
+	
+	array_of_006[2] = record.regularity;
 
 	var controlfield006 = '';
 	for (var i = 0; i < array_of_006.length; i++) {
@@ -126,17 +121,13 @@ function create008Field(record) {
 		array_of_008[16] = 'x'
 	}
 
-	//18-20
+	//18
 	if (checkExists(record.current_publication_frequency)) {
-		if (record.current_publication_frequency in ['n','r','u','x']) {
-			array_of_008[18] = '|'
-			array_of_008[19] = record.current_publication_frequency
-		}
-		else {
-			array_of_008[18] = record.current_publication_frequency
-			array_of_008[19] = '|'
-		}
+		array_of_008[18] = record.current_publication_frequency
 	}
+
+	//19-20
+	array_of_008[19] = record.regularity;
 
 	//21
 	if (checkExists(record.resource_type)) {
@@ -396,13 +387,8 @@ function fillPublication(record,head,fieldFunc,subfieldFunc) {
 		pub_subfields.push(subfieldFunc('b','[publisher not identified],'));
 	}
 
-	if (checkExists(record.starting_year)) {
-		if (!checkExists(record.ending_year)) {
-			pub_subfields.push(subfieldFunc('c',record.starting_year + '-'));
-		}
-		else {
-			pub_subfields.push(subfieldFunc('c',record.starting_year + '.'));
-		}
+	if (checkExists(record.publication_year)) {
+		pub_subfields.push(subfieldFunc('c',record.publication_year));
 	}
 	else {
 		pub_subfields.push(subfieldFunc('c','[date of publication not identified]'));
@@ -454,7 +440,7 @@ function fillPhysical(record,head,fieldFunc,subfieldFunc) {
 }
 
 function fillPublicationFrequency(record,head,fieldFunc,subfieldFunc) {
-	if (checkExists(record.current_publication_frequency) || checkExists(record.current_publication_frequency_date)) {
+	if (checkExists(record.current_publication_frequency)) {
 		var frequency_subfields = []
 
 		if (checkExists(record.current_publication_frequency)) {
@@ -486,10 +472,6 @@ function fillPublicationFrequency(record,head,fieldFunc,subfieldFunc) {
 			};
 
 			frequency_subfields.push(subfieldFunc('a',frequency_mappings[record.current_publication_frequency]));
-		}
-
-		if (checkExists(record.current_publication_frequency_date)) {
-			frequency_subfields.push(subfieldFunc('b',record.current_publication_frequency_date));
 		}
 
 		var frequency = fieldFunc('310',' ',' ',frequency_subfields);
