@@ -168,7 +168,10 @@ function create008Field(record) {
 		array_of_008[33] = '0';
 	}
 
-	//34-39
+	//34
+	array_of_008[34] = '0';
+
+	//35-39
 	for (var i = 35; i < 38; i++) {
 		array_of_008[i] = record.language[i-35];
 	}
@@ -239,7 +242,7 @@ function fillISSN(record,head,fieldFunc,subfieldFunc) {
 
 		//MARC
 		if (head !== null) {
-			var issn_directory = createDirectory('020',issn,head);
+			var issn_directory = createDirectory('022',issn,head);
 			return [issn_directory,issn];
 		}
 		//MARCXML
@@ -403,7 +406,7 @@ function fillPublication(record,head,fieldFunc,subfieldFunc) {
 	}
 
 	if (checkExists(record.publication_year)) {
-		pub_subfields.push(subfieldFunc('c',record.publication_year));
+		pub_subfields.push(subfieldFunc('c',record.publication_year + '-'));
 	}
 	else {
 		pub_subfields.push(subfieldFunc('c','[date of publication not identified]'));
@@ -514,7 +517,7 @@ function fillDatesOfPublication(record,head,fieldFunc,subfieldFunc) {
 		}
 		date_range += '-';
 		if (checkExists(record.ending_year)) {
-			date_range += record.ending_year;
+			date_range += record.ending_year + '.';
 		}
 
 		var dates_of_publication = fieldFunc('362','0',' ',[subfieldFunc('a',date_range)]);
@@ -1036,7 +1039,7 @@ function downloadMARC(record,institution_info) {
 	var text = timestamp_directory + controlfield006_directory + controlfield008_directory + issn[0] + default1_directory + corporate_author[0] + title[0] + varying_title[0] + pub[0] + physical[0] + frequency[0] + default2_directory + default3_directory + default4_directory + dates[0] + notes[0] + description[0] + keywords[0] + fast[0] + additional_corporate_authors[0] + preceding_title[0] + succeeding_title[0] + web_url[0] + title880[0] + edition880[0] + publisher880[0] + corporate880[0] + corporations880[0] + timestamp_content + controlfield006_content + controlfield008_content + issn[1] + default1_content + corporate_author[1] + title[1] + varying_title[1] + pub[1] + physical[1] + frequency[1] + default2_content + default3_content + default4_content + dates[1] + notes[1] + description[1] + keywords[1] + fast[1] + additional_corporate_authors[1] + preceding_title[1] + succeeding_title[1] + web_url[1] + title880[1] + edition880[1] + publisher880[1] + corporate880[1] + corporations880[1] + end;
 	var leader_len = getByteLength(text) + 24;
 	var directory_len = 25 + timestamp_directory.length + controlfield006_directory.length + controlfield008_directory.length + issn[0].length + default1_directory.length + corporate_author[0].length + title[0].length + varying_title[0].length + pub[0].length + physical[0].length + frequency[0].length + default2_directory.length + default3_directory.length + default4_directory.length + dates[0].length + notes[0].length + description[0].length + keywords[0].length + fast[0].length + additional_corporate_authors[0].length + preceding_title[0].length + succeeding_title[0].length + web_url[0].length + title880[0].length + edition880[0].length + publisher880[0].length + corporate880[0].length + corporations880[0].length;
-	var leader = addZeros(leader_len,'leader') + 'nam a22' + addZeros(directory_len,'leader') + 'ki 4500';
+	var leader = addZeros(leader_len,'leader') + 'nas a22' + addZeros(directory_len,'leader') + 'ki 4500';
 	text = leader + text;
 	downloadFile(text,'mrc');
 }
@@ -1048,7 +1051,7 @@ function downloadMARC(record,institution_info) {
  *		University of Illinois at Urbana-Champaign
  */
 function downloadXML(record,institution_info) {
-	var startText = '<?xml version="1.0" encoding="utf-8"?>\n<record xmlns="http://www.loc.gov/MARC21/slim" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n  <leader>01447nam a2200397ki 4500</leader>\n';
+	var startText = '<?xml version="1.0" encoding="utf-8"?>\n<record xmlns="http://www.loc.gov/MARC21/slim" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n  <leader>01447nas a2200397ki 4500</leader>\n';
 	
 	var formatted_date = getTimestamp();
 	var timestamp = '  <controlfield tag="005">' + formatted_date + '</controlfield>\n';
