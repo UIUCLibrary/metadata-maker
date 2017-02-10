@@ -331,11 +331,17 @@ $("#marc-maker").on('change',"#varying-title-dropdown",function () {
 $("#marc-maker").on('change',"#publication-status-dropdown", function () {
 	var value = $(this).val();
 
-	if (value == 'current') {
+	if (value == 'c') {
 		$("#volumes-block").addClass('hidden');
+		$("#ending-block").addClass('hidden');
+		$("#edate").removeAttr("required");
 	}
 	else {
 		$("#volumes-block").removeClass('hidden');
+		if (value == 'd') {
+			$("#ending-block").removeClass('hidden');
+			$("#edate").attr("required","true");
+		}
 	}
 });
 

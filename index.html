@@ -1045,29 +1045,13 @@
 				<input type="number" class="date" id="publication_year" min="0">			
 			</div>
 
-			<div class="standard-block">
-				<div id="starting-block">
-					<label for="year" class="heading">Starting date</label><br>
-					<input type="number" class="date conditional" required id="year" min="0">
-					<label title="Record the starting year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
-					<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
-				</div>
-
-				<div id="ending-block">
-					<label for="edate" class="heading">Ending date</label><br>
-					<input type="number" class="date conditional" required id="edate" min="0">
-					<label title="Record the ending year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
-					<span class="unlisted">Unlisted</span><input type="checkbox" id="edate_listed" class="listed">
-				</div>
-			</div>
-
 			<div id="publication-status-block" class="standard-block">
 				<label for="publication-status-dropdown" class="heading">Publication status</label><br>
 				<select name="publication-status-dropdown" id="publication-status-dropdown">
 					<option selected disabled hidden value=''></option>
-					<option value="current">Currently published</option>
-					<option value="ceased">Ceased</option>
-					<option value="unknown">Unknown</option>
+					<option value="c">Currently published</option>
+					<option value="d">Ceased</option>
+					<option value="u">Unknown</option>
 				</select>
 			</div>
 
@@ -1075,6 +1059,22 @@
 				<label for="number" class="heading">Number of Volumes</label>
 				<input type="text" id="volumes">
 				<label title="Record the number of volumes in each numbered sequence. E.g., 4"><span class="question-mark">?</span></label>
+			</div>
+
+			<div class="standard-block">
+				<div id="starting-block">
+					<label for="year" class="heading">Starting date</label><br>
+					<input type="text" class="date conditional" required id="year" pattern="[0-9u]{1,4}" title="4 digit dates with 'u' filling in unknowns.">
+					<label title="Record the starting year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
+					<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
+				</div>
+
+				<div id="ending-block" class="hidden">
+					<label for="edate" class="heading">Ending date</label><br>
+					<input type="text" class="date conditional" id="edate" pattern="[0-9u]{1,4}"  title="4 digit dates with 'u' filling in unknowns.">
+					<label title="Record the ending year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
+					<span class="unlisted">Unlisted</span><input type="checkbox" id="edate_listed" class="listed">
+				</div>
 			</div>
 
 			<div id="dimensions-block" class="standard-block">

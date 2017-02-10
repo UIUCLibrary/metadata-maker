@@ -79,25 +79,40 @@ function create008Field(record) {
 		array_of_008[i] = timestamp[i];
 	};
 
-	//06-14
-	if ((checkExists(record.starting_year) && checkExists(record.ending_year))) {
-		array_of_008[6] = 'd';
-		var year_one = record.starting_year;
-		var year_two = record.ending_year;
+	//06
+	if (checkExists(record.publication_status)) {
+		array_of_008[6] = record.publication_status;
 	}
-	else if (checkExists(record.starting_year)) {
-		array_of_008[6] = 'c';
+
+	//07-10
+	if (checkExists(record.starting_year)) {
 		var year_one = record.starting_year;
-		var year_two = 'uuuu';
-	}
-	else if (checkExists(record.ending_year)) {
-		array_of_008[6] = 'd';
-		var year_one = 'uuuu';
-		var year_two = record.ending_year;
+		while (year_one.length < 4) {
+			year_one += 'u'
+		}
 	}
 	else {
-		array_of_008[6] = 'n';
 		var year_one = 'uuuu';
+	}
+
+	//11-14
+	if (checkExists(record.publication_status)) {
+		if (record.publication_status == 'c') {
+			var year_two = '9999';
+		}
+		else {
+			if (checkExists(record.ending_year)) {
+				var year_two = record.ending_year;
+				while (year_two.length < 4) {
+					year_two += 'u';
+				}
+			}
+			else {
+				var year_two = 'uuuu';
+			}
+		}
+	}
+	else {
 		var year_two = 'uuuu';
 	}
 
