@@ -145,11 +145,23 @@
 				<input type="text" id="translit_subtitle" class="hidden translit translit-title">
 			</div>
 
+			<div id="uniform-title-block" class="standard-block">
+				<label for="uniform_title" class="heading">Uniform Title</label><br>
+				<input type="text" required id="uniform_title" class="conditional"><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="uniform_title_listed" class="listed">
+			</div>
+
 			<div id="isbn-block" class="standard-block">
 				<label for="isbn" class="heading">ISBN</label><br>
 				<input type="text" required id="isbn" class="conditional">
 				<label title="Record an ISBN, if present. Do not record hyphens. If multiple ISBNs are present, record only one. E.g., 9781234567890 or 1234567890"><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="isbn_listed" class="listed">
+			</div>
+
+			<div id="ismn-block" class="standard-block">
+				<label for="ismn" class="heading">International Standard Music Number</label><br>
+				<input type="text" required id="ismn" class="conditional"><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="ismn_listed" class="listed">
 			</div>
 
 			<div id="edition-block" class="standard-block">
@@ -167,8 +179,8 @@
 			</div>
 
 			<div id="language-block" class="standard-block">
-				<label for="language" class="heading">Language<span class="required_marker">*</span></label><br>
-				<select name="language" required id="language" class="required">
+				<label for="language" class="heading">Language</label><br>
+				<select name="language" required id="language" class="conditional">
 					<option selected disabled hidden value=''></option>
 					<option value="abk">Abkhaz</option>
 					<option value="ace">Achinese</option>
@@ -655,6 +667,7 @@
 					<option value="zul">Zulu</option>
 					<option value="zun">Zuni</option>
 				</select>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="language_listed" class="listed">
 			</div>
 
 			<div id="author-block">
@@ -663,12 +676,15 @@
 				<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
 				<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
 				<select name="role" id="role">
+					<option value="arr">arranger</option>
 					<option value="art">artist</option>
 					<option value="aut">author</option>
 					<option selected value="cmp">composer</option>
 					<option value="ctb">contributor</option>
 					<option value="edt">editor</option>
 					<option value="ill">illustrator</option>
+					<option value="lbt">librettist</option>
+					<option value="lyr">lyricist</option>
 					<option value="trl">translator</option>
 				</select>
 				<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
@@ -1278,7 +1294,7 @@
 			</div>
 		</form>
 		<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
-		<div id="version">Version 1.1 – Updated on 02/03/2017</div>
+		<div id="version">Version 1.1 – Updated on 02/14/2017</div>
 		<a id="code" href="https://github.com/dkudeki/metadata-maker">GitHub</div>
 		
 		<script src="metadatamaker/generalInteractions.js"></script>

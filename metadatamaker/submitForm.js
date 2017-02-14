@@ -66,12 +66,6 @@ function generateInstitutionInfo() {
  */
 function find100(list) {
 	for (iterator = 0; iterator < list.length; iterator++) {
-		if (list[iterator][0]['role'] == 'cmp') {
-			return list.splice(iterator,1);
-		}
-	}
-
-	for (iterator = 0; iterator < list.length; iterator++) {
 		if (list[iterator][0]['role'] == 'aut') {
 			return list.splice(iterator,1);
 		}
@@ -82,6 +76,18 @@ function find100(list) {
 			return list.splice(iterator,1);
 		}
 	}
+
+	for (iterator = 0; iterator < list.length; iterator++) {
+		if (list[iterator][0]['role'] == 'cmp') {
+			return list.splice(iterator,1);
+		}
+	}
+
+	for (iterator = 0; iterator < list.length; iterator++) {
+		if (list[iterator][0]['role'] == 'lbt') {
+			return list.splice(iterator,1);
+		}
+	}	
 
 	return [[{'family':'','given':'','role':''},{'family':'','given':''}]];
 }
@@ -146,6 +152,7 @@ $("#marc-maker").submit(function(event) {
 				subtitle: $("#translit_subtitle").val()
 			}
 		],
+		uniform_title: $("#uniform_title").val(),
 		author: entry100[0],
 		publisher: $("#publisher").val(),
 		publication_year: $("#year").val(),
@@ -154,6 +161,7 @@ $("#marc-maker").submit(function(event) {
 		copyright_year: $("#cyear").val(),
 		language: $("#language").val(),
 		isbn: $("#isbn").val(),
+		ismn: $("#ismn").val(),
 		volume_or_page: $("#vorp").val(),
 		pages: $("#pages").val(),
 		unpaged: $("#pages_listed").is(':checked'),
