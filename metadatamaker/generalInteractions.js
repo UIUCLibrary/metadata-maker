@@ -342,6 +342,10 @@ $("#marc-maker").on('change',"#publication-status-dropdown", function () {
 			$("#ending-block").removeClass('hidden');
 			$("#edate").attr("required","true");
 		}
+		else {
+			$("#ending-block").addClass('hidden');
+			$("#edate").removeAttr("required");
+		}
 	}
 });
 
