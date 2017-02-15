@@ -179,6 +179,19 @@ function createMARCXMLField(tag,ind1,ind2,subfields) {
 	return datafield;
 }
 
+//Return the results based on which download function was called
+function returnSingleEntry(tag,content,head) {
+	//MARC
+	if (head !== null) {
+		var content_directory = createDirectory(tag,content,head);
+		return [content_directory,content];
+	}
+	//MARCXML
+	else {
+		return content;
+	}
+}
+
 /*
  * Only for English and French non-filing characters
  */
@@ -214,6 +227,8 @@ function getNonfilingCount(title,lang) {
 }
 
 function fillTitle(record,head,fieldFunc,subfieldFunc) {
+	var tag = '245';
+
 	//author_array[0] contains the contents of the first author field
 	var title_ind1 = checkExists(record.author['family']) || checkExists(record.author['given']) ? '1' : '0';
 
@@ -227,34 +242,23 @@ function fillTitle(record,head,fieldFunc,subfieldFunc) {
 	var title_subfields = [];
 	title_subfields.push(subfieldFunc('a',record.title + '.'));
 
-	var title = fieldFunc('245',title_ind1,title_ind2,title_subfields);
-	//MARC
-	if (head !== null) {
-		var title_directory = createDirectory('245',title,head);
-		return [title_directory,title];
-	}
-	//MARCXML
-	else {
-		return title;
-	}
+	var title = fieldFunc(tag,title_ind1,title_ind2,title_subfields);
+
+	return returnSingleEntry(tag,title,head);
 }
 
 function fillPublication(record,head,fieldFunc,subfieldFunc) {
-	var subfields = [subfieldFunc('a','Urbana, Ill. :'),subfieldFunc('b','University of Illinois at Urbana-Champaign,'),subfieldFunc('c',record.publication_year + '.')];
-	var pub = fieldFunc('264',' ','1',subfields);
+	var tag = '264';
 
-	//MARC
-	if (head !== null) {
-		var pub_directory = createDirectory('264',pub,head);
-		return [pub_directory,pub];
-	}
-	//MARCXML
-	else {
-		return pub;
-	}
+	var subfields = [subfieldFunc('a','Urbana, Ill. :'),subfieldFunc('b','University of Illinois at Urbana-Champaign,'),subfieldFunc('c',record.publication_year + '.')];
+	var pub = fieldFunc(tag,' ','1',subfields);
+
+	return returnSingleEntry(tag,pub,head);
 }
 
 function fillAuthor(record,head,fieldFunc,subfieldFunc) {
+	var tag = '100';
+
 	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'}
 
 	var author_content = '';
@@ -274,20 +278,14 @@ function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 	}
 
 	var author_subfields = [subfieldFunc('a',author_content),subfieldFunc('e','author.'),subfieldFunc('4','aut')];
-	var author = fieldFunc('100','1',' ',author_subfields);
+	var author = fieldFunc(tag,'1',' ',author_subfields);
 
-	//MARC
-	if (head !== null) {
-		var author_directory = createDirectory('100',author,head);
-		return [author_directory,author];
-	}
-	//MARCXML
-	else {
-		return author;
-	}
+	return returnSingleEntry(tag,author,head);
 }
 
 function fillPhysical(record,head,fieldFunc,subfieldFunc) {
+	var tag = '300';
+
 	var label = 'pages';
 	if (record.number_of_pages === '0') {
 		var pages_string = '1 leaf (unpaged)';
@@ -310,40 +308,27 @@ function fillPhysical(record,head,fieldFunc,subfieldFunc) {
 		subfields.push(subfieldFunc('b','illustrations ;'));
 	}
 	subfields.push(subfieldFunc('c','28 cm.'))
-	var physical = fieldFunc('300',' ',' ',subfields);
+	var physical = fieldFunc(tag,' ',' ',subfields);
 
-	//MARC
-	if (head !== null) {
-		var physical_directory = createDirectory('300',physical,head);
-		return [physical_directory,physical];
-	}
-	//MARCXML
-	else {
-		return physical;
-	}
+	return returnSingleEntry(tag,physical,head);
 }
 
 function fillDissertationType(record,head,fieldFunc,subfieldFunc) {
+	var tag = '502';
 	var pub_subfields = [];
 
 	pub_subfields.push(subfieldFunc('b',record.dissertation_type + '.'));
 	pub_subfields.push(subfieldFunc('c','University of Illinois at Urbana-Champaign'));
 	pub_subfields.push(subfieldFunc('d',record.publication_year + '.'));
 
-	var pub = fieldFunc('502',' ',' ',pub_subfields);
+	var pub = fieldFunc(tag,' ',' ',pub_subfields);
 
-	//MARC
-	if (head !== null) {
-		var pub_directory = createDirectory('502',pub,head);
-		return [pub_directory,pub];
-	}
-	//MARCXML
-	else {
-		return pub;
-	}
+	return returnSingleEntry(tag,pub,head);
 }
 
 function fillBibliography(record,head,fieldFunc,subfieldFunc) {
+	var tag = '504';
+
 	var full_string = 'page';
 
 	if (record.bibliographies.indexOf('-') != -1) {
@@ -351,37 +336,23 @@ function fillBibliography(record,head,fieldFunc,subfieldFunc) {
 	}
 	full_string += ' ' + record.bibliographies;
 
-	var bib = fieldFunc('504',' ',' ',subfieldFunc('a','Includes bibliographical references (' + full_string + ').'));
+	var bib = fieldFunc(tag,' ',' ',subfieldFunc('a','Includes bibliographical references (' + full_string + ').'));
 
-	//MARC
-	if (head != null) {
-		var bib_directory = createDirectory('504',bib,head);
-		return [bib_directory,bib];
-	}
-	//MARCXML
-	else {
-		return bib;
-	}
+	return returnSingleEntry(tag,bib,head);
 }
 
 function fillMajor(record,head,fieldFunc,subfieldFunc) {
+	var tag = '690';
+
 	var subfields = [];
 	subfields.push(subfieldFunc('a','Theses'));
 	subfields.push(subfieldFunc('x','UIUC'));
 	subfields.push(subfieldFunc('y',record.publication_year));
 	subfields.push(subfieldFunc('x',record.major));
 
-	var major_data = fieldFunc('690',' ',' ',subfields);
+	var major_data = fieldFunc(tag,' ',' ',subfields);
 
-	//MARC
-	if (head != null) {
-		var major_directory = createDirectory('690',major_data,head);
-		return [major_directory,major_data];
-	}
-	//MARCXML
-	else {
-		return major_data;
-	}
+	return returnSingleEntry(tag,major_data,head);
 }
 
 function downloadMARC(record,institution_info) {
@@ -442,27 +413,26 @@ function downloadMARC(record,institution_info) {
 }
 
 function downloadXML(record,institution_info) {
-	var startText = '<?xml version="1.0" encoding="utf-8"?>\n<record xmlns="http://www.loc.gov/MARC21/slim" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n  <leader>01447ntm a2200397ki 4500</leader>\n';
+	var text = '<?xml version="1.0" encoding="utf-8"?>\n<record xmlns="http://www.loc.gov/MARC21/slim" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n  <leader>01447ntm a2200397ki 4500</leader>\n';
 	
 	var formatted_date = getTimestamp();
-	var timestamp = '  <controlfield tag="005">' + formatted_date + '</controlfield>\n';
+	text += '  <controlfield tag="005">' + formatted_date + '</controlfield>\n';
 	
 	var controlfield008 = create008Field(record);
-	controlfield008 = '  <controlfield tag="008">' + controlfield008 + '</controlfield>\n';
+	text += '  <controlfield tag="008">' + controlfield008 + '</controlfield>\n';
 
-	var cataloging_source = createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a',institution_info['marc']),createMARCXMLSubfield('b','eng'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c',institution_info['marc'])]);
+	text += createMARCXMLField('040',' ',' ',[createMARCXMLSubfield('a',institution_info['marc']),createMARCXMLSubfield('b','eng'),createMARCXMLSubfield('e','rda'),createMARCXMLSubfield('c',institution_info['marc'])]);
 
-	var title = fillTitle(record,null,createMARCXMLField,createMARCXMLSubfield);
-	var author = fillAuthor(record,null,createMARCXMLField,createMARCXMLSubfield);
-	var pub = fillPublication(record,null,createMARCXMLField,createMARCXMLSubfield);
-	var physical = fillPhysical(record,null,createMARCXMLField,createMARCXMLSubfield);
-	var default1 = createMARCXMLField('336',' ',' ',[createMARCXMLSubfield('a','text'),createMARCXMLSubfield('b','txt'),createMARCXMLSubfield('2','rdacontent')]) + createMARCXMLField('337',' ',' ',[createMARCXMLSubfield('a','unmediated'),createMARCXMLSubfield('b','n'),createMARCXMLSubfield('2','rdamedia')]) + createMARCXMLField('338',' ',' ',[createMARCXMLSubfield('a','volume'),createMARCXMLSubfield('b','nc'),createMARCXMLSubfield('2','rdacarrier')]);
-	var dissertation = fillDissertationType(record,null,createMARCXMLField,createMARCXMLSubfield);
-	var bibliography = fillBibliography(record,null,createMARCXMLField,createMARCXMLSubfield);
-	var major = fillMajor(record,null,createMARCXMLField,createMARCXMLSubfield);
+	text += fillTitle(record,null,createMARCXMLField,createMARCXMLSubfield);
+	text += fillAuthor(record,null,createMARCXMLField,createMARCXMLSubfield);
+	text += fillPublication(record,null,createMARCXMLField,createMARCXMLSubfield);
+	text += fillPhysical(record,null,createMARCXMLField,createMARCXMLSubfield);
+	text += createMARCXMLField('336',' ',' ',[createMARCXMLSubfield('a','text'),createMARCXMLSubfield('b','txt'),createMARCXMLSubfield('2','rdacontent')]) + createMARCXMLField('337',' ',' ',[createMARCXMLSubfield('a','unmediated'),createMARCXMLSubfield('b','n'),createMARCXMLSubfield('2','rdamedia')]) + createMARCXMLField('338',' ',' ',[createMARCXMLSubfield('a','volume'),createMARCXMLSubfield('b','nc'),createMARCXMLSubfield('2','rdacarrier')]);
+	text += fillDissertationType(record,null,createMARCXMLField,createMARCXMLSubfield);
+	text += fillBibliography(record,null,createMARCXMLField,createMARCXMLSubfield);
+	text += fillMajor(record,null,createMARCXMLField,createMARCXMLSubfield);
 
-	var endText ='</record>\n';
+	text +='</record>\n';
 
-	var text = startText + timestamp + controlfield008 + cataloging_source + title + author + pub + physical + default1 + dissertation + bibliography + major + endText;
 	downloadFile(text,'xml');
 }
