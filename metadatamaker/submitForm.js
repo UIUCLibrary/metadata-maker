@@ -168,6 +168,7 @@ $("#marc-maker").submit(function(event) {
 		additional_authors: complete_names_list,
 		additional_corporate_names: complete_corporate_names_list,
 		format: $("#format").val(),
+		size: $("#size").val(),
 		daterange: $("#daterange").val(),
 		datecollected: $("#datecollected").val(),
 		gcoverage: $("#gcoverage").val(),
