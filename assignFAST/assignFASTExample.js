@@ -42,5 +42,5 @@ function autoSubjectExample(request, response) {
 	For this example, replace the common subfield break of -- with  /
 */
 function exampleStyle(res) {
-	return res["auth"].replace("--","/");    
+	return res["auth"].replace("--","/") + ' [' + getTypeFromTag(res["tag"]) + ']';    
 }

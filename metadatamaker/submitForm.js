@@ -94,7 +94,13 @@ $("#marc-maker").submit(function(event) {
 	var fast_array = [];
 	for (var i = 0; i < counter; i++) {
 		if(checkExists($("#fastID" + i).val()) && checkExists($("#keyword" + i).val())) {
-			fast_array.push([$("#keyword" + i).val(),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
+			if ($("#keyword" + i).val().substring($("#keyword" + i).val().length - 1) == ']') {
+				var endpoint = $("#keyword" + i).val().lastIndexOf('[');
+				fast_array.push([$("#keyword" + i).val().substring(0,endpoint-2),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
+			}
+			else {
+				fast_array.push([$("#keyword" + i).val(),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
+			}
 		}
 		else {
 			words.push($("#keyword" + i).val());
