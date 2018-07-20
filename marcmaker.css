@@ -141,7 +141,7 @@ input[type="number"] {
 	width: 400px;
 }
 
-.insert_corporate {
+.insert_corporate_name {
 	left: -146px;
 }
 
@@ -184,9 +184,23 @@ input[type="number"] {
 }
 
 .translit-author {
+/*	position: relative;
+	left: 25px;*/
+	width: 700px;
+}
+
+.translit-block {
 	position: relative;
 	left: 25px;
-	width: 700px;
+}
+
+.translit-corporate_name-block {
+	position: relative;
+	left: 25px;
+}
+
+.insert_translit_corporate_name {
+	left: -140px;
 }
 
 .insert {
