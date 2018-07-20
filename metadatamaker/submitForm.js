@@ -144,7 +144,10 @@ $("#marc-maker").submit(function(event) {
 	for (var i = 0; i < cCounter; i++) {
 		complete_corporate_names_list.push([{"corporate": $("#corporate_name" + i).val(), "role": $("#corporate_role" + i).val()},{"corporate": $("#translit_corporate_name" + i).val()}]);
 	}
-	var entry110 = find110(complete_corporate_names_list);
+	var entry110 = [[{'corporate': '', 'role':''},{'corporate':''}]];
+	if (!entry100[0]) {
+		entry110 = find110(complete_corporate_names_list);
+	}
 
 	var recordObject = {
 		title: [
