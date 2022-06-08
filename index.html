@@ -32,8 +32,8 @@
 				Metadata Maker for
 			</div>
 			<div id="version_selector" onClick="toggleVersionMenu()">
-				<div id="version_name" value="serials">
-					Serials
+				<div id="version_name" value="microfilms">
+					Microfilms
 				</div>
 				<img src="arrow2.svg" id="arrow">
 				<div id="version_menu" class="hidden">
@@ -53,6 +53,17 @@
 								Government Documents
 							</li>
 						</a>
+						<a class="dropdown" href="/marcmaker/maps/">
+							<li id="maps">
+								Maps
+							</li>
+						</a>
+						<a class="dropdown" onClick="return false;" href="/marcmaker/microfilms">
+							<li id="microfilms" class="current_version">
+								Microfilms
+								<span id="checkmark">&#10003;</span>
+							</li>
+						</a>
 						<a class="dropdown" href="/marcmaker/">
 							<li id="monographs">
 								Monographs
@@ -63,10 +74,9 @@
 								Scores
 							</li>
 						</a>
-						<a class="dropdown" onClick="return false;" href="/marcmaker/serials/">
-							<li id="serials" class="current_version">
+						<a class="dropdown" href="/marcmaker/serials/">
+							<li id="serials">
 								Serials
-								<span id="checkmark">&#10003;</span>
 							</li>
 						</a>
 						<a class="dropdown" href="/marcmaker/theses/">
