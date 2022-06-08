@@ -182,5 +182,9 @@ $("#marc-maker").submit(function(event) {
 		downloadHTML(recordObject,institution_info);
 	}
 
+	if ($("#BIBFRAME").is(':checked')) {
+		downloadBIBFRAME(recordObject,institution_info);
+	}
+
 	event.preventDefault();
 });
