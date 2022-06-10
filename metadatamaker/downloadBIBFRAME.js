@@ -80,7 +80,7 @@
 
  	var startText = '<?xml version="1.0" encoding="UTF-8"?>\n<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"\n    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"\n    xmlns:bf="http://id.loc.gov/ontologies/bibframe/"\n    xmlns:bflc="http://id.loc.gov/ontologies/bflc/"\n    xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n';
 
- 	var adminText = '    <bf:AdminMetadata>\n        <bflc:encodingLevel>\n            <bflc:EncodingLevel rdf:about="http://id.loc.gov/vocabulary/menclvl/7"/>\n        </bflc:encodingLevel>\n        <bf:assigner>\n        <bf:descriptionLanguage>\n            <bf:Language rdf:about="http://id.loc.gov/vocabulary/languages/eng"/>\n        </bf:descriptionLanguage>\n        <bf:descriptionConventions>\n            <bf:DescriptionConventions rdf:about="http://id.loc.gov/vocabulary/descriptionConventions/rda"/>\n        </bf:descriptionConventions>\n        <bf:generationProcess>\n            <bf:GenerationProcess>\n                <rdfs:label>Metadata Maker v1.1, BIBFRAME 2.0 RDFXML; ';
+ 	var adminText = '        <bf:adminMetadata>\n            <bf:AdminMetadata>\n                <bflc:encodingLevel>\n                    <bflc:EncodingLevel rdf:about="http://id.loc.gov/vocabulary/menclvl/7"/>\n                </bflc:encodingLevel>\n                <bf:assigner>\n                <bf:descriptionLanguage>\n                    <bf:Language rdf:about="http://id.loc.gov/vocabulary/languages/eng"/>\n                </bf:descriptionLanguage>\n                <bf:descriptionConventions>\n                    <bf:DescriptionConventions rdf:about="http://id.loc.gov/vocabulary/descriptionConventions/rda"/>\n                </bf:descriptionConventions>\n                <bf:generationProcess>\n                    <bf:GenerationProcess>\n                        <rdfs:label>Metadata Maker v1.1, BIBFRAME 2.0 RDFXML; ';
 
  	var today = new Date();
  	var date = {
@@ -92,7 +92,7 @@
  		ss: today.getSeconds()
  	};
 
- 	adminText += date.yyyy + '-' + date.mm + '-' + date.dd + 'T' + date.hh + ':' + date.minutes + ':' + date.ss + '</rdfs:label>\n            </bf:GenerationProcess>\n        </bf:generationProcess>\n    </bf:AdminMetadata>\n';
+ 	adminText += date.yyyy + '-' + date.mm + '-' + date.dd + 'T' + date.hh + ':' + date.minutes + ':' + date.ss + '</rdfs:label>\n                    </bf:GenerationProcess>\n                </bf:generationProcess>\n            </bf:AdminMetadata>\n        </bf:adminMetadata>\n';
 
  	var workText = '    <bf:Work rdf:about="http://example.org/d0e1#Work">\n';
 
@@ -193,6 +193,6 @@
 
 	var endText = '</rdf:RDF>';
 
-	var text = startText + adminText + workText + genreText + authorText + titleText + subjectText + workEndText + instanceText + endText;
+	var text = startText + workText + adminText + genreText + authorText + titleText + subjectText + workEndText + instanceText + endText;
 	downloadFile(text,'bibframe');
 }
