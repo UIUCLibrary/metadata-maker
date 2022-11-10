@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Metadata Maker for Serials</title>
+	<title>Metadata Maker for Microfilms</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 	<script src="webshim/js-webshim/minified/polyfiller.js"></script>
@@ -58,7 +58,7 @@
 								Maps
 							</li>
 						</a>
-						<a class="dropdown" onClick="return false;" href="/marcmaker/microfilms">
+						<a class="dropdown" onClick="return false;" href="/marcmaker/microfilms/">
 							<li id="microfilms" class="current_version">
 								Microfilms
 								<span id="checkmark">&#10003;</span>
@@ -67,6 +67,11 @@
 						<a class="dropdown" href="/marcmaker/">
 							<li id="monographs">
 								Monographs
+							</li>
+						</a>
+						<a class="dropdown" href="/marcmaker/monoviaf/">
+							<li id="monoviaf">
+								Monographs (LD)
 							</li>
 						</a>
 						<a class="dropdown" href="/marcmaker/scores/">
@@ -143,8 +148,8 @@
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="subtitle_listed" class="listed">
 			</div>
 
-			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
-				<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><label for="translit_title" class="insert insert_normal hidden translit translit-title" style="left: -13px;" onClick='insertMenu("translit_title");'>Insert Diacritics</label><br>
+			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title  hidden">
+				<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><label for="translit_title" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</label><br>
 				<div id="insert-translit_title" class="hidden translit translit-title"></div>
 				<input type="text" id="translit_title" class="hidden translit translit-title">
 			</div>
@@ -153,27 +158,6 @@
 				<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><label for="translit_subtitle" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</label><br>
 				<div id="insert-translit_subtitle" class="hidden translit translit-title"></div>
 				<input type="text" id="translit_subtitle" class="hidden translit translit-title">
-			</div>
-
-			<div id="varying-title-dropdown-block" class="standard-block">
-				<label for="varying-title-dropdown" class="heading">Varying title</label>
-				<select name="varying-title-dropdown" id="varying-title-dropdown">
-					<option selected disabled hidden value=''></option>
-					<option value="other">Other title</option>
-					<option value="parallel">Parallel title (title in another language)</option>
-				</select><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="varying-title-dropdown_listed" class="listed">
-			</div>
-
-			<div id="varying-title-block" class="standard-block hidden">
-				<input type="text" id="varying_title">
-			</div>
-
-			<div id="issn-block" class="standard-block">
-				<label for="issn" class="heading">ISSN</label><br>
-				<input type="text" required id="issn" class="conditional">
-				<label title="Record an ISSN, if present. Do not record hyphens. If multiple ISSNs are present, record only one. E.g., 9781234567890 or 1234567890"><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="issn_listed" class="listed">
 			</div>
 
 			<div id="language-block" class="standard-block">
@@ -668,6 +652,33 @@
 			</div>
 
 			<div id="names_title" class="heading">Names<br></div>
+			<div id="author-block">
+				<label for="author" class="heading">Personal</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
+				<div id="insert-family_name"></div><div id="insert-given_name"></div>
+				<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
+				<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
+				<select name="role" id="role">
+					<option value="art">artist</option>
+					<option value="aut">author</option>
+					<option selected value="com">compiler</option>
+					<option value="ctb">contributor</option>
+					<option value="edt">editor</option>
+					<option value="ill">illustrator</option>
+					<option value="trl">translator</option>
+				</select>
+				<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
+				<input type="button" value="+" id="add-author" onClick="addAuthor();">
+				<br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="author_listed" class="listed">
+
+				<div id="translit-family_name-block" class="translit-family_name-block translit-block translit-author hidden">
+					<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
+					<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
+					<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
+					<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
+				</div>
+			</div>
+
 			<div id="corporate-block">
 				<label for="corporate_name" class="heading">Corporate/Organization</label><label for="corporate_name" class="insert insert_corporate_name" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
 				<div id="insert-corporate_name"></div>
@@ -700,7 +711,7 @@
 				<div id="insert-translit_publisher" class="hidden translit translit-publisher"></div>
 				<input type="text" id="translit_publisher" class="hidden translit translit-publisher">
 			</div>
-
+		
 			<div id="place-block" class="standard-block">
 				<label for="place" class="heading">Place of publication</label><label for="place" class="insert insert_normal" onClick='insertMenu("place");'>Insert Diacritics</label><br>
 				<div id="insert-place"></div>
@@ -1056,191 +1067,36 @@
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="country_listed" class="listed">
 			</div>
 
-			<div id="publication-year-block" class="standard-block">
-				<label for="publication_year" class="heading">Publication year</label><br>
-				<input type="number" class="date" id="publication_year" min="0">			
+			<div id="publication-block">
+				<label for="date" class="heading">Date of publication</label><br>
+				<input type="number" class="date conditional" required id="year" min="0">
+				<label title="Record the year of publication if it appears on the piece. Do not record a copyright date here. Copyright dates should be recorded in the next field."><span class="question-mark">?</span></label><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
 			</div>
 
-			<div id="publication-status-block" class="standard-block">
-				<label for="publication-status-dropdown" class="heading">Publication status</label><br>
-				<select name="publication-status-dropdown" id="publication-status-dropdown">
-					<option selected disabled hidden value=''></option>
-					<option value="c">Currently published</option>
-					<option value="d">Ceased</option>
-					<option value="u">Unknown</option>
-				</select>
+			<div id="copyright-block">
+				<label for="cyear" class="heading">Copyright date</label><br>
+				<input type="number" class="date conditional" required id="cyear" min="0">
+				<label title="Record the year of copyright if it appears on the piece."><span class="question-mark">?</span></label><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="cyear_listed" class="listed">
 			</div>
 
-			<div id="volumes-block" class="standard-block hidden">
-				<label for="number" class="heading">Number of Volumes</label>
-				<input type="text" id="volumes">
-				<label title="Record the number of volumes in each numbered sequence. E.g., 4"><span class="question-mark">?</span></label>
+			<div id="isbn-block" class="standard-block">
+				<label for="isbn" class="heading">ISBN</label><br>
+				<input type="text" id="isbn">
+				<label title="Record an ISBN, if present. Do not record hyphens. If multiple ISBNs are present, record only one. E.g., 9781234567890 or 1234567890"><span class="question-mark">?</span></label><br>
+			</div>
+			
+			<div id="edition-block" class="standard-block">
+				<label for="edition" class="heading">Edition</label><br>
+				<input type="text" id="edition"><br>
 			</div>
 
-			<div class="standard-block">
-				<div id="starting-block">
-					<label for="year" class="heading">Starting date</label><br>
-					<input type="text" class="date conditional" required id="year" pattern="[0-9u]{1,4}" title="4 digit dates with 'u' filling in unknowns.">
-					<label title="Record the starting year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
-					<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
-				</div>
-
-				<div id="ending-block" class="hidden">
-					<label for="edate" class="heading">Ending date</label><br>
-					<input type="text" class="date conditional" id="edate" pattern="[0-9u]{1,4}"  title="4 digit dates with 'u' filling in unknowns.">
-					<label title="Record the ending year of publication if it appears on the piece."><span class="question-mark">?</span></label><br>
-					<span class="unlisted">Unlisted</span><input type="checkbox" id="edate_listed" class="listed">
-				</div>
-			</div>
-
-			<div id="dimensions-block" class="standard-block">
-				<label for="dimensions" class="heading">Dimensions<span class="required_marker">*</span></label><br>
-				<input type="text" required id="dimensions" class="required"> cm
-				<label title="Record the height of the piece in cm. Always round up, so that if a piece measures 25.1 cm, record 26 cm"><span class="question-mark">?</span></label>
-			</div>
-
-			<div id="literature-block" class="standard-block">
-				<label for="literature" class="heading">Is this item literature?</label><br>
-				<input type="radio" name="literature" id="literature-yes" value="yes">Yes
-				<input type="radio" name="literature" id="literature-no" value="no">No<br>
-				<select name="literature-dropdown" id="literature-dropdown" class="hidden">
-					<option selected disabled hidden value=''></option>
-					<option value="0">Not fiction (not further specified)</option>
-					<option value="1">Fiction (not further specified)</option>
-					<option value="d">Dramas</option>
-					<option value="e">Essays</option>
-					<option value="f">Novels</option>
-					<option value="h">Humor, satires, etc.</option>
-					<option value="i">Letters</option>
-					<option value="j">Short stories</option>
-					<option value="m">Mixed forms</option>
-					<option value="p">Poetry</option>
-					<option value="s">Speeches</option>
-					<option value="u">Unknown</option>
-				</select>
-			</div>
-
-			<div id="resource_type-block" class="standard-block">
-				<label for="resource_type" class="heading">Type of resource</label><br>
-				<select name="resource_type-dropdown" id="resource_type">
-					<option selected disabled hidden value='|'></option>
-					<option value="#">None of the following</option>
-					<option value="d">Updating database</option>
-					<option value="l">Updating loose-leaf</option>
-					<option value="m">Monographic series</option>
-					<option value="n">Newspaper</option>
-					<option value="p">Periodical</option>
-					<option value="w">Updating Web site</option>
-				</select>
-			</div>
-
-			<div id="government_publication-block" class="standard-block">
-				<label for="government_publication" class="heading">Is this a Government Publication?</label><br>
-				<input type="radio" name="government_publication" id="government_publication-yes" value="yes">Yes
-				<input type="radio" name="government_publication" id="government_publication-no" value="no">No
-			</div>
-
-			<div id="current_publication_frequency-block" class="standard-block">
-				<label for="current_publication_frequency" class="heading">Current publication frequency</label><br>
-				<select name="current_publication_frequency-dropdown" id="current_publication_frequency">
-					<option selected disabled hidden value='|'></option>
-					<option value="#">No determinable frequency</option>
-					<option value="a">Annual</option>
-					<option value="b">Bimonthly</option>
-					<option value="c">Semiweekly</option>
-					<option value="d">Daily</option>
-					<option value="e">Biweekly</option>
-					<option value="f">Semiannual</option>
-					<option value="g">Biennial</option>
-					<option value="h">Triennial</option>
-					<option value="i">Three times a week</option>
-					<option value="j">Three times a month</option>
-					<option value="k">Continuously updated</option>
-					<option value="m">Monthly</option>
-					<option value="q">Quarterly</option>
-					<option value="s">Semimonthly</option>
-					<option value="t">Three times a year</option>
-					<option value="u">Unknown</option>
-					<option value="w">Weekly</option>
-					<option value="z">Other</option>
-					<option value="n">Normalized irregular</option>
-					<option value="r">Regular</option>
-					<option value="u">Unknown</option>
-					<option value="x">Completely irregular</option>
-				</select>
-			</div>
-
-			<div id="regularity-block" class="standard-block">
-				<label for="regularity_dropdown" class="heading">Regularity<span class="required_marker">*</span></label><br>
-				<select name="regularity_dropdown" required id="regularity_dropdown" class="required">
-					<option selected disabled hidden value=''></option>
-					<option value="r">Regular</option>
-					<option value="u">Unknown</option>
-					<option value="n">Normalized Irregular</option>
-					<option value="x">Completely irregular</option>
-				</select>
-			</div>
-
-			<div id="description-block">
-				<label for="description">Description about the resource</label><br>
-				<textarea id="description"></textarea>
-			</div>
-
-			<div id="e-resource-block" class="standard-block">
-				<label for="e-resource" class="heading">Available as e-resource?</label><br>
-				<input type="radio" name="e-resource" id="e-resource-yes" value="yes">Yes
-				<input type="radio" name="e-resource" id="e-resource-no" value="no">No
-			</div>
-
-			<div id="web-url-block" class="standard-block hidden">
-				<label for="web-url" class="heading">Web URL</label><label for="web-url" class="insert insert_normal" onClick='insertMenu("web-url");'>Insert Diacritics</label><br>
-				<div id="insert-web-url"></div>
-				http://<input type="text" id="web-url"><br>
-			</div>
-
-			<div id="preceding_title-block" class="standard-block">
-				<label for="preceding_title" class="heading">Preceding title</label><br>
-				<input type="text" required id="preceding_title" class="conditional"><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="preceding_title_listed" class="listed">
-			</div>
-
-			<div id="relationship_with_preceding_title-block" class="standard-block">
-				<label for="relationship_with_preceding_title" class="heading">Relationship with preceding title</label><br>
-				<select name="relationship_with_preceding_title-dropdown" required id="relationship_with_preceding_title" class="conditional">
-					<option selected disabled hidden value=''></option>
-					<option value="0">Continues</option>
-					<option value="1">Continues in part</option>
-					<option value="2">Supersedes</option>
-					<option value="3">Supersedes in part</option>
-					<option value="4">Formed by the union of ... and ...</option>
-					<option value="5">Absorbed</option>
-					<option value="6">Absorbed in part</option>
-					<option value="7">Separated from</option>
-				</select><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="relationship_with_preceding_title_listed" class="listed">
-			</div>
-
-			<div id="succeeding_title-block" class="standard-block">
-				<label for="succeeding_title" class="heading">Succeeding title</label><br>
-				<input type="text" required id="succeeding_title" class="conditional"><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="succeeding_title_listed" class="listed">
-			</div>
-
-			<div id="relationship_with_succeeding_title-block" class="standard-block">
-				<label for="relationship_with_succeeding_title" class="heading">Relationship with succeeding title</label><br>
-				<select name="relationship_with_succeeding_title-dropdown" required id="relationship_with_succeeding_title" class="conditional">
-					<option selected disabled hidden value=''></option>
-					<option value="0">Continued by</option>
-					<option value="1">Continued in part by</option>
-					<option value="2">Superseded by</option>
-					<option value="3">Superseded in part by</option>
-					<option value="4">Absorbed by</option>
-					<option value="5">Absorbed in part by</option>
-					<option value="6">Split into ... and ...</option>
-					<option value="7">Merged with ... to form ...</option>
-					<option value="8">Changed back to</option>
-				</select><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="relationship_with_succeeding_title_listed" class="listed">
+			
+			<div id="description-block" class="standard-block">
+				<label for="description" class="heading">Description</label><br>
+				<input type="text" id="description">
+				<label title="Record the reel number in here."><span class="question-mark">?</span></label><br>	
 			</div>
 
 			<div id="keywords" class="standard-block">
@@ -1253,7 +1109,7 @@
 			</div>
 
 			<div id="notes-block">
-				<label for="notes">Notes to the Cataloger</label><br>
+				<label for="notes">Contents Notes</label><br>
 				<textarea id="notes"></textarea>
 			</div>
 
@@ -1266,8 +1122,8 @@
 				<label for="filetype">Choose record formats:</label><br>
 				<input type="checkbox" id="MARC" class="filetype">MARC<br>
 				<input type="checkbox" id="MARCXML" class="filetype">MARCXML<br>
-				<input type="checkbox" id="MODS" class="filetype">MODS<br>
-				<input type="checkbox" id="HTML" class="filetype">HTML
+				<!--<input type="checkbox" id="MODS" class="filetype">MODS<br>
+				<input type="checkbox" id="HTML" class="filetype">HTML-->
 			</div>
 
 			<div id="buttons" class="standard-block">
@@ -1280,8 +1136,8 @@
 			</div>
 		</form>
 		<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
-		<div id="version">Version 1.1 – Updated on 02/13/2017</div>
-		<a id="code" href="https://github.com/dkudeki/metadata-maker/tree/Serials">GitHub</div>
+		<div id="version">Version 1.1 – Updated on 02/13/2017. Metadata Maker for Microfilms was created on 04/14/2019.</div>
+		<a id="code" href="https://github.com/dkudeki/metadata-maker/tree/DataSet">GitHub</div>
 		
 		<script src="metadatamaker/generalInteractions.js"></script>
 		<script src="metadatamaker/topBar.js"></script>
