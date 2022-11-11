@@ -14,16 +14,16 @@ attaches the autocomplete function to the search box
 
 
 var currentSuggestIndexDefault = "suggest50";  //initial default value
-
-function setUpPage(number) {
+function setUpPage() {
 	// connect the autoSubject to the input areas
-	$('#keyword' + number).autocomplete( {
+	$('.keyword').autocomplete( {
 		source: autoSubjectExample, 
 		minLength: 1,
 		select: function(event, ui) {
-			$('#fastID' + number).val(ui.item.idroot);
-			$('#fastType' + number).val(ui.item.tag);
-			$('#fastInd' + number).val(ui.item.indicator);
+			$('#exampleXtra').html("FAST ID <b>" + ui.item.idroot + "</b> Facet <b>"+ getTypeFromTag(ui.item.tag)+ "</b>");
+			var html = "http://id.worldcat.org/fast/" + ui.item.idroot.replace("fst","").replace(/^0+/, '');
+			$(this).attr('link', html);
+			$(this).attr('valuetype', ui.item.tag);
 		} //end select
 	} 
 	).data( "autocomplete" )._renderItem = function( ul, item ) { formatSuggest(ul, item);};
@@ -42,5 +42,5 @@ function autoSubjectExample(request, response) {
 	For this example, replace the common subfield break of -- with  /
 */
 function exampleStyle(res) {
-	return res["auth"].replace("--","/") + ' [' + getTypeFromTag(res["tag"]) + ']';    
+	return res["auth"].replace("--","/")+ ' [' + getTypeFromTag(res["tag"]) + ']';
 }

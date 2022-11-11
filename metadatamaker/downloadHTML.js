@@ -865,21 +865,29 @@ function buildSpan(prop,content) {
  * Create a new div for each person listed as a contributer, switching the itemscope to person. Separately label
  * the family name and given name.
  */
-function listPerson(family,given,role) {
+function listPerson(author_record) {
 	var role_index = { 'art': 'contributor', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'contributor'};
-	var prop = role_index[role];
+	var prop = role_index[author_record[0]['role']];
 	var output_string = '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="http://schema.org/Person">\n';
-	output_string += '\t\t\t\t<dt>' + role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1) + ':</dt>\n';
+	output_string += '\t\t\t\t<dt>' + role_index[author_record[0]['role']].charAt(0).toUpperCase() + role_index[author_record[0]['role']].slice(1) + ':</dt>\n';
 	output_string += '\t\t\t\t<dd><b>';
-	if (checkExists(family) && checkExists(given)) {
-		output_string += buildSpan('familyName',family) + ', ' + buildSpan('givenName',given);
-	}
-	else if (checkExists(family) || checkExists(given)) {
-		if (checkExists(family)) {
-			output_string += buildSpan('familyName',family);
-		}
-		else {
-			output_string += buildSpan('givenName',given);
+	if (author_record[0]['family']) {
+		var latinname = author_record[0]['family'];
+		if (author_record[0]["lc"]!=""){
+			for (var i = 0; i < author_record[0]['subbd'].length; i++) {
+				if (author_record[0]['subbd'][i]){
+					latinname += " "
+					latinname += escapeXml(author_record[0]['subbd'][i]);
+				}
+			}
+			latinname = latinname.replace(/,\s*$/, "");
+			output_string += buildSpan('name',latinname);
+		}else{
+			if (author_record[0]["viaf"] ==""){
+				output_string == ""
+			}else{
+				output_string += buildSpan('name',latinname);
+			}
 		}
 	}
 	output_string += '</b></dd>\n';
@@ -921,13 +929,13 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
 
-	if (checkExists(record.author[0]['role']) && (checkExists(record.author[0]['given']) || checkExists(record.author[0]['family']))) {
-		displayTags += listPerson(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	if (checkExists(record.author[0]['role']) && (checkExists(record.author[0]['family']))) {
+		displayTags += listPerson(record.author);
 	}
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			displayTags += listPerson(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
+			displayTags += listPerson(record.additional_authors[i]);
 		}
 	}
 
@@ -983,32 +991,31 @@ function downloadHTML(record,institution_info) {
 
 	displayTags += '\t\t\t<dt>Language:</dt>\n\t\t\t<dd><b>' + getLanguage(record.language) + '</b></dd>\n';
 
-	if (record.keywords.length > 0) {
-		console.log(record.keywords);
-		var keywordsTag = record.keywords[0];
-		var keywordsList = '\t\t\t<dt>Keywords:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n\t\t\t\t\t<li>' + buildSpan('keywords',record.keywords[0]) + '</li>\n';
-		for (var c = 1; c < record.keywords.length; c++) {
-			if (record.keywords[c] !== '') {
-				keywordsTag += ', ' + record.keywords[c];
-				keywordsList += '\t\t\t\t\t<li itemprop="keywords">' + record.keywords[c] + '</li>\n';
+
+//gh test 0903
+	if (checkExists(record.keywords) && record.keywords.length > 0) {
+		if (record.keywords[0]!=''){
+			var FASTList = '\t\t\t<dt>FAST:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
+			for (var c = 0; c < record.keywords.length; c++) {
+				if (record.keywords[c] != '') {
+					FASTList += '\t\t\t\t\t<li itemprop="about" href="' + record.keywordshtml[c] + '">' + record.keywords[c] + '</li>\n';
+				}
+			}
+			FASTList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+			displayTags += FASTList;
+		}
+	}
+	if (checkExists(record.lcshvalue) && record.lcshvalue.length > 0){
+		var LCSHList = '\t\t\t<dt>LCSH:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
+		for (var c = 0; c < record.lcshvalue.length; c++) {
+			if (record.lcshvalue[c] != '') {
+				LCSHList += '\t\t\t\t\t<li itemprop="about" href="' + record.lcshuri[c] + '">' + record.lcshvalue[c] + '</li>\n';
 			}
 		}
-		keywordsList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
-		displayTags += keywordsList;
+		LCSHList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+		displayTags += LCSHList;
 	}
-
-	if (checkExists(record.fast) && record.fast.length > 0) {
-		var FASTList = '\t\t\t<dt>FAST:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
-		for (var c = 0; c < record.fast.length; c++) {
-			if (record.fast[c][0] != '') {
-				FASTList += '\t\t\t\t\t<li itemprop="about" href="http://id.worldcat.org/fast/' + record.fast[c][1] + '">' + record.fast[c][0] + '</li>\n';
-			}
-		}
-		FASTList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
-		displayTags += FASTList;
-	}
-
-	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
+	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n';
 
 	var text = '<!DOCTYPE html>\n<html>\n<head>\n	<meta charset="utf-8">\n</head>\n\n<body>\n\t<div itemscope itemtype="http://schema.org/Book">\n' + metaTags + '\t\t<dl>\n' + displayTags + '\t\t</dl>\n\t</div>\n</body>\n</html>';
 	downloadFile(text,'html');

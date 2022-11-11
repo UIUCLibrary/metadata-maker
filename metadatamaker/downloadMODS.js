@@ -1,24 +1,39 @@
 /*
  * Author output depends on how the name was entered
  */
-function fillAuthorMODS(family,given,role) {
+ // ALL AUTHOR CAN USE THIS FUNCRTION
+function fillAuthorMODS(author_record) {
+	var authorText;
 	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
-	if (checkExists(given) || checkExists(family)) {
-		var authorText = '    <name type="personal">\n';
-		if (checkExists(family)) {
-			authorText += '        <namePart type="family">' + escapeXML(family) + '</namePart>\n';
+	if (author_record[0]['family']){
+		var latinname = author_record[0]['family'];
+		var fullname;
+		if (author_record[0]["lc"]!=""){
+			var authorText = '    <name type="personal" usage="primary" authority="VIAF" authorityURI="http://viaf.org" valueURI="' + author_record[0]["viaf"] + '">\n';
+			for (var i = 0; i < author_record[0]['subbd'].length; i++) {
+	 			if (author_record[0]['subbd'][i]){
+	 				latinname += " "
+	 				latinname += escapeXml(author_record[0]['subbd'][i]);
+	 			}
+		 	}
+		 	latinname = latinname.replace(/,\s*$/, "");
+		 	authorText += '        <namePart>' + latinname + '</namePart>\n';
+		 	authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[author_record[0]['role']] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + author_record[0]['role'] + '</roleTerm>\n        </role>\n    </name>\n';		
+		}else{
+			if (author_record[0]["viaf"]!=""){
+				var authorText = '    <name type="personal"type="personal" usage="primary" authority="VIAF" authorityURI="http://viaf.org" valueURI="' + author_record[0]["viaf"] + '">\n' ;
+				authorText += '        <namePart>' + latinname + '</namePart>\n';
+				authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[author_record[0]['role']] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + author_record[0]['role'] + '</roleTerm>\n        </role>\n    </name>\n';		
+			}else{
+				authorText =  ''
+			}
+			
 		}
-
-		if (checkExists(given)) {
-			authorText += '        <namePart type="given">' + escapeXML(given) + '</namePart>\n';
-		}
-
-		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n        </role>\n    </name>\n';
-		return authorText;
+		
+	}else{
+		authorText =  ''
 	}
-	else {
-		return '';
-	}
+	return authorText;
 }
 
 /*
@@ -66,17 +81,17 @@ function downloadMODS(record,institution_info) {
 	}
 
 	var authorText = '';
-	authorText += fillAuthorMODS(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	authorText += fillAuthorMODS(record.author);
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			authorText += fillAuthorMODS(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
+			authorText += fillAuthorMODS(record.additional_authors[i]);
 		}
 	}
 
-	var titleText = '    <titleInfo>\n        <title>' + escapeXML(record.title[0]['title']) + '</title>\n';
+	var titleText = '    <titleInfo>\n        <title>' + escapeXml(record.title[0]['title']) + '</title>\n';
 	if (checkExists(record.title[0]['subtitle'])) {
-		titleText += '        <subTitle>' + escapeXML(record.title[0]['subtitle']) + '</subTitle>\n';
+		titleText += '        <subTitle>' + escapeXml(record.title[0]['subtitle']) + '</subTitle>\n';
 	}
 	titleText += '    </titleInfo>\n';
 
@@ -89,11 +104,11 @@ function downloadMODS(record,institution_info) {
 		}
 
 		if (checkExists(record.publication_place)) {
-			originText += '        <place>\n            <placeTerm type="text">' + escapeXML(record.publication_place) + '</placeTerm>\n        </place>\n';
+			originText += '        <place>\n            <placeTerm type="text">' + escapeXml(record.publication_place) + '</placeTerm>\n        </place>\n';
 		}
 
 		if (checkExists(record.publisher)) {
-			originText += '        <publisher>' + escapeXML(record.publisher) + '</publisher>\n';
+			originText += '        <publisher>' + escapeXml(record.publisher) + '</publisher>\n';
 		}
 
 		if (checkExists(record.publication_year)) {
@@ -105,7 +120,7 @@ function downloadMODS(record,institution_info) {
 		}
 
 		if (checkExists(record.edition)) {
-			originText += '        <edition>' + escapeXML(record.edition) + '</edition>\n';
+			originText += '        <edition>' + escapeXml(record.edition) + '</edition>\n';
 		}
 
 		originText += '    </originInfo>\n';
@@ -120,21 +135,25 @@ function downloadMODS(record,institution_info) {
 
 	var dimensionsText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n'
 
-	var defaultText2 = '    <location>\n        <physicalLocation>' + escapeXML(institution_info['mods']['physicalLocation']) + '</physicalLocation>\n    </location>\n';
+	var defaultText2 = '    <location>\n        <physicalLocation>' + escapeXml(institution_info['mods']['physicalLocation']) + '</physicalLocation>\n    </location>\n';
 
-	var keywordsText = '';
-	for (var c = 0; c < record.keywords.length; c++) {
-		if (record.keywords[c] !== '') {
-			keywordsText += '    <subject>\n        <topic>' + escapeXML(record.keywords[c]) + '</topic>\n    </subject>\n'
-		}
-	}
 
 	var fastText = '';
-	if (checkExists(record.fast)) {
-		for (var c = 0; c < record.fast.length; c++) {
-			fastText += '    <subject>\n        <' + fastTypes[record.fast[c][2].substring(1)] + ' authority="FAST" authorityURI="http://fast.oclc.org/" valueURI="http://id.worldcat.org/fast/' + escapeXML(record.fast[c][1]) + '"/>\n    </subject>\n'
+	if (checkExists(record.keywords)) {
+		if (record.keywords[0]!=''){
+			for (var c = 0; c < record.keywords.length; c++) {
+				fastText += '    <subject>\n        <' + fastTypes[record.keywordstype[c].substring(1,3)] + ' authority="FAST" authorityURI="http://fast.oclc.org/" valueURI="' + escapeXml(record.keywordshtml[c]) + '">'+ escapeXml(record.keywords[c])+'</'+fastTypes[record.keywordstype[c].substring(1,3)]+'>\n    </subject>\n'
+			}
 		}
 	}
+
+	if (checkExists(record.lcshvalue)) {
+		for (var c = 0; c < record.lcshvalue.length; c++) {
+			fastText += '    <subject>\n        <topic authority="LCSH" authorityURI="http://id.loc.gov/authorities/subjects/" valueURI="' + escapeXml(record.lcshuri[c]) + '">'+ escapeXml(record.lcshvalue[c])+'</topic>\n    </subject>\n'
+		}
+	}
+
+
 
 	var literatureText = '';
 	if (checkExists(record.literature_yes) && checkExists(record.literature_dropdown)) {
@@ -143,9 +162,11 @@ function downloadMODS(record,institution_info) {
 
 	var timestamp = getTimestamp();
 	var formatted_date = timestamp.substring(2,8);
-	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + escapeXML(institution_info['mods']['recordContentSource']) + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
+	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + escapeXml(institution_info['mods']['recordContentSource']) + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
+	// var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
+	// downloadFile(text,'mods');
+	var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + fastText + literatureText + defaultText3 + endText;
 	downloadFile(text,'mods');
 }

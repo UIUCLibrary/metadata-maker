@@ -26,6 +26,20 @@ h1 {
 	line-height: 26.3999996185303px;
 }
 
+.flex-container {
+	padding: 15px;
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    border: 2px;
+}  
+
+.flex-child:first-child {
+    margin-right: 5px;
+}
+
 /*noscript, #server_warning {
 	margin: 40px;
 	background-color: #FFFAAD;
@@ -156,6 +170,11 @@ input[type="number"] {
 #notes {
 	min-width: 300px;
 	min-height: 100px;
+}
+
+#summary {
+	min-width: 500px;
+	min-height: 200px;
 }
 
 #save-as-block {

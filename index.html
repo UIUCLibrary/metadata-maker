@@ -9,19 +9,20 @@
 	<script src="assignFAST/assignFASTExample.js"></script>
 	<script src="assignFAST/assignFASTGadget.js"></script>
 	<script src="assignFAST/assignFASTComplete.js"></script>
-
+	<script src="VIAF/jquery.viafauto.js"></script>
+	<script src="VIAF/jquery.viafauto.extended.js"></script>
+	<script src="VIAF/setVIAF.js"></script>
+	<script src="LCSH/lcshsearch.js"></script>
+	<script src="metadatamaker/topBar.js"></script>
+	<link href="top_bar.css" rel="stylesheet" media="screen">
 	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
 	<link href="http://jqueryui.com/jquery-wp-content/themes/jqueryui.com/style.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 	<link href="marcmaker.css" rel="stylesheet" media="screen">
-	<link href="top_bar.css" rel="stylesheet" media="screen">
-
-	<script src="analytics.js"></script>
 </head>
 
-<body>
+<body onload="setUpPage();setUpInstitution();">
 	<div id="top_navigation">
 		<div id="insert" class="noselect" onClick="toggleInsertMenu()">
 			Insert
@@ -32,8 +33,8 @@
 				Metadata Maker for
 			</div>
 			<div id="version_selector" onClick="toggleVersionMenu()">
-				<div id="version_name" value="monographs">
-					Monographs
+				<div id="version_name" value="monoviaf">
+					Monographs (LD)
 				</div>
 				<img src="arrow2.svg" id="arrow">
 				<div id="version_menu" class="hidden">
@@ -63,15 +64,15 @@
 								Microfilms
 							</li>
 						</a>
-						<a class="dropdown" onClick="return false;" href="/marcmaker/">
-							<li id="monographs" class="current_version">
+						<a class="dropdown" href="/marcmaker/">
+							<li id="monographs">
 								Monographs
-								<span id="checkmark">&#10003;</span>
 							</li>
 						</a>
-						<a class="dropdown" href="/marcmaker/monoviaf/">
-							<li id="monoviaf">
+						<a class="dropdown" onClick="return false;" href="/marcmaker/monoviaf/">
+							<li id="monoviaf" class="current_version">
 								Monograph (LD)
+								<span id="checkmark">&#10003;</span>
 							</li>
 						</a>
 						<a class="dropdown" href="/marcmaker/scores/">
@@ -93,13 +94,13 @@
 				</div>
 			</div>
 		</div>
-		<div id="institution" class="noselect" onClick="toggleInstitutionMenu()">
+<!-- 		<div id="institution" class="noselect" onClick="toggleInstitutionMenu()">
 			<div id="institution_content">
 				<div id="institution_text">Creating record at:</div>
 				<div id="institution_name"></div>
 			</div>
 			<img src="arrow2.svg" id="institution_arrow">
-		</div>
+		</div> -->
 		<div id="global-insert-menu" class="hidden">
 			<div class="menu_line">
 				<button value='́' id='0301' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0301")'>&#x0301</button><button value='ӕ' id='04D5' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u04D5")'>&#x04D5</button><button value='Ӕ' id='04D4' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u04D4")'>&#x04D4</button><button value='͗' id='0357' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0357")'>&#x0357</button><button value='͑' id='0351' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0351")'>&#x0351</button><button value='̆' id='0306' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0306")'>&#x0306</button><button value='£' id='00A3' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00A3")'>&#x00A3</button><button value='̐' id='0310' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0310")'>&#x0310</button><button value='̧' id='0327' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0327")'>&#x0327</button><button value='̊' id='030A' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u030A")'>&#x030A</button><button value='̥' id='0325' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0325")'>&#x0325</button><button value='̂' id='0302' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0302")'>&#x0302</button><button value='^' id='005E' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u005E")'>&#x005E</button><button value='©' id='00A9' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00A9")'>&#x00A9</button><button value='đ' id='0111' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0111")'>&#x0111</button><button value='Đ' id='0110' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0110")'>&#x0110</button><button value='ͦ' id='0366' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0366")'>&#x0366</button><button value='̣' id='0323' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0323")'>&#x0323</button><button value='·' id='00B7' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00B7")'>&#x00B7</button><button value='˝' id='02DD' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u02DD")'>&#x02DD</button><button value='̤' id='0324' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0324")'>&#x0324</button><button value='︢' id='FE22' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\uFE22")'>&#xFE22</button><button value='︣' id='FE23' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\uFE23")'>&#xFE23</button><button value='̳' id='0333' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0333")'>&#x0333</button><button value='ß' id='00DF' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00DF")'>&#x00DF</button><button value='ð' id='00F0' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00F0")'>&#x00F0</button><button value='Ð' id='00D0' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00D0")'>&#x00D0</button><button value='€' id='20AC' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u20AC")'>&#x20AC</button><button value='∎' id='220E' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u220E")'>&#x220E</button><button value='`' id='0060' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0060")'>&#x0060</button><button value='̀' id='0300' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0300")'>&#x0300</button><button value='̌' id='030C' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u030C")'>&#x030C</button><button value='̓' id='0313' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0313")'>&#x0313</button><button value='̕' id='0315' class='global_diacritics top_end' type='button' onclick='globalCharInsertion("\u0315")'>&#x0315</button>
@@ -148,8 +149,8 @@
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="subtitle_listed" class="listed">
 			</div>
 
-			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
-				<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><label for="translit_title" class="insert insert_normal hidden translit translit-title" style="left: -13px;" onClick='insertMenu("translit_title");'>Insert Diacritics</label><br>
+			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block hidden">
+				<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><br><label for="translit_title" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</label><br>
 				<div id="insert-translit_title" class="hidden translit translit-title"></div>
 				<input type="text" id="translit_title" class="hidden translit translit-title">
 			</div>
@@ -168,17 +169,10 @@
 			</div>
 
 			<div id="edition-block" class="standard-block">
-				<label for="edition" class="heading">Edition statement</label><label for="edition" class="insert insert_normal" onClick='insertMenu("edition");'>Insert Diacritics</label><br>
-				<div id="insert-edition"></div>
-				<input type="text" class="conditional translit-listen" required id="edition">
+				<label for="edition" class="heading">Edition statement</label><br>
+				<input type="text" class="conditional" required id="edition">
 				<label title="Record an edition statement if it appears on the piece. E.g., First edition, 1st ed., etc."><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="edition_listed" class="listed">
-			</div>
-
-			<div id="translit-edition-block" class="translit-edition-block translit-block hidden standard-translit-block">
-				<label for="translit_edition" class="hidden translit heading translit-edition">Transliterated edition</label><label for="translit_edition" class="insert insert_normal hidden translit translit-edition" onClick='insertMenu("translit_edition");'>Insert Diacritics</label><br>
-				<div id="insert-translit_edition" class="hidden translit translit-edition"></div>
-				<input type="text" id="translit_edition" class="hidden translit translit-edition">
 			</div>
 
 			<div id="language-block" class="standard-block">
@@ -673,10 +667,9 @@
 			</div>
 
 			<div id="author-block">
-				<label for="author" class="heading">Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
-				<div id="insert-family_name"></div><div id="insert-given_name"></div>
-				<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
-				<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
+				<label for="author" class="heading">Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><br>
+				<div id="insert-family_name"></div>
+				<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name, Given Name">
 				<select name="role" id="role">
 					<option value="art">artist</option>
 					<option selected value="aut">author</option>
@@ -685,16 +678,21 @@
 					<option value="ill">illustrator</option>
 					<option value="trl">translator</option>
 				</select>
+
+	<!-- 			<input type='hidden' id= 'hiddenviafdiv' value='none'>
+				<input type='hidden' id= 'hiddenlcdiv' value='none'> -->
 				<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
-				<input type="button" value="+" id="add-author" onClick="addAuthor();">
+				<input type="button" value="+" id="add-author" onClick="addAuthor();setUpVIAF()">
 				<br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="author_listed" class="listed">
-
+				<div id="hiddenremind" class = "Hremind" style="display: none;">Click the link(s) below to verify the information about the name(s): </div>
+				<div  id= 'hiddenviafdiv' class = "Hviafdiv" style="display: none;" ><a id= 'hiddenviaf' class="Hviaf" target="_blank" rel="noopener noreferrer" href="">VIAF Link</a></div>
+				<div  id= 'hiddenlcdiv' class = "Hlcdiv" style="display: none;" ><a id= 'hiddenlc' class = "Hlc"target="_blank" rel="noopener noreferrer" href="">LC Link</a></div>
 				<div id="translit-family_name-block" class="translit-family_name-block translit-block translit-author hidden">
-					<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
-					<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
-					<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
-					<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
+					<label for="translit_family_name" class="hidden translit heading translit-family_name">Please fill out the name in its original language on the resource again:</label><br>
+					<label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><br>
+					<div id="insert-translit_family_name"></div>
+					<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Family Name, Given Name">
 				</div>
 			</div>
 
@@ -1069,14 +1067,14 @@
 
 			<div id="publication-block">
 				<label for="date" class="heading">Date of publication</label><br>
-				<input type="number" class="date conditional" required id="year" min="0">
+				<input type="number" class="date conditional" required id="year" min="1400">
 				<label title="Record the year of publication if it appears on the piece. Do not record a copyright date here. Copyright dates should be recorded in the next field."><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
 			</div>
 
 			<div id="copyright-block">
 				<label for="cyear" class="heading">Copyright date</label><br>
-				<input type="number" class="date conditional" required id="cyear" min="0">
+				<input type="number" class="date conditional" required id="cyear" min="1400">
 				<label title="Record the year of copyright if it appears on the piece."><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="cyear_listed" class="listed">
 			</div>
@@ -1126,13 +1124,25 @@
 				<input type="radio" name="illustrations" id="illustrations-no" value="no">No
 			</div>
 
-			<div id="keywords" class="standard-block">
-				<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>
-				<input type="text" class="fastID hidden" id="fastID0">
-				<input type="number" class="fastType hidden" id="fastType0">
-				<input type="text" class="fastInd hidden" id="fastInd0">
-				<input type="text" class="keyword required" required id="keyword0"> <label title="Record, in English, any descriptive terms that describe the content of this book. Record only one term or phrase in each box. E.g., Astronomy or Politics of Egypt"><span class="question-mark">?</span></label>
-				<input type="button" value="+" id="add-button" onClick="addKeyword();">
+			<div>
+				<legend>Keywords (summary suggest or keyword searching)<span class="required_marker">*</span><label title="This is a required field. You could either ask for keyword suggestion by providing book summary in the box on the left or search keywords in the right search box. Please be noted that those two boxes search for keywords from different sources.">?</span></label></legend>
+			</div>
+			<div class="flex-container">	
+				<div id="LCSHSuggest-block" class="flex-child magenta">      
+					<legend>Suggest Keywords (Library of Congress Subject Headings)</legend> 
+					<textarea name="paragraph_text" cols="80" rows="10" placeholder="Summary here" id="summary"></textarea>
+					
+					<br>
+					<input type="button" name="design1" id="LCSHSuggest" value="Suggest";></input>
+					<div id="LCSHresponse"></div>              
+					
+				</div>
+
+				<div id="keywords" class="standard-block flex-child green">
+					<label for="keywords" class="heading">Keywords Search (Faceted Application of Subject Terminology)</label><br>
+					<input type="text" class="keyword" id="keyword0" link="test" valuetype="test"> <label title="Record, in English, any descriptive terms that describe the content of this book. Record only one term or phrase in each box. E.g., Astronomy or Politics of Egypt"><span class="question-mark">?</span></label>
+					<input type="button" value="+" id="add-button" onClick="addKeyword(); setUpPage();">
+				</div>
 			</div>
 
 			<div id="notes-block">
@@ -1149,29 +1159,29 @@
 				<label for="filetype">Choose record formats:</label><br>
 				<input type="checkbox" id="MARC" class="filetype">MARC<br>
 				<input type="checkbox" id="MARCXML" class="filetype">MARCXML<br>
-				<input type="checkbox" id="MODS" class="filetype">MODS<br>
 				<input type="checkbox" id="BIBFRAME" class="filetype">BIBFRAME<br>
+				<input type="checkbox" id="MODS" class="filetype">MODS<br>
 				<input type="checkbox" id="HTML" class="filetype">HTML
 			</div>
 
 			<div id="buttons" class="standard-block">
 				<input type="submit" value="Make" id="make">
-				<input type="reset" value="Clear" id="Clear">
+				<button onClick="history.go(0); resetform">Clear</button>
+	<!-- 			<input type="reset" value="Clear" id="Clear"> -->
 			</div>
 
 			<div id="star" class="required_marker standard-block">
 				* Required field
 			</div>
 		</form>
-		<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
-		<div id="version">Version 1.1 – Updated on 11/10/2022</div>
-		<a id="code" href="https://github.com/dkudeki/metadata-maker">GitHub</a></div>
-		
+		<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.
+			<div id="version">Version 1.1 – Updated on 11/10/2022</div>
+			<a id="code" href="https://github.com/dkudeki/metadata-maker/tree/monoviaf">GitHub</a>
+		</div>
+		<script src="metadatamaker/downloadBIBFRAME.js"></script>
 		<script src="metadatamaker/generalInteractions.js"></script>
-		<script src="metadatamaker/topBar.js"></script>
 		<script src="metadatamaker/downloadMARC.js"></script>
 		<script src="metadatamaker/downloadMODS.js"></script>
-		<script src="metadatamaker/downloadBIBFRAME.js"></script>
 		<script src="metadatamaker/downloadHTML.js"></script>
 		<script src="metadatamaker/submitForm.js"></script>
 	</div>

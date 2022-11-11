@@ -1,20 +1,90 @@
-/*
- *	Reads the 'name' variable from the URL and returns the value. Used for passing custom institution info.
- *		if the value has not been passed the function will return undefined.
- *
- *	name: String with the name of an expected variable in the URL
+/* 
+ * Edit the strings in this function to attribute records to another institution
  */
+
+function resetform(){
+	document.getElementById("marc-maker").reset();
+}
 function get(name) {
 	if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search)) {
 		return decodeURIComponent(name[1]);
 	}
 }
-/* 
- * Edit the strings in this output to attribute records to another institution. The second half of the
- *		function checks the URL for custom info. If that info exists, it overwrites the defaults.
- *
- *	Returns the institution info
- */
+
+function getviafname(viafurl, autname){
+	var rtn;
+	rtn = $.ajax({
+		    type: 'GET',
+		    url: viafurl,
+		    async: false,
+		    dataType: 'json',
+		    done: function(results) {
+		        return results;
+		    },
+		    fail: function( jqXHR, textStatus, errorThrown ) {
+		        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+		    }
+		}).responseJSON;
+	for (var i = 0; i < rtn["@graph"].length; i++){
+		if (rtn["@graph"][i]['inScheme']){
+			if (rtn["@graph"][i]['inScheme'] == "http://viaf.org/authorityScheme/DNB"){
+				autname = rtn["@graph"][i]['prefLabel'];
+			}
+
+		}
+	};
+	return autname
+}
+
+function getnamesubfields(lcuri){
+	var link = (lcuri+".marcxml.xml").replace("//", "/").replace("http", "https");
+	var rtn;
+	rtn = $.ajax({
+		    type: 'GET',
+		    url: link,
+		    async: false,
+		    dataType: 'xml',
+		    done: function(results) {
+		        // JSON.parse(results);
+		        return results;
+		    },
+		    fail: function( jqXHR, textStatus, errorThrown ) {
+		        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+		    }
+		}).responseText
+	var finalnametag = [];
+	var prename1 = rtn.substring(rtn.indexOf('<marcxml:datafield tag="100"'));
+	var ind1 = prename1.substring(prename1.indexOf('ind1=') + 6,prename1.indexOf(' ind2')-1);
+	var prename2 = prename1.substring(0,prename1.indexOf('</marcxml:datafield>'));
+	var namea1 = prename2.substring(prename2.indexOf('code="a">'));
+	// var namea2 = namea1.substring(9,namea1.indexOf('</marcxml:subfield>')).replace(/,\s*$/, "");
+	var namea2 = namea1.substring(9,namea1.indexOf('</marcxml:subfield>'));
+	finalnametag[finalnametag.length] = namea2;
+	if(prename2.includes('code="b"')){
+		var nameb1 = prename2.substring(prename2.indexOf('code="b">'));
+		// var nameb2 = nameb1.substring(9,nameb1.indexOf('</marcxml:subfield>')).replace(/,\s*$/, "");
+		var nameb2 = nameb1.substring(9,nameb1.indexOf('</marcxml:subfield>'));
+		finalnametag[finalnametag.length] = nameb2 ;
+	}else{finalnametag[finalnametag.length]= "" };
+	if(prename2.includes('code="c"')){
+		var namec1 = prename2.substring(prename2.indexOf('code="c">'));
+		// var namec2 = namec1.substring(9,namec1.indexOf('</marcxml:subfield>')).replace(/,\s*$/, "");
+		var namec2 = namec1.substring(9,namec1.indexOf('</marcxml:subfield>'));
+		finalnametag[finalnametag.length] = namec2 ;
+	}else{finalnametag[finalnametag.length]= "" };
+	if(prename2.includes('code="d"')){
+		var named1 = prename2.substring(prename2.indexOf('code="d">'));
+		// var named2 = named1.substring(9,named1.indexOf('</marcxml:subfield>')).replace(/,\s*$/, "");
+		var named2 = named1.substring(9,named1.indexOf('</marcxml:subfield>'));
+		if (isNaN(named2.substring(named2.length-1)) == false){named2 = named2 + ","};
+		finalnametag[finalnametag.length] = named2 ;
+	}else{finalnametag[finalnametag.length]= "" };
+
+	named = {ind1, finalnametag};
+	return named
+	// return finalnametag
+}
+
 function generateInstitutionInfo() {
 	var output = {
 		//040 $a, 040 $c
@@ -77,8 +147,14 @@ function find100(list) {
 		}
 	}
 
-	return [[{'family':'','given':'','role':''},{'family':'','given':''}]];
+	return [[{'family':'','role':''},{'family':''}]];
 }
+
+	//add new alert
+// document.getElementById('#"marc-maker"').addEventListener('submit', function(e) {
+// 	if($("#keyword0").val() =="")
+// 	    e.preventDefault();
+// });
 
 /*
  * When the form is submitted, create an object with all user-submitted data. Pass that object to functions that
@@ -89,45 +165,121 @@ function find100(list) {
  *
  * No information should be submitted to the server, so the default behavior of the button is blocked.
  */
+
 $("#marc-maker").submit(function(event) {
+	var VARIFY = true;
 	var words = [];
-	var fast_array = [];
+	var links = [];
+	var vtypes = [];
 	for (var i = 0; i < counter; i++) {
-		if(checkExists($("#fastID" + i).val()) && checkExists($("#keyword" + i).val())) {
-			if ($("#keyword" + i).val().substring($("#keyword" + i).val().length - 1) == ']') {
-				var endpoint = $("#keyword" + i).val().lastIndexOf('[');
-				fast_array.push([$("#keyword" + i).val().substring(0,endpoint-1),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
-			}
-			else {
-				fast_array.push([$("#keyword" + i).val(),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
-			}
-		}
-		else {
-			words.push($("#keyword" + i).val());
-		}
+		words[words.length] = $("#keyword" + i).val();
+		var attrvalue = "keyword"+i+"";
+		links[links.length] = $("[id=" + attrvalue + "]").attr('link');
+		vtypes[vtypes.length] = $("[id=" + attrvalue + "]").attr('valuetype');
 	};
+	// lcsh suggest
+	var lcshdiv = document.getElementById('LCSHresponse');
+	var selectedlabel = [];
+	var selecteduri=[];
+	if ($('#LCSHresponse input:checked').length == 0) {
+			if (words.length === 0 || words[0].length === 0){
+				alert('Please enter keyword(s).');
+				event.preventDefault();
+    			VARIFY = false;
+    			return;
+    		}
+	}
+	if (lcshdiv.hasChildNodes()){
+
+		$('#LCSHresponse input:checked').each(function() {
+    		selectedlabel.push($(this).attr('value'));
+    		selecteduri.push($(this).attr('uri'));
+		});
+	}
+
+
 
 	var additional_names = [];
 	var translit_additional_names = [];
+
+	var auth100  = {}
+	if (document.getElementById("hiddenlc").getAttribute("href") !="") {
+		lcuri = document.getElementById("hiddenlc").getAttribute("href");
+		namelist = getnamesubfields(lcuri);
+		auth100 = {
+			family:namelist["finalnametag"][0],
+			viaf: document.getElementById("hiddenviaf").getAttribute("href"),
+			lc: document.getElementById("hiddenlc").getAttribute("href"),
+			role: $("#role").val(),
+			subbd: namelist["finalnametag"].slice(1,),
+			ind1: namelist["ind1"]
+		}
+	}else{
+		if (document.getElementById("hiddenviaf").getAttribute("href")!=""){
+			var link = document.getElementById("hiddenviaf").getAttribute("href")+"/viaf.jsonld".replace("//", "/");
+			var autname = $("#family_name").val();
+			autname = getviafname(link, autname);
+			auth100 = {
+				family: autname,
+				viaf: document.getElementById("hiddenviaf").getAttribute("href"),
+				lc: "",
+				role: $("#role").val(),
+			}
+		}
+	}
+
 	var complete_names_list = [
 		[
+			auth100,
 			{
-				family: $("#family_name").val(),
-				given: $("#given_name").val(),
-				role: $("#role").val()
-			},
-			{
-				family: $("#translit_family_name").val(),
-				given: $("#translit_given_name").val()
+				family: $("#translit_family_name").val()
 			}
 		]
 	];
+
 	for (var i = 0; i < aCounter; i++) {
-		complete_names_list.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val(), "role": $("#role" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
+		var auth700;
+		if (document.getElementById("hiddenlc"+ i).getAttribute("href") !="") {
+			lcuri = document.getElementById("hiddenlc"+ i).getAttribute("href");
+			namelist = getnamesubfields(lcuri);
+			auth700 = {
+				family:namelist["finalnametag"][0],
+				viaf: document.getElementById("hiddenviaf"+ i).getAttribute("href"),
+				lc: lcuri,
+				role: $("#role").val(),
+				subbd: namelist["finalnametag"].slice(1,),
+				ind1: namelist["ind1"]
+			}
+		}else{
+			if (document.getElementById("hiddenviaf"+ i).getAttribute("href") !=""){
+				var link700 = document.getElementById("hiddenviaf"+ i).getAttribute("href")+"/viaf.jsonld".replace("//", "/");
+				var autname700 = $("#family_name" + i).val();
+				autname700 = getviafname(link700, autname700);
+				auth700 = {
+					family: autname700,
+					viaf: document.getElementById("hiddenviaf"+ i).getAttribute("href"),
+					lc: "",
+					role: $("#role" + i).val(),
+				}
+			}else{
+				alert("Can't find the name(s) in VIAF, please catalog in the monograph page!");
+			} 
+			
+		}
+		complete_names_list.push(
+			[
+				auth700,
+				{ 
+					"family": $("#translit_family_name" + i).val()
+				}
+			]
+		);
 	}
+
+
+
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
-
 	var recordObject = {
 		title: [
 			{
@@ -155,35 +307,47 @@ $("#marc-maker").submit(function(event) {
 		illustrations_yes: $("#illustrations-yes").is(':checked'),
 		dimensions: $("#dimensions").val(),
 		edition: $("#edition").val(),
-		translit_edition: $("#translit_edition").val(),
 		translit_publisher: $("#translit_publisher").val(),
 		translit_place: $("#translit_place").val(),
 		notes: $("#notes").val(),
 		keywords: words,
-		fast: fast_array,
+		keywordshtml : links,
+		keywordstype: vtypes,
+		lcshvalue: selectedlabel,
+		lcshuri: selecteduri,
 		additional_authors: complete_names_list
 	};
 
 	var institution_info = generateInstitutionInfo();
 
 	if ($("#MARC").is(':checked')) {
-		downloadMARC(recordObject,institution_info);
+		if (VARIFY){
+			downloadMARC(recordObject,institution_info);
+		}
 	}
 
 	if ($("#MARCXML").is(':checked')) {
-		downloadXML(recordObject,institution_info);
-	}
-
-	if ($("#MODS").is(':checked')) {
-		downloadMODS(recordObject,institution_info);
-	}
-
-	if ($("#HTML").is(':checked')) {
-		downloadHTML(recordObject,institution_info);
+		if (VARIFY){
+			downloadXML(recordObject,institution_info);
+		}
 	}
 
 	if ($("#BIBFRAME").is(':checked')) {
-		downloadBIBFRAME(recordObject,institution_info);
+		if (VARIFY){
+			downloadBIBFRAME(recordObject,institution_info);
+		}
+	}
+
+	if ($("#MODS").is(':checked')) {
+		if (VARIFY){
+			downloadMODS(recordObject,institution_info);
+		}
+	}
+
+	if ($("#HTML").is(':checked')) {
+		if (VARIFY){
+			downloadHTML(recordObject,institution_info);
+		}
 	}
 
 	event.preventDefault();
