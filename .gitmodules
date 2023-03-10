@@ -25,3 +25,6 @@
 [submodule "EBooks"]
 	path = EBooks
 	url = https://github.com/dkudeki/metadata-maker/
+[submodule "MonoViaf"]
+	path = MonoViaf
+	url = https://github.com/dkudeki/metadata-maker/
