@@ -4,9 +4,6 @@
 [submodule "DataSet"]
 	path = dataset
 	url = https://github.com/dkudeki/metadata-maker/
-[submodule "GovDocs"]
-	path = govdocs
-	url = https://github.com/dkudeki/metadata-maker/
 [submodule "Maps"]
 	path = maps
 	url = https://github.com/dkudeki/metadata-maker/
