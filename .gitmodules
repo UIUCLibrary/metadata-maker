@@ -20,7 +20,7 @@
 	path = Serials
 	url = https://github.com/dkudeki/metadata-maker/
 [submodule "theses"]
-	path = theses_sub
+	path = theses
 	url = https://github.com/dkudeki/metadata-maker/
 [submodule "EBooks"]
 	path = EBooks
