@@ -1,0 +1,340 @@
+#top_navigation {
+	position: fixed;
+	top: 0px;
+	width: 100%;
+	height: 50px;
+	background-color: #ffffff;
+	z-index: 20;
+	box-shadow: 0px 1px 2px rgba(102, 102, 102, 0.3);
+
+	font-family: 'Century Gothic', CenturyGothic, 'Raleway', AppleGothic, sans-serif;
+/*	text-align: center;*/
+	font-size: 30px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 26.3999996185303px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	min-width: 1239px;
+}
+
+#content {
+	margin-top: 75px;
+}
+
+#insert {
+	position: relative;
+	float: left;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	font-size: 20px;
+	padding-top: 11px;
+	padding-bottom: 11px;
+	padding-left: 12px;
+	padding-right: 12px;
+	cursor: pointer;
+
+	-webkit-transition: background-color 0.2s; /* Safari */
+    transition: background-color 0.2s;
+}
+
+#insert:hover {
+	background-color: #E8E9EB;
+}
+
+#global-insert-menu {
+	position: absolute;
+	top: 50px;
+	left: 0px;
+	width: 100%;
+	background-color: white;
+	box-shadow: 0px 1px 2px rgba(102, 102, 102, 0.3);
+	z-index: -1;
+	border-top: 1px solid #E8E9EB;
+}
+
+.menu_line {
+	margin: auto;
+	width: 1223px;
+	background-color: #E8E9EB;
+}
+
+.top_normal {
+	margin-right: 1px;
+}
+
+.middle_normal {
+	margin-top: 1px;
+	margin-right: 1px;
+	margin-bottom: 1px;
+}
+
+.bottom_normal {
+	margin-right: 1px;
+}
+
+#institution {
+	position: relative;
+	float: right;
+	height: 40px;
+	width: 271px;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	font-size: 13px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 12px;
+	padding-right: 6px;
+	cursor: pointer;
+
+	-webkit-transition: background-color 0.2s; /* Safari */
+    transition: background-color 0.2s;
+}
+
+#institution:hover {
+	background-color: #E8E9EB;
+}
+
+#institution_content {
+	position: relative;
+	float: left;
+	width: 246px;
+}
+
+#institution_text, #institution_name {
+	text-align: right;
+	height: 20px;
+	line-height: 20px;
+}
+
+#institution_name {
+	color: #1D84F6;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#institution_menu {
+	border-top: 1px solid #E8E9EB;
+
+	position: fixed;
+	top: 50px;
+	right: 0%;
+	background-color: white;
+	padding: 15px;
+	z-index: 22;
+
+	box-shadow: 1px 5px 8px rgba(102, 102, 102, 0.3);
+}
+
+#institution_menu input[type="text"] {
+	width: 350px;
+	border: 1px;
+	border-style: solid;
+	border-color: #d1d1d1;
+	height: 22px;
+	padding: 3px;
+	font-size: 14px;
+	margin-bottom: 5px;
+
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+#institution_menu input[type="text"]:focus {
+	border-color: #1D84F6;
+}
+
+#submit_institution_info {
+	margin-left: 68px;
+	margin-right: 68px;
+	margin-top: 10px;
+	background-color:#1D84F6;
+	border:1px solid #1D84F6;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	font-size:17px;
+	padding:7px 40px;
+	padding-left: ;
+	text-decoration:none;
+}
+
+#submit_institution_info:hover {
+	color:#d1d1d1;
+}
+
+#submit_institution_info:active {
+	color:#000000;
+}
+
+#version_title {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+/*	width: 689px;*/
+	width: fit-content;
+}
+
+#version_static {
+	float: left;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	padding-right: 4px;
+}
+
+#version_selector {
+	float: left;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	padding-left: 4px;
+	padding-right: 4px;
+	cursor: pointer;
+	color: #1D84F6;
+
+	-webkit-transition: background-color 0.2s; /* Safari */
+    transition: background-color 0.2s;
+}
+
+#version_selector:hover {
+	background-color:#E8E9EB;
+}
+
+#version_name {
+	float: left;
+	padding-right: 2px;
+}
+
+#arrow {
+	float: left;
+	height: 13px;
+	width: 13px;
+	position: relative;
+	padding-left: 4px;
+	padding-top: 9px;
+}
+
+#insert_arrow {
+	height: 13px;
+	width: 13px;
+	position: relative;
+	padding-top: 9px;
+}
+
+#institution_arrow {
+	float: right;
+	height: 13px;
+	width: 13px;
+	position: relative;
+	padding-top: 15px;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+
+#version_menu {
+	overflow: auto;
+	clear: both;
+}
+
+#version_menu_content {
+	position: absolute;
+	width: 275px;
+	top: 50px;
+/*	white-space:nowrap;*/
+	background-color: #ffffff;
+	text-align: left;
+	z-index: 22;
+	box-shadow: 1px 5px 8px rgba(102, 102, 102, 0.3);
+/*	margin-right: -275px;*/
+	display:inline-block;
+	cursor: pointer;
+	margin-left: -4px;
+}
+
+ul
+{
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+li {
+	font-size: 20px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 26.3999996185303px;
+	padding: 4px;
+}
+
+li:hover {
+	background-color: #E8E9EB;
+}
+
+#checkmark {
+	float: right;
+}
+
+.current_link {
+	pointer-events: none;
+	cursor: default;
+}
+
+.current_version {
+	background-color: #E8E9EB;
+	cursor: default;
+}
+
+.dropdown {
+	color: black;
+    text-decoration: none;
+}
+
+.upsidedown {
+	filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=2);  /* IE6,IE7 */
+	ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)"; /* IE8 */
+	-moz-transform: rotate(-180deg);  /* FF3.5+ */
+	-o-transform: rotate(-180deg);  /* Opera 10.5 */
+	-webkit-transform: rotate(-180deg);  /* Safari 3.1+, Chrome */
+	position: absolute;
+}
+
+#server_warning {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	background-color: #FFFAAD;
+	padding: 10px;
+	border-left: 1px solid #fecc7e;
+	border-top: 1px solid #fecc7e;
+	z-index: 100;
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+ 	-webkit-user-select: none;   /* Chrome/Safari/Opera */
+ 	-khtml-user-select: none;    /* Konqueror */
+ 	-moz-user-select: none;      /* Firefox */
+ 	-ms-user-select: none;       /* IE/Edge */
+ 	user-select: none; 
+}
+
+.global_diacritics {
+	height: 35px;
+	width: 35px;
+	background-color: white;
+/*	border-top: solid black 0px;
+	border-left: solid black 0px;*/
+	border: 0px;
+	vertical-align: middle;
+	font-size: 16px;
+	line-height: 16px;
+	-moz-user-focus: ignore;
+	cursor: pointer;
+}
+
+.global_diacritics:hover {
+	background: #ededed;
+}
