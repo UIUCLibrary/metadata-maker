@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Metadata Maker for Maps</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+	<script src="webshim/js-webshim/minified/polyfiller.js"></script>
+	<script src="assignFAST/assignFASTExample.js"></script>
+	<script src="assignFAST/assignFASTGadget.js"></script>
+	<script src="assignFAST/assignFASTComplete.js"></script>
+
+	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
+	<link href="http://jqueryui.com/jquery-wp-content/themes/jqueryui.com/style.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+	<link href="marcmaker.css" rel="stylesheet" media="screen">
+	<link href="top_bar.css" rel="stylesheet" media="screen">
+
+	<script src="analytics.js"></script>
+</head>
+
+<body>
+	<div id="top_navigation">
+		<div id="insert" class="noselect" onClick="toggleInsertMenu()">
+			Insert
+			<img src="arrow2.svg" id="insert_arrow">
+		</div>
+		<div id="version_title" class="noselect">
+			<div id="version_static">
+				Metadata Maker for
+			</div>
+			<div id="version_selector" onClick="toggleVersionMenu()">
+				<div id="version_name" value="maps">
+					Maps
+				</div>
+				<img src="arrow2.svg" id="arrow">
+				<div id="version_menu" class="hidden">
+					<ul id="version_menu_content">
+						<a class="dropdown" href="/marcmaker/dataset/">
+							<li id="dataset">
+								Data Sets
+							</li>
+						</a>
+						<a class="dropdown" href="/marcmaker/ebooks/">
+							<li id="ebooks">
+								E-Books
+							</li>
+						</a>
+						<a class="dropdown" href="/marcmaker/govdocs/">
+							<li id="govdocs">
+								Government Documents
+							</li>
+						</a>
+						<a class="dropdown" onClick="return false;" href="/marcmaker/dataset/">
+							<li id="maps" class="current_version">
+								Maps
+								<span id="checkmark">&#10003;</span>
+							</li>
+						</a>
+						<a class="dropdown" href="/marcmaker/microfilms/">
+							<li id="microfilms">
+								Microfilms
+							</li>
+						</a>
+						<a class="dropdown" href="/marcmaker/">
+							<li id="monographs">
+								Monographs
+							</li>
+						</a>
+						<a class="dropdown" href="/marcmaker/monoviaf/">
+							<li id="monoviaf">
+								Monographs (LD)
+							</li>
+						</a>
+						<a class="dropdown" href="/marcmaker/scores/">
+							<li id="scores">
+								Scores
+							</li>
+						</a>
+						<a class="dropdown" href="/marcmaker/serials/">
+							<li id="serials">
+								Serials
+							</li>
+						</a>
+						<a class="dropdown" href="/marcmaker/theses/">
+							<li id="theses">
+								Theses & Dissertations
+							</li>
+						</a>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="institution" class="noselect" onClick="toggleInstitutionMenu()">
+			<div id="institution_content">
+				<div id="institution_text">Creating record at:</div>
+				<div id="institution_name"></div>
+			</div>
+			<img src="arrow2.svg" id="institution_arrow">
+		</div>
+		<div id="global-insert-menu" class="hidden">
+			<div class="menu_line">
+				<button value='́' id='0301' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0301")'>&#x0301</button><button value='ӕ' id='04D5' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u04D5")'>&#x04D5</button><button value='Ӕ' id='04D4' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u04D4")'>&#x04D4</button><button value='͗' id='0357' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0357")'>&#x0357</button><button value='͑' id='0351' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0351")'>&#x0351</button><button value='̆' id='0306' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0306")'>&#x0306</button><button value='£' id='00A3' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00A3")'>&#x00A3</button><button value='̐' id='0310' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0310")'>&#x0310</button><button value='̧' id='0327' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0327")'>&#x0327</button><button value='̊' id='030A' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u030A")'>&#x030A</button><button value='̥' id='0325' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0325")'>&#x0325</button><button value='̂' id='0302' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0302")'>&#x0302</button><button value='^' id='005E' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u005E")'>&#x005E</button><button value='©' id='00A9' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00A9")'>&#x00A9</button><button value='đ' id='0111' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0111")'>&#x0111</button><button value='Đ' id='0110' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0110")'>&#x0110</button><button value='ͦ' id='0366' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0366")'>&#x0366</button><button value='̣' id='0323' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0323")'>&#x0323</button><button value='·' id='00B7' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00B7")'>&#x00B7</button><button value='˝' id='02DD' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u02DD")'>&#x02DD</button><button value='̤' id='0324' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0324")'>&#x0324</button><button value='︢' id='FE22' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\uFE22")'>&#xFE22</button><button value='︣' id='FE23' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\uFE23")'>&#xFE23</button><button value='̳' id='0333' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0333")'>&#x0333</button><button value='ß' id='00DF' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00DF")'>&#x00DF</button><button value='ð' id='00F0' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00F0")'>&#x00F0</button><button value='Ð' id='00D0' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u00D0")'>&#x00D0</button><button value='€' id='20AC' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u20AC")'>&#x20AC</button><button value='∎' id='220E' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u220E")'>&#x220E</button><button value='`' id='0060' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0060")'>&#x0060</button><button value='̀' id='0300' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0300")'>&#x0300</button><button value='̌' id='030C' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u030C")'>&#x030C</button><button value='̓' id='0313' class='global_diacritics top_normal' type='button' onclick='globalCharInsertion("\u0313")'>&#x0313</button><button value='̕' id='0315' class='global_diacritics top_end' type='button' onclick='globalCharInsertion("\u0315")'>&#x0315</button>
+			</div>
+			<div class="menu_line">
+				<button value='̨' id='0328' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u0328")'>&#x0328</button><button value='¡' id='00A1' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u00A1")'>&#x00A1</button><button value='¿' id='00BF' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u00BF")'>&#x00BF</button><button value='ł' id='0142' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u0142")'>&#x0142</button><button value='Ł' id='0141' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u0141")'>&#x0141</button><button value='{' id='007B' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u007B")'>&#x007B</button><button value='̡' id='0321' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u0321")'>&#x0321</button><button value='︠' id='FE20' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\uFE20")'>&#xFE20</button><button value='︡' id='FE21' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\uFE21")'>&#xFE21</button><button value='̄' id='0304' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u0304")'>&#x0304</button><button value='ʹ' id='02B9' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u02B9")'>&#x02B9</button><button value='♭' id='266D' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u266D")'>&#x266D</button><button value='♯' id='266F' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u266F")'>&#x266F</button><button value='ơ' id='01A1' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u01A1")'>&#x01A1</button><button value='Ơ' id='01A0' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u01A0")'>&#x01A0</button><button value='ø' id='00F8' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u00F8")'>&#x00F8</button><button value='Ø' id='00D8' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u00D8")'>&#x00D8</button><button value='œ' id='0153' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u0153")'>&#x0153</button><button value='Œ' id='0152' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u0152")'>&#x0152</button><button value='℗' id='2117' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u2117")'>&#x2117</button><button value='±' id='00B1' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u00B1")'>&#x00B1</button><button value='̉' id='0309' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u0309")'>&#x0309</button><button value='}' id='007D' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u007D")'>&#x007D</button><button value='̢' id='0322' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u0322")'>&#x0322</button><button value='ℓ' id='2113' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u2113")'>&#x2113</button><button value='ǂ' id='01C2' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u01C2")'>&#x01C2</button><button value='₀' id='2080' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u2080")'>&#x2080</button><button value='₁' id='2081' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u2081")'>&#x2081</button><button value='₂' id='2082' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u2082")'>&#x2082</button><button value='₃' id='2083' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u2083")'>&#x2083</button><button value='₄' id='2084' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u2084")'>&#x2084</button><button value='₅' id='2085' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u2085")'>&#x2085</button><button value='₆' id='2086' class='global_diacritics middle_normal' type='button' onclick='globalCharInsertion("\u2086")'>&#x2086</button><button value='₇' id='2087' class='global_diacritics middle_end' type='button' onclick='globalCharInsertion("\u2087")'>&#x2087</button>
+			</div>
+			<div class="menu_line">
+				<button value='₈' id='2088' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u2088")'>&#x2088</button><button value='₉' id='2089' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u2089")'>&#x2089</button><button value='₍' id='208D' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u208D")'>&#x208D</button><button value='₋' id='208B' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u208B")'>&#x208B</button><button value='®' id='00AE' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u00AE")'>&#x00AE</button><button value='₊' id='208A' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u208A")'>&#x208A</button><button value='₎' id='208E' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u208E")'>&#x208E</button><button value='̇' id='0307' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u0307")'>&#x0307</button><button value='⁰' id='2070' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u2070")'>&#x2070</button><button value='¹' id='00B9' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u00B9")'>&#x00B9</button><button value='²' id='00B2' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u00B2")'>&#x00B2</button><button value='³' id='00B3' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u00B3")'>&#x00B3</button><button value='⁴' id='2074' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u2074")'>&#x2074</button><button value='⁵' id='2075' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u2075")'>&#x2075</button><button value='⁶' id='2076' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u2076")'>&#x2076</button><button value='⁷' id='2077' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u2077")'>&#x2077</button><button value='⁸' id='2078' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u2078")'>&#x2078</button><button value='⁹' id='2079' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u2079")'>&#x2079</button><button value='⁽' id='207D' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u207D")'>&#x207D</button><button value='⁻' id='207B' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u207B")'>&#x207B</button><button value='⁺' id='207A' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u207A")'>&#x207A</button><button value='⁾' id='207E' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u207E")'>&#x207E</button><button value='þ' id='00FE' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u00FE")'>&#x00FE</button><button value='Þ' id='00DE' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u00DE")'>&#x00DE</button><button value='̃' id='0303' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u0303")'>&#x0303</button><button value='~' id='007E' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u007E")'>&#x007E</button><button value='ı' id='0131' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u0131")'>&#x0131</button><button value='ʺ' id='02BA' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u02BA")'>&#x02BA</button><button value='ư' id='01B0' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u01B0")'>&#x01B0</button><button value='Ư' id='01AF' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u01AF")'>&#x01AF</button><button value='̈' id='0308' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u0308")'>&#x0308</button><button value='̲' id='0332' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u0332")'>&#x0332</button><button value='_' id='005F' class='global_diacritics bottom_normal' type='button' onclick='globalCharInsertion("\u005F")'>&#x005F</button><button value='̮' id='032E' class='global_diacritics botton_end' type='button' onclick='globalCharInsertion("\u032E")'>&#x032E</button>
+			</div>
+		</div>
+	</div>
+	<form id="institution_menu" class="hidden">
+		<label for="marc_code">MARC code or the name of the organization</label><br>
+		<input type="text" id="marc_code" placeholder="UIU"></input><br>
+		<label for="physicalLocation">Physical Location</label><br>
+		<input type="text" id="physicalLocation" placeholder="University of Illinois at Urbana-Champaign, Library"></input><br>
+		<label for="recordContentSource">Record Content Source</label><br>
+		<input type="text" id="recordContentSource" placeholder="UIU"></input><br>
+		<label for="lcno">Organization's LC Authority Number</label><br>
+		<input type="text" id="lcno" placeholder="n79066210"></input><br>
+		<label for="org_name">Organization's Name</label><br>
+		<input type="text" id="org_name"></input><br>
+		<input type="submit" id="submit_institution_info" value="Change Institution"></input>
+	</form>
+	<div id="warning_system">
+		<noscript>WARNING: JavaScript is not enabled on this browser. This page requires JavaScript to function correctly.</noscript>
+		<!--Allow Safari and older versions of IE to behave as if they implement HTML5's 'required' attribute-->
+		<script>jQuery.webshims.polyfill('forms');</script>
+		<script src="metadatamaker/checkServer.js"></script>
+	</div>
+	<div id="content">
+		<form id="marc-maker">
+			<div id="title-block">
+				<label for="title" class="heading">Title<span class="required_marker">*</span></label><label for="title" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</label><br>
+				<div id="insert-title"></div>
+				<input type="text" required id="title" class="required translit-listen">
+				<label title="Record the title as it appears on the title page. If the title includes a subtitle, record only the main title here, and the subtitle in the next field."><span class="question-mark">?</span></label>
+			</div>
+
+			<div id="subtitle-block">
+				<label for="subtitle" class="heading">Subtitle</label><label for="subtitle" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</label><br>
+				<div id="insert-subtitle"></div>
+				<input type="text" required id="subtitle" class="conditional">
+				<label title="Record the subtitle if one exists"><span class="question-mark">?</span></label><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="subtitle_listed" class="listed">
+			</div>
+
+			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title  hidden">
+				<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><label for="translit_title" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</label><br>
+				<div id="insert-translit_title" class="hidden translit translit-title"></div>
+				<input type="text" id="translit_title" class="hidden translit translit-title">
+			</div>
+
+			<div id="translit-subtitle-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
+				<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><label for="translit_subtitle" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</label><br>
+				<div id="insert-translit_subtitle" class="hidden translit translit-title"></div>
+				<input type="text" id="translit_subtitle" class="hidden translit translit-title">
+			</div>
+
+			<div id="language-block" class="standard-block">
+				<label for="language" class="heading">Language<span class="required_marker">*</span></label><br>
+				<select name="language" required id="language" class="required">
+					<option selected disabled hidden value=''></option>
+					<option value="abk">Abkhaz</option>
+					<option value="ace">Achinese</option>
+					<option value="ach">Acoli</option>
+					<option value="ada">Adangme</option>
+					<option value="ady">Adygei</option>
+					<option value="aar">Afar</option>
+					<option value="afh">Afrihili (Artificial language)</option>
+					<option value="afr">Afrikaans</option>
+					<option value="afa">Afroasiatic (Other)</option>
+					<option value="ain">Ainu</option>
+					<option value="aka">Akan</option>
+					<option value="akk">Akkadian</option>
+					<option value="alb">Albanian</option>
+					<option value="ale">Aleut</option>
+					<option value="alg">Algonquian (Other)</option>
+					<option value="alt">Altai</option>
+					<option value="tut">Altaic (Other)</option>
+					<option value="amh">Amharic</option>
+					<option value="anp">Angika</option>
+					<option value="apa">Apache languages</option>
+					<option value="ara">Arabic</option>
+					<option value="arg">Aragonese</option>
+					<option value="arc">Aramaic</option>
+					<option value="arp">Arapaho</option>
+					<option value="arw">Arawak</option>
+					<option value="arm">Armenian</option>
+					<option value="rup">Aromanian</option>
+					<option value="art">Artificial (Other)</option>
+					<option value="asm">Assamese</option>
+					<option value="ath">Athapascan (Other)</option>
+					<option value="aus">Australian languages</option>
+					<option value="map">Austronesian (Other)</option>
+					<option value="ava">Avaric</option>
+					<option value="ave">Avestan</option>
+					<option value="awa">Awadhi</option>
+					<option value="aym">Aymara</option>
+					<option value="aze">Azerbaijani</option>
+					<option value="ast">Bable</option>
+					<option value="ban">Balinese</option>
+					<option value="bat">Baltic (Other)</option>
+					<option value="bal">Baluchi</option>
+					<option value="bam">Bambara</option>
+					<option value="bai">Bamileke languages</option>
+					<option value="bad">Banda languages</option>
+					<option value="bnt">Bantu (Other)</option>
+					<option value="bas">Basa</option>
+					<option value="bak">Bashkir</option>
+					<option value="baq">Basque</option>
+					<option value="btk">Batak</option>
+					<option value="bej">Beja</option>
+					<option value="bel">Belarusian</option>
+					<option value="bem">Bemba</option>
+					<option value="ben">Bengali</option>
+					<option value="ber">Berber (Other)</option>
+					<option value="bho">Bhojpuri</option>
+					<option value="bih">Bihari (Other)</option>
+					<option value="bik">Bikol</option>
+					<option value="byn">Bilin</option>
+					<option value="bis">Bislama</option>
+					<option value="zbl">Blissymbolics</option>
+					<option value="bos">Bosnian</option>
+					<option value="bra">Braj</option>
+					<option value="bre">Breton</option>
+					<option value="bug">Bugis</option>
+					<option value="bul">Bulgarian</option>
+					<option value="bua">Buriat</option>
+					<option value="bur">Burmese</option>
+					<option value="cad">Caddo</option>
+					<option value="car">Carib</option>
+					<option value="cat">Catalan</option>
+					<option value="cau">Caucasian (Other)</option>
+					<option value="ceb">Cebuano</option>
+					<option value="cel">Celtic (Other)</option>
+					<option value="cai">Central American Indian (Other)</option>
+					<option value="chg">Chagatai</option>
+					<option value="cmc">Chamic languages</option>
+					<option value="cha">Chamorro</option>
+					<option value="che">Chechen</option>
+					<option value="chr">Cherokee</option>
+					<option value="chy">Cheyenne</option>
+					<option value="chb">Chibcha</option>
+					<option value="chi">Chinese</option>
+					<option value="chn">Chinook jargon</option>
+					<option value="chp">Chipewyan</option>
+					<option value="cho">Choctaw</option>
+					<option value="chu">Church Slavic</option>
+					<option value="chk">Chuukese</option>
+					<option value="chv">Chuvash</option>
+					<option value="cop">Coptic</option>
+					<option value="cor">Cornish</option>
+					<option value="cos">Corsican</option>
+					<option value="cre">Cree</option>
+					<option value="mus">Creek</option>
+					<option value="crp">Creoles and Pidgins (Other)</option>
+					<option value="cpe">Creoles and Pidgins, English-based (Other)</option>
+					<option value="cpf">Creoles and Pidgins, French-based (Other)</option>
+					<option value="cpp">Creoles and Pidgins, Portuguese-based (Other)</option>
+					<option value="crh">Crimean Tatar</option>
+					<option value="hrv">Croatian</option>
+					<option value="cus">Cushitic (Other)</option>
+					<option value="cze">Czech</option>
+					<option value="dak">Dakota</option>
+					<option value="dan">Danish</option>
+					<option value="dar">Dargwa</option>
+					<option value="day">Dayak</option>
+					<option value="del">Delaware</option>
+					<option value="din">Dinka</option>
+					<option value="div">Divehi</option>
+					<option value="doi">Dogri</option>
+					<option value="dgr">Dogrib</option>
+					<option value="dra">Dravidian (Other)</option>
+					<option value="dua">Duala</option>
+					<option value="dut">Dutch</option>
+					<option value="dum">Dutch, Middle (ca. 1050-1350)</option>
+					<option value="dyu">Dyula</option>
+					<option value="dzo">Dzongkha</option>
+					<option value="frs">East Frisian</option>
+					<option value="bin">Edo</option>
+					<option value="efi">Efik</option>
+					<option value="egy">Egyptian</option>
+					<option value="eka">Ekajuk</option>
+					<option value="elx">Elamite</option>
+					<option value="eng">English</option>
+					<option value="enm">English, Middle (1100-1500)</option>
+					<option value="ang">English, Old (ca. 450-1100)</option>
+					<option value="myv">Erzya</option>
+					<option value="epo">Esperanto</option>
+					<option value="est">Estonian</option>
+					<option value="gez">Ethiopic</option>
+					<option value="ewe">Ewe</option>
+					<option value="ewo">Ewondo</option>
+					<option value="fan">Fang</option>
+					<option value="fat">Fanti</option>
+					<option value="fao">Faroese</option>
+					<option value="fij">Fijian</option>
+					<option value="fil">Filipino</option>
+					<option value="fin">Finnish</option>
+					<option value="fiu">Finno-Ugrian (Other)</option>
+					<option value="fon">Fon</option>
+					<option value="fre">French</option>
+					<option value="frm">French, Middle (ca. 1300-1600)</option>
+					<option value="fro">French, Old (ca. 842-1300)</option>
+					<option value="fry">Frisian</option>
+					<option value="fur">Friulian</option>
+					<option value="ful">Fula</option>
+					<option value="gaa">Gã</option>
+					<option value="glg">Galician</option>
+					<option value="lug">Ganda</option>
+					<option value="gay">Gayo</option>
+					<option value="gba">Gbaya</option>
+					<option value="geo">Georgian</option>
+					<option value="ger">German</option>
+					<option value="gmh">German, Middle High (ca. 1050-1500)</option>
+					<option value="goh">German, Old High (ca. 750-1050)</option>
+					<option value="gem">Germanic (Other)</option>
+					<option value="gil">Gilbertese</option>
+					<option value="gon">Gondi</option>
+					<option value="gor">Gorontalo</option>
+					<option value="got">Gothic</option>
+					<option value="grb">Grebo</option>
+					<option value="grc">Greek, Ancient (to 1453)</option>
+					<option value="gre">Greek, Modern (1453-)</option>
+					<option value="grn">Guarani</option>
+					<option value="guj">Gujarati</option>
+					<option value="gwi">Gwich'in</option>
+					<option value="hai">Haida</option>
+					<option value="hat">Haitian French Creole</option>
+					<option value="hau">Hausa</option>
+					<option value="haw">Hawaiian</option>
+					<option value="heb">Hebrew</option>
+					<option value="her">Herero</option>
+					<option value="hil">Hiligaynon</option>
+					<option value="hin">Hindi</option>
+					<option value="hmo">Hiri Motu</option>
+					<option value="hit">Hittite</option>
+					<option value="hmn">Hmong</option>
+					<option value="hun">Hungarian</option>
+					<option value="hup">Hupa</option>
+					<option value="iba">Iban</option>
+					<option value="ice">Icelandic</option>
+					<option value="ido">Ido</option>
+					<option value="ibo">Igbo</option>
+					<option value="ijo">Ijo</option>
+					<option value="ilo">Iloko</option>
+					<option value="smn">Inari Sami</option>
+					<option value="inc">Indic (Other)</option>
+					<option value="ine">Indo-European (Other)</option>
+					<option value="ind">Indonesian</option>
+					<option value="inh">Ingush</option>
+					<option value="ina">Interlingua (International Auxiliary Language Association)</option>
+					<option value="ile">Interlingue</option>
+					<option value="iku">Inuktitut</option>
+					<option value="ipk">Inupiaq</option>
+					<option value="ira">Iranian (Other)</option>
+					<option value="gle">Irish</option>
+					<option value="mga">Irish, Middle (ca. 1100-1550)</option>
+					<option value="sga">Irish, Old (to 1100)</option>
+					<option value="iro">Iroquoian (Other)</option>
+					<option value="ita">Italian</option>
+					<option value="jpn">Japanese</option>
+					<option value="jav">Javanese</option>
+					<option value="jrb">Judeo-Arabic</option>
+					<option value="jpr">Judeo-Persian</option>
+					<option value="kbd">Kabardian</option>
+					<option value="kab">Kabyle</option>
+					<option value="kac">Kachin</option>
+					<option value="kal">Kalâtdlisut</option>
+					<option value="kam">Kamba</option>
+					<option value="kan">Kannada</option>
+					<option value="kau">Kanuri</option>
+					<option value="kaa">Kara-Kalpak</option>
+					<option value="krc">Karachay-Balkar</option>
+					<option value="krl">Karelian</option>
+					<option value="kar">Karen languages</option>
+					<option value="kas">Kashmiri</option>
+					<option value="csb">Kashubian</option>
+					<option value="kaw">Kawi</option>
+					<option value="kaz">Kazakh</option>
+					<option value="kha">Khasi</option>
+					<option value="khm">Khmer</option>
+					<option value="khi">Khoisan (Other)</option>
+					<option value="kho">Khotanese</option>
+					<option value="kik">Kikuyu</option>
+					<option value="kmb">Kimbundu</option>
+					<option value="kin">Kinyarwanda</option>
+					<option value="tlh">Klingon (Artificial language)</option>
+					<option value="kom">Komi</option>
+					<option value="kon">Kongo</option>
+					<option value="kok">Konkani</option>
+					<option value="kut">Kootenai</option>
+					<option value="kor">Korean</option>
+					<option value="kos">Kosraean</option>
+					<option value="kpe">Kpelle</option>
+					<option value="kro">Kru (Other)</option>
+					<option value="kua">Kuanyama</option>
+					<option value="kum">Kumyk</option>
+					<option value="kur">Kurdish</option>
+					<option value="kru">Kurukh</option>
+					<option value="kir">Kyrgyz</option>
+					<option value="lad">Ladino</option>
+					<option value="lah">Lahndā</option>
+					<option value="lam">Lamba (Zambia and Congo)</option>
+					<option value="lao">Lao</option>
+					<option value="lat">Latin</option>
+					<option value="lav">Latvian</option>
+					<option value="lez">Lezgian</option>
+					<option value="lim">Limburgish</option>
+					<option value="lin">Lingala</option>
+					<option value="lit">Lithuanian</option>
+					<option value="jbo">Lojban (Artificial language)</option>
+					<option value="nds">Low German</option>
+					<option value="dsb">Lower Sorbian</option>
+					<option value="loz">Lozi</option>
+					<option value="lub">Luba-Katanga</option>
+					<option value="lua">Luba-Lulua</option>
+					<option value="lui">Luiseño</option>
+					<option value="smj">Lule Sami</option>
+					<option value="lun">Lunda</option>
+					<option value="luo">Luo (Kenya and Tanzania)</option>
+					<option value="lus">Lushai</option>
+					<option value="ltz">Luxembourgish</option>
+					<option value="mas">Maasai</option>
+					<option value="mac">Macedonian</option>
+					<option value="mad">Madurese</option>
+					<option value="mag">Magahi</option>
+					<option value="mai">Maithili</option>
+					<option value="mak">Makasar</option>
+					<option value="mlg">Malagasy</option>
+					<option value="may">Malay</option>
+					<option value="mal">Malayalam</option>
+					<option value="mlt">Maltese</option>
+					<option value="mnc">Manchu</option>
+					<option value="mdr">Mandar</option>
+					<option value="man">Mandingo</option>
+					<option value="mni">Manipuri</option>
+					<option value="mno">Manobo languages</option>
+					<option value="glv">Manx</option>
+					<option value="mao">Maori</option>
+					<option value="arn">Mapuche</option>
+					<option value="mar">Marathi</option>
+					<option value="chm">Mari</option>
+					<option value="mah">Marshallese</option>
+					<option value="mwr">Marwari</option>
+					<option value="myn">Mayan languages</option>
+					<option value="men">Mende</option>
+					<option value="mic">Micmac</option>
+					<option value="min">Minangkabau</option>
+					<option value="mwl">Mirandese</option>
+					<option value="mis">Miscellaneous languages</option>
+					<option value="moh">Mohawk</option>
+					<option value="mdf">Moksha</option>
+					<option value="mkh">Mon-Khmer (Other)</option>
+					<option value="lol">Mongo-Nkundu</option>
+					<option value="mon">Mongolian</option>
+					<option value="mos">Mooré</option>
+					<option value="mul">Multiple languages</option>
+					<option value="mun">Munda (Other)</option>
+					<option value="nqo">N'Ko</option>
+					<option value="nah">Nahuatl</option>
+					<option value="nau">Nauru</option>
+					<option value="nav">Navajo</option>
+					<option value="nbl">Ndebele (South Africa)</option>
+					<option value="nde">Ndebele (Zimbabwe)</option>
+					<option value="ndo">Ndonga</option>
+					<option value="nap">Neapolitan Italian</option>
+					<option value="nep">Nepali</option>
+					<option value="new">Newari</option>
+					<option value="nwc">Newari, Old</option>
+					<option value="nia">Nias</option>
+					<option value="nic">Niger-Kordofanian (Other)</option>
+					<option value="ssa">Nilo-Saharan (Other)</option>
+					<option value="niu">Niuean</option>
+					<option value="zxx">No linguistic content</option>
+					<option value="nog">Nogai</option>
+					<option value="nai">North American Indian (Other)</option>
+					<option value="frr">North Frisian</option>
+					<option value="sme">Northern Sami</option>
+					<option value="nso">Northern Sotho</option>
+					<option value="nor">Norwegian</option>
+					<option value="nob">Norwegian (Bokmål)</option>
+					<option value="nno">Norwegian (Nynorsk)</option>
+					<option value="nub">Nubian languages</option>
+					<option value="nym">Nyamwezi</option>
+					<option value="nya">Nyanja</option>
+					<option value="nyn">Nyankole</option>
+					<option value="nyo">Nyoro</option>
+					<option value="nzi">Nzima</option>
+					<option value="oci">Occitan (post-1500)</option>
+					<option value="xal">Oirat</option>
+					<option value="oji">Ojibwa</option>
+					<option value="non">Old Norse</option>
+					<option value="peo">Old Persian (ca. 600-400 B.C.)</option>
+					<option value="ori">Oriya</option>
+					<option value="orm">Oromo</option>
+					<option value="osa">Osage</option>
+					<option value="oss">Ossetic</option>
+					<option value="oto">Otomian languages</option>
+					<option value="pal">Pahlavi</option>
+					<option value="pau">Palauan</option>
+					<option value="pli">Pali</option>
+					<option value="pam">Pampanga</option>
+					<option value="pag">Pangasinan</option>
+					<option value="pan">Panjabi</option>
+					<option value="pap">Papiamento</option>
+					<option value="paa">Papuan (Other)</option>
+					<option value="per">Persian</option>
+					<option value="phi">Philippine (Other)</option>
+					<option value="phn">Phoenician</option>
+					<option value="pon">Pohnpeian</option>
+					<option value="pol">Polish</option>
+					<option value="por">Portuguese</option>
+					<option value="pra">Prakrit languages</option>
+					<option value="pro">Provençal (to 1500)</option>
+					<option value="pus">Pushto</option>
+					<option value="que">Quechua</option>
+					<option value="roh">Raeto-Romance</option>
+					<option value="raj">Rajasthani</option>
+					<option value="rap">Rapanui</option>
+					<option value="rar">Rarotongan</option>
+					<option value="roa">Romance (Other)</option>
+					<option value="rom">Romani</option>
+					<option value="rum">Romanian</option>
+					<option value="run">Rundi</option>
+					<option value="rus">Russian</option>
+					<option value="sal">Salishan languages</option>
+					<option value="sam">Samaritan Aramaic</option>
+					<option value="smi">Sami</option>
+					<option value="smo">Samoan</option>
+					<option value="sad">Sandawe</option>
+					<option value="sag">Sango (Ubangi Creole)</option>
+					<option value="san">Sanskrit</option>
+					<option value="sat">Santali</option>
+					<option value="srd">Sardinian</option>
+					<option value="sas">Sasak</option>
+					<option value="sco">Scots</option>
+					<option value="gla">Scottish Gaelic</option>
+					<option value="sel">Selkup</option>
+					<option value="sem">Semitic (Other)</option>
+					<option value="srp">Serbian</option>
+					<option value="srr">Serer</option>
+					<option value="shn">Shan</option>
+					<option value="sna">Shona</option>
+					<option value="iii">Sichuan Yi</option>
+					<option value="scn">Sicilian Italian</option>
+					<option value="sid">Sidamo</option>
+					<option value="sgn">Sign languages</option>
+					<option value="bla">Siksika</option>
+					<option value="snd">Sindhi</option>
+					<option value="sin">Sinhalese</option>
+					<option value="sit">Sino-Tibetan (Other)</option>
+					<option value="sio">Siouan (Other)</option>
+					<option value="sms">Skolt Sami</option>
+					<option value="den">Slavey</option>
+					<option value="sla">Slavic (Other)</option>
+					<option value="slo">Slovak</option>
+					<option value="slv">Slovenian</option>
+					<option value="sog">Sogdian</option>
+					<option value="som">Somali</option>
+					<option value="son">Songhai</option>
+					<option value="snk">Soninke</option>
+					<option value="wen">Sorbian (Other)</option>
+					<option value="sot">Sotho</option>
+					<option value="sai">South American Indian (Other)</option>
+					<option value="sma">Southern Sami</option>
+					<option value="spa">Spanish</option>
+					<option value="srn">Sranan</option>
+					<option value="suk">Sukuma</option>
+					<option value="sux">Sumerian</option>
+					<option value="sun">Sundanese</option>
+					<option value="sus">Susu</option>
+					<option value="swa">Swahili</option>
+					<option value="ssw">Swazi</option>
+					<option value="swe">Swedish</option>
+					<option value="gsw">Swiss German</option>
+					<option value="syc">Syriac</option>
+					<option value="syr">Syriac, Modern</option>
+					<option value="tgl">Tagalog</option>
+					<option value="tah">Tahitian</option>
+					<option value="tai">Tai (Other)</option>
+					<option value="tgk">Tajik</option>
+					<option value="tmh">Tamashek</option>
+					<option value="tam">Tamil</option>
+					<option value="tat">Tatar</option>
+					<option value="tel">Telugu</option>
+					<option value="tem">Temne</option>
+					<option value="ter">Terena</option>
+					<option value="tet">Tetum</option>
+					<option value="tha">Thai</option>
+					<option value="tib">Tibetan</option>
+					<option value="tig">Tigré</option>
+					<option value="tir">Tigrinya</option>
+					<option value="tiv">Tiv</option>
+					<option value="tli">Tlingit</option>
+					<option value="tpi">Tok Pisin</option>
+					<option value="tkl">Tokelauan</option>
+					<option value="tog">Tonga (Nyasa)</option>
+					<option value="ton">Tongan</option>
+					<option value="tsi">Tsimshian</option>
+					<option value="tso">Tsonga</option>
+					<option value="tsn">Tswana</option>
+					<option value="tum">Tumbuka</option>
+					<option value="tup">Tupi languages</option>
+					<option value="tur">Turkish</option>
+					<option value="ota">Turkish, Ottoman</option>
+					<option value="tuk">Turkmen</option>
+					<option value="tvl">Tuvaluan</option>
+					<option value="tyv">Tuvinian</option>
+					<option value="twi">Twi</option>
+					<option value="udm">Udmurt</option>
+					<option value="uga">Ugaritic</option>
+					<option value="uig">Uighur</option>
+					<option value="ukr">Ukrainian</option>
+					<option value="umb">Umbundu</option>
+					<option value="und">Undetermined</option>
+					<option value="hsb">Upper Sorbian</option>
+					<option value="urd">Urdu</option>
+					<option value="uzb">Uzbek</option>
+					<option value="vai">Vai</option>
+					<option value="ven">Venda</option>
+					<option value="vie">Vietnamese</option>
+					<option value="vol">Volapük</option>
+					<option value="vot">Votic</option>
+					<option value="wak">Wakashan languages</option>
+					<option value="wln">Walloon</option>
+					<option value="war">Waray</option>
+					<option value="was">Washoe</option>
+					<option value="wel">Welsh</option>
+					<option value="him">Western Pahari languages</option>
+					<option value="wal">Wolayta</option>
+					<option value="wol">Wolof</option>
+					<option value="xho">Xhosa</option>
+					<option value="sah">Yakut</option>
+					<option value="yao">Yao (Africa)</option>
+					<option value="yap">Yapese</option>
+					<option value="yid">Yiddish</option>
+					<option value="yor">Yoruba</option>
+					<option value="ypk">Yupik languages</option>
+					<option value="znd">Zande languages</option>
+					<option value="zap">Zapotec</option>
+					<option value="zza">Zaza</option>
+					<option value="zen">Zenaga</option>
+					<option value="zha">Zhuang</option>
+					<option value="zul">Zulu</option>
+					<option value="zun">Zuni</option>
+				</select>
+			</div>
+
+			<div id="names_title" class="heading">Names<br></div>
+			<div id="author-block">
+				<label for="author" class="heading">Personal</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
+				<div id="insert-family_name"></div><div id="insert-given_name"></div>
+				<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
+				<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
+				<select name="role" id="role">
+					<option value="art">artist</option>
+					<option selected value="aut">author</option>
+					<option value="ctb">contributor</option>
+					<option value="edt">editor</option>
+					<option value="ill">illustrator</option>
+					<option value="trl">translator</option>
+				</select>
+				<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
+				<input type="button" value="+" id="add-author" onClick="addAuthor();">
+				<br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="author_listed" class="listed">
+
+				<div id="translit-family_name-block" class="translit-family_name-block translit-block translit-author hidden">
+					<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
+					<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
+					<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
+					<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
+				</div>
+			</div>
+
+			<div id="corporate-block">
+				<label for="corporate_name" class="heading">Corporate/Organization</label><label for="corporate_name" class="insert insert_corporate_name" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
+				<div id="insert-corporate_name"></div>
+				<input type="text" class="corporate conditional translit-listen" required id="corporate_name">
+				<select name="role" id="corporate_role">
+					<option selected value="cre">creator</option>
+					<option value="ctb">contributor</option>
+				</select>
+				<label title="Enter the name of creators or contributors listed on the piece and select the appropriate role from the drop down menu."><span class="question-mark">?</span></label>
+				<input type="button" value="+" id="add-corporate" onClick="addCorporate();">
+				<br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="corporate_name_listed" class="listed">
+				<div id="translit-corporate_name-block" class="translit-corporate_name-block translit-block translit-corporate_name hidden">
+					<label for="translit_corporate_name" class="hidden translit heading translit-corporate_name">Transliterated name</label><label for="translit_corporate_name" class="insert insert_translit_corporate_name hidden translit translit-corporate_name" onClick='insertMenu("translit_corporate_name");'>Insert Diacritics</label><br>
+					<div id="insert-translit_corporate_name"></div>
+					<input type="text" id="translit_corporate_name" class="hidden translit translit-corporate_name">
+				</div>
+			</div>
+
+			<div id="publisher-block" class="standard-block">
+				<label for="publisher" class="heading">Name of publisher</label><label for="publisher" class="insert insert_normal" onClick='insertMenu("publisher");'>Insert Diacritics</label><br>
+				<div id="insert-publisher"></div>
+				<input type="text" required id="publisher" class="conditional translit-listen">
+				<label title="Record the name of the publisher as it appears on the piece. Prefer the name that appears on the title page."><span class="question-mark">?</span></label><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="publisher_listed" class="listed">
+			</div>
+
+			<div id="translit-publisher-block" class="translit-publisher-block translit-block hidden standard-translit-block">
+				<label for="translit_publisher" class="hidden translit heading translit-publisher">Transliterated publisher</label><label for="translit_publisher" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_publisher");'>Insert Diacritics</label><br>
+				<div id="insert-translit_publisher" class="hidden translit translit-publisher"></div>
+				<input type="text" id="translit_publisher" class="hidden translit translit-publisher">
+			</div>
+		<!--
+			<div id="web-url-block" class="standard-block">
+				<label for="web-url" class="heading">Web URL</label><label for="web-url" class="insert insert_normal" onClick='insertMenu("web-url");'>Insert Diacritics</label><br>
+				<div id="insert-web-url"></div>
+				http://<input type="text" required id="web-url" class="conditional"><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="web-url_listed" class="listed">
+			</div>
+		-->
+			<div id="place-block" class="standard-block">
+				<label for="place" class="heading">Place of publication</label><label for="place" class="insert insert_normal" onClick='insertMenu("place");'>Insert Diacritics</label><br>
+				<div id="insert-place"></div>
+				<input type="text" required id="place" class="conditional translit-listen">
+				<label title="Record the place of publication as it appears on the piece. Prefer the place that appears on the title page. If there is more than one place, record only one. E.g., Boston, Massachusetts"><span class="question-mark">?</span></label><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="place_listed" class="listed">
+			</div>
+
+			<div id="translit-place-block" class="translit-place-block translit-block hidden standard-translit-block">
+				<label for="translit_place" class="hidden translit heading translit-place">Transliterated place</label><label for="translit_place" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_place");'>Insert Diacritics</label><br>
+				<div id="insert-translit_place" class="hidden translit translit-publisher"></div>
+				<input type="text" id="translit_place" class="hidden translit translit-place">
+			</div>
+
+			<div id="country-block" class="standard-block">
+				<label for="country" class="heading">Country/State/Province of publication</label><br>
+				<select name="country" required id="country" class="conditional">
+					<option selected disabled hidden value=''></option>
+					<option value="af">Afghanistan</option>
+					<option value="alu">Alabama</option>
+					<option value="aku">Alaska</option>
+					<option value="aa">Albania</option>
+					<option value="abc">Alberta</option>
+					<option value="ae">Algeria</option>
+					<option value="as">American Samoa</option>
+					<option value="an">Andorra</option>
+					<option value="ao">Angola</option>
+					<option value="am">Anguilla</option>
+					<option value="ay">Antarctica</option>
+					<option value="aq">Antigua and Barbuda</option>
+					<option value="ag">Argentina</option>
+					<option value="azu">Arizona</option>
+					<option value="aru">Arkansas</option>
+					<option value="ai">Armenia (Republic)</option>
+					<option value="aw">Aruba</option>
+					<option value="at">Australia</option>
+					<option value="aca">Australian Capital Territory</option>
+					<option value="au">Austria</option>
+					<option value="aj">Azerbaijan</option>
+					<option value="bf">Bahamas</option>
+					<option value="ba">Bahrain</option>
+					<option value="bg">Bangladesh</option>
+					<option value="bb">Barbados</option>
+					<option value="bw">Belarus</option>
+					<option value="be">Belgium</option>
+					<option value="bh">Belize</option>
+					<option value="dm">Benin</option>
+					<option value="bm">Bermuda Islands</option>
+					<option value="bt">Bhutan</option>
+					<option value="bo">Bolivia</option>
+					<option value="bn">Bosnia and Hercegovina</option>
+					<option value="bs">Botswana</option>
+					<option value="bv">Bouvet Island</option>
+					<option value="bl">Brazil</option>
+					<option value="bcc">British Columbia</option>
+					<option value="bi">British Indian Ocean Territory</option>
+					<option value="vb">British Virgin Islands</option>
+					<option value="bx">Brunei</option>
+					<option value="bu">Bulgaria</option>
+					<option value="uv">Burkina Faso</option>
+					<option value="br">Burma</option>
+					<option value="bd">Burundi</option>
+					<option value="cv">Cabo Verde</option>
+					<option value="cau">California</option>
+					<option value="cb">Cambodia</option>
+					<option value="cm">Cameroon</option>
+					<option value="xxc">Canada</option>
+					<option value="ca">Caribbean Netherlands</option>
+					<option value="cj">Cayman Islands</option>
+					<option value="cx">Central African Republic</option>
+					<option value="cd">Chad</option>
+					<option value="cl">Chile</option>
+					<option value="cc">China</option>
+					<option value="ch">China (Republic : 1949- )</option>
+					<option value="xa">Christmas Island (Indian Ocean)</option>
+					<option value="xb">Cocos (Keeling) Islands</option>
+					<option value="ck">Colombia</option>
+					<option value="cou">Colorado</option>
+					<option value="cq">Comoros</option>
+					<option value="cf">Congo (Brazzaville)</option>
+					<option value="cg">Congo (Democratic Republic)</option>
+					<option value="ctu">Connecticut</option>
+					<option value="cw">Cook Islands</option>
+					<option value="xga">Coral Sea Islands Territory</option>
+					<option value="cr">Costa Rica</option>
+					<option value="iv">Côte d'Ivoire</option>
+					<option value="ci">Croatia</option>
+					<option value="cu">Cuba</option>
+					<option value="co">Curaçao</option>
+					<option value="cy">Cyprus</option>
+					<option value="xr">Czech Republic</option>
+					<option value="deu">Delaware</option>
+					<option value="dk">Denmark</option>
+					<option value="dcu">District of Columbia</option>
+					<option value="ft">Djibouti</option>
+					<option value="dq">Dominica</option>
+					<option value="dr">Dominican Republic</option>
+					<option value="ec">Ecuador</option>
+					<option value="ua">Egypt</option>
+					<option value="es">El Salvador</option>
+					<option value="enk">England</option>
+					<option value="eg">Equatorial Guinea</option>
+					<option value="ea">Eritrea</option>
+					<option value="er">Estonia</option>
+					<option value="et">Ethiopia</option>
+					<option value="fk">Falkland Islands</option>
+					<option value="fa">Faroe Islands</option>
+					<option value="fj">Fiji</option>
+					<option value="fi">Finland</option>
+					<option value="flu">Florida</option>
+					<option value="fr">France</option>
+					<option value="fg">French Guiana</option>
+					<option value="fp">French Polynesia</option>
+					<option value="go">Gabon</option>
+					<option value="gm">Gambia</option>
+					<option value="gz">Gaza Strip</option>
+					<option value="gau">Georgia</option>
+					<option value="gs">Georgia (Republic)</option>
+					<option value="gw">Germany</option>
+					<option value="gh">Ghana</option>
+					<option value="gi">Gibraltar</option>
+					<option value="gr">Greece</option>
+					<option value="gl">Greenland</option>
+					<option value="gd">Grenada</option>
+					<option value="gp">Guadeloupe</option>
+					<option value="gu">Guam</option>
+					<option value="gt">Guatemala</option>
+					<option value="gv">Guinea</option>
+					<option value="pg">Guinea-Bissau</option>
+					<option value="gy">Guyana</option>
+					<option value="ht">Haiti</option>
+					<option value="hiu">Hawaii</option>
+					<option value="hm">Heard and McDonald Islands</option>
+					<option value="ho">Honduras</option>
+					<option value="hu">Hungary</option>
+					<option value="ic">Iceland</option>
+					<option value="idu">Idaho</option>
+					<option value="ilu">Illinois</option>
+					<option value="ii">India</option>
+					<option value="inu">Indiana</option>
+					<option value="io">Indonesia</option>
+					<option value="iau">Iowa</option>
+					<option value="ir">Iran</option>
+					<option value="iq">Iraq</option>
+					<option value="iy">Iraq-Saudi Arabia Neutral Zone</option>
+					<option value="ie">Ireland</option>
+					<option value="is">Israel</option>
+					<option value="it">Italy</option>
+					<option value="jm">Jamaica</option>
+					<option value="ja">Japan</option>
+					<option value="ji">Johnston Atoll</option>
+					<option value="jo">Jordan</option>
+					<option value="ksu">Kansas</option>
+					<option value="kz">Kazakhstan</option>
+					<option value="kyu">Kentucky</option>
+					<option value="ke">Kenya</option>
+					<option value="gb">Kiribati</option>
+					<option value="kn">Korea (North)</option>
+					<option value="ko">Korea (South)</option>
+					<option value="kv">Kosovo</option>
+					<option value="ku">Kuwait</option>
+					<option value="kg">Kyrgyzstan</option>
+					<option value="ls">Laos</option>
+					<option value="lv">Latvia</option>
+					<option value="le">Lebanon</option>
+					<option value="lo">Lesotho</option>
+					<option value="lb">Liberia</option>
+					<option value="ly">Libya</option>
+					<option value="lh">Liechtenstein</option>
+					<option value="li">Lithuania</option>
+					<option value="lau">Louisiana</option>
+					<option value="lu">Luxembourg</option>
+					<option value="xn">Macedonia</option>
+					<option value="mg">Madagascar</option>
+					<option value="meu">Maine</option>
+					<option value="mw">Malawi</option>
+					<option value="my">Malaysia</option>
+					<option value="xc">Maldives</option>
+					<option value="ml">Mali</option>
+					<option value="mm">Malta</option>
+					<option value="mbc">Manitoba</option>
+					<option value="xe">Marshall Islands</option>
+					<option value="mq">Martinique</option>
+					<option value="mdu">Maryland</option>
+					<option value="mau">Massachusetts</option>
+					<option value="mu">Mauritania</option>
+					<option value="mf">Mauritius</option>
+					<option value="ot">Mayotte</option>
+					<option value="mx">Mexico</option>
+					<option value="miu">Michigan</option>
+					<option value="fm">Micronesia (Federated States)</option>
+					<option value="xf">Midway Islands</option>
+					<option value="mnu">Minnesota</option>
+					<option value="msu">Mississippi</option>
+					<option value="mou">Missouri</option>
+					<option value="mv">Moldova</option>
+					<option value="mc">Monaco</option>
+					<option value="mp">Mongolia</option>
+					<option value="mtu">Montana</option>
+					<option value="mo">Montenegro</option>
+					<option value="mj">Montserrat</option>
+					<option value="mr">Morocco</option>
+					<option value="mz">Mozambique</option>
+					<option value="sx">Namibia</option>
+					<option value="nu">Nauru</option>
+					<option value="nbu">Nebraska</option>
+					<option value="np">Nepal</option>
+					<option value="ne">Netherlands</option>
+					<option value="nvu">Nevada</option>
+					<option value="nkc">New Brunswick</option>
+					<option value="nl">New Caledonia</option>
+					<option value="nhu">New Hampshire</option>
+					<option value="nju">New Jersey</option>
+					<option value="nmu">New Mexico</option>
+					<option value="xna">New South Wales</option>
+					<option value="nyu">New York (State)</option>
+					<option value="nz">New Zealand</option>
+					<option value="nfc">Newfoundland and Labrador</option>
+					<option value="nq">Nicaragua</option>
+					<option value="ng">Niger</option>
+					<option value="nr">Nigeria</option>
+					<option value="xh">Niue</option>
+					<option value="xx">No place, unknown, or undetermined</option>
+					<option value="nx">Norfolk Island</option>
+					<option value="ncu">North Carolina</option>
+					<option value="ndu">North Dakota</option>
+					<option value="nik">Northern Ireland</option>
+					<option value="nw">Northern Mariana Islands</option>
+					<option value="xoa">Northern Territory</option>
+					<option value="ntc">Northwest Territories</option>
+					<option value="no">Norway</option>
+					<option value="nsc">Nova Scotia</option>
+					<option value="nuc">Nunavut</option>
+					<option value="ohu">Ohio</option>
+					<option value="oku">Oklahoma</option>
+					<option value="mk">Oman</option>
+					<option value="onc">Ontario</option>
+					<option value="oru">Oregon</option>
+					<option value="pk">Pakistan</option>
+					<option value="pw">Palau</option>
+					<option value="pn">Panama</option>
+					<option value="pp">Papua New Guinea</option>
+					<option value="pf">Paracel Islands</option>
+					<option value="py">Paraguay</option>
+					<option value="pau">Pennsylvania</option>
+					<option value="pe">Peru</option>
+					<option value="ph">Philippines</option>
+					<option value="pc">Pitcairn Island</option>
+					<option value="pl">Poland</option>
+					<option value="po">Portugal</option>
+					<option value="pic">Prince Edward Island</option>
+					<option value="pr">Puerto Rico</option>
+					<option value="qa">Qatar</option>
+					<option value="quc">Québec (Province)</option>
+					<option value="qea">Queensland</option>
+					<option value="re">Réunion</option>
+					<option value="riu">Rhode Island</option>
+					<option value="rm">Romania</option>
+					<option value="ru">Russia (Federation)</option>
+					<option value="rw">Rwanda</option>
+					<option value="xj">Saint Helena</option>
+					<option value="xd">Saint Kitts-Nevis</option>
+					<option value="xk">Saint Lucia</option>
+					<option value="xl">Saint Pierre and Miquelon</option>
+					<option value="xm">Saint Vincent and the Grenadines</option>
+					<option value="sc">Saint-Barthélemy</option>
+					<option value="st">Saint-Martin</option>
+					<option value="ws">Samoa</option>
+					<option value="sm">San Marino</option>
+					<option value="sf">Sao Tome and Principe</option>
+					<option value="snc">Saskatchewan</option>
+					<option value="su">Saudi Arabia</option>
+					<option value="stk">Scotland</option>
+					<option value="sg">Senegal</option>
+					<option value="rb">Serbia</option>
+					<option value="se">Seychelles</option>
+					<option value="sl">Sierra Leone</option>
+					<option value="si">Singapore</option>
+					<option value="sn">Sint Maarten</option>
+					<option value="xo">Slovakia</option>
+					<option value="xv">Slovenia</option>
+					<option value="bp">Solomon Islands</option>
+					<option value="so">Somalia</option>
+					<option value="sa">South Africa</option>
+					<option value="xra">South Australia</option>
+					<option value="scu">South Carolina</option>
+					<option value="sdu">South Dakota</option>
+					<option value="xs">South Georgia and the South Sandwich Islands</option>
+					<option value="sd">South Sudan</option>
+					<option value="sp">Spain</option>
+					<option value="sh">Spanish North Africa</option>
+					<option value="xp">Spratly Island</option>
+					<option value="ce">Sri Lanka</option>
+					<option value="sj">Sudan</option>
+					<option value="sr">Surinam</option>
+					<option value="sq">Swaziland</option>
+					<option value="sw">Sweden</option>
+					<option value="sz">Switzerland</option>
+					<option value="sy">Syria</option>
+					<option value="ta">Tajikistan</option>
+					<option value="tz">Tanzania</option>
+					<option value="tma">Tasmania</option>
+					<option value="tnu">Tennessee</option>
+					<option value="fs">Terres australes et antarctiques françaises</option>
+					<option value="txu">Texas</option>
+					<option value="th">Thailand</option>
+					<option value="em">Timor-Leste</option>
+					<option value="tg">Togo</option>
+					<option value="tl">Tokelau</option>
+					<option value="to">Tonga</option>
+					<option value="tr">Trinidad and Tobago</option>
+					<option value="ti">Tunisia</option>
+					<option value="tu">Turkey</option>
+					<option value="tk">Turkmenistan</option>
+					<option value="tc">Turks and Caicos Islands</option>
+					<option value="tv">Tuvalu</option>
+					<option value="ug">Uganda</option>
+					<option value="un">Ukraine</option>
+					<option value="ts">United Arab Emirates</option>
+					<option value="xxk">United Kingdom</option>
+					<option value="uik">United Kingdom Misc. Islands</option>
+					<option value="xxu">United States</option>
+					<option value="uc">United States Misc. Caribbean Islands</option>
+					<option value="up">United States Misc. Pacific Islands</option>
+					<option value="uy">Uruguay</option>
+					<option value="utu">Utah</option>
+					<option value="uz">Uzbekistan</option>
+					<option value="nn">Vanuatu</option>
+					<option value="vp">Various places</option>
+					<option value="vc">Vatican City</option>
+					<option value="ve">Venezuela</option>
+					<option value="vtu">Vermont</option>
+					<option value="vra">Victoria</option>
+					<option value="vm">Vietnam</option>
+					<option value="vi">Virgin Islands of the United States</option>
+					<option value="vau">Virginia</option>
+					<option value="wk">Wake Island</option>
+					<option value="wlk">Wales</option>
+					<option value="wf">Wallis and Futuna</option>
+					<option value="wau">Washington (State)</option>
+					<option value="wj">West Bank of the Jordan River</option>
+					<option value="wvu">West Virginia</option>
+					<option value="wea">Western Australia</option>
+					<option value="ss">Western Sahara</option>
+					<option value="wiu">Wisconsin</option>
+					<option value="wyu">Wyoming</option>
+					<option value="ye">Yemen</option>
+					<option value="ykc">Yukon Territory</option>
+					<option value="za">Zambia</option>
+					<option value="rh">Zimbabwe</option>
+				</select>
+				<label title="Select the country of publication from the drop-down menu. If published in the United States, Canada, Australia, or the United Kingdom, select the state, province, or geographic region"><span class="question-mark">?</span></label><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="country_listed" class="listed">
+			</div>
+
+			<div id="publication-block">
+				<label for="date" class="heading">Date of publication</label><br>
+				<input type="number" class="date conditional" required id="year" min="0">
+				<label title="Record the year of publication if it appears on the piece. Do not record a copyright date here. Copyright dates should be recorded in the next field."><span class="question-mark">?</span></label><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
+			</div>
+
+			<div id="copyright-block">
+				<label for="cyear" class="heading">Copyright date</label><br>
+				<input type="number" class="date conditional" required id="cyear" min="0">
+				<label title="Record the year of copyright if it appears on the piece."><span class="question-mark">?</span></label><br>
+				<span class="unlisted">Unlisted</span><input type="checkbox" id="cyear_listed" class="listed">
+			</div>
+
+			<div id="isbn-block" class="standard-block">
+				<label for="isbn" class="heading">ISBN</label><br>
+				<input type="text" id="isbn">
+				<label title="Record an ISBN, if present. Do not record hyphens. If multiple ISBNs are present, record only one. E.g., 9781234567890 or 1234567890"><span class="question-mark">?</span></label><br>
+			</div>
+			
+			<div id="edition-block" class="standard-block">
+				<label for="edition" class="heading">Edition</label><br>
+				<input type="text" id="edition"><br>
+			</div>
+
+			<div id="scale-block" class="standard-block">
+				<label for="scale" class="heading">Scale</label><br>
+				<input type="text" id="scale">
+				<label title="Record a Cartographic Mathematical Data, if present, for example, 'Scale not given.' 'Scale [ca. 1:90,000].' 'Scale [1:6,336,000]. 1" = 100 miles. Vertical scale [1:192,000]. 1/16" = approx. 1000'"><span class="question-mark">?</span></label><br>
+			</div>
+		
+			<div id="color-block" class="standard-block">
+				<label for="color" class="heading">Color?</label><br>
+				<input type="text" id="color">
+				<label title="Record whether the map is in color or not. Use the value 'color' when the map is in color." = approx. 1000'"><span class="question-mark">?</span></label><br>	
+			</div>
+			
+			<div id="dimensions-block" class="standard-block">
+				<label for="dimensions" class="heading">Dimensions<span class="required_marker">*</span></label><br>
+				<input type="text" required id="dimensions" class="required"> cm
+				<label title="Record the height of the piece in cm. Always round up, so that if a piece measures 25.1 cm, record 26 cm"><span class="question-mark">?</span></label>
+			</div>
+			
+			<div id="description-block" class="standard-block">
+				<label for="description" class="heading">Description</label><br>
+				<input type="text" id="description">
+				<label title="Record any additional information about the map in here."><span class="question-mark">?</span></label><br>	
+			</div>
+
+			<div id="keywords" class="standard-block">
+				<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>
+				<input type="text" class="fastID hidden" id="fastID0">
+				<input type="number" class="fastType hidden" id="fastType0">
+				<input type="text" class="fastInd hidden" id="fastInd0">
+				<input type="text" class="keyword required" required id="keyword0"> <label title="Record, in English, any descriptive terms that describe the content of this book. Record only one term or phrase in each box. E.g., Astronomy or Politics of Egypt"><span class="question-mark">?</span></label>
+				<input type="button" value="+" id="add-button" onClick="addKeyword();">
+			</div>
+
+			<div id="notes-block">
+				<label for="notes">Notes to the Cataloger</label><br>
+				<textarea id="notes"></textarea>
+			</div>
+
+			<div id="save-as-block">
+				<label for="filename">Save as</label>
+				<input type="text" id="filename" placeholder="record">.[file type]
+			</div>
+
+			<div id="formats-block" class="standard-block">
+				<label for="filetype">Choose record formats:</label><br>
+				<input type="checkbox" id="MARC" class="filetype">MARC<br>
+				<input type="checkbox" id="MARCXML" class="filetype">MARCXML<br>
+				<!--<input type="checkbox" id="MODS" class="filetype">MODS<br>
+				<input type="checkbox" id="HTML" class="filetype">HTML-->
+			</div>
+
+			<div id="buttons" class="standard-block">
+				<input type="submit" value="Make" id="make">
+				<input type="reset" value="Clear" id="Clear">
+			</div>
+
+			<div id="star" class="required_marker standard-block">
+				* Required field
+			</div>
+		</form>
+		<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
+		<div id="version">Version 1.1 – Updated on 11/10/2022. Metadata Maker for Maps was created on 07/17/2018.</div>
+		<a id="code" href="https://github.com/dkudeki/metadata-maker/tree/Maps">GitHub</a></div>
+		
+		<script src="metadatamaker/generalInteractions.js"></script>
+		<script src="metadatamaker/topBar.js"></script>
+		<script src="metadatamaker/downloadMARC.js"></script>
+		<script src="metadatamaker/downloadMODS.js"></script>
+		<script src="metadatamaker/downloadHTML.js"></script>
+		<script src="metadatamaker/submitForm.js"></script>
+	</div>
+</body>
+
+</html>

@@ -1,9 +1,6 @@
 [submodule "webshim"]
 	path = webshim
 	url = https://github.com/aFarkas/webshim/
-[submodule "Maps"]
-	path = maps
-	url = https://github.com/dkudeki/metadata-maker/
 [submodule "Microfilms"]
 	path = microfilms
 	url = https://github.com/dkudeki/metadata-maker/
