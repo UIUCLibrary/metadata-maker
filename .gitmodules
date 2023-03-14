@@ -25,3 +25,6 @@
 [submodule "MonoViaf"]
 	path = monoviaf
 	url = https://github.com/dkudeki/metadata-maker/
+[submodule "govdocs"]
+	path = govdocs
+	url = https://github.com/dkudeki/metadata-maker/
