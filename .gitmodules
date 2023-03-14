@@ -25,3 +25,6 @@
 [submodule "scores/webshim"]
 	path = scores/webshim
 	url = https://github.com/aFarkas/webshim/
+[submodule "serials/webshim"]
+	path = serials/webshim
+	url = https://github.com/aFarkas/webshim/
