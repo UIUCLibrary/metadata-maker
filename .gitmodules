@@ -2,29 +2,29 @@
 	path = webshim
 	url = https://github.com/aFarkas/webshim/
 [submodule "DataSet"]
-	path = DataSet
+	path = dataset
 	url = https://github.com/dkudeki/metadata-maker/
 [submodule "GovDocs"]
-	path = GovDocs
+	path = govdocs
 	url = https://github.com/dkudeki/metadata-maker/
 [submodule "Maps"]
-	path = Maps
+	path = maps
 	url = https://github.com/dkudeki/metadata-maker/
 [submodule "Microfilms"]
-	path = Microfilms
+	path = microfilms
 	url = https://github.com/dkudeki/metadata-maker/
 [submodule "Scores"]
-	path = Scores
+	path = scores
 	url = https://github.com/dkudeki/metadata-maker/
 [submodule "Serials"]
-	path = Serials
+	path = serials
 	url = https://github.com/dkudeki/metadata-maker/
 [submodule "theses"]
 	path = theses
 	url = https://github.com/dkudeki/metadata-maker/
 [submodule "EBooks"]
-	path = EBooks
+	path = ebooks
 	url = https://github.com/dkudeki/metadata-maker/
 [submodule "MonoViaf"]
-	path = MonoViaf
+	path = monoviaf
 	url = https://github.com/dkudeki/metadata-maker/
