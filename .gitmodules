@@ -25,3 +25,6 @@
 [submodule "theses/webshim"]
 	path = theses/webshim
 	url = https://github.com/aFarkas/webshim/
+[submodule "govdocs/webshim"]
+	path = govdocs/webshim
+	url = https://github.com/aFarkas/webshim/
