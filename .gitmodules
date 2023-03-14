@@ -25,3 +25,6 @@
 [submodule "monoviaf/webshim"]
 	path = monoviaf/webshim
 	url = https://github.com/aFarkas/webshim/
+[submodule "dataset/webshim"]
+	path = dataset/webshim
+	url = https://github.com/aFarkas/webshim/
