@@ -16,9 +16,6 @@
 [submodule "theses"]
 	path = theses
 	url = https://github.com/dkudeki/metadata-maker/
-[submodule "EBooks"]
-	path = ebooks
-	url = https://github.com/dkudeki/metadata-maker/
 [submodule "govdocs"]
 	path = govdocs
 	url = https://github.com/dkudeki/metadata-maker/
