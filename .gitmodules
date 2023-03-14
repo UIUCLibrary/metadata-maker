@@ -25,3 +25,6 @@
 [submodule "maps/webshim"]
 	path = maps/webshim
 	url = https://github.com/aFarkas/webshim/
+[submodule "microfilms/webshim"]
+	path = microfilms/webshim
+	url = https://github.com/aFarkas/webshim/
