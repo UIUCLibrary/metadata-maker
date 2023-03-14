@@ -25,3 +25,6 @@
 [submodule "microfilms/webshim"]
 	path = microfilms/webshim
 	url = https://github.com/aFarkas/webshim/
+[submodule "scores/webshim"]
+	path = scores/webshim
+	url = https://github.com/aFarkas/webshim/
