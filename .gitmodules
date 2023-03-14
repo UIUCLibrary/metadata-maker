@@ -25,3 +25,6 @@
 [submodule "dataset/webshim"]
 	path = dataset/webshim
 	url = https://github.com/aFarkas/webshim/
+[submodule "ebooks/webshim"]
+	path = ebooks/webshim
+	url = https://github.com/aFarkas/webshim/
