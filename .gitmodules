@@ -25,3 +25,6 @@
 [submodule "govdocs"]
 	path = govdocs
 	url = https://github.com/dkudeki/metadata-maker/
+[submodule "monoviaf/webshim"]
+	path = monoviaf/webshim
+	url = https://github.com/aFarkas/webshim/
