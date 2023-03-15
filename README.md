@@ -35,6 +35,8 @@ The file structure has been altered, placing the javascript files in subdirector
 
 The information for the organization creating the record can be altered via the url. See the "Editing institution information" section above for more details.
 
+**03-14-2023:** Folded the many branches into the default branch to make updating and deploying easier. The files from the other branches lack the development history, but the README for each page includes a link to the corresponding branch, which stores that history up until today.
+
 ## Contact info
 
 Comments and questions can be directed to Deren Kudeki at dkudeki@illinois.edu and Myung-Ja Han at mhan3@illinois.edu
