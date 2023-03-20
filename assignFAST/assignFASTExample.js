@@ -26,7 +26,7 @@ function setUpPage(number) {
 			$('#fastInd' + number).val(ui.item.indicator);
 		} //end select
 	} 
-	).data( "uiAutocomplete" )._renderItem = function( ul, item ) { formatSuggest(ul, item);};
+	).data( "autocomplete" )._renderItem = function( ul, item ) { formatSuggest(ul, item);};
 }  //end setUpPage()
 
 
