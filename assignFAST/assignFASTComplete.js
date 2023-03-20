@@ -1,5 +1,5 @@
 
-var subjectProxy = "https://fast.oclc.org/searchfast/fastsuggest?";
+var subjectProxy = "http://fast.oclc.org/searchfast/fastsuggest?";
 
 var subjectDB =  "autoSubject";
 
