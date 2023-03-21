@@ -4,8 +4,8 @@ $(function() {
 		var summary = document.getElementById('summary').value;
 		if (summary!=null){
 			var requests = "text=" + summary;
-			// var url = "http://annif.info/v1/projects/ivyplus-tfidf/suggest";
-			var url = "http://annif.info/v1/projects/upenn-omikuji-bonsai-en-gen/suggest";
+			// var url = "https://annif.info/v1/projects/ivyplus-tfidf/suggest";
+			var url = "https://annif.info/v1/projects/upenn-omikuji-bonsai-en-gen/suggest";
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", url, false);
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
