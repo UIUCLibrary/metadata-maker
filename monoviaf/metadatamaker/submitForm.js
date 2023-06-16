@@ -83,7 +83,7 @@ function getnamesubfields(lcuri){
 	named = {ind1, finalnametag};
 	return named
 	// return finalnametag
-}
+} 
 
 function generateInstitutionInfo() {
 	var output = {
@@ -273,7 +273,7 @@ $("#marc-maker").submit(function(event) {
 					"family": $("#translit_family_name" + i).val()
 				}
 			]
-		);
+		);	
 	}
 
 
@@ -331,7 +331,7 @@ $("#marc-maker").submit(function(event) {
 			downloadXML(recordObject,institution_info);
 		}
 	}
-
+	
 	if ($("#BIBFRAME").is(':checked')) {
 		if (VARIFY){
 			downloadBIBFRAME(recordObject,institution_info);
