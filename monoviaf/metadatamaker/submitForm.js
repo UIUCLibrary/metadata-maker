@@ -7,6 +7,7 @@ function resetform(){
 }
 function get(name) {
 	if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search)) {
+		console.log(decodeURIComponent(name[1]));
 		return decodeURIComponent(name[1]);
 	}
 }
@@ -33,6 +34,9 @@ function getviafname(viafurl, autname){
 
 		}
 	};
+	console.log("getviafname");
+	console.log(autname);
+	console.log(rtn);
 	return autname
 }
 
