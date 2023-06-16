@@ -41,7 +41,7 @@ function getviafname(viafurl, autname){
 }
 
 function getnamesubfields(lcuri){
-	var link = (lcuri+".marcxml.xml").replace("//", "/").replace("http", "https");
+	var link = (lcuri+".marcxml.xml").replace("//", "/").replace("http", "https").replace("metadatamaker.library.illinois.edu/", "");
 	var rtn;
 	rtn = $.ajax({
 		    type: 'GET',
