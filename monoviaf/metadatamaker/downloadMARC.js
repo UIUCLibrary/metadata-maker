@@ -56,10 +56,8 @@ function create008Field(record) {
 	var timestamp = getTimestamp();
 	timestamp = timestamp.substring(2,8);
 
-	//00-05
 	controlfield008 += timestamp;
 
-	//06-14
 	if (checkExists(record.publication_year) && checkExists(record.copyright_year)) {
 		controlfield008 += 't' + record.publication_year + record.copyright_year;
 	}
@@ -73,19 +71,16 @@ function create008Field(record) {
 		controlfield008 += 'nuuuuuuuu';
 	}
 
-	//15-17
 	if (checkExists(record.publication_country)) {
 		controlfield008 += record.publication_country;
 		if (record.publication_country.length === 2) {
 			controlfield008 += ' ';
 		}
-
 	}
 	else {
 		controlfield008 += 'xx ';
 	}
 
-	//18-21
 	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
 		controlfield008 += 'a   ';
 	}
@@ -93,10 +88,8 @@ function create008Field(record) {
 		controlfield008 += '    '
 	}
 
-	//22-32
 	controlfield008 += '       000 ';
 
-	//33
 	if (checkExists(record.literature_yes) && checkExists(record.literature_dropdown)) {
 		controlfield008 += record.literature_dropdown;
 	}
@@ -104,7 +97,6 @@ function create008Field(record) {
 		controlfield008 += '0';
 	}
 
-	//34-39
 	controlfield008 += ' ' + record.language + ' d';
 
 	return controlfield008;
@@ -181,6 +173,7 @@ function fillISBN(record,head,fieldFunc,subfieldFunc) {
 	}
 }
 
+
 function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 	//Transliteration is in author_array[1], normal author input in author_array[0]
 	var latin_index = checkExists(record.author[1]['family']) ? 1 : 0;
@@ -189,6 +182,13 @@ function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 	var author_content = '';
 	if(checkExists(record.author[latin_index]['family'])) {
 		author_content = record.author[latin_index]['family'];
+	}
+	else if (checkExists(record.author[latin_index]['family'])) {
+		if (checkExists(record.author[latin_index]['family'])) {
+			author_content = record.author[latin_index]['family'] 
+		}
+		else {
+		}
 	}
 	else {
 		return head !== null ? ['',''] : '';
@@ -233,7 +233,7 @@ function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 			subfieldFunc('4',record.author[0]['role'])
 			];
 	}
-
+	
 	if (latin_index === 1) {
 		author_subfields.push(subfieldFunc('6','880-03'));
 	}
@@ -315,7 +315,6 @@ function fillTitle(record,head,fieldFunc,subfieldFunc) {
 	}
 
 	var title = fieldFunc('245',title_ind1,title_ind2,title_subfields);
-
 	//MARC
 	if (head !== null) {
 		var title_directory = createDirectory('245',title,head);
@@ -513,7 +512,6 @@ function fillKeywords(record,head,fieldFunc,subfieldFunc) {
 		return keywords_content;
 	}
 }
-
 function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 	if (checkExists(record.additional_authors)) {
 		var authors = '';
@@ -528,9 +526,15 @@ function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 				var latin_index = checkExists(record.additional_authors[i][1]['family']) ? 1 : 0;
 
 				if (checkExists(record.additional_authors[i][latin_index]['family'])) {
-					var authors_content = record.additional_authors[i][latin_index]['family'];
+					var authors_content = record.additional_authors[i][latin_index]['family'] ;
 				}
-
+				else if (checkExists(record.additional_authors[i][latin_index]['family'])) {
+					if (checkExists(record.additional_authors[i][latin_index]['family'])) {
+						var authors_content = record.additional_authors[i][latin_index]['family'] ;
+					}
+					else {
+					}
+				}
 				if (record.additional_authors[i][0]['viaf'] !=""){
 					if (record.additional_authors[i][0]['lc'] !=""){
 						var subbdm = record.additional_authors[i][0]['subbd'];
@@ -565,7 +569,7 @@ function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 							subfieldFunc('e',role_index[record.additional_authors[i][0]['role']]),
 							subfieldFunc('4',record.additional_authors[i][0]['role'])];
 				}
-
+				
 				if (latin_index === 1) {
 					if (translit_counter < 10) {
 						var translit_index = '0' + translit_counter;
