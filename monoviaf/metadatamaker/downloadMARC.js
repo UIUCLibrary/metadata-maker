@@ -176,6 +176,8 @@ function fillISBN(record,head,fieldFunc,subfieldFunc) {
 
 function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 	//Transliteration is in author_array[1], normal author input in author_array[0]
+	console.log("DownloadMARC");
+	console.log(record.author);
 	var latin_index = checkExists(record.author[1]['family']) ? 1 : 0;
 	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'}
 	var author_subfields;
