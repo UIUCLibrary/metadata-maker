@@ -41,6 +41,8 @@ function getviafname(viafurl, autname){
 }
 
 function getnamesubfields(lcuri){
+	console.log("getlcuri");
+	console.log(lcuri);
 	var link = (lcuri+".marcxml.xml").replace("//", "/").replace("http", "https").replace("metadatamaker.library.illinois.edu/", "");
 	var rtn;
 	rtn = $.ajax({
@@ -85,6 +87,8 @@ function getnamesubfields(lcuri){
 	}else{finalnametag[finalnametag.length]= "" };
 
 	named = {ind1, finalnametag};
+	console.log("lcname");
+	console.log(named)
 	return named
 	// return finalnametag
 } 
