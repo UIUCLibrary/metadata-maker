@@ -7,7 +7,6 @@ function resetform(){
 }
 function get(name) {
 	if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search)) {
-		console.log(decodeURIComponent(name[1]));
 		return decodeURIComponent(name[1]);
 	}
 }
@@ -34,16 +33,15 @@ function getviafname(viafurl, autname){
 
 		}
 	};
-	console.log("getviafname");
-	console.log(autname);
-	console.log(rtn);
 	return autname
 }
 
 function getnamesubfields(lcuri){
-	console.log("getlcuri");
+	console.log("lcuri");
 	console.log(lcuri);
-	var link = (lcuri+".marcxml.xml").replace("//", "/").replace("http", "https").replace("metadatamaker.library.illinois.edu/", "");
+	var link = (lcuri+".marcxml.xml").replace('http://','https://');
+	console.log("lcuri");
+	console.log(link);
 	var rtn;
 	rtn = $.ajax({
 		    type: 'GET',
@@ -87,8 +85,6 @@ function getnamesubfields(lcuri){
 	}else{finalnametag[finalnametag.length]= "" };
 
 	named = {ind1, finalnametag};
-	console.log("lcname");
-	console.log(named)
 	return named
 	// return finalnametag
 } 
