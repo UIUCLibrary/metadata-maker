@@ -14,7 +14,6 @@ function escapeXml(unsafe) {
 }
 
  function fillAuthorBIBFRAME(author_record){
- 	console.log(author_record);
  	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
  	if (checkExists(author_record[0]['family'])){
  		var latinname = author_record[0]['family'];
@@ -192,15 +191,24 @@ function fillAuthorAdditionalBIBFRAME(author_record){
  	}
 
  	var titleText = '        <bf:title>\n            <bf:Title>\n                <bf:mainTitle>' + escapeXml(record.title[0]['title']) + '</bf:mainTitle>\n';
+
  	if (checkExists(record.title[0]['subtitle'])) {
  		titleText += '                <bf:subtitle>' + escapeXml(record.title[0]['subtitle']) + '</bf:subtitle>\n';
  	}
+ 	if (checkExists(record.title[1]['title'])){
+ 		if (checkExists(record.title[1]['subtitle'])){
+ 			titleText += '                <rdfs:label>' + escapeXml(record.title[1]['title']) + ": " + escapeXml(record.title[1]['subtitle']) +'</rdfs:label>\n';
+ 		}else{
+ 			titleText += '                <rdfs:label>' + escapeXml(record.title[1]['title']) + '</rdfs:label>\n';
+ 		}
+ 	}
+ 	
+ 	
  	titleText += '            </bf:Title>\n        </bf:title>\n';
 
 
 	var subjectText = '';
 	//keywordshtml
-	// console.log(record);
 	if (checkExists(record.keywords)) {
 		if (record.keywords[0]!=''){
 			for (var i = 0; i < record.keywords.length; i++){
