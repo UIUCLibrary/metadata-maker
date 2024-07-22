@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Metadata Maker for Mixed Media</title>
+	<title>Metadata Maker for Government Documents</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 	<script src="webshim/js-webshim/minified/polyfiller.js"></script>
@@ -11,14 +12,22 @@
 	<script src="assignFAST/assignFASTComplete.js"></script>
 
 	<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet">
-	<link href="http://jqueryui.com/jquery-wp-content/themes/jqueryui.com/style.css" rel="stylesheet">
-	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+	<link href="https://jqueryui.com/jquery-wp-content/themes/jqueryui.com/style.css" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 	<link href="marcmaker.css" rel="stylesheet" media="screen">
 	<link href="top_bar.css" rel="stylesheet" media="screen">
 
-	<script src="analytics.js"></script>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-B2N7KWSB17"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-B2N7KWSB17');
+	</script>
 </head>
 
 <body>
@@ -32,44 +41,59 @@
 				Metadata Maker for
 			</div>
 			<div id="version_selector" onClick="toggleVersionMenu()">
-				<div id="version_name" value="mixedMedia">
-					Mixed Media
+				<div id="version_name" value="govdocs">
+					Government Documents
 				</div>
 				<img src="arrow2.svg" id="arrow">
 				<div id="version_menu" class="hidden">
 					<ul id="version_menu_content">
-						<a class="dropdown" href="/marcmaker/dataset/">
+						<a class="dropdown" href="/dataset/">
 							<li id="dataset">
 								Data Sets
 							</li>
 						</a>
-						<a class="dropdown" href="/marcmaker/ebooks/">
+						<a class="dropdown" href="/ebooks/">
 							<li id="ebooks">
 								E-Books
 							</li>
 						</a>
-						<a class="dropdown" onClick="return false;" href="/marcmaker/govdocs/">
+						<a class="dropdown" onClick="return false;" href="/govdocs/">
 							<li id="govdocs" class="current_version">
 								Government Documents
 								<span id="checkmark">&#10003;</span>
 							</li>
 						</a>
-						<a class="dropdown" href="/marcmaker/">
+						<a class="dropdown" href="/maps/">
+							<li id="maps">
+								Maps
+							</li>
+						</a>
+						<a class="dropdown" href="/microfilms/">
+							<li id="microfilms">
+								Microfilms
+							</li>
+						</a>
+						<a class="dropdown" href="/">
 							<li id="monographs">
 								Monographs
 							</li>
+						</a>						
+						<a class="dropdown" href="/monoviaf/">
+							<li id="monoviaf">
+								Monographs (LD)
+							</li>
 						</a>
-						<a class="dropdown" href="/marcmaker/scores/">
+						<a class="dropdown" href="/scores/">
 							<li id="scores">
 								Scores
 							</li>
 						</a>
-						<a class="dropdown" href="/marcmaker/serials/">
+						<a class="dropdown" href="/serials/">
 							<li id="serials">
 								Serials
 							</li>
 						</a>
-						<a class="dropdown" href="/marcmaker/theses/">
+						<a class="dropdown" href="/theses/">
 							<li id="theses">
 								Theses & Dissertations
 							</li>
@@ -126,12 +150,11 @@
 			</div>
 
 			<div id="subtitle-block">
-				<label for="subtitle" class="heading">Other title</label><label for="subtitle" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</label><br>
+				<label for="subtitle" class="heading">Subtitle</label><label for="subtitle" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</label><br>
 				<div id="insert-subtitle"></div>
 				<input type="text" required id="subtitle" class="conditional">
 				<label title="Record the subtitle if one exists"><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="subtitle_listed" class="listed">
-				<input type="button" value="+" id="add-button" onClick="addOtherTitle();">
 			</div>
 
 			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
@@ -167,31 +190,30 @@
 				<input type="text" id="translit_edition" class="hidden translit translit-edition">
 			</div>
 
-			<!--<div id="item-number-block" class="standard-block">
+			<div id="item-number-block" class="standard-block">
 				<label for="item-number" class="heading">Item number</label><label for="item-number" class="insert insert_normal" onClick='insertMenu("item-number");'>Insert Diacritics</label></br>
 				<div id="insert-item-number"></div>
 				<input type="text" class="conditional" required id="item-number"><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="item-number_listed" class="listed">
-			</div>--!>
+			</div>
 
-			<!--<div id="sudoc-block" class="standard-block">
+			<div id="sudoc-block" class="standard-block">
 				<label for="sudoc" class="heading">SuDoc classification</label><label for="sudoc" class="insert insert_normal" onClick='insertMenu("sudoc");'>Insert Diacritics</label></br>
 				<div id="insert-sudoc"></div>
 				<input type="text" class="conditional" required id="sudoc"><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="sudoc_listed" class="listed">
-			</div>--!>
-			
-			<!--<div id="report-number-block" class="standard-block">
+			</div>
+
+			<div id="report-number-block" class="standard-block">
 				<label for="report-number" class="heading">Report number</label><label for="report-number" class="insert insert_normal" onClick='insertMenu("report-number");'>Insert Diacritics</label></br>
 				<div id="insert-report-number"></div>
 				<input type="text" class="conditional" required id="report-number"><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="report-number_listed" class="listed">
 			</div>
-			</div>--!>
-			
-			<!--<div id="names_title" class="heading">Manufacturer<br></div>
+
+			<div id="names_title" class="heading">Names<br></div>
 			<div id="corporate-block">
-				<label for="corporate_name" class="heading">Names</label><label for="corporate_name" class="insert insert_corporate" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
+				<label for="corporate_name" class="heading">Corporate/Organization</label><label for="corporate_name" class="insert insert_corporate" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
 				<div id="insert-corporate_name"></div>
 				<input type="text" class="corporate conditional translit-listen" required id="corporate_name">
 				<select name="role" id="corporate_role">
@@ -207,7 +229,7 @@
 					<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
 					<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
 					<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
-				</div>
+				</div>-->
 			</div>
 
 			<!--<div id="author-block">
@@ -234,35 +256,35 @@
 					<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
 					<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
 				</div>
-			</div>--!>
+			</div>-->
 
 			<div id="publisher-block" class="standard-block">
-				<label for="publisher" class="heading">Name of manufacturer</label></label><br>
+				<label for="publisher" class="heading">Name of publisher</label><label for="publisher" class="insert insert_normal" onClick='insertMenu("publisher");'>Insert Diacritics</label><br>
 				<div id="insert-publisher"></div>
 				<input type="text" required id="publisher" class="conditional translit-listen">
-				<label title="Record the name of the manufacturer as it appears on the piece."><span class="question-mark">?</span></label><br>
+				<label title="Record the name of the publisher as it appears on the piece. Prefer the name that appears on the title page."><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="publisher_listed" class="listed">
 			</div>
-			<!--
+
 			<div id="translit-publisher-block" class="translit-publisher-block translit-block hidden standard-translit-block">
 				<label for="translit_publisher" class="hidden translit heading translit-publisher">Transliterated publisher</label><label for="translit_publisher" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_publisher");'>Insert Diacritics</label><br>
 				<div id="insert-translit_publisher" class="hidden translit translit-publisher"></div>
 				<input type="text" id="translit_publisher" class="hidden translit translit-publisher">
-			</div>--!>
+			</div>
 
 			<div id="place-block" class="standard-block">
-				<label for="place" class="heading">Place of manufacturer</label><br>
+				<label for="place" class="heading">Place of publication</label><label for="place" class="insert insert_normal" onClick='insertMenu("place");'>Insert Diacritics</label><br>
 				<div id="insert-place"></div>
 				<input type="text" required id="place" class="conditional translit-listen">
-				<label title="Record the place of manufacturer as it appears on the piece. Prefer the place that appears on the title page. If there is more than one place, record only one. E.g., Boston, Massachusetts"><span class="question-mark">?</span></label><br>
+				<label title="Record the place of publication as it appears on the piece. Prefer the place that appears on the title page. If there is more than one place, record only one. E.g., Boston, Massachusetts"><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="place_listed" class="listed">
 			</div>
 
-			<!--<div id="translit-place-block" class="translit-place-block translit-block hidden standard-translit-block">
+			<div id="translit-place-block" class="translit-place-block translit-block hidden standard-translit-block">
 				<label for="translit_place" class="hidden translit heading translit-place">Transliterated place</label><label for="translit_place" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_place");'>Insert Diacritics</label><br>
 				<div id="insert-translit_place" class="hidden translit translit-publisher"></div>
 				<input type="text" id="translit_place" class="hidden translit translit-place">
-			</div>--!>
+			</div>
 
 			<div id="country-block" class="standard-block">
 				<label for="country" class="heading">State of publication</label><br>
@@ -339,14 +361,15 @@
 			</div>
 
 			<div id="pages-block" class="standard-block">
-				<label for="number" class="heading">Number of items<span class="required_marker">*</span></label><br>
-				<!--<select name="vorp" id="vorp">
+				<label for="number" class="heading">Number of</label>
+				<select name="vorp" id="vorp">
 					<option selected value="pages">pages</option>
 					<option value="volumes">volumes</option>
-				</select> --!>
+				</select><br>
 				<input type="text" required id="pages" class="conditional">
-				<label title="Record the number of items" class="question-mark">?</span></label><br>
-				
+				<label title="Record the number of pages in each numbered sequence. E.g., 356 or xii, 254. Record the number from the last numbered page, and do not include unnumbered pages. 
+	If a multi-volume set, do not record the number of pages, but instead record the number of physical volumes, E.g., 4"><span class="question-mark">?</span></label><br>
+				<span class="unlisted">Unpaged</span><input type="checkbox" id="pages_listed" class="listed">
 			</div>
 
 			<div id="dimensions-block" class="standard-block">
@@ -355,13 +378,12 @@
 				<label title="Record the height of the piece in cm. Always round up, so that if a piece measures 25.1 cm, record 26 cm"><span class="question-mark">?</span></label>
 			</div>
 
-			<!--
 			<div id="illustrations-block" class="standard-block">
 				<label for="illustrations" class="heading">Does the item include illustrations?</label><br>
 				<input type="radio" name="illustrations" id="illustrations-yes" value="yes">Yes
 				<input type="radio" name="illustrations" id="illustrations-no" value="no">No
 			</div>
-			--!>
+
 			<div id="keywords" class="standard-block">
 				<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>
 				<input type="text" class="fastID hidden" id="fastID0">
@@ -372,7 +394,7 @@
 			</div>
 
 			<div id="notes-block">
-				<label for="notes">Notes</label><br>
+				<label for="notes">Notes to the Cataloger</label><br>
 				<textarea id="notes"></textarea>
 			</div>
 
@@ -385,7 +407,8 @@
 				<label for="filetype">Choose record formats:</label><br>
 				<input type="checkbox" id="MARC" class="filetype">MARC<br>
 				<input type="checkbox" id="MARCXML" class="filetype">MARCXML<br>
-				
+				<input type="checkbox" id="MODS" class="filetype">MODS<br>
+				<input type="checkbox" id="HTML" class="filetype">HTML
 			</div>
 
 			<div id="buttons" class="standard-block">
@@ -398,14 +421,15 @@
 			</div>
 		</form>
 		<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
-		<div id="version">Version 1.1 – Updated on 07/22/2024.
-		Metadata Maker for Government Documents created on 08/10/2015.</div>
-		<a id="code" href="https://github.com/dkudeki/metadata-maker/tree/GovDocs">GitHub</div>
+		<div id="version">Version 1.1 – Updated on 11/10/2022. Metadata Maker for Government Documents created on 08/10/2015.</div>
+		<a id="code" href="https://github.com/UIUCLibrary/metadata-maker/tree/GovDocs">GitHub</a></div>
 		
 		<script src="metadatamaker/generalInteractions.js"></script>
 		<script src="metadatamaker/topBar.js"></script>
 		<script src="metadatamaker/downloadMARC.js"></script>
-		
+		<script src="metadatamaker/downloadMODS.js"></script>
+		<script src="metadatamaker/downloadHTML.js"></script>
+		<script src="metadatamaker/submitForm.js"></script>
 	</div>
 </body>
 
