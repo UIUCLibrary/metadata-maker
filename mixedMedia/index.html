@@ -189,7 +189,7 @@
 			</div>
 			</div>--!>
 			
-			<div id="names_title" class="heading">Manufacturer<br></div>
+			<!--<div id="names_title" class="heading">Manufacturer<br></div>
 			<div id="corporate-block">
 				<label for="corporate_name" class="heading">Names</label><label for="corporate_name" class="insert insert_corporate" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
 				<div id="insert-corporate_name"></div>
@@ -207,7 +207,7 @@
 					<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
 					<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
 					<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
-				</div>--!>
+				</div>
 			</div>
 
 			<!--<div id="author-block">
@@ -234,35 +234,35 @@
 					<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
 					<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
 				</div>
-			</div>-->
+			</div>--!>
 
 			<div id="publisher-block" class="standard-block">
-				<label for="publisher" class="heading">Name of publisher</label><label for="publisher" class="insert insert_normal" onClick='insertMenu("publisher");'>Insert Diacritics</label><br>
+				<label for="publisher" class="heading">Name of manufacturer</label></label><br>
 				<div id="insert-publisher"></div>
 				<input type="text" required id="publisher" class="conditional translit-listen">
-				<label title="Record the name of the publisher as it appears on the piece. Prefer the name that appears on the title page."><span class="question-mark">?</span></label><br>
+				<label title="Record the name of the manufacturer as it appears on the piece."><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="publisher_listed" class="listed">
 			</div>
-
+			<!--
 			<div id="translit-publisher-block" class="translit-publisher-block translit-block hidden standard-translit-block">
 				<label for="translit_publisher" class="hidden translit heading translit-publisher">Transliterated publisher</label><label for="translit_publisher" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_publisher");'>Insert Diacritics</label><br>
 				<div id="insert-translit_publisher" class="hidden translit translit-publisher"></div>
 				<input type="text" id="translit_publisher" class="hidden translit translit-publisher">
-			</div>
+			</div>--!>
 
 			<div id="place-block" class="standard-block">
-				<label for="place" class="heading">Place of publication</label><label for="place" class="insert insert_normal" onClick='insertMenu("place");'>Insert Diacritics</label><br>
+				<label for="place" class="heading">Place of manufacturer</label><br>
 				<div id="insert-place"></div>
 				<input type="text" required id="place" class="conditional translit-listen">
-				<label title="Record the place of publication as it appears on the piece. Prefer the place that appears on the title page. If there is more than one place, record only one. E.g., Boston, Massachusetts"><span class="question-mark">?</span></label><br>
+				<label title="Record the place of manufacturer as it appears on the piece. Prefer the place that appears on the title page. If there is more than one place, record only one. E.g., Boston, Massachusetts"><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="place_listed" class="listed">
 			</div>
 
-			<div id="translit-place-block" class="translit-place-block translit-block hidden standard-translit-block">
+			<!--<div id="translit-place-block" class="translit-place-block translit-block hidden standard-translit-block">
 				<label for="translit_place" class="hidden translit heading translit-place">Transliterated place</label><label for="translit_place" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_place");'>Insert Diacritics</label><br>
 				<div id="insert-translit_place" class="hidden translit translit-publisher"></div>
 				<input type="text" id="translit_place" class="hidden translit translit-place">
-			</div>
+			</div>--!>
 
 			<div id="country-block" class="standard-block">
 				<label for="country" class="heading">State of publication</label><br>
