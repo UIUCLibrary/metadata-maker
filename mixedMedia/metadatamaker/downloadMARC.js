@@ -104,11 +104,11 @@ function create008Field(record) {
 
 	//18-21
 	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
-		array_of_008[18] = ' '
+		array_of_008[18] = 'a'
 	}
 
 	//22-32
-	array_of_008[28] = '0';
+	array_of_008[28] = 'f';
 	array_of_008[29] = '0';
 	array_of_008[30] = '0';
 	array_of_008[31] = '0';
@@ -354,13 +354,13 @@ function fillTitle(record,head,fieldFunc,subfieldFunc) {
 		var title_ind2 = '0';
 	}
 
-	/*var title_subfields = [];
+	var title_subfields = [];
 	if (checkExists(record.title[0]['subtitle'])) {
 		title_subfields.push(subfieldFunc('a',record.title[latin_index]['title'] + ' :'),subfieldFunc('b',record.title[latin_index]['subtitle'] + '.'));
 	}
 	else {
 		title_subfields.push(subfieldFunc('a',record.title[latin_index]['title'] + '.'));
-	}*/
+	}
 
 	if (latin_index === 1) {
 		title_subfields.push(subfieldFunc('6','880-01'));
@@ -369,33 +369,6 @@ function fillTitle(record,head,fieldFunc,subfieldFunc) {
 	var title = fieldFunc(tag,title_ind1,title_ind2,title_subfields);
 
 	return returnSingleEntry(tag,title,head);
-}
-
-function fillSubTitle(record,head,fieldFunc,subfieldFunc) {
-	var tag = '246';
-
-	if (checkExists(record.subfieldFunc)) {
-		var subfields = [];
-		if (checkExists(record.translit_subfield)) {
-			if (record.translit_subfield.substring(record.translit_subfield.length-1,record.translit_subfield.length) === '.') {
-				record.translit_subfield = record.translit_subfield.substring(0,record.translit_subfield.length-1);
-			}
-			subfields.push(subfieldFunc('a',record.translit_subfield + '.'));
-			subfields.push(subfieldFunc('6','880-04'));
-		}
-		else {
-			if (record.edition.substring(record.subfield.length-1,record.subfield.length) === '.') {
-				record.edition = record.edition.substring(0,record.subfield.length-1);
-			}
-			subfields.push(subfieldFunc('a',record.edition + '.'));
-		}
-		var edition = fieldFunc(tag,' ',' ',subfields);
-
-		return returnSingleEntry(tag,edition,head);
-	}
-	else {
-		return head !== null ? ['',''] : '';
-	}
 }
 
 function fillEdition(record,head,fieldFunc,subfieldFunc) {
@@ -607,7 +580,7 @@ function fillFAST(record,head,fieldFunc,subfieldFunc) {
 	}
 }
 
-/*function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
+function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 	var tag = '700';
 
 	if (checkExists(record.additional_authors)) {
@@ -689,7 +662,7 @@ function fillAdditionalCorporateNames(record,head,fieldFunc,subfieldFunc) {
 	else {
 		return head !== null ? ['','',head] : '';
 	}
-}*/
+}
 
 function fillTranslitTitle(record,head,fieldFunc,subfieldFunc) {
 	var tag = '880';
@@ -893,15 +866,15 @@ function downloadMARC(record,institution_info) {
 	var physical = fillPhysical(record,head,createContentFill,createSubfield);
 	head += getByteLength(physical[1]);
 
-	var default2_content = createContent('  ',[createSubfield('a','three-dimensional form'),createSubfield('b','tdf'),createSubfield('2','rdacontent')]);
+	var default2_content = createContent('  ',[createSubfield('a','text'),createSubfield('b','txt'),createSubfield('2','rdacontent')]);
 	var default2_directory = createDirectory('336',default2_content,head);
 	head += default2_content.length;
 
-	var default3_content = createContent('  ',[createSubfield('a','computer'),createSubfield('b','c'),createSubfield('2','rdamedia')]);
+	var default3_content = createContent('  ',[createSubfield('a','unmediated'),createSubfield('b','n'),createSubfield('2','rdamedia')]);
 	var default3_directory = createDirectory('337',default3_content,head);
 	head += default3_content.length;
 
-	var default4_content = createContent('  ',[createSubfield('a','other'),createSubfield('b','cz'),createSubfield('2','rdacarrier')]);
+	var default4_content = createContent('  ',[createSubfield('a','volume'),createSubfield('b','nc'),createSubfield('2','rdacarrier')]);
 	var default4_directory = createDirectory('338',default4_content,head);
 	head += default4_content.length;
 
@@ -964,12 +937,11 @@ function downloadXML(record,institution_info) {
 	text += fillAuthor(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillCorporateAuthor(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillTitle(record,null,createMARCXMLField,createMARCXMLSubfield);
-	text += fillOtherTitle(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillEdition(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillPublication(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillCopyright(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillPhysical(record,null,createMARCXMLField,createMARCXMLSubfield);
-	text += createMARCXMLField('336',' ',' ',[createMARCXMLSubfield('a','three-dimensional form'),createMARCXMLSubfield('b','tdf'),createMARCXMLSubfield('2','rdacontent')]) + createMARCXMLField('337',' ',' ',[createMARCXMLSubfield('a','computer'),createMARCXMLSubfield('b','c'),createMARCXMLSubfield('2','rdamedia')]) + createMARCXMLField('338',' ',' ',[createMARCXMLSubfield('a','other'),createMARCXMLSubfield('b','cz'),createMARCXMLSubfield('2','rdacarrier')]);
+	text += createMARCXMLField('336',' ',' ',[createMARCXMLSubfield('a','text'),createMARCXMLSubfield('b','txt'),createMARCXMLSubfield('2','rdacontent')]) + createMARCXMLField('337',' ',' ',[createMARCXMLSubfield('a','unmediated'),createMARCXMLSubfield('b','n'),createMARCXMLSubfield('2','rdamedia')]) + createMARCXMLField('338',' ',' ',[createMARCXMLSubfield('a','volume'),createMARCXMLSubfield('b','nc'),createMARCXMLSubfield('2','rdacarrier')]);
 	text += fillNotes(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillKeywords(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillFAST(record,null,createMARCXMLField,createMARCXMLSubfield);
