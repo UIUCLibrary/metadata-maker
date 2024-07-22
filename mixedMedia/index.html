@@ -131,7 +131,7 @@
 				<input type="text" required id="subtitle" class="conditional">
 				<label title="Record the subtitle if one exists"><span class="question-mark">?</span></label><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="subtitle_listed" class="listed">
-				<input type="button" value="+" id="add-button" onClick="addKeyword();">
+				<input type="button" value="+" id="add-button" onClick="addOtherTitle();">
 			</div>
 
 			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
@@ -179,9 +179,9 @@
 				<div id="insert-sudoc"></div>
 				<input type="text" class="conditional" required id="sudoc"><br>
 				<span class="unlisted">Unlisted</span><input type="checkbox" id="sudoc_listed" class="listed">
-			</div>
+			</div>-->
 			
-			<div id="report-number-block" class="standard-block">
+			<!--<div id="report-number-block" class="standard-block">
 				<label for="report-number" class="heading">Report number</label><label for="report-number" class="insert insert_normal" onClick='insertMenu("report-number");'>Insert Diacritics</label></br>
 				<div id="insert-report-number"></div>
 				<input type="text" class="conditional" required id="report-number"><br>
@@ -339,11 +339,11 @@
 			</div>
 
 			<div id="pages-block" class="standard-block">
-				<label for="number" class="heading">Number of items><span class="required_marker">*</span></label><br>
+				<label for="number" class="heading">Number of items<span class="required_marker">*</span></label><br>
 				<!--<select name="vorp" id="vorp">
 					<option selected value="pages">pages</option>
 					<option value="volumes">volumes</option>
-				</select> --!><br>
+				</select> --!>
 				<input type="text" required id="pages" class="conditional">
 				<label title="Record the number of items" class="question-mark">?</span></label><br>
 				<span class="unlisted">Unpaged</span><input type="checkbox" id="pages_listed" class="listed">
