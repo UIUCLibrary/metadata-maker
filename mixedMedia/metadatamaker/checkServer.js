@@ -1,12 +1,13 @@
 function buildRedirectURL(servername) {
 	console.log(servername)
-	var new_url = servername.replace("iisdev1","quest");
+	var domain_start = servername.indexOf('://') + 3;
+	var new_url = servername.replace(servername.slice(domain_start,domain_start + servername.slice(domain_start).indexOf('/')),"metadatamaker.library.illinois.edu");
 	console.log(new_url)
 	return new_url
 }
 
 var servername = window.location.href ;
-if (servername.indexOf('quest') < 0) {
+if (servername.indexOf('metadatamaker.library.illinois.edu') < 0) {
 	console.log('WRONG SERVER');
 	console.log(servername)
 	var newdiv = document.createElement('span');
