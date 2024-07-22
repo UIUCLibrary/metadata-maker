@@ -39,4 +39,4 @@ The information for the organization creating the record can be altered via the 
 
 ## Contact info
 
-Comments and questions can be directed to Deren Kudeki at dkudeki@illinois.edu and Myung-Ja Han at mhan3@illinois.edu
+Comments and questions can be directed to Myung-Ja Han at mhan3@illinois.edu
