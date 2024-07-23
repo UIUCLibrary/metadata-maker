@@ -104,11 +104,11 @@ function create008Field(record) {
 
 	//18-21
 	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
-		array_of_008[18] = 'a'
+		array_of_008[18] = ' '
 	}
 
 	//22-32
-	array_of_008[28] = 'f';
+	array_of_008[28] = ' ';
 	array_of_008[29] = '0';
 	array_of_008[30] = '0';
 	array_of_008[31] = '0';
@@ -117,9 +117,9 @@ function create008Field(record) {
 	array_of_008[33] = '0';
 
 	//34-39
-	array_of_008[35] = 'e';
-	array_of_008[36] = 'n';
-	array_of_008[37] = 'g';
+	array_of_008[35] = 'z';
+	array_of_008[36] = 'x';
+	array_of_008[37] = 'x';
 	array_of_008[39] = 'd';
 	var controlfield008 = '';
 	for (var i = 0; i < 40; i++) {
@@ -463,14 +463,14 @@ function fillPhysical (record,head,fieldFunc,subfieldFunc) {
 
 	var physical_subfields = [];
 
-	if (record.pages === '0' || record.unpaged || (record.volume_or_page === 'volumes' && record.pages === '1')) {
+	if (record.pages === '0' || record.unpaged || (record.volume_or_item === 'volumes' && record.items === '1')) {
 		var pages_string = '1 volume (unpaged)';
 	}
 	else if (record.pages === '1') {
-		var pages_string = '1 page';
+		var pages_string = '1 item';
 	}
 	else {
-		var pages_string = record.pages + ' ' + record.volume_or_page;
+		var pages_string = record.pages + ' ' + record.volume_or_item;
 	}
 
 	if (checkExists(record.illustrations_yes) && record.illustrations_yes == true) {
@@ -866,15 +866,15 @@ function downloadMARC(record,institution_info) {
 	var physical = fillPhysical(record,head,createContentFill,createSubfield);
 	head += getByteLength(physical[1]);
 
-	var default2_content = createContent('  ',[createSubfield('a','text'),createSubfield('b','txt'),createSubfield('2','rdacontent')]);
+	var default2_content = createContent('  ',[createSubfield('a','three-dimensional form'),createSubfield('b','tdf'),createSubfield('2','rdacontent')]);
 	var default2_directory = createDirectory('336',default2_content,head);
 	head += default2_content.length;
 
-	var default3_content = createContent('  ',[createSubfield('a','unmediated'),createSubfield('b','n'),createSubfield('2','rdamedia')]);
+	var default3_content = createContent('  ',[createSubfield('a','computer'),createSubfield('b','c'),createSubfield('2','rdamedia')]);
 	var default3_directory = createDirectory('337',default3_content,head);
 	head += default3_content.length;
 
-	var default4_content = createContent('  ',[createSubfield('a','volume'),createSubfield('b','nc'),createSubfield('2','rdacarrier')]);
+	var default4_content = createContent('  ',[createSubfield('a','other'),createSubfield('b','cz'),createSubfield('2','rdacarrier')]);
 	var default4_directory = createDirectory('338',default4_content,head);
 	head += default4_content.length;
 
@@ -941,7 +941,7 @@ function downloadXML(record,institution_info) {
 	text += fillPublication(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillCopyright(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillPhysical(record,null,createMARCXMLField,createMARCXMLSubfield);
-	text += createMARCXMLField('336',' ',' ',[createMARCXMLSubfield('a','text'),createMARCXMLSubfield('b','txt'),createMARCXMLSubfield('2','rdacontent')]) + createMARCXMLField('337',' ',' ',[createMARCXMLSubfield('a','unmediated'),createMARCXMLSubfield('b','n'),createMARCXMLSubfield('2','rdamedia')]) + createMARCXMLField('338',' ',' ',[createMARCXMLSubfield('a','volume'),createMARCXMLSubfield('b','nc'),createMARCXMLSubfield('2','rdacarrier')]);
+	text += createMARCXMLField('336',' ',' ',[createMARCXMLSubfield('a','three-dimensional form'),createMARCXMLSubfield('b','tdf'),createMARCXMLSubfield('2','rdacontent')]) + createMARCXMLField('337',' ',' ',[createMARCXMLSubfield('a','computer'),createMARCXMLSubfield('b','c'),createMARCXMLSubfield('2','rdamedia')]) + createMARCXMLField('338',' ',' ',[createMARCXMLSubfield('a','other'),createMARCXMLSubfield('b','cz'),createMARCXMLSubfield('2','rdacarrier')]);
 	text += fillNotes(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillKeywords(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text += fillFAST(record,null,createMARCXMLField,createMARCXMLSubfield);
