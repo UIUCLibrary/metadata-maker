@@ -152,11 +152,13 @@ function addKeyword() {
 	if (counter < 50) {
 		var newdiv = document.createElement('div');
 		newdiv.className = 'added added-keyword';
-		newdiv.innerHTML = '	<br><input type="text" class="keyword" link= "" type = "" id="keyword' + counter + '">';
+		newdiv.innerHTML = '	<br><input type="text" class="fastID hidden" id="fastID' + counter + '"><input type="text" class="fastType hidden" id="fastType' + counter + '"><input type="text" class="fastInd hidden" id="fastInd' + counter + '"><input type="text" class="keyword" id="keyword' + counter +'">';
 		$("#keywords").append(newdiv);
 		counter++;
+		setUpPage(counter-1);
 	}
 };
+
 
 /*
  * Adds additional input fields so multiple authors or other contributors can be added. Each input field behaves
