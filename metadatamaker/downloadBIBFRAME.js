@@ -45,6 +45,47 @@
  	return sliceFastURI(fastURI.slice(1,fastURI.length));
  }
 
+ function buildAdminMetadata(doc,workEl) {
+ 	//Admin Metadata
+ 	const adminMetadataEl = doc.createElement("bf:adminMetadata");
+ 	const AdminMetadataEl = doc.createElement("bf:AdminMetadata");
+
+ 	//Encoding Level
+ 	const encodingLevelEl = doc.createElement("bflc:encodingLevel");
+ 	const EncodingLevelEl = doc.createElement("bflc:EncodingLevel");
+ 	EncodingLevelEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/menclvl/7");
+ 	encodingLevelEl.appendChild(EncodingLevelEl);
+ 	AdminMetadataEl.appendChild(encodingLevelEl);
+
+ 	//Description Language
+ 	const descriptionLanguageEl = doc.createElement("bf:descriptionLanguage");
+ 	const admin_languageEl = doc.createElement("bf:Language");
+ 	admin_languageEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/languages/eng");
+ 	descriptionLanguageEl.appendChild(admin_languageEl);
+ 	AdminMetadataEl.appendChild(descriptionLanguageEl);
+
+ 	//Description Conventions
+ 	const descriptionConventionsEl = doc.createElement("bf:descriptionConventions");
+ 	const DescriptionConventionsEl = doc.createElement("bf:DescriptionConventions");
+ 	DescriptionConventionsEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/descriptionConventions/rda");
+ 	descriptionConventionsEl.appendChild(DescriptionConventionsEl);
+ 	AdminMetadataEl.appendChild(descriptionConventionsEl);
+
+ 	//Generation Process
+ 	const today = new Date();
+ 	const generationProcessEl = doc.createElement("bf:generationProcess");
+ 	const GenerationProcessEl = doc.createElement("bf:GenerationProcess");
+ 	const genProcessLabelEl = doc.createElement("rdfs:label");
+ 	const genProcessLabelTextEl = doc.createTextNode(`Metadata Maker v1.2, BIBFRAME 2.0 RDFXML; ${today.toISOString()}`);
+ 	genProcessLabelEl.appendChild(genProcessLabelTextEl);
+ 	GenerationProcessEl.appendChild(genProcessLabelEl);
+ 	generationProcessEl.appendChild(GenerationProcessEl);
+ 	AdminMetadataEl.appendChild(generationProcessEl);
+ 	
+ 	adminMetadataEl.appendChild(AdminMetadataEl);
+ 	workEl.appendChild(adminMetadataEl);
+ }
+
 /*
  * Build a BIBFRAME record. Each DOM object is saved as a string, then all the strings are combined into one master text
  *
@@ -78,7 +119,33 @@
  		'55': 'genre'
  	}
 
- 	var startText = '<?xml version="1.0" encoding="UTF-8"?>\n<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"\n    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"\n    xmlns:bf="http://id.loc.gov/ontologies/bibframe/"\n    xmlns:bflc="http://id.loc.gov/ontologies/bflc/"\n    xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n';
+ 	const id = crypto.randomUUID();
+ 	const startText = '<?xml version="1.0" encoding="UTF-8"?>\n<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bf="http://id.loc.gov/ontologies/bibframe/" xmlns:bflc="http://id.loc.gov/ontologies/bflc/" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n</rdf:RDF>';
+ 	const parser = new DOMParser();
+ 	const doc = parser.parseFromString(startText, "application/xml");
+
+ 	//Work
+ 	const workEl = doc.createElement("bf:Work");
+ 	workEl.setAttribute("rdf:about",`http://example.org/${id}#Work`);
+
+ 	const hasInstanceEl = doc.createElement("bf:hasInstance");
+ 	hasInstanceEl.setAttribute("rdf:resource",`http://example.org/${id}#Instance`);
+
+ 	//Instance
+ 	const instanceEl = doc.createElement("bf:Instance");
+ 	instanceEl.setAttribute("rdf:about",`http://example.org/${id}#Instance`);
+
+ 	const instanceOfEl = doc.createElement("bf:instanceOf");
+ 	instanceOfEl.setAttribute("rdf:resource",`http://example.org/${id}#Work`);
+
+ 	buildAdminMetadata(doc,workEl);
+
+ 	workEl.appendChild(hasInstanceEl);
+ 	instanceEl.appendChild(instanceOfEl);
+ 	doc.getElementsByTagName("rdf:RDF")[0].appendChild(workEl);
+ 	doc.getElementsByTagName("rdf:RDF")[0].appendChild(instanceEl);
+
+/* 	var startText = '<?xml version="1.0" encoding="UTF-8"?>\n<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"\n    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"\n    xmlns:bf="http://id.loc.gov/ontologies/bibframe/"\n    xmlns:bflc="http://id.loc.gov/ontologies/bflc/"\n    xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n';
 
  	var adminText = '        <bf:adminMetadata>\n            <bf:AdminMetadata>\n                <bflc:encodingLevel>\n                    <bflc:EncodingLevel rdf:about="http://id.loc.gov/vocabulary/menclvl/7"/>\n                </bflc:encodingLevel>\n                <bf:assigner>\n                <bf:descriptionLanguage>\n                    <bf:Language rdf:about="http://id.loc.gov/vocabulary/languages/eng"/>\n                </bf:descriptionLanguage>\n                <bf:descriptionConventions>\n                    <bf:DescriptionConventions rdf:about="http://id.loc.gov/vocabulary/descriptionConventions/rda"/>\n                </bf:descriptionConventions>\n                <bf:generationProcess>\n                    <bf:GenerationProcess>\n                        <rdfs:label>Metadata Maker v1.1, BIBFRAME 2.0 RDFXML; ';
 
@@ -193,6 +260,7 @@
 
 	var endText = '</rdf:RDF>';
 
-	var text = startText + workText + adminText + genreText + authorText + titleText + subjectText + workEndText + instanceText + endText;
-	downloadFile(text,'bibframe');
+	var text = startText + workText + adminText + genreText + authorText + titleText + subjectText + workEndText + instanceText + endText;*/
+	const serializer = new XMLSerializer();
+	downloadFile(serializer.serializeToString(doc),'bibframe');
 }
