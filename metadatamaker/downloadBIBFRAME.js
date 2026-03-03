@@ -46,7 +46,6 @@
  }
 
  function buildAdminMetadata(doc,workEl) {
- 	//Admin Metadata
  	const adminMetadataEl = doc.createElement("bf:adminMetadata");
  	const AdminMetadataEl = doc.createElement("bf:AdminMetadata");
 
@@ -76,12 +75,12 @@
  	const generationProcessEl = doc.createElement("bf:generationProcess");
  	const GenerationProcessEl = doc.createElement("bf:GenerationProcess");
  	const genProcessLabelEl = doc.createElement("rdfs:label");
- 	const genProcessLabelTextEl = doc.createTextNode(`Metadata Maker v1.2, BIBFRAME 2.0 RDFXML; ${today.toISOString()}`);
- 	genProcessLabelEl.appendChild(genProcessLabelTextEl);
+ 	const genProcessLabelText = doc.createTextNode(`Metadata Maker v1.2, BIBFRAME 2.0 RDFXML; ${today.toISOString()}`);
+ 	genProcessLabelEl.appendChild(genProcessLabelText);
  	GenerationProcessEl.appendChild(genProcessLabelEl);
  	generationProcessEl.appendChild(GenerationProcessEl);
  	AdminMetadataEl.appendChild(generationProcessEl);
- 	
+
  	adminMetadataEl.appendChild(AdminMetadataEl);
  	workEl.appendChild(adminMetadataEl);
  }
@@ -138,7 +137,48 @@
  	const instanceOfEl = doc.createElement("bf:instanceOf");
  	instanceOfEl.setAttribute("rdf:resource",`http://example.org/${id}#Work`);
 
+ 	//Admin Metadata
  	buildAdminMetadata(doc,workEl);
+
+ 	//Title
+ 	const titleEl = doc.createElement("bf:title");
+ 	const TitleEl = doc.createElement("bf:Title");
+ 	const mainTitleEl = doc.createElement("bf:mainTitle");
+ 	const MainTitleText = doc.createTextNode(escapeXML(record.title[0]['title']));
+ 	mainTitleEl.appendChild(MainTitleText);
+ 	TitleEl.appendChild(mainTitleEl);
+
+ 	//Subtitle
+ 	if (checkExists(record.title[0]['subtitle'])) {
+ 		worksubtitleEl = doc.createElement("bf:subtitle");
+ 		worksubtitleText = doc.createTextNode(escapeXML(record.title[0]['subtitle']));
+ 		worksubtitleEl.appendChild(worksubtitleText);
+ 		TitleEl.appendChild(worksubtitleEl);
+ 	}
+ 	titleEl.appendChild(TitleEl);
+
+ 	//Transliterated Title
+ 	if (checkExists(record.title[1]['title'])) {
+ 		const TransliteratedTitleEl = doc.createElement("bf:TransliteratedTitle");
+	 	const transliteratedmainTitleEl = doc.createElement("bf:mainTitle");
+	 	const transliteratedmainTitleText = doc.createTextNode(escapeXML(record.title[1]['title']));
+	 	transliteratedmainTitleEl.appendChild(transliteratedmainTitleText);
+	 	TransliteratedTitleEl.appendChild(transliteratedmainTitleEl);
+
+	 	//Transliterated Subtitle
+	 	if (checkExists(record.title[1]['subtitle'])) {
+	 		const transliteratedsubtitleEl = doc.createElement("bf:subtitle");
+	 		const transliteratedsubtitleText = doc.createTextNode(escapeXML(record.title[1]['subtitle']));
+	 		transliteratedsubtitleEl.appendChild(transliteratedsubtitleText);
+	 		TransliteratedTitleEl.appendChild(transliteratedsubtitleEl);
+	 	}
+
+	 	titleEl.appendChild(TransliteratedTitleEl);
+ 	}
+ 	
+ 	workEl.appendChild(titleEl);
+ 	instancetitleEl = titleEl.cloneNode(true);
+ 	instanceEl.appendChild(instancetitleEl);
 
  	workEl.appendChild(hasInstanceEl);
  	instanceEl.appendChild(instanceOfEl);
