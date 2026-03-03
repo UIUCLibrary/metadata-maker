@@ -197,6 +197,14 @@
  	extentEl.appendChild(ExtentEl);
  	instanceEl.appendChild(extentEl);
 
+ 	//Edition
+ 	if (checkExists(record.edition)) {
+ 		const editionStatementEl = doc.createElement("bf:editionStatement");
+ 		const editionStatementText = doc.createTextNode(escapeXML(record.edition));
+ 		editionStatementEl.appendChild(editionStatementText);
+ 		instanceEl.appendChild(editionStatementEl);
+ 	}
+
  	workEl.appendChild(hasInstanceEl);
  	instanceEl.appendChild(instanceOfEl);
  	doc.getElementsByTagName("rdf:RDF")[0].appendChild(workEl);
