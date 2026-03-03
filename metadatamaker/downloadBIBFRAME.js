@@ -144,14 +144,14 @@
  	const titleEl = doc.createElement("bf:title");
  	const TitleEl = doc.createElement("bf:Title");
  	const mainTitleEl = doc.createElement("bf:mainTitle");
- 	const MainTitleText = doc.createTextNode(escapeXML(record.title[0]['title']));
+ 	const MainTitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[0]['title'])));
  	mainTitleEl.appendChild(MainTitleText);
  	TitleEl.appendChild(mainTitleEl);
 
  	//Subtitle
  	if (checkExists(record.title[0]['subtitle'])) {
  		worksubtitleEl = doc.createElement("bf:subtitle");
- 		worksubtitleText = doc.createTextNode(escapeXML(record.title[0]['subtitle']));
+ 		worksubtitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[0]['subtitle'])));
  		worksubtitleEl.appendChild(worksubtitleText);
  		TitleEl.appendChild(worksubtitleEl);
  	}
@@ -161,14 +161,14 @@
  	if (checkExists(record.title[1]['title'])) {
  		const TransliteratedTitleEl = doc.createElement("bf:TransliteratedTitle");
 	 	const transliteratedmainTitleEl = doc.createElement("bf:mainTitle");
-	 	const transliteratedmainTitleText = doc.createTextNode(escapeXML(record.title[1]['title']));
+	 	const transliteratedmainTitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[1]['title'])));
 	 	transliteratedmainTitleEl.appendChild(transliteratedmainTitleText);
 	 	TransliteratedTitleEl.appendChild(transliteratedmainTitleEl);
 
 	 	//Transliterated Subtitle
 	 	if (checkExists(record.title[1]['subtitle'])) {
 	 		const transliteratedsubtitleEl = doc.createElement("bf:subtitle");
-	 		const transliteratedsubtitleText = doc.createTextNode(escapeXML(record.title[1]['subtitle']));
+	 		const transliteratedsubtitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[1]['subtitle'])));
 	 		transliteratedsubtitleEl.appendChild(transliteratedsubtitleText);
 	 		TransliteratedTitleEl.appendChild(transliteratedsubtitleEl);
 	 	}
@@ -186,6 +186,16 @@
  	LanguageEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/languages/${record.language}`);
  	languageEl.appendChild(LanguageEl);
  	workEl.appendChild(languageEl);
+
+ 	//Dimensions
+ 	const extentEl = doc.createElement("bf:extent");
+ 	const ExtentEl = doc.createElement("bf:Extent");
+ 	const extentLabelEl = doc.createElement("rdfs:label");
+ 	const extentLabelText = doc.createTextNode(`${record.dimensions.trim()} cm`);
+ 	extentLabelEl.appendChild(extentLabelText);
+ 	ExtentEl.appendChild(extentLabelEl);
+ 	extentEl.appendChild(ExtentEl);
+ 	instanceEl.appendChild(extentEl);
 
  	workEl.appendChild(hasInstanceEl);
  	instanceEl.appendChild(instanceOfEl);
