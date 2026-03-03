@@ -180,6 +180,13 @@
  	instancetitleEl = titleEl.cloneNode(true);
  	instanceEl.appendChild(instancetitleEl);
 
+ 	//Language
+ 	const languageEl = doc.createElement("bf:language");
+ 	const LanguageEl = doc.createElement("bf:Language");
+ 	LanguageEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/languages/${record.language}`);
+ 	languageEl.appendChild(LanguageEl);
+ 	workEl.appendChild(languageEl);
+
  	workEl.appendChild(hasInstanceEl);
  	instanceEl.appendChild(instanceOfEl);
  	doc.getElementsByTagName("rdf:RDF")[0].appendChild(workEl);
