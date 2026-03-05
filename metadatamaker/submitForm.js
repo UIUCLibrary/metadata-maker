@@ -143,7 +143,7 @@ $("#marc-maker").submit(function(event) {
 		publisher: $("#publisher").val(),
 		publication_year: $("#year").val(),
 		publication_place: $("#place").val(),
-		publication_country: $("#country").val(),
+		publication_country: $("#country").val() ? {code: $("#country").val(), text: $("#country option:selected").text()} : undefined,
 		copyright_year: $("#cyear").val(),
 		language: $("#language").val(),
 		isbn: $("#isbn").val(),

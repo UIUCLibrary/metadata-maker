@@ -102,22 +102,27 @@
  }
 
  function addContributor(doc,workEl,contributor,primary=false) {
- 	const role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator', 'pbl': 'publisher'};
+ 	const role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
 
  	const contributionEl = doc.createElement("bf:contribution");
  	const ContributionEl = doc.createElement("bf:Contribution");
+
  	//Primary Contributor
  	if (primary) {
  		const contributorTypeEl = doc.createElement("rdf:type");
  		contributorTypeEl.setAttribute("rdf:resource","http://id.loc.gov/ontologies/bflc/PrimaryContribution");
  		ContributionEl.appendChild(contributorTypeEl);
  	}
+
+ 	//Agent
  	const agentEl = doc.createElement("bf:agent");
  	const AgentEl = doc.createElement("bf:Agent");
+
  	//Person
  	const agentTypeEl = doc.createElement("rdf:type");
  	agentTypeEl.setAttribute("rdf:resource","http://id.loc.gov/ontologies/bibframe/Person");
  	AgentEl.appendChild(agentTypeEl);
+
  	//Label
  	const agentLabelTextValue = formatContributorName(contributor);
  	if (agentLabelTextValue) {
@@ -129,6 +134,7 @@
  	agentEl.appendChild(AgentEl);
  	ContributionEl.appendChild(agentEl);
 
+ 	//Role
  	const roleCode = contributor[0]['role'];
  	const roleEl = doc.createElement("bf:role");
  	const RoleEl = doc.createElement("bf:Role");
@@ -288,6 +294,74 @@
  		}
  	}
 
+ 	//Provision Activity
+ 	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.publication_year)) {
+ 		const provisionActivityEl = doc.createElement("bf:provisionActivity");
+ 		const ProvisionActivityEl = doc.createElement("bf:ProvisionActivity");
+ 		const provisionActivityTypeEl = doc.createElement("rdf:type");
+ 		provisionActivityTypeEl.setAttribute("rdf:resource","http://id.loc.gov/ontologies/bibframe/Publication");
+ 		ProvisionActivityEl.appendChild(provisionActivityTypeEl);
+
+ 		//Publication Date
+ 		if (checkExists(record.publication_year)) {
+ 			const dateEl = doc.createElement("bf:date");
+ 			dateEl.setAttribute("rdf:datatype","http://id.loc.gov/datatypes/edtf");
+ 			const dateText = doc.createTextNode(record.publication_year);
+ 			dateEl.appendChild(dateText);
+ 			ProvisionActivityEl.appendChild(dateEl);
+ 		}
+
+ 		//Publication Place
+ 		if (checkExists(record.publication_place)) {
+ 			const placeEl = doc.createElement("bf:place");
+ 			const PlaceEl = doc.createElement("bf:Place");
+ 			const placelabelEl = doc.createElement("rdfs:label");
+ 			const placelabelText = doc.createTextNode(escapeXML(record.publication_place));
+ 			placelabelEl.appendChild(placelabelText);
+ 			PlaceEl.appendChild(placelabelEl);
+ 			placeEl.appendChild(PlaceEl);
+ 			ProvisionActivityEl.appendChild(placeEl);
+ 		}
+
+ 		//Publication Country/State/Province
+ 		if (checkExists(record.publication_country)) {
+ 			const countryplaceEl = doc.createElement("bf:place");
+ 			const countryPlaceEl = doc.createElement("bf:Place");
+ 			countryPlaceEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/countries/${record.publication_country.code}`);
+ 			const countryLabelEl = doc.createElement("rdfs:label");
+ 			const countryLabelText = doc.createTextNode(record.publication_country.text);
+ 			countryLabelEl.appendChild(countryLabelText);
+ 			countryLabelEl.setAttribute("xml:lang","en");
+ 			countryPlaceEl.appendChild(countryLabelEl);
+ 			countryplaceEl.appendChild(countryPlaceEl);
+ 			ProvisionActivityEl.appendChild(countryplaceEl);
+ 		}
+
+ 		//Publisher Name
+ 		if (checkExists(record.publisher)) {
+ 			const provisionActivityagentEl = doc.createElement("bf:agent");
+ 			const provisionActivityAgentEl = doc.createElement("bf:Agent");
+ 			const provisionActivityagentlabelEl = doc.createElement("rdfs:label");
+ 			const provisionActivityagentlabelText = doc.createTextNode(escapeXML(record.publisher));
+ 			provisionActivityagentlabelEl.appendChild(provisionActivityagentlabelText);
+ 			provisionActivityAgentEl.appendChild(provisionActivityagentlabelEl);
+ 			provisionActivityagentEl.appendChild(provisionActivityAgentEl);
+ 			ProvisionActivityEl.appendChild(provisionActivityagentEl);
+ 		}
+
+ 		provisionActivityEl.appendChild(ProvisionActivityEl);
+ 		instanceEl.appendChild(provisionActivityEl);
+ 	}
+
+ 	//Copyright Date
+ 	if (checkExists(record.copyright_year)) {
+ 		const copyrightDateEl = doc.createElement("bf:copyrightDate");
+ 		copyrightDateEl.setAttribute("rdf:datatype","http://id.loc.gov/datatypes/edtf");
+ 		const copyrightDateText = doc.createTextNode(record.copyright_year);
+ 		copyrightDateEl.appendChild(copyrightDateText);
+ 		instanceEl.appendChild(copyrightDateEl);
+ 	}
+
  	workEl.appendChild(hasInstanceEl);
  	instanceEl.appendChild(instanceOfEl);
  	doc.getElementsByTagName("rdf:RDF")[0].appendChild(workEl);
@@ -372,11 +446,11 @@
 
 	var provisionText ='';
 	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.publication_year) || checkExists(record.copyright_year) || checkExists(record.edition)) {
-		provisionText += '        <bf:provisionActivity>\n            <bf:ProvisionActivity>\n                <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Publication"/>\n';
+		provisionText += '        <bf:provisionActivity>\n            <bf:ProvisionActconst placeEl = doc.creaivity>\n                <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Publication"/>\n';
 
 		if (checkExists(record.publication_place)) {
-			provisionText += '                <bf:place>\n                    <bf:Place>\n            			<rdfs:label>' + escapeXML(record.publication_place) + '</rdfs:label>\n                    </bf:Place>\n                </bf:place>\n';
-		}
+			provisionText += '                <const placeEl = doc.creabf:place>\n                    <bf:Place>\n            			<rdfs:label>' + escapeXML(record.publication_place) + '</rdfs:label>\n                    </bf:Place>\n                </bf:place>\n';
+		}const placeEl = doc.crea
 
 		if (checkExists(record.publication_country)) {
 			provisionText += '                <bf:place>\n                    <bf:Place rdf:about="http://id.loc.gov/vocabulary/countries/' + record.publication_country + '"/>\n                </bf:place>\n';
