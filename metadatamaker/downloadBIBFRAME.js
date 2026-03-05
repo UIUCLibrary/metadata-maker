@@ -85,6 +85,69 @@
  	workEl.appendChild(adminMetadataEl);
  }
 
+ function formatContributorName(name_object) {
+ 	console.log(name_object);
+ 	if (checkExists(name_object[0]['family']) && checkExists(name_object[0]['given'])) {
+ 		return `${escapeXML(name_object[0]['family'])}, ${escapeXML(name_object[0]['given'])}`;
+ 	}
+ 	else if (checkExists(name_object[0]['family'])) {
+ 		return escapeXML(name_object[0]['family']);
+ 	}
+ 	else if (checkExists(name_object[0]['given'])) {
+ 		return escapeXML(name_object[0]['given']);
+ 	}
+ 	else {
+ 		return null;
+ 	}
+ }
+
+ function addContributor(doc,workEl,contributor,primary=false) {
+ 	const role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator', 'pbl': 'publisher'};
+
+ 	const contributionEl = doc.createElement("bf:contribution");
+ 	const ContributionEl = doc.createElement("bf:Contribution");
+ 	//Primary Contributor
+ 	if (primary) {
+ 		const contributorTypeEl = doc.createElement("rdf:type");
+ 		contributorTypeEl.setAttribute("rdf:resource","http://id.loc.gov/ontologies/bflc/PrimaryContribution");
+ 		ContributionEl.appendChild(contributorTypeEl);
+ 	}
+ 	const agentEl = doc.createElement("bf:agent");
+ 	const AgentEl = doc.createElement("bf:Agent");
+ 	//Person
+ 	const agentTypeEl = doc.createElement("rdf:type");
+ 	agentTypeEl.setAttribute("rdf:resource","http://id.loc.gov/ontologies/bibframe/Person");
+ 	AgentEl.appendChild(agentTypeEl);
+ 	//Label
+ 	const agentLabelTextValue = formatContributorName(contributor);
+ 	if (agentLabelTextValue) {
+ 		const agentLabelEl = doc.createElement("rdfs:label");
+ 		const agentLabelText = doc.createTextNode(agentLabelTextValue);
+ 		agentLabelEl.appendChild(agentLabelText);
+ 		AgentEl.appendChild(agentLabelEl);
+ 	}
+ 	agentEl.appendChild(AgentEl);
+ 	ContributionEl.appendChild(agentEl);
+
+ 	const roleCode = contributor[0]['role'];
+ 	const roleEl = doc.createElement("bf:role");
+ 	const RoleEl = doc.createElement("bf:Role");
+ 	RoleEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/relators/${roleCode}`);
+ 	const rolelabelEl = doc.createElement("rdfs:label");
+ 	const rolelabelText = doc.createTextNode(role_index[roleCode]);
+ 	rolelabelEl.appendChild(rolelabelText);
+ 	RoleEl.appendChild(rolelabelEl);
+ 	const codeEl = doc.createElement("bf:code");
+ 	const codeText = doc.createTextNode(roleCode);
+ 	codeEl.appendChild(codeText);
+ 	RoleEl.appendChild(codeEl);
+ 	roleEl.appendChild(RoleEl);
+ 	ContributionEl.appendChild(roleEl);
+
+ 	contributionEl.appendChild(ContributionEl);
+ 	workEl.appendChild(contributionEl);
+ }
+
 /*
  * Build a BIBFRAME record. Each DOM object is saved as a string, then all the strings are combined into one master text
  *
@@ -203,6 +266,26 @@
  		const editionStatementText = doc.createTextNode(escapeXML(record.edition));
  		editionStatementEl.appendChild(editionStatementText);
  		instanceEl.appendChild(editionStatementEl);
+ 	}
+
+ 	//ISBN
+ 	if (checkExists(record.isbn)) {
+ 		const isbnidentifiedByEl = doc.createElement("bf:identifiedBy");
+ 		const isbnEl = doc.createElement("bf:Isbn");
+ 		const isbnValeEl = doc.createElement("rdf:value");
+ 		const isbnValText = doc.createTextNode(record.isbn);
+ 		isbnValeEl.appendChild(isbnValText);
+ 		isbnEl.appendChild(isbnValeEl);
+ 		isbnidentifiedByEl.appendChild(isbnEl);
+ 		instanceEl.appendChild(isbnidentifiedByEl);
+ 	}
+
+ 	//Contributors
+ 	addContributor(doc,workEl,record.author,true);
+ 	if (checkExists(record.additional_authors)) {
+ 		for (var i = 0; i < record.additional_authors.length; i++) {
+ 			addContributor(doc,workEl,record.additional_authors[i]);
+ 		}
  	}
 
  	workEl.appendChild(hasInstanceEl);
