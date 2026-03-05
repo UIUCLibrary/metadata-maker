@@ -354,14 +354,10 @@
  	}
 
  	//Dimensions
- 	const dimensionsextentEl = doc.createElement("bf:extent");
- 	const dimensionsExtentEl = doc.createElement("bf:Extent");
- 	const dimensionsextentLabelEl = doc.createElement("rdfs:label");
- 	const dimensionsextentLabelText = doc.createTextNode(`${escapeXML(record.dimensions.trim())} cm`);
- 	dimensionsextentLabelEl.appendChild(dimensionsextentLabelText);
- 	dimensionsExtentEl.appendChild(dimensionsextentLabelEl);
- 	dimensionsextentEl.appendChild(dimensionsExtentEl);
- 	instanceEl.appendChild(dimensionsextentEl);
+ 	const dimensionsEl = doc.createElement("bf:dimensions");
+ 	const dimensionsText = doc.createTextNode(`${escapeXML(record.dimensions.trim())} cm`);
+ 	dimensionsEl.appendChild(dimensionsText);
+ 	instanceEl.appendChild(dimensionsEl);
 
  	//Pages/Volumes
  	if (checkExists(record.pages)) {
@@ -385,6 +381,15 @@
  		GenreFormEl.appendChild(genreFormLabelEl);
  		genreFormEl.appendChild(GenreFormEl);
  		workEl.appendChild(genreFormEl);
+ 	}
+
+ 	//Illustrations
+ 	if (checkExists(record.illustrations_yes)) {
+ 		const illustrativeContentEl = doc.createElement("bf:illustrativeContent");
+ 		const IllustrationEl = doc.createElement("bf:Illustration");
+ 		IllustrationEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/millus/ill");
+ 		illustrativeContentEl.appendChild(IllustrationEl);
+ 		instanceEl.appendChild(illustrativeContentEl);
  	}
 
  	workEl.appendChild(hasInstanceEl);
