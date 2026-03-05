@@ -339,6 +339,7 @@
  			ProvisionActivityEl.appendChild(provisionActivityagentEl);
  		}
 
+
  		provisionActivityEl.appendChild(ProvisionActivityEl);
  		instanceEl.appendChild(provisionActivityEl);
  	}
@@ -372,6 +373,18 @@
  		ExtentEl.appendChild(extentLabelEl);
  		extentEl.appendChild(ExtentEl);
  		instanceEl.appendChild(extentEl);
+ 	}
+
+ 	//Genre
+ 	if (checkExists(record.literature_yes) && checkExists(record.literature_dropdown)) {
+ 		const genreFormEl = doc.createElement("bf:genreForm");
+ 		const GenreFormEl = doc.createElement("bf:GenreForm");
+ 		const genreFormLabelEl = doc.createElement("rdfs:label");
+ 		const genreFormLabelText = doc.createTextNode(literatureTypes[record.literature_dropdown]);
+ 		genreFormLabelEl.appendChild(genreFormLabelText);
+ 		GenreFormEl.appendChild(genreFormLabelEl);
+ 		genreFormEl.appendChild(GenreFormEl);
+ 		workEl.appendChild(genreFormEl);
  	}
 
  	workEl.appendChild(hasInstanceEl);
