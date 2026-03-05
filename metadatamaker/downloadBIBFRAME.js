@@ -139,10 +139,10 @@
  	const roleEl = doc.createElement("bf:role");
  	const RoleEl = doc.createElement("bf:Role");
  	RoleEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/relators/${roleCode}`);
- 	const rolelabelEl = doc.createElement("rdfs:label");
- 	const rolelabelText = doc.createTextNode(role_index[roleCode]);
- 	rolelabelEl.appendChild(rolelabelText);
- 	RoleEl.appendChild(rolelabelEl);
+ 	const roleLabelEl = doc.createElement("rdfs:label");
+ 	const roleLabelText = doc.createTextNode(role_index[roleCode]);
+ 	roleLabelEl.appendChild(roleLabelText);
+ 	RoleEl.appendChild(roleLabelEl);
  	const codeEl = doc.createElement("bf:code");
  	const codeText = doc.createTextNode(roleCode);
  	codeEl.appendChild(codeText);
@@ -256,16 +256,6 @@
  	languageEl.appendChild(LanguageEl);
  	workEl.appendChild(languageEl);
 
- 	//Dimensions
- 	const extentEl = doc.createElement("bf:extent");
- 	const ExtentEl = doc.createElement("bf:Extent");
- 	const extentLabelEl = doc.createElement("rdfs:label");
- 	const extentLabelText = doc.createTextNode(`${record.dimensions.trim()} cm`);
- 	extentLabelEl.appendChild(extentLabelText);
- 	ExtentEl.appendChild(extentLabelEl);
- 	extentEl.appendChild(ExtentEl);
- 	instanceEl.appendChild(extentEl);
-
  	//Edition
  	if (checkExists(record.edition)) {
  		const editionStatementEl = doc.createElement("bf:editionStatement");
@@ -315,10 +305,10 @@
  		if (checkExists(record.publication_place)) {
  			const placeEl = doc.createElement("bf:place");
  			const PlaceEl = doc.createElement("bf:Place");
- 			const placelabelEl = doc.createElement("rdfs:label");
- 			const placelabelText = doc.createTextNode(escapeXML(record.publication_place));
- 			placelabelEl.appendChild(placelabelText);
- 			PlaceEl.appendChild(placelabelEl);
+ 			const placeLabelEl = doc.createElement("rdfs:label");
+ 			const placeLabelText = doc.createTextNode(escapeXML(record.publication_place));
+ 			placeLabelEl.appendChild(placeLabelText);
+ 			PlaceEl.appendChild(placeLabelEl);
  			placeEl.appendChild(PlaceEl);
  			ProvisionActivityEl.appendChild(placeEl);
  		}
@@ -341,10 +331,10 @@
  		if (checkExists(record.publisher)) {
  			const provisionActivityagentEl = doc.createElement("bf:agent");
  			const provisionActivityAgentEl = doc.createElement("bf:Agent");
- 			const provisionActivityagentlabelEl = doc.createElement("rdfs:label");
- 			const provisionActivityagentlabelText = doc.createTextNode(escapeXML(record.publisher));
- 			provisionActivityagentlabelEl.appendChild(provisionActivityagentlabelText);
- 			provisionActivityAgentEl.appendChild(provisionActivityagentlabelEl);
+ 			const provisionActivityagentLabelEl = doc.createElement("rdfs:label");
+ 			const provisionActivityagentLabelText = doc.createTextNode(escapeXML(record.publisher));
+ 			provisionActivityagentLabelEl.appendChild(provisionActivityagentLabelText);
+ 			provisionActivityAgentEl.appendChild(provisionActivityagentLabelEl);
  			provisionActivityagentEl.appendChild(provisionActivityAgentEl);
  			ProvisionActivityEl.appendChild(provisionActivityagentEl);
  		}
@@ -360,6 +350,28 @@
  		const copyrightDateText = doc.createTextNode(record.copyright_year);
  		copyrightDateEl.appendChild(copyrightDateText);
  		instanceEl.appendChild(copyrightDateEl);
+ 	}
+
+ 	//Dimensions
+ 	const dimensionsextentEl = doc.createElement("bf:extent");
+ 	const dimensionsExtentEl = doc.createElement("bf:Extent");
+ 	const dimensionsextentLabelEl = doc.createElement("rdfs:label");
+ 	const dimensionsextentLabelText = doc.createTextNode(`${escapeXML(record.dimensions.trim())} cm`);
+ 	dimensionsextentLabelEl.appendChild(dimensionsextentLabelText);
+ 	dimensionsExtentEl.appendChild(dimensionsextentLabelEl);
+ 	dimensionsextentEl.appendChild(dimensionsExtentEl);
+ 	instanceEl.appendChild(dimensionsextentEl);
+
+ 	//Pages/Volumes
+ 	if (checkExists(record.pages)) {
+ 		const extentEl = doc.createElement("bf:extent");
+ 		const ExtentEl = doc.createElement("bf:Extent");
+ 		const extentLabelEl = doc.createElement("rdfs:label");
+ 		const extentLabelText = doc.createTextNode(`${escapeXML(record.pages)} ${record.volume_or_page}`);
+ 		extentLabelEl.appendChild(extentLabelText);
+ 		ExtentEl.appendChild(extentLabelEl);
+ 		extentEl.appendChild(ExtentEl);
+ 		instanceEl.appendChild(extentEl);
  	}
 
  	workEl.appendChild(hasInstanceEl);
