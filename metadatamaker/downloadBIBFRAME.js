@@ -161,7 +161,7 @@
  * institution_info: object containing name of institution creating record
  */
  function downloadBIBFRAME(record,institution_info) {
-	var literatureTypes = {
+	const literatureTypes = {
 		'0': 'Not fiction (not further specified)',
 		'1': 'Fiction (not further specified)',
 		'd': 'Dramas',
@@ -177,15 +177,22 @@
 		'|': 'No attempt to code'
 	}
 
- 	var fastTypes = {
- 		'00': 'name type="personal"',
- 		'10': 'name type="corporate"',
- 		'11': 'name type="conference"',
- 		'30': 'titleInfo',
- 		'50': 'topic',
- 		'51': 'geographic',
- 		'55': 'genre'
- 	}
+	const fastTypes = {
+		'100': 'Agent',
+		'110': 'Agent',
+		'111': 'Meeting',
+		'130': 'Topic',
+		'147': 'Event',
+		'148': 'Temporal',
+		'150': 'Topic',
+		'151': 'GeographicCoverage',
+		'155': 'GenreForm',
+		'162': 'MediumOfPerformance',
+		'180': 'Topic',
+		'181': 'GeographicCoverage',
+		'182': 'Temporal',
+		'185': 'GenreForm'
+	}
 
  	const id = crypto.randomUUID();
  	const startText = '<?xml version="1.0" encoding="UTF-8"?>\n<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bf="http://id.loc.gov/ontologies/bibframe/" xmlns:bflc="http://id.loc.gov/ontologies/bflc/" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n</rdf:RDF>';
@@ -279,7 +286,7 @@
  	//Contributors
  	addContributor(doc,workEl,record.author,true);
  	if (checkExists(record.additional_authors)) {
- 		for (var i = 0; i < record.additional_authors.length; i++) {
+ 		for (let i = 0; i < record.additional_authors.length; i++) {
  			addContributor(doc,workEl,record.additional_authors[i]);
  		}
  	}
@@ -390,6 +397,41 @@
  		IllustrationEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/millus/ill");
  		illustrativeContentEl.appendChild(IllustrationEl);
  		instanceEl.appendChild(illustrativeContentEl);
+ 	}
+
+ 	//Keywords
+ 	for (let k = 0; k < record.fast.length; k++) {
+ 		const subjectEl = doc.createElement("bf:subject");
+ 		const TopicEl = doc.createElement(record.fast[k][2] in fastTypes ? `bf:${fastTypes[record.fast[k][2]]}` : "bf:Topic");
+ 		TopicEl.setAttribute("rdf:about",`http://id.worldcat.org/fast/${record.fast[k][1]}`);
+ 		//Label
+		const TopicLabelEl = doc.createElement("rdfs:label");
+		const TopicLabelText = doc.createTextNode(record.fast[k][0]);
+		TopicLabelEl.appendChild(TopicLabelText);
+		TopicEl.appendChild(TopicLabelEl);
+		//Source
+		const TopicsourceEl = doc.createElement("bf:source");
+		const TopicSourceEl = doc.createElement("bf:Source");
+		TopicSourceEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/identifiers/fast");
+		const TopicsourcecodeEl = doc.createElement("bf:code");
+		const TopicsourcecodeText = doc.createTextNode("fast");
+		TopicsourcecodeEl.appendChild(TopicsourcecodeText);
+		TopicSourceEl.appendChild(TopicsourcecodeEl);
+		TopicsourceEl.appendChild(TopicSourceEl);
+		TopicEl.appendChild(TopicsourceEl);
+		subjectEl.appendChild(TopicEl);
+		workEl.appendChild(subjectEl);
+ 	}
+
+ 	for (let k = 0; k < record.keywords.length; k++) {
+ 		const subjectEl = doc.createElement("bf:subject");
+ 		const TopicEl = doc.createElement("bf:Topic");
+ 		const TopicLabelEl = doc.createElement("rdfs:label");
+ 		const TopicLabelText = doc.createTextNode(escapeXML(record.keywords[k]));
+ 		TopicLabelEl.appendChild(TopicLabelText);
+ 		TopicEl.appendChild(TopicLabelEl);
+ 		subjectEl.appendChild(TopicEl);
+ 		workEl.appendChild(subjectEl);
  	}
 
  	workEl.appendChild(hasInstanceEl);
