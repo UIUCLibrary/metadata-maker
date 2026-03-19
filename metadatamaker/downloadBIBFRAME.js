@@ -194,6 +194,17 @@
 		'185': 'GenreForm'
 	}
 
+	const madsTypes = {
+		'Agent': 'Topic',
+		'Meeting': 'Topic',
+		'Topic': 'Topic',
+		'Event': 'Topic',
+		'Temporal': 'Temporal',
+		'GeographicCoverage': 'Georaphic',
+		'GenreForm': 'GenreForm',
+		'MediumOfPerformance': 'Medium'
+	}
+
  	const id = crypto.randomUUID();
  	const startText = '<?xml version="1.0" encoding="UTF-8"?>\n<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bf="http://id.loc.gov/ontologies/bibframe/" xmlns:bflc="http://id.loc.gov/ontologies/bflc/" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n</rdf:RDF>';
  	const parser = new DOMParser();
@@ -400,8 +411,13 @@
  	//Keywords
  	for (let k = 0; k < record.fast.length; k++) {
  		const subjectEl = doc.createElement("bf:subject");
- 		const TopicEl = doc.createElement(record.fast[k][2] in fastTypes ? `bf:${fastTypes[record.fast[k][2]]}` : "bf:Topic");
+ 		const classString = record.fast[k][2] in fastTypes ? fastTypes[record.fast[k][2]] : "Topic"
+ 		const TopicEl = doc.createElement(`bf:${classString}`);
  		TopicEl.setAttribute("rdf:about",`http://id.worldcat.org/fast/${record.fast[k][1]}`);
+ 		//Type
+ 		const TopicTypeEl = doc.createElement("rdf:type");
+ 		TopicTypeEl.setAttribute("rdf:resource",`http://www.loc.gov/mads/rdf/v1#${madsTypes[classString]}`)
+ 		TopicEl.appendChild(TopicTypeEl);
  		//Label
 		const TopicLabelEl = doc.createElement("rdfs:label");
 		const TopicLabelText = doc.createTextNode(record.fast[k][0]);
@@ -424,6 +440,9 @@
  	for (let k = 0; k < record.keywords.length; k++) {
  		const subjectEl = doc.createElement("bf:subject");
  		const TopicEl = doc.createElement("bf:Topic");
+ 		const TopicTypeEl = doc.createElement("rdf:type");
+ 		TopicTypeEl.setAttribute("rdf:resource","http://www.loc.gov/mads/rdf/v1#Topic");
+ 		TopicEl.appendChild(TopicTypeEl);
  		const TopicLabelEl = doc.createElement("rdfs:label");
  		const TopicLabelText = doc.createTextNode(escapeXML(record.keywords[k]));
  		TopicLabelEl.appendChild(TopicLabelText);
