@@ -1107,7 +1107,7 @@
 				<legend for="literature" class="heading">Is this item literature?<span class="required_marker">*</span></legend>
 				<input type="radio" name="literature" id="literature-yes" value="yes" required><label for="literature-yes">Yes</label>
 				<input type="radio" name="literature" id="literature-no" value="no"><label for="literature-no">No</label><br>
-				<select name="literature-dropdown" id="literature-dropdown" class="hidden">
+				<select name="literature-dropdown" id="literature-dropdown" class="hidden" disabled>
 					<option selected disabled hidden value=''></option>
 					<option value="0">Not fiction (not further specified)</option>
 					<option value="1">Fiction (not further specified)</option>
@@ -1124,11 +1124,11 @@
 				</select>
 			</fieldset>
 
-			<div id="illustrations-block" class="standard-block">
-				<label for="illustrations" class="heading">Does the item include illustrations?</label><br>
-				<input type="radio" name="illustrations" id="illustrations-yes" value="yes">Yes
-				<input type="radio" name="illustrations" id="illustrations-no" value="no">No
-			</div>
+			<fieldset id="illustrations-block" class="standard-block">
+				<legend for="illustrations" class="heading">Does the item include illustrations?<span class="required_marker">*</span></legend>
+				<input type="radio" name="illustrations" id="illustrations-yes" value="yes" required><label for="illustrations-yes">Yes</label>
+				<input type="radio" name="illustrations" id="illustrations-no" value="no"><label for="illustrations-no">No</label>
+			</fieldset>
 
 			<div id="keywords" class="standard-block">
 				<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>

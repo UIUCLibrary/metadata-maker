@@ -299,9 +299,13 @@ $("input:radio[name=literature]").click(function() {
 	var value = $(this).val();
 	if (value === "yes") {
 		$("#literature-dropdown").show();
+		$("#literature-dropdown").attr("required","true");
+		$("#literature-dropdown").removeAttr("disabled");
 	}
 	else {
 		$("#literature-dropdown").hide();
+		$("#literature-dropdown").removeAttr("required");
+		$("#literature-dropdown").attr("disabled","true");
 	}
 });
 
