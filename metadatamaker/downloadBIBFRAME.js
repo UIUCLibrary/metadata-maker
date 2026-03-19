@@ -377,7 +377,7 @@
 	instanceEl.appendChild(extentEl);
 
  	//Genre
- 	if (checkExists(record.literature_yes) && checkExists(record.literature_dropdown)) {
+ 	if (record.literature_yes && checkExists(record.literature_dropdown)) {
  		const genreFormEl = doc.createElement("bf:genreForm");
  		const GenreFormEl = doc.createElement("bf:GenreForm");
  		const genreFormLabelEl = doc.createElement("rdfs:label");
@@ -389,7 +389,7 @@
  	}
 
  	//Illustrations
- 	if (checkExists(record.illustrations_yes)) {
+ 	if (record.illustrations_yes) {
  		const illustrativeContentEl = doc.createElement("bf:illustrativeContent");
  		const IllustrationEl = doc.createElement("bf:Illustration");
  		IllustrationEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/millus/ill");
@@ -476,6 +476,20 @@
  	IssuanceEl.appendChild(IssuanceCodeEl);
  	issuanceEl.appendChild(IssuanceEl);
  	instanceEl.appendChild(issuanceEl);
+
+ 	if (record.bibliographies_yes) {
+ 		const noteEl = doc.createElement("bf:note");
+ 		const NoteEl = doc.createElement("bf:Note");
+ 		const NoteTypeEl = doc.createElement("rdf:type");
+ 		NoteTypeEl.setAttribute("rdf:resource","http://id.loc.gov/vocabulary/mnotetype/biblio");
+ 		NoteEl.appendChild(NoteTypeEl);
+ 		const NoteLabelEl = doc.createElement("rdfs:label");
+ 		const NoteLabelText = doc.createTextNode("Includes bibliographical references and index.");
+ 		NoteLabelEl.appendChild(NoteLabelText);
+ 		NoteEl.appendChild(NoteLabelEl);
+ 		noteEl.appendChild(NoteEl);
+ 		workEl.appendChild(noteEl);
+ 	}
 
  	workEl.appendChild(hasInstanceEl);
  	instanceEl.appendChild(instanceOfEl);

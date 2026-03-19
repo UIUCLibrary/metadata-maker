@@ -128,6 +128,10 @@ $("#marc-maker").submit(function(event) {
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
 
+	console.log($("#literature-yes").is(':checked'));
+	console.log($("#illustrations-yes").is(':checked'));
+	console.log($("#bibliographies-yes").is(':checked'));
+
 	var recordObject = {
 		title: [
 			{
@@ -153,6 +157,7 @@ $("#marc-maker").submit(function(event) {
 		literature_yes: $("#literature-yes").is(':checked'),
 		literature_dropdown: $("#literature-dropdown").val(),
 		illustrations_yes: $("#illustrations-yes").is(':checked'),
+		bibliographies_yes: $("#bibliographies-yes").is(':checked'),
 		dimensions: $("#dimensions").val(),
 		edition: $("#edition").val(),
 		translit_edition: $("#translit_edition").val(),
