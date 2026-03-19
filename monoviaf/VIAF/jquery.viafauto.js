@@ -27,15 +27,37 @@
  select: function(event, ui) { 
     alert("Selected!"); return this._super(event, ui); },
     source: function(request, response) {
-        var term = $.trim(request.term); 
-        var url  = "https://viaf.org/viaf/AutoSuggest?query=" + term;
-        var me = this; 
+        const term = $.trim(request.term); 
+        const url  = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${term}&language=en&format=json`;
+        const service_header = { 'User-Agent': 'Metadata Maker / 1.2.0 University of Illinois at Urbana-Champaign Library' };
+        const me = this; 
         $.ajax({
             url: url,
             dataType: "jsonp",
+            headers: service_header,
             success: function(data) {
-                if (data.result) {
-                    response( $.map( data.result, function(item) {
+                if (data.search) {
+                    console.log(data.search);
+                    const wdids = $.map(data.search, function(item) {
+                        return item.id;
+                    });
+                    console.log(wdids);
+                    if (wdids.length) {
+                        const ids_string = wdids.join("|");
+                        const details_url = `https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${ids_string}&languages=en&props=labels|claims&format=json`;
+                        $.ajax({
+                            url: details_url,
+                            dataType: "jsonp",
+                            headers: service_header,
+                            success: function(full_data) {
+                                console.log(full_data);
+                            },
+                        });
+                    }
+                    else {
+                        me._trigger('nomatch', null, {term: term});
+                    }
+/*                    response( $.map( data.search, function(item) {
                         if (item.nametype == "personal"){
                             var retLbl = item.term + " [" + item.nametype + "]";
                             var uri = "http://viaf.org/viaf/" + item.viafid;
@@ -61,7 +83,7 @@
                         }
                             
                         
-                    }));
+                    }));*/
                 } else {
                     me._trigger('nomatch', null, {term: term});
                 }
