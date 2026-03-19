@@ -367,16 +367,14 @@
  	instanceEl.appendChild(dimensionsEl);
 
  	//Pages/Volumes
- 	if (checkExists(record.pages)) {
- 		const extentEl = doc.createElement("bf:extent");
- 		const ExtentEl = doc.createElement("bf:Extent");
- 		const extentLabelEl = doc.createElement("rdfs:label");
- 		const extentLabelText = doc.createTextNode(`${escapeXML(record.pages)} ${record.volume_or_page}`);
- 		extentLabelEl.appendChild(extentLabelText);
- 		ExtentEl.appendChild(extentLabelEl);
- 		extentEl.appendChild(ExtentEl);
- 		instanceEl.appendChild(extentEl);
- 	}
+	const extentEl = doc.createElement("bf:extent");
+	const ExtentEl = doc.createElement("bf:Extent");
+	const extentLabelEl = doc.createElement("rdfs:label");
+	const extentLabelText = doc.createTextNode(`${escapeXML(record.pages)} ${record.volume_or_page}`);
+	extentLabelEl.appendChild(extentLabelText);
+	ExtentEl.appendChild(extentLabelEl);
+	extentEl.appendChild(ExtentEl);
+	instanceEl.appendChild(extentEl);
 
  	//Genre
  	if (checkExists(record.literature_yes) && checkExists(record.literature_dropdown)) {
@@ -433,6 +431,51 @@
  		subjectEl.appendChild(TopicEl);
  		workEl.appendChild(subjectEl);
  	}
+
+ 	//Media Type
+ 	const mediaEl = doc.createElement("bf:media");
+ 	const MediaEl = doc.createElement("bf:Media");
+ 	MediaEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/mediaTypes/n");
+ 	const MediaLabelEl = doc.createElement("rdfs:label");
+ 	const MediaLabelText = doc.createTextNode("unmediated");
+ 	MediaLabelEl.appendChild(MediaLabelText);
+ 	MediaEl.appendChild(MediaLabelEl);
+ 	const MediaCodeEl = doc.createElement("bf:code");
+ 	const MediaCodeText = doc.createTextNode("n");
+ 	MediaCodeEl.appendChild(MediaCodeText);
+ 	MediaEl.appendChild(MediaCodeEl);
+ 	mediaEl.appendChild(MediaEl);
+ 	instanceEl.appendChild(mediaEl);
+
+ 	//Carrier Type
+ 	const carrierEl = doc.createElement("bf:carrier");
+ 	const CarrierEl = doc.createElement("bf:Carrier");
+ 	CarrierEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/carriers/nc");
+ 	const CarrierLabelEl = doc.createElement("rdfs:label");
+ 	const CarrierLabelText = doc.createTextNode("volume");
+ 	CarrierLabelEl.appendChild(CarrierLabelText);
+ 	CarrierEl.appendChild(CarrierLabelEl);
+ 	const CarrierCodeEl = doc.createElement("bf:code");
+ 	const CarrierCodeText = doc.createTextNode("nc");
+ 	CarrierCodeEl.appendChild(CarrierCodeText);
+ 	CarrierEl.appendChild(CarrierCodeEl);
+ 	carrierEl.appendChild(CarrierEl);
+ 	instanceEl.appendChild(carrierEl);
+
+ 	//Issuance
+ 	const issuanceEl = doc.createElement("bf:issuance");
+ 	const IssuanceEl = doc.createElement("bf:Issuance");
+ 	IssuanceEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/issuance/mono");
+ 	const IssuanceLabelEl = doc.createElement("rdfs:label");
+ 	const IssuanceLabelText = doc.createTextNode("single unit");
+ 	IssuanceLabelEl.appendChild(IssuanceLabelText);
+ 	IssuanceEl.appendChild(IssuanceLabelEl);
+ 	const IssuanceCodeEl = doc.createElement("bf:code");
+ 	const IssuanceCodeText = doc.createTextNode("mono");
+ 	IssuanceCodeEl.appendChild(IssuanceCodeText);
+ 	IssuanceEl.appendChild(IssuanceCodeEl);
+ 	issuanceEl.appendChild(IssuanceEl);
+ 	instanceEl.appendChild(issuanceEl);
 
  	workEl.appendChild(hasInstanceEl);
  	instanceEl.appendChild(instanceOfEl);
