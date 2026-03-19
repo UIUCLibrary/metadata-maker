@@ -194,6 +194,17 @@
 		'185': 'GenreForm'
 	}
 
+	const madsTypes = {
+		'Agent': 'Topic',
+		'Meeting': 'Topic',
+		'Topic': 'Topic',
+		'Event': 'Topic',
+		'Temporal': 'Temporal',
+		'GeographicCoverage': 'Georaphic',
+		'GenreForm': 'GenreForm',
+		'MediumOfPerformance': 'Medium'
+	}
+
  	const id = crypto.randomUUID();
  	const startText = '<?xml version="1.0" encoding="UTF-8"?>\n<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bf="http://id.loc.gov/ontologies/bibframe/" xmlns:bflc="http://id.loc.gov/ontologies/bflc/" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n</rdf:RDF>';
  	const parser = new DOMParser();
@@ -367,19 +378,17 @@
  	instanceEl.appendChild(dimensionsEl);
 
  	//Pages/Volumes
- 	if (checkExists(record.pages)) {
- 		const extentEl = doc.createElement("bf:extent");
- 		const ExtentEl = doc.createElement("bf:Extent");
- 		const extentLabelEl = doc.createElement("rdfs:label");
- 		const extentLabelText = doc.createTextNode(`${escapeXML(record.pages)} ${record.volume_or_page}`);
- 		extentLabelEl.appendChild(extentLabelText);
- 		ExtentEl.appendChild(extentLabelEl);
- 		extentEl.appendChild(ExtentEl);
- 		instanceEl.appendChild(extentEl);
- 	}
+	const extentEl = doc.createElement("bf:extent");
+	const ExtentEl = doc.createElement("bf:Extent");
+	const extentLabelEl = doc.createElement("rdfs:label");
+	const extentLabelText = doc.createTextNode(`${escapeXML(record.pages)} ${record.volume_or_page}`);
+	extentLabelEl.appendChild(extentLabelText);
+	ExtentEl.appendChild(extentLabelEl);
+	extentEl.appendChild(ExtentEl);
+	instanceEl.appendChild(extentEl);
 
  	//Genre
- 	if (checkExists(record.literature_yes) && checkExists(record.literature_dropdown)) {
+ 	if (record.literature_yes && checkExists(record.literature_dropdown)) {
  		const genreFormEl = doc.createElement("bf:genreForm");
  		const GenreFormEl = doc.createElement("bf:GenreForm");
  		const genreFormLabelEl = doc.createElement("rdfs:label");
@@ -391,7 +400,7 @@
  	}
 
  	//Illustrations
- 	if (checkExists(record.illustrations_yes)) {
+ 	if (record.illustrations_yes) {
  		const illustrativeContentEl = doc.createElement("bf:illustrativeContent");
  		const IllustrationEl = doc.createElement("bf:Illustration");
  		IllustrationEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/millus/ill");
@@ -402,8 +411,13 @@
  	//Keywords
  	for (let k = 0; k < record.fast.length; k++) {
  		const subjectEl = doc.createElement("bf:subject");
- 		const TopicEl = doc.createElement(record.fast[k][2] in fastTypes ? `bf:${fastTypes[record.fast[k][2]]}` : "bf:Topic");
+ 		const classString = record.fast[k][2] in fastTypes ? fastTypes[record.fast[k][2]] : "Topic"
+ 		const TopicEl = doc.createElement(`bf:${classString}`);
  		TopicEl.setAttribute("rdf:about",`http://id.worldcat.org/fast/${record.fast[k][1]}`);
+ 		//Type
+ 		const TopicTypeEl = doc.createElement("rdf:type");
+ 		TopicTypeEl.setAttribute("rdf:resource",`http://www.loc.gov/mads/rdf/v1#${madsTypes[classString]}`)
+ 		TopicEl.appendChild(TopicTypeEl);
  		//Label
 		const TopicLabelEl = doc.createElement("rdfs:label");
 		const TopicLabelText = doc.createTextNode(record.fast[k][0]);
@@ -426,12 +440,74 @@
  	for (let k = 0; k < record.keywords.length; k++) {
  		const subjectEl = doc.createElement("bf:subject");
  		const TopicEl = doc.createElement("bf:Topic");
+ 		const TopicTypeEl = doc.createElement("rdf:type");
+ 		TopicTypeEl.setAttribute("rdf:resource","http://www.loc.gov/mads/rdf/v1#Topic");
+ 		TopicEl.appendChild(TopicTypeEl);
  		const TopicLabelEl = doc.createElement("rdfs:label");
  		const TopicLabelText = doc.createTextNode(escapeXML(record.keywords[k]));
  		TopicLabelEl.appendChild(TopicLabelText);
  		TopicEl.appendChild(TopicLabelEl);
  		subjectEl.appendChild(TopicEl);
  		workEl.appendChild(subjectEl);
+ 	}
+
+ 	//Media Type
+ 	const mediaEl = doc.createElement("bf:media");
+ 	const MediaEl = doc.createElement("bf:Media");
+ 	MediaEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/mediaTypes/n");
+ 	const MediaLabelEl = doc.createElement("rdfs:label");
+ 	const MediaLabelText = doc.createTextNode("unmediated");
+ 	MediaLabelEl.appendChild(MediaLabelText);
+ 	MediaEl.appendChild(MediaLabelEl);
+ 	const MediaCodeEl = doc.createElement("bf:code");
+ 	const MediaCodeText = doc.createTextNode("n");
+ 	MediaCodeEl.appendChild(MediaCodeText);
+ 	MediaEl.appendChild(MediaCodeEl);
+ 	mediaEl.appendChild(MediaEl);
+ 	instanceEl.appendChild(mediaEl);
+
+ 	//Carrier Type
+ 	const carrierEl = doc.createElement("bf:carrier");
+ 	const CarrierEl = doc.createElement("bf:Carrier");
+ 	CarrierEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/carriers/nc");
+ 	const CarrierLabelEl = doc.createElement("rdfs:label");
+ 	const CarrierLabelText = doc.createTextNode("volume");
+ 	CarrierLabelEl.appendChild(CarrierLabelText);
+ 	CarrierEl.appendChild(CarrierLabelEl);
+ 	const CarrierCodeEl = doc.createElement("bf:code");
+ 	const CarrierCodeText = doc.createTextNode("nc");
+ 	CarrierCodeEl.appendChild(CarrierCodeText);
+ 	CarrierEl.appendChild(CarrierCodeEl);
+ 	carrierEl.appendChild(CarrierEl);
+ 	instanceEl.appendChild(carrierEl);
+
+ 	//Issuance
+ 	const issuanceEl = doc.createElement("bf:issuance");
+ 	const IssuanceEl = doc.createElement("bf:Issuance");
+ 	IssuanceEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/issuance/mono");
+ 	const IssuanceLabelEl = doc.createElement("rdfs:label");
+ 	const IssuanceLabelText = doc.createTextNode("single unit");
+ 	IssuanceLabelEl.appendChild(IssuanceLabelText);
+ 	IssuanceEl.appendChild(IssuanceLabelEl);
+ 	const IssuanceCodeEl = doc.createElement("bf:code");
+ 	const IssuanceCodeText = doc.createTextNode("mono");
+ 	IssuanceCodeEl.appendChild(IssuanceCodeText);
+ 	IssuanceEl.appendChild(IssuanceCodeEl);
+ 	issuanceEl.appendChild(IssuanceEl);
+ 	instanceEl.appendChild(issuanceEl);
+
+ 	if (record.bibliographies_yes) {
+ 		const noteEl = doc.createElement("bf:note");
+ 		const NoteEl = doc.createElement("bf:Note");
+ 		const NoteTypeEl = doc.createElement("rdf:type");
+ 		NoteTypeEl.setAttribute("rdf:resource","http://id.loc.gov/vocabulary/mnotetype/biblio");
+ 		NoteEl.appendChild(NoteTypeEl);
+ 		const NoteLabelEl = doc.createElement("rdfs:label");
+ 		const NoteLabelText = doc.createTextNode("Includes bibliographical references and index.");
+ 		NoteLabelEl.appendChild(NoteLabelText);
+ 		NoteEl.appendChild(NoteLabelEl);
+ 		noteEl.appendChild(NoteEl);
+ 		workEl.appendChild(noteEl);
  	}
 
  	workEl.appendChild(hasInstanceEl);

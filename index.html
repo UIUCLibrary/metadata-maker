@@ -5,7 +5,6 @@
 	<title>Metadata Maker</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-	<script src="webshim/js-webshim/minified/polyfiller.js"></script>
 	<script src="assignFAST/assignFASTExample.js"></script>
 	<script src="assignFAST/assignFASTGadget.js"></script>
 	<script src="assignFAST/assignFASTComplete.js"></script>
@@ -135,8 +134,6 @@
 	</form>
 	<div id="warning_system">
 		<noscript>WARNING: JavaScript is not enabled on this browser. This page requires JavaScript to function correctly.</noscript>
-		<!--Allow Safari and older versions of IE to behave as if they implement HTML5's 'required' attribute-->
-		<script>jQuery.webshims.polyfill('forms');</script>
 		<script src="metadatamaker/checkServer.js"></script>
 	</div>
 	<div id="content">
@@ -1094,11 +1091,10 @@
 				<select name="vorp" id="vorp">
 					<option selected value="pages">pages</option>
 					<option value="volumes">volumes</option>
-				</select><br>
-				<input type="text" required id="pages" class="conditional">
+				</select><span class="required_marker">*</span><br>
+				<input type="text" required id="pages" class="required">
 				<label title="Record the number of pages in each numbered sequence. E.g., 356 or xii, 254. Record the number from the last numbered page, and do not include unnumbered pages. 
 	If a multi-volume set, do not record the number of pages, but instead record the number of physical volumes, E.g., 4"><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unpaged</span><input type="checkbox" id="pages_listed" class="listed">
 			</div>
 
 			<div id="dimensions-block" class="standard-block">
@@ -1107,11 +1103,11 @@
 				<label title="Record the height of the piece in cm. Always round up, so that if a piece measures 25.1 cm, record 26 cm"><span class="question-mark">?</span></label>
 			</div>
 
-			<div id="literature-block" class="standard-block">
-				<label for="literature" class="heading">Is this item literature?</label><br>
-				<input type="radio" name="literature" id="literature-yes" value="yes">Yes
-				<input type="radio" name="literature" id="literature-no" value="no">No<br>
-				<select name="literature-dropdown" id="literature-dropdown" class="hidden">
+			<fieldset id="literature-block" class="standard-block">
+				<legend for="literature" class="heading">Is this item literature?<span class="required_marker">*</span></legend>
+				<input type="radio" name="literature" id="literature-yes" value="yes" required><label for="literature-yes">Yes</label>
+				<input type="radio" name="literature" id="literature-no" value="no"><label for="literature-no">No</label><br>
+				<select name="literature-dropdown" id="literature-dropdown" class="hidden" disabled>
 					<option selected disabled hidden value=''></option>
 					<option value="0">Not fiction (not further specified)</option>
 					<option value="1">Fiction (not further specified)</option>
@@ -1126,13 +1122,19 @@
 					<option value="s">Speeches</option>
 					<option value="u">Unknown</option>
 				</select>
-			</div>
+			</fieldset>
 
-			<div id="illustrations-block" class="standard-block">
-				<label for="illustrations" class="heading">Does the item include illustrations?</label><br>
-				<input type="radio" name="illustrations" id="illustrations-yes" value="yes">Yes
-				<input type="radio" name="illustrations" id="illustrations-no" value="no">No
-			</div>
+			<fieldset id="illustrations-block" class="standard-block">
+				<legend for="illustrations" class="heading">Does the item include illustrations?<span class="required_marker">*</span></legend>
+				<input type="radio" name="illustrations" id="illustrations-yes" value="yes" required><label for="illustrations-yes">Yes</label>
+				<input type="radio" name="illustrations" id="illustrations-no" value="no"><label for="illustrations-no">No</label>
+			</fieldset>
+
+			<fieldset id="bibliographies-block" class="standard-block">
+				<legend class="heading" for="bibliographies">Does this item include bibliographies?<span class="required_marker">*</span></legend>
+				<input type="radio" name="bibliographies" id="bibliographies-yes" value="yes" required><label for="bibliographies-yes">Yes</label>
+				<input type="radio" name="bibliographies" id="bibliographies-no" value="no"><label for="bibliographies-no">No</label>
+			</fieldset>
 
 			<div id="keywords" class="standard-block">
 				<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>
