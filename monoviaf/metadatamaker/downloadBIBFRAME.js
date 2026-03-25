@@ -14,114 +14,96 @@ function escapeXml(unsafe) {
 }
 
  function fillAuthorBIBFRAME(author_record){
- 	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
  	if (checkExists(author_record[0]['family'])){
  		var latinname = author_record[0]['family'];
- 		if (author_record[0]['viaf'] !=""){
- 			if (author_record[0]['lc'] !=""){
- 				var contributionText = '        <bf:contribution>\n            <bf:Contribution>\n';
-		 		if (author_record[0]['role'] == 0){
-		 			contributionText += '                <rdf:type rdf:resource="http://id.loc.gov/ontologies/bflc/PrimaryContribution"/>\n'
-		 		}else{
-		 			var role = author_record[0]["role"]
-		 			contributionText += '                <bf:role>\n                    <bf:Role rdf:about="http://id.loc.gov/vocabulary/relators/' + role + '"/>\n                </bf:role>\n                <bf:agent>\n                    <bf:Agent rdf:about="' + author_record[0]['lc'] +'">\n'+'                        <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Person"/>\n						<rdfs:label>';
-		 		};
-		 		contributionText += escapeXml(latinname);
-		 		for (var i = 0; i < author_record[0]['subbd'].length; i++) {
-		 			if (author_record[0]['subbd'][i]){
-		 				contributionText += " "
-		 				contributionText += escapeXml(author_record[0]['subbd'][i]);
-		 			}
-		 		}
-		 		contributionText = contributionText.replace(/,\s*$/, "");
-		 		contributionText += '</rdfs:label>\n'
-		 		if (author_record[1]['family']!= ""){
-		 			contributionText += '						<rdfs:label>' + author_record[1]['family'] + '</rdfs:label>\n'
-		 		}
-		 		contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['viaf'] + '"/>\n                            </bf:Identifier>\n' + '						</bf:identifiedBy>\n'
-		 		contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['lc'] + '"/>\n                            </bf:Identifier>\n' + '						</bf:identifiedBy>\n'
 
-		 		contributionText += '                    </bf:Agent>\n                </bf:agent>\n            </bf:Contribution>\n        </bf:contribution>\n';
-		 		return contributionText;
- 			}else{
- 				var contributionText = '        <bf:contribution>\n            <bf:Contribution>\n';
-		 		if (author_record[0]['role'] == 0){
-		 			contributionText += '                <rdf:type rdf:resource="http://id.loc.gov/ontologies/bflc/PrimaryContribution"/>\n'
-		 		}else{
-		 			var role = author_record[0]["role"]
-		 			contributionText += '                <bf:role>\n                    <bf:Role rdf:about="http://id.loc.gov/vocabulary/relators/' + role + '"/>\n                </bf:role>\n                <bf:agent>\n                    <bf:Agent rdf:about="' + author_record[0]['viaf'] +'">\n'+'                         <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Person"/>\n						<rdfs:label>';
-		 		};
-		 		contributionText += escapeXml(latinname);
-		 		
-		 		contributionText = contributionText.replace(/,\s*$/, "");
-		 		contributionText += '</rdfs:label>\n'
-		 		if (author_record[1]['family']!= ""){
-		 			contributionText += '						<rdfs:label>' + author_record[1]['family'] + '</rdfs:label>\n'
-		 		}
-		 		// contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['viaf'] + '"/>\n                            </bf:Identifier>\n' + '                                </bf:identifiedBy>\n'
-		 		contributionText += '                    </bf:Agent>\n                </bf:agent>\n            </bf:Contribution>\n        </bf:contribution>\n';
-		 		return contributionText;			
- 			}
- 		}else{
- 			return ""
- 		}
- 		
- 	}
+		const primary_source = author_record[0]['lc'] !="" ? 'lc' : (author_record[0]['lc'] !="" ? 'viaf' : 'wiki');
+		var contributionText = '        <bf:contribution>\n            <bf:Contribution>\n';
+
+		if (author_record[0]['role'] == 0){
+			contributionText += '                <rdf:type rdf:resource="http://id.loc.gov/ontologies/bflc/PrimaryContribution"/>\n'
+		}else{
+			var role = author_record[0]["role"]
+			contributionText += '                <bf:role>\n                    <bf:Role rdf:about="http://id.loc.gov/vocabulary/relators/' + role + '"/>\n                </bf:role>\n                <bf:agent>\n                    <bf:Agent rdf:about="' + author_record[0][primary_source] +'">\n'+'                        <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Person"/>\n						<rdfs:label>';
+		};
+
+		contributionText += escapeXml(latinname);
+
+		if (author_record[0]['lc'] !=""){
+			for (var i = 0; i < author_record[0]['subbd'].length; i++) {
+				if (author_record[0]['subbd'][i]){
+					contributionText += " "
+					contributionText += escapeXml(author_record[0]['subbd'][i]);
+				}
+			}
+		}
+
+		contributionText = contributionText.replace(/,\s*$/, "");
+		contributionText += '</rdfs:label>\n'
+		if (author_record[1]['family']!= ""){
+			contributionText += '						<rdfs:label>' + author_record[1]['family'] + '</rdfs:label>\n'
+		}
+
+		if (author_record[0]['lc'] !="") {
+			contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['lc'] + '"/>\n                            </bf:Identifier>\n' + '						</bf:identifiedBy>\n'
+		}
+		if (author_record[0]['viaf'] !="") {
+			contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['viaf'] + '"/>\n                            </bf:Identifier>\n' + '						</bf:identifiedBy>\n'
+		}
+		contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['wiki'] + '"/>\n                            </bf:Identifier>\n' + '						</bf:identifiedBy>\n'
+		contributionText += '                    </bf:Agent>\n                </bf:agent>\n            </bf:Contribution>\n        </bf:contribution>\n';
+
+		return contributionText;
+ 	}else{
+		return ""
+	}
  };
 
 function fillAuthorAdditionalBIBFRAME(author_record){
-	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
- 	if (checkExists(author_record['0']['family'])){
+	if (checkExists(author_record['0']['family'])){
  		var latinname = author_record['0']['family'];
- 		if (author_record['0']['viaf'] !=""){
- 			if (author_record['0']['lc'] !=""){
- 				var contributionText = '        <bf:contribution>\n            <bf:Contribution>\n';
-		 		if (author_record['0']['role'] == 0){
-		 			contributionText += '                <rdf:type rdf:resource="http://id.loc.gov/ontologies/bflc/PrimaryContribution"/>\n'
-		 		}else{
-		 			var role = author_record['0']["role"]
-		 			contributionText += '                <bf:role>\n                    <bf:Role rdf:about="http://id.loc.gov/vocabulary/relators/' + role + '"/>\n                </bf:role>\n                <bf:agent>\n                    <bf:Agent rdf:about="' + author_record['0']['lc'] +'">\n'+'                        <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Person"/>\n						<rdfs:label>';
-		 		};
-		 		contributionText += escapeXml(latinname);
-		 		for (var i = 0; i < author_record['0']['subbd'].length; i++) {
-		 			if (author_record['0']['subbd'][i]){
-		 				contributionText += " "
-		 				contributionText += escapeXml(author_record['0']['subbd'][i]);
-		 			}
-		 		}
-		 		contributionText = contributionText.replace(/,\s*$/, "");
-		 		contributionText += '</rdfs:label>\n'
-		 		if (author_record['1']['family']!= ""){
-		 			contributionText += '						<rdfs:label>' + author_record['1']['family'] + '</rdfs:label>\n'
-		 		}
-		 		contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['viaf'] + '"/>\n                            </bf:Identifier>\n' + '						</bf:identifiedBy>\n'
-		 		contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['lc'] + '"/>\n                            </bf:Identifier>\n' + '						</bf:identifiedBy>\n'
 
-		 		contributionText += '                    </bf:Agent>\n                </bf:agent>\n            </bf:Contribution>\n        </bf:contribution>\n';
-		 		return contributionText;
- 			}else{
- 				var contributionText = '        <bf:contribution>\n            <bf:Contribution>\n';
-		 		if (author_record['0']['role'] == 0){
-		 			contributionText += '                <rdf:type rdf:resource="http://id.loc.gov/ontologies/bflc/PrimaryContribution"/>\n'
-		 		}else{
-		 			var role = author_record['0']["role"]
-		 			contributionText += '                <bf:role>\n                    <bf:Role rdf:about="http://id.loc.gov/vocabulary/relators/' + role + '"/>\n                </bf:role>\n                <bf:agent>\n                    <bf:Agent rdf:about="' + author_record['0']['viaf'] +'">\n'+'                         <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Person"/>\n						<rdfs:label>';
-		 		};
-		 		contributionText += escapeXml(latinname);
-		 		
-		 		contributionText = contributionText.replace(/,\s*$/, "");
-		 		contributionText += '</rdfs:label>\n'
-		 		if (author_record['1']['family']!= ""){
-		 			contributionText += '						<rdfs:label>' + author_record['1']['family'] + '</rdfs:label>\n'
-		 		}
-		 		// contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['viaf'] + '"/>\n                            </bf:Identifier>\n' + '                                </bf:identifiedBy>\n'
-		 		contributionText += '                    </bf:Agent>\n                </bf:agent>\n            </bf:Contribution>\n        </bf:contribution>\n';
-		 		return contributionText;			
- 			}
- 		}else{
- 			return ""
- 		}
- 	}
+		const primary_source = author_record[0]['lc'] !="" ? 'lc' : (author_record[0]['lc'] !="" ? 'viaf' : 'wiki');
+		var contributionText = '        <bf:contribution>\n            <bf:Contribution>\n';
+		
+		if (author_record['0']['role'] == 0){
+			contributionText += '                <rdf:type rdf:resource="http://id.loc.gov/ontologies/bflc/PrimaryContribution"/>\n'
+		}else{
+			var role = author_record['0']["role"]
+			contributionText += '                <bf:role>\n                    <bf:Role rdf:about="http://id.loc.gov/vocabulary/relators/' + role + '"/>\n                </bf:role>\n                <bf:agent>\n                    <bf:Agent rdf:about="' + author_record['0'][primary_source] +'">\n'+'                        <rdf:type rdf:resource="http://id.loc.gov/ontologies/bibframe/Person"/>\n						<rdfs:label>';
+		};
+
+		contributionText += escapeXml(latinname);
+
+		if (author_record['0']['lc'] !=""){
+			for (var i = 0; i < author_record['0']['subbd'].length; i++) {
+				if (author_record['0']['subbd'][i]){
+					contributionText += " "
+					contributionText += escapeXml(author_record['0']['subbd'][i]);
+				}
+			}
+		}
+
+		contributionText = contributionText.replace(/,\s*$/, "");
+		contributionText += '</rdfs:label>\n'
+
+		if (author_record['1']['family']!= ""){
+			contributionText += '						<rdfs:label>' + author_record['1']['family'] + '</rdfs:label>\n'
+		}
+
+		if (author_record['0']['lc'] !="") {
+			contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['lc'] + '"/>\n                            </bf:Identifier>\n' + '						</bf:identifiedBy>\n'
+		}
+		if (author_record['0']['viaf'] !="") {
+			contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['viaf'] + '"/>\n                            </bf:Identifier>\n' + '						</bf:identifiedBy>\n'
+		}
+		contributionText += '						<bf:identifiedBy>\n                            <bf:Identifier>\n                                <rdf:value rdf:resource="' + author_record[0]['wiki'] + '"/>\n                            </bf:Identifier>\n' + '						</bf:identifiedBy>\n'
+		contributionText += '                    </bf:Agent>\n                </bf:agent>\n            </bf:Contribution>\n        </bf:contribution>\n';
+
+		return contributionText;
+ 	}else{
+		return ""
+	}
 }
 
 /*

@@ -174,6 +174,7 @@ function addAuthor() {
 		newdiv.innerHTML = '<label for="family_name' + aCounter + '" class="insert insert_family_name additional_insert" onClick=\'insertMenu("family_name' + aCounter + '");\'>Insert Diacritics</label><br>';
 		newdiv.innerHTML += '<div id="insert-family_name' + aCounter + '" class="additional_menu"></div>';
 		newdiv.innerHTML += '<span class="added-author"><input type="text" class="author translit-listen" id="family_name' + aCounter + '" placeholder="Family Name, Given Name"> <select name="role' + aCounter + '" id="role'  + aCounter + '"><option value="art">artist</option><option selected value="aut">author</option><option value="ctb">contributor</option><option value="edt">editor</option><option value="ill">illustrator</option><option value="trl">translator</option></select></span>';
+		newdiv.innerHTML += '<div class = "Hwikidiv" id= "hiddenwikidiv' + aCounter + '" style="display: none;" ><a class = "Hwiki" id= "hiddenwiki' + aCounter + '" target="_blank" rel="noopener noreferrer" href="">Wikidata Link</a></div>';
 		newdiv.innerHTML += '<div class = "Hviafdiv" id= "hiddenviafdiv' + aCounter + '" style="display: none;" ><a class = "Hviaf" id= "hiddenviaf' + aCounter + '" target="_blank" rel="noopener noreferrer" href="">VIAF Link</a></div>';
 		newdiv.innerHTML += '<div  class = "Hlcdiv" id= "hiddenlcdiv' + aCounter + '" style="display: none;" ><a class = "Hlc" id= "hiddenlc' + aCounter + '" target="_blank" rel="noopener noreferrer" href="">LC Link</a></div>';
 		$("#author-block").append(newdiv);
