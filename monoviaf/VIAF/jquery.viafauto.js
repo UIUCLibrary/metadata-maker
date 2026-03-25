@@ -50,7 +50,28 @@
                             dataType: "jsonp",
                             headers: service_header,
                             success: function(full_data) {
-                                console.log(full_data);
+                                if (full_data.entities) {
+                                    response( $.map( full_data.entities, function(item) {
+                                        //P31 means "instance of" and Q5 means "human", so we're filtering for humans
+                                        if ('P31' in item.claims && item['claims']['P31'][0]['mainsnak']['datavalue']['value']['id'] == 'Q5') {
+                                            const description = data.search.find(obj => {
+                                                return obj.id == item.id;
+                                            })?.description;
+                                            const retLbl = `${item.labels.en.value} [${description}]`;
+                                            const viafid = item.claims?.P214 ? item.claims.P214[0]?.mainsnak?.datavalue?.value : undefined;
+                                            const lcid = item.claims?.P244 ? item.claims.P244[0]?.mainsnak?.datavalue?.value : undefined;
+
+                                            return {
+                                                label: retLbl,
+                                                value: item.labels.en.value,
+                                                id: item.id,
+                                                viafuri: viafid ? `http://viaf.org/viaf/${viafid}` : undefined,
+                                                lcuri: lcid ? `http://id.loc.gov/authorities/names/${lcid}` : undefined,
+                                                wikiuri: `http://www.wikidata.org/wiki/${item.id}`
+                                            }
+                                        }
+                                    }));
+                                }
                             },
                         });
                     }
