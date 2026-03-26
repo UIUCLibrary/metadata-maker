@@ -17,7 +17,7 @@ function escapeXml(unsafe) {
  	if (checkExists(author_record[0]['family'])){
  		var latinname = author_record[0]['family'];
 
-		const primary_source = author_record[0]['lc'] !="" ? 'lc' : (author_record[0]['lc'] !="" ? 'viaf' : 'wiki');
+		const primary_source = author_record[0]['lc'] !="" ? 'lc' : (author_record[0]['viaf'] !="" ? 'viaf' : 'wiki');
 		var contributionText = '        <bf:contribution>\n            <bf:Contribution>\n';
 
 		if (author_record[0]['role'] == 0){
@@ -63,7 +63,7 @@ function fillAuthorAdditionalBIBFRAME(author_record){
 	if (checkExists(author_record['0']['family'])){
  		var latinname = author_record['0']['family'];
 
-		const primary_source = author_record[0]['lc'] !="" ? 'lc' : (author_record[0]['lc'] !="" ? 'viaf' : 'wiki');
+		const primary_source = author_record[0]['lc'] !="" ? 'lc' : (author_record[0]['viaf'] !="" ? 'viaf' : 'wiki');
 		var contributionText = '        <bf:contribution>\n            <bf:Contribution>\n';
 		
 		if (author_record['0']['role'] == 0){
