@@ -21,9 +21,9 @@ function getviafname(viafurl, autname){
 	const endpoint = 'https://viaf.org/api/cluster-record';
 	var rtn;
 	rtn = $.ajax({
-		    type: 'POST',
-		    url: endpoint,
-		    async: false,
+				type: 'POST',
+				url: endpoint,
+				async: false,
 				data: {
 					reqValues: {
 						recordId: viafurl.substring(viafurl.lastIndexOf('/')+1),
@@ -36,23 +36,30 @@ function getviafname(viafurl, autname){
 						pageSize: 1
 					}
 				},
-//		    dataType: 'json',
-		    done: function(results) {
-		        return results;
-		    },
-		    fail: function( jqXHR, textStatus, errorThrown ) {
-		        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
-		    }
+				dataType: 'json',
+				done: function(results) {
+						return results;
+				},
+				fail: function( jqXHR, textStatus, errorThrown ) {
+						console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+				}
 		}).responseText;
-	console.log(rtn);
-/*	for (var i = 0; i < rtn["@graph"].length; i++){
-		if (rtn["@graph"][i]['inScheme']){
-			if (rtn["@graph"][i]['inScheme'] == "http://viaf.org/authorityScheme/DNB"){
-				autname = rtn["@graph"][i]['prefLabel'];
-			}
+	try {
+		//The following is old code to get the label from a JSON version of the data at an endpoint that no longer exists.
+		//Current query is trying to get XML version. If that query can be resolved this needs to be rewritten to parse
+		//	XML insted of JSON for the data.
+		for (var i = 0; i < rtn["@graph"].length; i++){
+			if (rtn["@graph"][i]['inScheme']){
+				if (rtn["@graph"][i]['inScheme'] == "http://viaf.org/authorityScheme/DNB"){
+					autname = rtn["@graph"][i]['prefLabel'];
+				}
 
-		}
-	};*/
+			}
+		};
+	} catch (error) {
+		console.log(`Could not retireve VIAF record. Using Wikidata name.`);
+	}
+	
 	return autname
 }
 
@@ -67,7 +74,7 @@ function getnamesubfields(lcuri){
 		    type: 'GET',
 		    url: link,
 		    async: false,
-		    dataType: 'jsonp',
+		    dataType: 'xml',
 		    done: function(results) {
 		        // JSON.parse(results);
 		        return results;
