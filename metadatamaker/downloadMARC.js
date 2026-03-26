@@ -509,7 +509,7 @@ function fillFAST(record,head,fieldFunc,subfieldFunc) {
 			}
 
 			FAST_subfield.push(subfieldFunc('2','fast'));
-			FAST_subfield.push(subfieldFunc('2',`http://id.worldcat.org/fast/${record.fast[i][1]}`))
+			FAST_subfield.push(subfieldFunc('0',`http://id.worldcat.org/fast/${record.fast[i][1]}`))
 			FAST_subfield.push(subfieldFunc('0','(OCoLC)' + record.fast[i][1]));
 
 			var new_content = fieldFunc('6' + contentType,record.fast[i][3],'7',FAST_subfield);
