@@ -85,23 +85,8 @@
  	workEl.appendChild(adminMetadataEl);
  }
 
- function formatContributorName(name_object) {
- 	console.log(name_object);
- 	if (checkExists(name_object[0]['family']) && checkExists(name_object[0]['given'])) {
- 		return `${escapeXML(name_object[0]['family'])}, ${escapeXML(name_object[0]['given'])}`;
- 	}
- 	else if (checkExists(name_object[0]['family'])) {
- 		return escapeXML(name_object[0]['family']);
- 	}
- 	else if (checkExists(name_object[0]['given'])) {
- 		return escapeXML(name_object[0]['given']);
- 	}
- 	else {
- 		return null;
- 	}
- }
-
  function addContributor(doc,workEl,contributor,primary=false) {
+	const primary_source = contributor[0]['lc'] !="" ? 'lc' : (contributor[0]['viaf'] !="" ? 'viaf' : 'wiki');
  	const role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
 
  	const contributionEl = doc.createElement("bf:contribution");
@@ -117,6 +102,7 @@
  	//Agent
  	const agentEl = doc.createElement("bf:agent");
  	const AgentEl = doc.createElement("bf:Agent");
+	AgentEl.setAttribute("rdf:about",escapeXML(contributor[0][primary_source]))
 
  	//Person
  	const agentTypeEl = doc.createElement("rdf:type");
@@ -124,13 +110,27 @@
  	AgentEl.appendChild(agentTypeEl);
 
  	//Label
- 	const agentLabelTextValue = formatContributorName(contributor);
+ 	const agentLabelTextValue = escapeXML(contributor[0]['family']);
  	if (agentLabelTextValue) {
  		const agentLabelEl = doc.createElement("rdfs:label");
  		const agentLabelText = doc.createTextNode(agentLabelTextValue);
  		agentLabelEl.appendChild(agentLabelText);
  		AgentEl.appendChild(agentLabelEl);
  	}
+
+	//Identifiers
+	const id_sources = ['lc','viaf','wiki'];
+	for (id_source in id_sources) {
+		if (contributor[0][id_sources[id_source]] != '') {
+			const identifiedByEl = doc.createElement("bf:identifiedBy");
+			const IdentifierEl = doc.createElement("bf:Identifier");
+			const identifierValueEl = doc.createElement("rdf:value");
+			identifierValueEl.setAttribute("rdf:resource",escapeXML(contributor[0][id_sources[id_source]]));
+			IdentifierEl.appendChild(identifierValueEl);
+			identifiedByEl.appendChild(IdentifierEl);
+			AgentEl.appendChild(identifiedByEl);
+		}
+	}
  	agentEl.appendChild(AgentEl);
  	ContributionEl.appendChild(agentEl);
 
@@ -295,6 +295,7 @@
  	}
 
  	//Contributors
+	console.log(record.author);
  	addContributor(doc,workEl,record.author,true);
  	if (checkExists(record.additional_authors)) {
  		for (let i = 0; i < record.additional_authors.length; i++) {

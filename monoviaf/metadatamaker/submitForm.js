@@ -234,7 +234,7 @@ $("#marc-maker").submit(function(event) {
 	var translit_additional_names = [];
 
 	var auth100  = {}
-/*	if (document.getElementById("hiddenlc").getAttribute("href") !="") {
+	if (document.getElementById("hiddenlc").getAttribute("href") !="") {
 		lcuri = document.getElementById("hiddenlc").getAttribute("href");
 		namelist = getnamesubfields(lcuri);
 		auth100 = {
@@ -246,7 +246,7 @@ $("#marc-maker").submit(function(event) {
 			subbd: namelist["finalnametag"].slice(1,),
 			ind1: namelist["ind1"]
 		}
-	}else{*/
+	}else{
 		if (document.getElementById("hiddenviaf").getAttribute("href")!=""){
 			var link = document.getElementById("hiddenviaf").getAttribute("href");
 			var autname = $("#family_name").val();
@@ -269,7 +269,7 @@ $("#marc-maker").submit(function(event) {
 				}
 			}
 		}
-//	}
+	}
 
 	var complete_names_list = [
 		[
