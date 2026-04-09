@@ -102,7 +102,9 @@
  	//Agent
  	const agentEl = doc.createElement("bf:agent");
  	const AgentEl = doc.createElement("bf:Agent");
-	AgentEl.setAttribute("rdf:about",escapeXML(contributor[0][primary_source]))
+	if (contributor[0].length > 0) {
+		AgentEl.setAttribute("rdf:about",escapeXML(contributor[0][primary_source]))
+	}
 
  	//Person
  	const agentTypeEl = doc.createElement("rdf:type");
@@ -121,7 +123,7 @@
 	//Identifiers
 	const id_sources = ['lc','viaf','wiki'];
 	for (id_source in id_sources) {
-		if (contributor[0][id_sources[id_source]] != '') {
+		if (escapeXML(contributor[0][id_sources[id_source]]) != '') {
 			const identifiedByEl = doc.createElement("bf:identifiedBy");
 			const IdentifierEl = doc.createElement("bf:Identifier");
 			const identifierValueEl = doc.createElement("rdf:value");
