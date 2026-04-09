@@ -172,7 +172,6 @@ function generateInstitutionInfo() {
  */
 function find100(list) {
 	for (iterator = 0; iterator < list.length; iterator++) {
-		console.log(list[iterator])
 		if (list[iterator][0]['role'] == 'aut') {
 			return list.splice(iterator,1);
 		}
@@ -184,7 +183,7 @@ function find100(list) {
 		}
 	}
 
-	return [[{'family':'','role':''},{'family':''}]];
+	return [[{'family':'','role':'','wiki':'','viaf':'','lc':''},{'family':''}]];
 }
 
 /*
@@ -217,7 +216,7 @@ $("#marc-maker").submit(function(event) {
 	var additional_names = [];
 	var translit_additional_names = [];
 
-	var auth100  = {}
+	var auth100 = undefined;
 	if (document.getElementById("hiddenlc").getAttribute("href") !="") {
 		console.log("A");
 		lcuri = document.getElementById("hiddenlc").getAttribute("href");
@@ -254,23 +253,35 @@ $("#marc-maker").submit(function(event) {
 					lc: "",
 					role: $("#role").val(),
 				}
+			}else{
+				console.log("D");
+				auth100 = {
+					family: $("#family_name").val(),
+					wiki: "",
+					viaf: "",
+					lc: "",
+					role: $("#role").val(),
+				}
 			}
 		}
 	}
 	console.log(auth100);
 
-	var complete_names_list = [
-		[
-			auth100,
-			{
-				family: $("#translit_family_name").val()
-			}
-		]
-	];
+	var complete_names_list = []
+	if (auth100) {
+		complete_names_list.push(
+			[
+				auth100,
+				{
+					family: $("#translit_family_name").val()
+				}
+			]
+		);
+	}
 	console.log(complete_names_list);
 	
 	for (var i = 0; i < aCounter; i++) {
-		var auth700;
+		var auth700 = undefined;
 		if (document.getElementById("hiddenlc"+ i).getAttribute("href") !="") {
 			lcuri = document.getElementById("hiddenlc"+ i).getAttribute("href");
 			namelist = getnamesubfields(lcuri);
@@ -305,24 +316,31 @@ $("#marc-maker").submit(function(event) {
 						role: $("#role" + i).val(),
 					}
 				}else{
-					alert("Can't find the name(s) in Wikidata, please catalog in the monograph page!");
+					auth700 = {
+						family: $("#family_name" + i).val(),
+						wiki: "",
+						viaf: "",
+						lc: "",
+						role: $("#role" + i).val(),
+					}
 				}
 			}
 			
 		}
-		complete_names_list.push(
-			[
-				auth700,
-				{ 
-					"family": $("#translit_family_name" + i).val()
-				}
-			]
-		);	
+		if (auth700) {
+			complete_names_list.push(
+				[
+					auth700,
+					{ 
+						"family": $("#translit_family_name" + i).val()
+					}
+				]
+			);
+		}	
 	}
 
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
-	console.log(entry100);
 
 	console.log($("#literature-yes").is(':checked'));
 	console.log($("#illustrations-yes").is(':checked'));
