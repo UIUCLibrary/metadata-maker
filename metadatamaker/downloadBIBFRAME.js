@@ -38,8 +38,70 @@ function buildAdminMetadata(doc) {
 	return adminMetadataEl;
 }
 
-function addTitle(doc,record) {
+function buildTitle(doc,record) {
+	//Title
+ 	const titleEl = doc.createElement("bf:title");
+ 	const TitleEl = doc.createElement("bf:Title");
+ 	const mainTitleEl = doc.createElement("bf:mainTitle");
+ 	const MainTitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[0]['title'])));
+ 	mainTitleEl.appendChild(MainTitleText);
+ 	TitleEl.appendChild(mainTitleEl);
 
+ 	//Subtitle
+ 	if (checkExists(record.title[0]['subtitle'])) {
+ 		worksubtitleEl = doc.createElement("bf:subtitle");
+ 		worksubtitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[0]['subtitle'])));
+ 		worksubtitleEl.appendChild(worksubtitleText);
+ 		TitleEl.appendChild(worksubtitleEl);
+ 	}
+ 	titleEl.appendChild(TitleEl);
+
+ 	//Transliterated Title
+ 	if (checkExists(record.title[1]['title'])) {
+ 		const TransliteratedTitleEl = doc.createElement("bf:TransliteratedTitle");
+	 	const transliteratedmainTitleEl = doc.createElement("bf:mainTitle");
+	 	const transliteratedmainTitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[1]['title'])));
+	 	transliteratedmainTitleEl.appendChild(transliteratedmainTitleText);
+	 	TransliteratedTitleEl.appendChild(transliteratedmainTitleEl);
+
+	 	//Transliterated Subtitle
+	 	if (checkExists(record.title[1]['subtitle'])) {
+	 		const transliteratedsubtitleEl = doc.createElement("bf:subtitle");
+	 		const transliteratedsubtitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[1]['subtitle'])));
+	 		transliteratedsubtitleEl.appendChild(transliteratedsubtitleText);
+	 		TransliteratedTitleEl.appendChild(transliteratedsubtitleEl);
+	 	}
+
+	 	titleEl.appendChild(TransliteratedTitleEl);
+ 	}
+
+	return titleEl;
+}
+
+function buildLanguage(doc,record) {
+	const languageEl = doc.createElement("bf:language");
+ 	const LanguageEl = doc.createElement("bf:Language");
+ 	LanguageEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/languages/${record.language}`);
+ 	languageEl.appendChild(LanguageEl);
+	return languageEl;
+}
+
+function buildEdition(doc,record) {
+	const editionStatementEl = doc.createElement("bf:editionStatement");
+	const editionStatementText = doc.createTextNode(escapeXML(record.edition));
+	editionStatementEl.appendChild(editionStatementText);
+	return editionStatementEl;
+}
+
+function buildISBN(doc,record) {
+	const isbnidentifiedByEl = doc.createElement("bf:identifiedBy");
+	const isbnEl = doc.createElement("bf:Isbn");
+	const isbnValeEl = doc.createElement("rdf:value");
+	const isbnValText = doc.createTextNode(record.isbn);
+	isbnValeEl.appendChild(isbnValText);
+	isbnEl.appendChild(isbnValeEl);
+	isbnidentifiedByEl.appendChild(isbnEl);
+	return isbnidentifiedByEl;
 }
 
 function buildContributor(doc,contributor,primary=false) {
@@ -59,11 +121,6 @@ function buildContributor(doc,contributor,primary=false) {
  	//Agent
  	const agentEl = doc.createElement("bf:agent");
  	const AgentEl = doc.createElement("bf:Agent");
-	console.log(primary_source);
-	console.log(contributor[0]);
-	console.log(contributor[0][primary_source])
-	console.log(contributor[0][primary_source].length > 0)
-	console.log(escapeXML(contributor[0][primary_source]))
 	if (contributor[0][primary_source].length > 0) {
 		AgentEl.setAttribute("rdf:about",escapeXML(contributor[0][primary_source]))
 	}
@@ -116,16 +173,109 @@ function buildContributor(doc,contributor,primary=false) {
 
  	contributionEl.appendChild(ContributionEl);
 	return contributionEl;
-// 	workEl.appendChild(contributionEl);
 }
 
-/*
- * Build a BIBFRAME record. Each DOM object is saved as a string, then all the strings are combined into one master text
- *
- * record: 			 object containing the user-input data
- * institution_info: object containing name of institution creating record
- */
-function downloadBIBFRAME(record,institution_info) {
+function buildPublicationDate(doc,record) {
+	const dateEl = doc.createElement("bf:date");
+	dateEl.setAttribute("rdf:datatype","http://id.loc.gov/datatypes/edtf");
+	const dateText = doc.createTextNode(record.publication_year);
+	dateEl.appendChild(dateText);
+	return dateEl;
+}
+
+function buildPublicationPlace(doc,record) {
+	const placeEl = doc.createElement("bf:place");
+	const PlaceEl = doc.createElement("bf:Place");
+	const placeLabelEl = doc.createElement("rdfs:label");
+	const placeLabelText = doc.createTextNode(escapeXML(record.publication_place));
+	placeLabelEl.appendChild(placeLabelText);
+	PlaceEl.appendChild(placeLabelEl);
+	placeEl.appendChild(PlaceEl);
+	return placeEl;
+}
+
+function buildPublicationCountry(doc,record) {
+	const countryplaceEl = doc.createElement("bf:place");
+	const countryPlaceEl = doc.createElement("bf:Place");
+	countryPlaceEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/countries/${record.publication_country.code}`);
+	const countryLabelEl = doc.createElement("rdfs:label");
+	const countryLabelText = doc.createTextNode(record.publication_country.text);
+	countryLabelEl.appendChild(countryLabelText);
+	countryLabelEl.setAttribute("xml:lang","en");
+	countryPlaceEl.appendChild(countryLabelEl);
+	countryplaceEl.appendChild(countryPlaceEl);
+	return countryplaceEl;
+}
+
+function buildPublisher(doc,record) {
+	const provisionActivityagentEl = doc.createElement("bf:agent");
+	const provisionActivityAgentEl = doc.createElement("bf:Agent");
+	const provisionActivityagentLabelEl = doc.createElement("rdfs:label");
+	const provisionActivityagentLabelText = doc.createTextNode(escapeXML(record.publisher));
+	provisionActivityagentLabelEl.appendChild(provisionActivityagentLabelText);
+	provisionActivityAgentEl.appendChild(provisionActivityagentLabelEl);
+	provisionActivityagentEl.appendChild(provisionActivityAgentEl);
+	return provisionActivityagentEl;
+}
+
+function buildProvisionActivity(doc,record) {
+	const provisionActivityEl = doc.createElement("bf:provisionActivity");
+	const ProvisionActivityEl = doc.createElement("bf:ProvisionActivity");
+	const provisionActivityTypeEl = doc.createElement("rdf:type");
+	provisionActivityTypeEl.setAttribute("rdf:resource","http://id.loc.gov/ontologies/bibframe/Publication");
+	ProvisionActivityEl.appendChild(provisionActivityTypeEl);
+
+	//Publication Date
+	if (checkExists(record.publication_year)) {
+		ProvisionActivityEl.appendChild(buildPublicationDate(doc,record));
+	}
+
+	//Publication Place
+	if (checkExists(record.publication_place)) {
+		ProvisionActivityEl.appendChild(buildPublicationPlace(doc,record));
+	}
+
+	//Publication Country/State/Province
+	if (checkExists(record.publication_country)) {
+		ProvisionActivityEl.appendChild(buildPublicationCountry(doc,record));
+	}
+
+	//Publisher Name
+	if (checkExists(record.publisher)) {
+		ProvisionActivityEl.appendChild(buildPublisher(doc,record));
+	}
+
+	provisionActivityEl.appendChild(ProvisionActivityEl);
+	return provisionActivityEl;
+}
+
+function buildCopyrightDate(doc,record) {
+	const copyrightDateEl = doc.createElement("bf:copyrightDate");
+	copyrightDateEl.setAttribute("rdf:datatype","http://id.loc.gov/datatypes/edtf");
+	const copyrightDateText = doc.createTextNode(record.copyright_year);
+	copyrightDateEl.appendChild(copyrightDateText);
+	return copyrightDateEl;
+}
+
+function buildDimensions(doc,record) {
+	const dimensionsEl = doc.createElement("bf:dimensions");
+ 	const dimensionsText = doc.createTextNode(`${escapeXML(record.dimensions.trim())} cm`);
+ 	dimensionsEl.appendChild(dimensionsText);
+	return dimensionsEl;
+}
+
+function buildExtent(doc,record) {
+	const extentEl = doc.createElement("bf:extent");
+	const ExtentEl = doc.createElement("bf:Extent");
+	const extentLabelEl = doc.createElement("rdfs:label");
+	const extentLabelText = doc.createTextNode(`${escapeXML(record.pages)} ${record.volume_or_page}`);
+	extentLabelEl.appendChild(extentLabelText);
+	ExtentEl.appendChild(extentLabelEl);
+	extentEl.appendChild(ExtentEl);
+	return extentEl;
+}
+
+function buildGenre(doc,record) {
 	const literatureTypes = {
 		'0': 'Not fiction (not further specified)',
 		'1': 'Fiction (not further specified)',
@@ -142,6 +292,25 @@ function downloadBIBFRAME(record,institution_info) {
 		'|': 'No attempt to code'
 	}
 
+	const genreFormEl = doc.createElement("bf:genreForm");
+	const GenreFormEl = doc.createElement("bf:GenreForm");
+	const genreFormLabelEl = doc.createElement("rdfs:label");
+	const genreFormLabelText = doc.createTextNode(literatureTypes[record.literature_dropdown]);
+	genreFormLabelEl.appendChild(genreFormLabelText);
+	GenreFormEl.appendChild(genreFormLabelEl);
+	genreFormEl.appendChild(GenreFormEl);
+	return genreFormEl;
+}
+
+function buildIllustrations(doc) {
+	const illustrativeContentEl = doc.createElement("bf:illustrativeContent");
+	const IllustrationEl = doc.createElement("bf:Illustration");
+	IllustrationEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/millus/ill");
+	illustrativeContentEl.appendChild(IllustrationEl);
+	return illustrativeContentEl
+}
+
+function buildFASTSubjects(doc,fast_heading) {
 	const fastTypes = {
 		'100': 'Agent',
 		'110': 'Agent',
@@ -170,6 +339,116 @@ function downloadBIBFRAME(record,institution_info) {
 		'MediumOfPerformance': 'Medium'
 	}
 
+	const subjectEl = doc.createElement("bf:subject");
+	const classString = fast_heading[2] in fastTypes ? fastTypes[fast_heading[2]] : "Topic"
+	const TopicEl = doc.createElement(`bf:${classString}`);
+	TopicEl.setAttribute("rdf:about",`http://id.worldcat.org/fast/${fast_heading[1]}`);
+	//Type
+	const TopicTypeEl = doc.createElement("rdf:type");
+	TopicTypeEl.setAttribute("rdf:resource",`http://www.loc.gov/mads/rdf/v1#${madsTypes[classString]}`)
+	TopicEl.appendChild(TopicTypeEl);
+	//Label
+	const TopicLabelEl = doc.createElement("rdfs:label");
+	const TopicLabelText = doc.createTextNode(fast_heading[0]);
+	TopicLabelEl.appendChild(TopicLabelText);
+	TopicEl.appendChild(TopicLabelEl);
+	//Source
+	const TopicsourceEl = doc.createElement("bf:source");
+	const TopicSourceEl = doc.createElement("bf:Source");
+	TopicSourceEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/identifiers/fast");
+	const TopicsourcecodeEl = doc.createElement("bf:code");
+	const TopicsourcecodeText = doc.createTextNode("fast");
+	TopicsourcecodeEl.appendChild(TopicsourcecodeText);
+	TopicSourceEl.appendChild(TopicsourcecodeEl);
+	TopicsourceEl.appendChild(TopicSourceEl);
+	TopicEl.appendChild(TopicsourceEl);
+	subjectEl.appendChild(TopicEl);
+	return subjectEl;
+}
+
+function buildSubjects(doc,keyword) {
+	const subjectEl = doc.createElement("bf:subject");
+	const TopicEl = doc.createElement("bf:Topic");
+	const TopicTypeEl = doc.createElement("rdf:type");
+	TopicTypeEl.setAttribute("rdf:resource","http://www.loc.gov/mads/rdf/v1#Topic");
+	TopicEl.appendChild(TopicTypeEl);
+	const TopicLabelEl = doc.createElement("rdfs:label");
+	const TopicLabelText = doc.createTextNode(escapeXML(keyword));
+	TopicLabelEl.appendChild(TopicLabelText);
+	TopicEl.appendChild(TopicLabelEl);
+	subjectEl.appendChild(TopicEl);
+	return subjectEl;
+}
+
+function buildMediaType(doc) {
+	const mediaEl = doc.createElement("bf:media");
+ 	const MediaEl = doc.createElement("bf:Media");
+ 	MediaEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/mediaTypes/n");
+ 	const MediaLabelEl = doc.createElement("rdfs:label");
+ 	const MediaLabelText = doc.createTextNode("unmediated");
+ 	MediaLabelEl.appendChild(MediaLabelText);
+ 	MediaEl.appendChild(MediaLabelEl);
+ 	const MediaCodeEl = doc.createElement("bf:code");
+ 	const MediaCodeText = doc.createTextNode("n");
+ 	MediaCodeEl.appendChild(MediaCodeText);
+ 	MediaEl.appendChild(MediaCodeEl);
+ 	mediaEl.appendChild(MediaEl);
+	return mediaEl;
+}
+
+function buildCarrierType(doc) {
+	const carrierEl = doc.createElement("bf:carrier");
+ 	const CarrierEl = doc.createElement("bf:Carrier");
+ 	CarrierEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/carriers/nc");
+ 	const CarrierLabelEl = doc.createElement("rdfs:label");
+ 	const CarrierLabelText = doc.createTextNode("volume");
+ 	CarrierLabelEl.appendChild(CarrierLabelText);
+ 	CarrierEl.appendChild(CarrierLabelEl);
+ 	const CarrierCodeEl = doc.createElement("bf:code");
+ 	const CarrierCodeText = doc.createTextNode("nc");
+ 	CarrierCodeEl.appendChild(CarrierCodeText);
+ 	CarrierEl.appendChild(CarrierCodeEl);
+ 	carrierEl.appendChild(CarrierEl);
+	return carrierEl;
+}
+
+function buildIssuance(doc) {
+	const issuanceEl = doc.createElement("bf:issuance");
+ 	const IssuanceEl = doc.createElement("bf:Issuance");
+ 	IssuanceEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/issuance/mono");
+ 	const IssuanceLabelEl = doc.createElement("rdfs:label");
+ 	const IssuanceLabelText = doc.createTextNode("single unit");
+ 	IssuanceLabelEl.appendChild(IssuanceLabelText);
+ 	IssuanceEl.appendChild(IssuanceLabelEl);
+ 	const IssuanceCodeEl = doc.createElement("bf:code");
+ 	const IssuanceCodeText = doc.createTextNode("mono");
+ 	IssuanceCodeEl.appendChild(IssuanceCodeText);
+ 	IssuanceEl.appendChild(IssuanceCodeEl);
+ 	issuanceEl.appendChild(IssuanceEl);
+	return issuanceEl;
+}
+
+function buildNotes(doc) {
+	const noteEl = doc.createElement("bf:note");
+	const NoteEl = doc.createElement("bf:Note");
+	const NoteTypeEl = doc.createElement("rdf:type");
+	NoteTypeEl.setAttribute("rdf:resource","http://id.loc.gov/vocabulary/mnotetype/biblio");
+	NoteEl.appendChild(NoteTypeEl);
+	const NoteLabelEl = doc.createElement("rdfs:label");
+	const NoteLabelText = doc.createTextNode("Includes bibliographical references and index.");
+	NoteLabelEl.appendChild(NoteLabelText);
+	NoteEl.appendChild(NoteLabelEl);
+	noteEl.appendChild(NoteEl);
+	return noteEl;
+}
+
+/*
+ * Build a BIBFRAME record. Each DOM object is saved as a string, then all the strings are combined into one master text
+ *
+ * record: 			 object containing the user-input data
+ * institution_info: object containing name of institution creating record
+ */
+function downloadBIBFRAME(record,institution_info) {
  	const id = crypto.randomUUID();
  	const startText = '<?xml version="1.0" encoding="UTF-8"?>\n<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bf="http://id.loc.gov/ontologies/bibframe/" xmlns:bflc="http://id.loc.gov/ontologies/bflc/" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n</rdf:RDF>';
  	const parser = new DOMParser();
@@ -191,77 +470,32 @@ function downloadBIBFRAME(record,institution_info) {
 
  	//Admin Metadata
  	workEl.appendChild(buildAdminMetadata(doc));
-
- 	//Title
- 	const titleEl = doc.createElement("bf:title");
- 	const TitleEl = doc.createElement("bf:Title");
- 	const mainTitleEl = doc.createElement("bf:mainTitle");
- 	const MainTitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[0]['title'])));
- 	mainTitleEl.appendChild(MainTitleText);
- 	TitleEl.appendChild(mainTitleEl);
-
- 	//Subtitle
- 	if (checkExists(record.title[0]['subtitle'])) {
- 		worksubtitleEl = doc.createElement("bf:subtitle");
- 		worksubtitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[0]['subtitle'])));
- 		worksubtitleEl.appendChild(worksubtitleText);
- 		TitleEl.appendChild(worksubtitleEl);
- 	}
- 	titleEl.appendChild(TitleEl);
-
- 	//Transliterated Title
- 	if (checkExists(record.title[1]['title'])) {
- 		const TransliteratedTitleEl = doc.createElement("bf:TransliteratedTitle");
-	 	const transliteratedmainTitleEl = doc.createElement("bf:mainTitle");
-	 	const transliteratedmainTitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[1]['title'])));
-	 	transliteratedmainTitleEl.appendChild(transliteratedmainTitleText);
-	 	TransliteratedTitleEl.appendChild(transliteratedmainTitleEl);
-
-	 	//Transliterated Subtitle
-	 	if (checkExists(record.title[1]['subtitle'])) {
-	 		const transliteratedsubtitleEl = doc.createElement("bf:subtitle");
-	 		const transliteratedsubtitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[1]['subtitle'])));
-	 		transliteratedsubtitleEl.appendChild(transliteratedsubtitleText);
-	 		TransliteratedTitleEl.appendChild(transliteratedsubtitleEl);
-	 	}
-
-	 	titleEl.appendChild(TransliteratedTitleEl);
- 	}
  	
+	//Title
+	const titleEl = buildTitle(doc,record);
  	workEl.appendChild(titleEl);
  	instancetitleEl = titleEl.cloneNode(true);
  	instanceEl.appendChild(instancetitleEl);
 
  	//Language
- 	const languageEl = doc.createElement("bf:language");
- 	const LanguageEl = doc.createElement("bf:Language");
- 	LanguageEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/languages/${record.language}`);
- 	languageEl.appendChild(LanguageEl);
- 	workEl.appendChild(languageEl);
+	if (checkExists(record.language)) {
+		workEl.appendChild(buildLanguage(doc,record));
+	}
 
  	//Edition
  	if (checkExists(record.edition)) {
- 		const editionStatementEl = doc.createElement("bf:editionStatement");
- 		const editionStatementText = doc.createTextNode(escapeXML(record.edition));
- 		editionStatementEl.appendChild(editionStatementText);
- 		instanceEl.appendChild(editionStatementEl);
+ 		instanceEl.appendChild(buildEdition(doc,record));
  	}
 
  	//ISBN
  	if (checkExists(record.isbn)) {
- 		const isbnidentifiedByEl = doc.createElement("bf:identifiedBy");
- 		const isbnEl = doc.createElement("bf:Isbn");
- 		const isbnValeEl = doc.createElement("rdf:value");
- 		const isbnValText = doc.createTextNode(record.isbn);
- 		isbnValeEl.appendChild(isbnValText);
- 		isbnEl.appendChild(isbnValeEl);
- 		isbnidentifiedByEl.appendChild(isbnEl);
- 		instanceEl.appendChild(isbnidentifiedByEl);
+ 		instanceEl.appendChild(buildISBN(doc,record));
  	}
 
  	//Contributors
-	console.log(record.author);
- 	workEl.appendChild(buildContributor(doc,record.author,true));
+	if (checkExists(record.author)) {
+		workEl.appendChild(buildContributor(doc,record.author,true));
+	}
  	if (checkExists(record.additional_authors)) {
  		for (let i = 0; i < record.additional_authors.length; i++) {
  			workEl.appendChild(buildContributor(doc,record.additional_authors[i]));
@@ -270,210 +504,57 @@ function downloadBIBFRAME(record,institution_info) {
 
  	//Provision Activity
  	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.publication_year)) {
- 		const provisionActivityEl = doc.createElement("bf:provisionActivity");
- 		const ProvisionActivityEl = doc.createElement("bf:ProvisionActivity");
- 		const provisionActivityTypeEl = doc.createElement("rdf:type");
- 		provisionActivityTypeEl.setAttribute("rdf:resource","http://id.loc.gov/ontologies/bibframe/Publication");
- 		ProvisionActivityEl.appendChild(provisionActivityTypeEl);
-
- 		//Publication Date
- 		if (checkExists(record.publication_year)) {
- 			const dateEl = doc.createElement("bf:date");
- 			dateEl.setAttribute("rdf:datatype","http://id.loc.gov/datatypes/edtf");
- 			const dateText = doc.createTextNode(record.publication_year);
- 			dateEl.appendChild(dateText);
- 			ProvisionActivityEl.appendChild(dateEl);
- 		}
-
- 		//Publication Place
- 		if (checkExists(record.publication_place)) {
- 			const placeEl = doc.createElement("bf:place");
- 			const PlaceEl = doc.createElement("bf:Place");
- 			const placeLabelEl = doc.createElement("rdfs:label");
- 			const placeLabelText = doc.createTextNode(escapeXML(record.publication_place));
- 			placeLabelEl.appendChild(placeLabelText);
- 			PlaceEl.appendChild(placeLabelEl);
- 			placeEl.appendChild(PlaceEl);
- 			ProvisionActivityEl.appendChild(placeEl);
- 		}
-
- 		//Publication Country/State/Province
- 		if (checkExists(record.publication_country)) {
- 			const countryplaceEl = doc.createElement("bf:place");
- 			const countryPlaceEl = doc.createElement("bf:Place");
- 			countryPlaceEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/countries/${record.publication_country.code}`);
- 			const countryLabelEl = doc.createElement("rdfs:label");
- 			const countryLabelText = doc.createTextNode(record.publication_country.text);
- 			countryLabelEl.appendChild(countryLabelText);
- 			countryLabelEl.setAttribute("xml:lang","en");
- 			countryPlaceEl.appendChild(countryLabelEl);
- 			countryplaceEl.appendChild(countryPlaceEl);
- 			ProvisionActivityEl.appendChild(countryplaceEl);
- 		}
-
- 		//Publisher Name
- 		if (checkExists(record.publisher)) {
- 			const provisionActivityagentEl = doc.createElement("bf:agent");
- 			const provisionActivityAgentEl = doc.createElement("bf:Agent");
- 			const provisionActivityagentLabelEl = doc.createElement("rdfs:label");
- 			const provisionActivityagentLabelText = doc.createTextNode(escapeXML(record.publisher));
- 			provisionActivityagentLabelEl.appendChild(provisionActivityagentLabelText);
- 			provisionActivityAgentEl.appendChild(provisionActivityagentLabelEl);
- 			provisionActivityagentEl.appendChild(provisionActivityAgentEl);
- 			ProvisionActivityEl.appendChild(provisionActivityagentEl);
- 		}
-
-
- 		provisionActivityEl.appendChild(ProvisionActivityEl);
- 		instanceEl.appendChild(provisionActivityEl);
+ 		instanceEl.appendChild(buildProvisionActivity(doc,record));
  	}
 
  	//Copyright Date
  	if (checkExists(record.copyright_year)) {
- 		const copyrightDateEl = doc.createElement("bf:copyrightDate");
- 		copyrightDateEl.setAttribute("rdf:datatype","http://id.loc.gov/datatypes/edtf");
- 		const copyrightDateText = doc.createTextNode(record.copyright_year);
- 		copyrightDateEl.appendChild(copyrightDateText);
- 		instanceEl.appendChild(copyrightDateEl);
+ 		instanceEl.appendChild(buildCopyrightDate(doc,record));
  	}
 
  	//Dimensions
- 	const dimensionsEl = doc.createElement("bf:dimensions");
- 	const dimensionsText = doc.createTextNode(`${escapeXML(record.dimensions.trim())} cm`);
- 	dimensionsEl.appendChild(dimensionsText);
- 	instanceEl.appendChild(dimensionsEl);
+	if (checkExists(record.dimensions)) {
+		instanceEl.appendChild(buildDimensions(doc,record));
+	}
 
  	//Pages/Volumes
-	const extentEl = doc.createElement("bf:extent");
-	const ExtentEl = doc.createElement("bf:Extent");
-	const extentLabelEl = doc.createElement("rdfs:label");
-	const extentLabelText = doc.createTextNode(`${escapeXML(record.pages)} ${record.volume_or_page}`);
-	extentLabelEl.appendChild(extentLabelText);
-	ExtentEl.appendChild(extentLabelEl);
-	extentEl.appendChild(ExtentEl);
-	instanceEl.appendChild(extentEl);
+	if (checkExists(record.pages) && checkExists(record.volume_or_page)) {
+		instanceEl.appendChild(buildExtent(doc,record));
+	}
 
  	//Genre
  	if (record.literature_yes && checkExists(record.literature_dropdown)) {
- 		const genreFormEl = doc.createElement("bf:genreForm");
- 		const GenreFormEl = doc.createElement("bf:GenreForm");
- 		const genreFormLabelEl = doc.createElement("rdfs:label");
- 		const genreFormLabelText = doc.createTextNode(literatureTypes[record.literature_dropdown]);
- 		genreFormLabelEl.appendChild(genreFormLabelText);
- 		GenreFormEl.appendChild(genreFormLabelEl);
- 		genreFormEl.appendChild(GenreFormEl);
- 		workEl.appendChild(genreFormEl);
+ 		workEl.appendChild(buildGenre(doc,record));
  	}
 
  	//Illustrations
  	if (record.illustrations_yes) {
- 		const illustrativeContentEl = doc.createElement("bf:illustrativeContent");
- 		const IllustrationEl = doc.createElement("bf:Illustration");
- 		IllustrationEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/millus/ill");
- 		illustrativeContentEl.appendChild(IllustrationEl);
- 		instanceEl.appendChild(illustrativeContentEl);
+ 		instanceEl.appendChild(buildIllustrations(doc));
  	}
 
  	//Keywords
- 	for (let k = 0; k < record.fast.length; k++) {
- 		const subjectEl = doc.createElement("bf:subject");
- 		const classString = record.fast[k][2] in fastTypes ? fastTypes[record.fast[k][2]] : "Topic"
- 		const TopicEl = doc.createElement(`bf:${classString}`);
- 		TopicEl.setAttribute("rdf:about",`http://id.worldcat.org/fast/${record.fast[k][1]}`);
- 		//Type
- 		const TopicTypeEl = doc.createElement("rdf:type");
- 		TopicTypeEl.setAttribute("rdf:resource",`http://www.loc.gov/mads/rdf/v1#${madsTypes[classString]}`)
- 		TopicEl.appendChild(TopicTypeEl);
- 		//Label
-		const TopicLabelEl = doc.createElement("rdfs:label");
-		const TopicLabelText = doc.createTextNode(record.fast[k][0]);
-		TopicLabelEl.appendChild(TopicLabelText);
-		TopicEl.appendChild(TopicLabelEl);
-		//Source
-		const TopicsourceEl = doc.createElement("bf:source");
-		const TopicSourceEl = doc.createElement("bf:Source");
-		TopicSourceEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/identifiers/fast");
-		const TopicsourcecodeEl = doc.createElement("bf:code");
-		const TopicsourcecodeText = doc.createTextNode("fast");
-		TopicsourcecodeEl.appendChild(TopicsourcecodeText);
-		TopicSourceEl.appendChild(TopicsourcecodeEl);
-		TopicsourceEl.appendChild(TopicSourceEl);
-		TopicEl.appendChild(TopicsourceEl);
-		subjectEl.appendChild(TopicEl);
-		workEl.appendChild(subjectEl);
- 	}
-
- 	for (let k = 0; k < record.keywords.length; k++) {
- 		const subjectEl = doc.createElement("bf:subject");
- 		const TopicEl = doc.createElement("bf:Topic");
- 		const TopicTypeEl = doc.createElement("rdf:type");
- 		TopicTypeEl.setAttribute("rdf:resource","http://www.loc.gov/mads/rdf/v1#Topic");
- 		TopicEl.appendChild(TopicTypeEl);
- 		const TopicLabelEl = doc.createElement("rdfs:label");
- 		const TopicLabelText = doc.createTextNode(escapeXML(record.keywords[k]));
- 		TopicLabelEl.appendChild(TopicLabelText);
- 		TopicEl.appendChild(TopicLabelEl);
- 		subjectEl.appendChild(TopicEl);
- 		workEl.appendChild(subjectEl);
- 	}
+	if (checkExists(record.fast)) {
+		for (let k = 0; k < record.fast.length; k++) {
+			workEl.appendChild(buildFASTSubjects(doc,record.fast[k]));
+		}
+	}
+	if (checkExists(record.keywords)) {
+		for (let k = 0; k < record.keywords.length; k++) {
+			workEl.appendChild(buildSubjects(doc,record.keywords[k]));
+		}
+	}
 
  	//Media Type
- 	const mediaEl = doc.createElement("bf:media");
- 	const MediaEl = doc.createElement("bf:Media");
- 	MediaEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/mediaTypes/n");
- 	const MediaLabelEl = doc.createElement("rdfs:label");
- 	const MediaLabelText = doc.createTextNode("unmediated");
- 	MediaLabelEl.appendChild(MediaLabelText);
- 	MediaEl.appendChild(MediaLabelEl);
- 	const MediaCodeEl = doc.createElement("bf:code");
- 	const MediaCodeText = doc.createTextNode("n");
- 	MediaCodeEl.appendChild(MediaCodeText);
- 	MediaEl.appendChild(MediaCodeEl);
- 	mediaEl.appendChild(MediaEl);
- 	instanceEl.appendChild(mediaEl);
+ 	instanceEl.appendChild(buildMediaType(doc));
 
  	//Carrier Type
- 	const carrierEl = doc.createElement("bf:carrier");
- 	const CarrierEl = doc.createElement("bf:Carrier");
- 	CarrierEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/carriers/nc");
- 	const CarrierLabelEl = doc.createElement("rdfs:label");
- 	const CarrierLabelText = doc.createTextNode("volume");
- 	CarrierLabelEl.appendChild(CarrierLabelText);
- 	CarrierEl.appendChild(CarrierLabelEl);
- 	const CarrierCodeEl = doc.createElement("bf:code");
- 	const CarrierCodeText = doc.createTextNode("nc");
- 	CarrierCodeEl.appendChild(CarrierCodeText);
- 	CarrierEl.appendChild(CarrierCodeEl);
- 	carrierEl.appendChild(CarrierEl);
- 	instanceEl.appendChild(carrierEl);
+ 	instanceEl.appendChild(buildCarrierType(doc));
 
  	//Issuance
- 	const issuanceEl = doc.createElement("bf:issuance");
- 	const IssuanceEl = doc.createElement("bf:Issuance");
- 	IssuanceEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/issuance/mono");
- 	const IssuanceLabelEl = doc.createElement("rdfs:label");
- 	const IssuanceLabelText = doc.createTextNode("single unit");
- 	IssuanceLabelEl.appendChild(IssuanceLabelText);
- 	IssuanceEl.appendChild(IssuanceLabelEl);
- 	const IssuanceCodeEl = doc.createElement("bf:code");
- 	const IssuanceCodeText = doc.createTextNode("mono");
- 	IssuanceCodeEl.appendChild(IssuanceCodeText);
- 	IssuanceEl.appendChild(IssuanceCodeEl);
- 	issuanceEl.appendChild(IssuanceEl);
- 	instanceEl.appendChild(issuanceEl);
+ 	instanceEl.appendChild(buildIssuance(doc));
 
  	if (record.bibliographies_yes) {
- 		const noteEl = doc.createElement("bf:note");
- 		const NoteEl = doc.createElement("bf:Note");
- 		const NoteTypeEl = doc.createElement("rdf:type");
- 		NoteTypeEl.setAttribute("rdf:resource","http://id.loc.gov/vocabulary/mnotetype/biblio");
- 		NoteEl.appendChild(NoteTypeEl);
- 		const NoteLabelEl = doc.createElement("rdfs:label");
- 		const NoteLabelText = doc.createTextNode("Includes bibliographical references and index.");
- 		NoteLabelEl.appendChild(NoteLabelText);
- 		NoteEl.appendChild(NoteLabelEl);
- 		noteEl.appendChild(NoteEl);
- 		workEl.appendChild(noteEl);
+ 		workEl.appendChild(buildNotes(doc));
  	}
 
  	workEl.appendChild(hasInstanceEl);
