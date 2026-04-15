@@ -33,6 +33,9 @@
 
 <body>
 	<header>
+		<noscript id="warning_system" class="warning">
+			WARNING: JavaScript is not enabled on this browser. This page requires JavaScript to function correctly.</noscript>
+		</noscript>
 		<div id="top_navigation">
 			<div id="insert" onClick="toggleInsertMenu()">
 				Insert
@@ -138,10 +141,6 @@
 		</form>
 	</header>
 	<main id="content">
-		<div id="warning_system">
-			<noscript>WARNING: JavaScript is not enabled on this browser. This page requires JavaScript to function correctly.</noscript>
-			<script src="metadatamaker/checkServer.js"></script>
-		</div>
 		<form id="marc-maker">
 			<div id="title-block">
 				<label for="title" class="heading">Title<span class="required_marker">*</span></label><label for="title" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</label><br>
@@ -1194,6 +1193,7 @@
 		<script src="metadatamaker/downloadBIBFRAME.js"></script>
 		<script src="metadatamaker/downloadHTML.js"></script>
 		<script src="metadatamaker/submitForm.js"></script>
+		<script src="metadatamaker/checkServer.js"></script>
 	</footer>
 </body>
 
