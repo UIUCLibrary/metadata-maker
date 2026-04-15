@@ -354,3 +354,27 @@ li:hover {
 .global_diacritics:hover {
 	background: #ededed;
 }
+
+#skip_link {
+	position: absolute;
+	background-color: white;
+	width: 100%;
+	margin: 0px;
+	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+	text-align: center;
+	padding: 10px;
+	z-index: 101;
+}
+
+#skip_link:not(:focus-within) {
+	top: -40px;
+}
+
+#skip_link:focus-within {
+	top: 0px;
+}
