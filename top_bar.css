@@ -157,7 +157,6 @@
 	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	font-size:17px;
 	padding:7px 40px;
-	padding-left: ;
 	text-decoration:none;
 }
 
@@ -310,15 +309,6 @@ li:hover {
 	border-left: 1px solid #fecc7e;
 	border-top: 1px solid #fecc7e;
 	z-index: 100;
-}
-
-.noselect {
-	-webkit-touch-callout: none; /* iOS Safari */
- 	-webkit-user-select: none;   /* Chrome/Safari/Opera */
- 	-khtml-user-select: none;    /* Konqueror */
- 	-moz-user-select: none;      /* Firefox */
- 	-ms-user-select: none;       /* IE/Edge */
- 	user-select: none; 
 }
 
 .global_diacritics {
