@@ -202,6 +202,10 @@ body:has(.warning) main {
 }
 
 #version_selector {
+	background: none;
+	color: inherit;
+	border: none;
+	font: inherit;
 	float: left;
 	padding-top: 12px;
 	padding-bottom: 12px;
@@ -264,7 +268,7 @@ body:has(.warning) main {
 	z-index: 22;
 	box-shadow: 1px 5px 8px rgba(102, 102, 102, 0.3);
 /*	margin-right: -275px;*/
-	display:inline-block;
+/*	display:inline-block;*/
 	cursor: pointer;
 	margin-left: -4px;
 }
