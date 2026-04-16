@@ -86,10 +86,14 @@ body:has(.warning) main {
 }
 
 #institution {
+	background: none;
+	color: inherit;
+	border: none;
 	position: relative;
+	text-align: right;
 	float: right;
-	height: 40px;
-	width: 271px;
+	height: 50px;
+	width: 290px;
 	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	font-size: 13px;
 	padding-top: 5px;
