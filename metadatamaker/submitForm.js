@@ -405,5 +405,9 @@ $("#marc-maker").submit(function(event) {
 		downloadBIBFRAME(recordObject,institution_info);
 	}
 
+	if ($('#BIBFRAME_Alma').is(':checked')) {
+		downloadBIBFRAME(recordObject,institution_info,true)
+	}
+
 	event.preventDefault();
 });

@@ -341,7 +341,7 @@ function downloadFile(text,filetype) {
 	else if (filetype === 'html') {
 		var header = 'data:text/html;charset=utf-8,';
 	}
-	else if (filetype === 'bibframe') {
+	else if (filetype === 'bibframe' || filetype === 'bibframe_work' || filetype === 'bibframe_instance') {
 		var header = 'data:text/xml;charset=utf-8,';
 	}
 	else {
@@ -367,6 +367,14 @@ function downloadFile(text,filetype) {
 		filename += '_BIBFRAME';
 		filetype = 'xml';
 	}
+	else if (filetype === 'bibframe_work') {
+		filename += '_BIBFRAME_Work';
+		filetype = 'xml';
+	}
+	else if (filetype === 'bibframe_instance') {
+		filename += '_BIBFRAME_Instance';
+		filetype = 'xml';
+	}
 
 	download_file.setAttribute('download', filename + '.' + filetype);
 	var clickReplacement = new MouseEvent('click', {
@@ -374,7 +382,11 @@ function downloadFile(text,filetype) {
 		'bubbles': true,
 		'cancleable': false
 	});
-	download_file.dispatchEvent(clickReplacement);
+	
+	setTimeout(() => {
+		console.log(download_file);
+		download_file.dispatchEvent(clickReplacement);
+	}, 1000);
 }
 
 /*

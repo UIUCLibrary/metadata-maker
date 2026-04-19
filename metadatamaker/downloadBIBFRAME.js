@@ -448,9 +448,9 @@ function buildNotes(doc) {
  * record: 			 object containing the user-input data
  * institution_info: object containing name of institution creating record
  */
-function downloadBIBFRAME(record,institution_info) {
+function downloadBIBFRAME(record,institution_info,alma=false) {
  	const id = crypto.randomUUID();
- 	const startText = '<?xml version="1.0" encoding="UTF-8"?>\n<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bf="http://id.loc.gov/ontologies/bibframe/" xmlns:bflc="http://id.loc.gov/ontologies/bflc/" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n</rdf:RDF>';
+ 	const startText = `<?xml version="1.0" encoding="UTF-8"?>\n${alma ? '<bib><record_format>lcbf_work</record_format><record>' : ''}<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bf="http://id.loc.gov/ontologies/bibframe/" xmlns:bflc="http://id.loc.gov/ontologies/bflc/" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n</rdf:RDF>${alma ? '</record></bib>' : ''}`;
  	const parser = new DOMParser();
  	const doc = parser.parseFromString(startText, "application/xml");
 
@@ -559,9 +559,39 @@ function downloadBIBFRAME(record,institution_info) {
 
  	workEl.appendChild(hasInstanceEl);
  	instanceEl.appendChild(instanceOfEl);
- 	doc.getElementsByTagName("rdf:RDF")[0].appendChild(workEl);
- 	doc.getElementsByTagName("rdf:RDF")[0].appendChild(instanceEl);
 
-	const serializer = new XMLSerializer();
-	downloadFile(serializer.serializeToString(doc),'bibframe');
+	if (alma) {
+		const instanceStartText = `<?xml version="1.0" encoding="UTF-8"?>\n<bib><record_format>lcbf_instance</record_format><record><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bf="http://id.loc.gov/ontologies/bibframe/" xmlns:bflc="http://id.loc.gov/ontologies/bflc/" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#">\n</rdf:RDF></record></bib>`;
+		const instanceDoc = parser.parseFromString(instanceStartText, "application/xml");
+
+		const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+		var zip = new JSZip();
+		const work_serializer = new XMLSerializer();
+		doc.getElementsByTagName("rdf:RDF")[0].appendChild(workEl);
+//		downloadFile(work_serializer.serializeToString(doc),'bibframe_work');
+		const work_filename = `${root_filename}_BIBFRAME_Work.xml`;
+		zip.folder(root_filename).file(work_filename,work_serializer.serializeToString(doc));
+		console.log("DOWNLOAD WORK");
+		console.log(doc);
+
+		const instance_serializer = new XMLSerializer();
+		instanceDoc.getElementsByTagName("rdf:RDF")[0].appendChild(instanceEl);
+//		downloadFile(instance_serializer.serializeToString(instanceDoc),'bibframe_instance');
+		const instance_filename = `${root_filename}_BIBFRAME_Instance.xml`;
+		zip.folder(root_filename).file(instance_filename,instance_serializer.serializeToString(instanceDoc));
+		console.log("DOWNLOAD INSTANCE");
+		console.log(instanceDoc);
+
+		zip.generateAsync({type: "blob"})
+			.then(function (blob) {
+				saveAs(blob,`${root_filename}.zip`);
+			});
+	}
+	else {
+		doc.getElementsByTagName("rdf:RDF")[0].appendChild(workEl);
+		doc.getElementsByTagName("rdf:RDF")[0].appendChild(instanceEl);
+
+		const serializer = new XMLSerializer();
+		downloadFile(serializer.serializeToString(doc),'bibframe');
+	}
 }
