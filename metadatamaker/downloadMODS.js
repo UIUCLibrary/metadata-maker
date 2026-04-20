@@ -147,5 +147,7 @@ function downloadMODS(record,institution_info) {
 
 	var endText = '</mods:mods>\n';
 	var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
-	downloadFile(text,'mods');
+
+	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+	return [ { name: `${root_filename}_MODS.xml`, value: text } ];
 }

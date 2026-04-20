@@ -384,30 +384,33 @@ $("#marc-maker").submit(function(event) {
 	};
 
 	var institution_info = generateInstitutionInfo();
+	let download_files = [];
 
 	if ($("#MARC").is(':checked')) {
-		downloadMARC(recordObject,institution_info);
+		download_files = download_files.concat(downloadMARC(recordObject,institution_info));
 	}
 
 	if ($("#MARCXML").is(':checked')) {
-		downloadXML(recordObject,institution_info);
+		download_files = download_files.concat(downloadXML(recordObject,institution_info));
 	}
 
 	if ($("#MODS").is(':checked')) {
-		downloadMODS(recordObject,institution_info);
+		download_files = download_files.concat(downloadMODS(recordObject,institution_info));
 	}
 
 	if ($("#HTML").is(':checked')) {
-		downloadHTML(recordObject,institution_info);
+		download_files = download_files.concat(downloadHTML(recordObject,institution_info));
 	}
 
 	if ($("#BIBFRAME").is(':checked')) {
-		downloadBIBFRAME(recordObject,institution_info);
+		download_files = download_files.concat(downloadBIBFRAME(recordObject,institution_info));
 	}
 
 	if ($('#BIBFRAME_Alma').is(':checked')) {
-		downloadBIBFRAME(recordObject,institution_info,true)
+		download_files = download_files.concat(downloadBIBFRAME(recordObject,institution_info,true));
 	}
+
+	downloadFiles(download_files);
 
 	event.preventDefault();
 });
