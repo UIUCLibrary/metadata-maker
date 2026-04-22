@@ -116,9 +116,20 @@ input[type="number"] {
 	margin-bottom: -46px;
 }
 
+.name-block {
+	padding: 6px;
+}
+
 #author-block {
-	padding: 3px;
 	width: 700px;
+}
+
+#corporate-block {
+	width: 400px;
+}
+
+.insert_corporate_name {
+	left: -146px;
 }
 
 #publication-block {
@@ -170,6 +181,15 @@ input[type="number"] {
 	left: 25px;
 }
 
+.translit-corporate_name-block {
+	position: relative;
+	left: 25px;
+}
+
+.insert_translit_corporate_name {
+	left: -140px;
+}
+
 .insert {
 	position: relative;
 	float: right;
@@ -207,6 +227,11 @@ input[type="number"] {
 .additional_menu {
 	position: relative;
 	bottom: 10px;
+}
+
+.additional_corporate_menu {
+	position: relative;
+	bottom: 3px;
 }
 
 #insert-popup {
@@ -251,9 +276,13 @@ input[type="number"] {
 	border: solid black 1px;
 }
 
-.added {
+.added, .added_corporate {
 	padding-top: 6px;
 	padding-bottom: 6px;
+}
+
+.added_corporate {
+	margin-top: -7px;
 }
 
 .added-keyword {

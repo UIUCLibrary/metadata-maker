@@ -689,9 +689,9 @@
 				</select>
 			</div>
 
-			<fieldset id="author-block">
+			<fieldset id="author-block" class="name-block">
 				<legend for="author" class="heading">Names</legend>
-				<!--<label for="family_name">Name</label>-->
+				<label for="family_name">Name</label>
 				<label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label>
 				<!--<label for="role">Role</label>-->
 				<br>
@@ -1173,15 +1173,15 @@
 				<input type="text" id="filename" placeholder="record">.[file type]
 			</div>
 
-			<div id="formats-block" class="standard-block">
-				<legend for="filetype">Choose record formats:</label><br>
-				<input type="checkbox" id="MARC" name="filetype"><label for="MARC">MARC</label><br>
-				<input type="checkbox" id="MARCXML" name="filetype"><label for="MARCXML">MARCXML</label><br>
-				<input type="checkbox" id="MODS" name="filetype"><label for="MODS">MODS</label><br>
-				<input type="checkbox" id="BIBFRAME" name="filetype"><label for="BIBFRAME">BIBFRAME</label><br>
-				<input type="checkbox" id="BIBFRAME_Alma" name="filetype"><label for="BIBFRAME_Alma">BIBFRAME (Alma)</label><br>
-				<input type="checkbox" id="HTML" name="filetype"><label for="HTML">HTML</label>
-			</div>
+			<fieldset id="formats-block" class="standard-block">
+				<legend for="filetype">Choose record formats:</legend>
+				<input type="checkbox" id="MARC" class="filetype"><label for="MARC">MARC</label><br>
+				<input type="checkbox" id="MARCXML" class="filetype"><label for="MARCXML">MARCXML</label><br>
+				<input type="checkbox" id="MODS" class="filetype"><label for="MODS">MODS</label><br>
+				<input type="checkbox" id="BIBFRAME" class="filetype"><label for="BIBFRAME">BIBFRAME</label><br>
+				<input type="checkbox" id="BIBFRAME_Alma" class="filetype"><label for="BIBFRAME_Alma">BIBFRAME (Alma)</label><br>
+				<input type="checkbox" id="HTML" class="filetype"><label for="HTML">HTML</label>
+			</fieldset>
 
 			<div id="buttons" class="standard-block">
 				<input type="submit" value="Make" id="make">
