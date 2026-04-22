@@ -689,8 +689,12 @@
 				</select>
 			</div>
 
-			<div id="author-block">
-				<label for="author" class="heading">Names</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><br>
+			<fieldset id="author-block">
+				<legend for="author" class="heading">Names</legend>
+				<!--<label for="family_name">Name</label>-->
+				<label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label>
+				<!--<label for="role">Role</label>-->
+				<br>
 				<div id="insert-family_name"></div>
 				<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Given Name Family Name">
 				<select name="role" id="role">
@@ -715,7 +719,7 @@
 					<div id="insert-translit_family_name"></div>
 					<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Given Name Family Name">
 				</div>
-			</div>
+			</fieldset>
 
 			<div id="publisher-block" class="standard-block">
 				<label for="publisher" class="heading">Name of publisher</label><label for="publisher" class="insert insert_normal" onClick='insertMenu("publisher");'>Insert Diacritics</label><br>
