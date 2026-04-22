@@ -5,7 +5,6 @@
 	<title>Metadata Maker for Data Set</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-	<script src="webshim/js-webshim/minified/polyfiller.js"></script>
 	<script src="assignFAST/assignFASTExample.js"></script>
 	<script src="assignFAST/assignFASTGadget.js"></script>
 	<script src="assignFAST/assignFASTComplete.js"></script>
@@ -138,9 +137,6 @@
 	</form>
 	<div id="warning_system">
 		<noscript>WARNING: JavaScript is not enabled on this browser. This page requires JavaScript to function correctly.</noscript>
-		<!--Allow Safari and older versions of IE to behave as if they implement HTML5's 'required' attribute-->
-		<script>jQuery.webshims.polyfill('forms');</script>
-		<script src="metadatamaker/checkServer.js"></script>
 	</div>
 	<div id="content">
 		<form id="marc-maker">
@@ -1184,6 +1180,7 @@
 		<script src="metadatamaker/downloadMODS.js"></script>
 		<script src="metadatamaker/downloadHTML.js"></script>
 		<script src="metadatamaker/submitForm.js"></script>
+		<script src="metadatamaker/checkServer.js"></script>
 	</div>
 </body>
 
