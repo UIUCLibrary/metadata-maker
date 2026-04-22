@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
 	<title>Metadata Maker for Data Set</title>
@@ -16,7 +16,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-	<link href="stylesheets/marcmaker.css" rel="stylesheet" media="screen">
+	<link href="../stylesheets/marcmaker.css" rel="stylesheet" media="screen">
 	<link href="../stylesheets/top_bar.css" rel="stylesheet" media="screen">
 	<link rel="icon" href="../images/favicon.svg" type="image/svg+xml" sizes="any">
 	<link rel="icon" href="../images/favicon-16x16.png" type="image/png">
@@ -159,7 +159,7 @@
 				<div id="insert-subtitle"></div>
 				<input type="text" required id="subtitle" class="conditional">
 				<label title="Record the subtitle if one exists"><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="subtitle_listed" class="listed">
+				<label for="subtitle_listed" class="unlisted">Unlisted</label><input type="checkbox" id="subtitle_listed" class="listed">
 			</div>
 
 			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
@@ -667,8 +667,9 @@
 
 			<fieldset id="names-block">
 				<legend class="heading">Names</legend>
-				<fieldset id="author-block">
-					<label for="author" class="heading">Personal</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
+				<fieldset id="author-block" class="name-block">
+					<legend class="heading">Personal</legend>
+					<label for="author" class="heading">Name</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
 					<div id="insert-family_name"></div><div id="insert-given_name"></div>
 					<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
 					<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
@@ -683,7 +684,7 @@
 					<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
 					<input type="button" value="+" id="add-author" onClick="addAuthor();">
 					<br>
-					<span class="unlisted">Unlisted</span><input type="checkbox" id="author_listed" class="listed">
+					<label for="author_listed" class="unlisted">Unlisted</label><input type="checkbox" id="author_listed" class="listed">
 
 					<div id="translit-family_name-block" class="translit-family_name-block translit-block translit-author hidden">
 						<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
@@ -693,8 +694,9 @@
 					</div>
 				</fieldset>
 
-				<fieldset id="corporate-block">
-					<label for="corporate_name" class="heading">Corporate/Organization</label><label for="corporate_name" class="insert insert_corporate_name" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
+				<fieldset id="corporate-block" class="name-block">
+					<legend class="heading">Corporate/Organization</legend>
+					<label for="corporate_name" class="heading">Name</label><label for="corporate_name" class="insert insert_corporate_name" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
 					<div id="insert-corporate_name"></div>
 					<input type="text" class="corporate conditional translit-listen" required id="corporate_name">
 					<select name="role" id="corporate_role">
@@ -704,7 +706,7 @@
 					<label title="Enter the name of creators or contributors listed on the piece and select the appropriate role from the drop down menu."><span class="question-mark">?</span></label>
 					<input type="button" value="+" id="add-corporate" onClick="addCorporate();">
 					<br>
-					<span class="unlisted">Unlisted</span><input type="checkbox" id="corporate_name_listed" class="listed">
+					<label for="corporate_name_listed" class="unlisted">Unlisted</label><input type="checkbox" id="corporate_name_listed" class="listed">
 					<div id="translit-corporate_name-block" class="translit-corporate_name-block translit-block translit-corporate_name hidden">
 						<label for="translit_corporate_name" class="hidden translit heading translit-corporate_name">Transliterated name</label><label for="translit_corporate_name" class="insert insert_translit_corporate_name hidden translit translit-corporate_name" onClick='insertMenu("translit_corporate_name");'>Insert Diacritics</label><br>
 						<div id="insert-translit_corporate_name"></div>
@@ -718,7 +720,7 @@
 				<div id="insert-publisher"></div>
 				<input type="text" required id="publisher" class="conditional translit-listen">
 				<label title="Record the name of the publisher as it appears on the piece. Prefer the name that appears on the title page."><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="publisher_listed" class="listed">
+				<label for="publisher_listed" class="unlisted">Unlisted</label><input type="checkbox" id="publisher_listed" class="listed">
 			</div>
 
 			<div id="translit-publisher-block" class="translit-publisher-block translit-block hidden standard-translit-block">
@@ -731,7 +733,7 @@
 				<label for="web-url" class="heading">Web URL</label><label for="web-url" class="insert insert_normal" onClick='insertMenu("web-url");'>Insert Diacritics</label><br>
 				<div id="insert-web-url"></div>
 				http://<input type="text" required id="web-url" class="conditional"><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="web-url_listed" class="listed">
+				<label for="web-url_listed" class="unlisted">Unlisted</label><input type="checkbox" id="web-url_listed" class="listed">
 			</div>
 
 			<div id="place-block" class="standard-block">
@@ -739,7 +741,7 @@
 				<div id="insert-place"></div>
 				<input type="text" required id="place" class="conditional translit-listen">
 				<label title="Record the place of publication as it appears on the piece. Prefer the place that appears on the title page. If there is more than one place, record only one. E.g., Boston, Massachusetts"><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="place_listed" class="listed">
+				<label for="place_listed" class="unlisted">Unlisted</label><input type="checkbox" id="place_listed" class="listed">
 			</div>
 
 			<div id="translit-place-block" class="translit-place-block translit-block hidden standard-translit-block">
@@ -1086,21 +1088,21 @@
 					<option value="rh">Zimbabwe</option>
 				</select>
 				<label title="Select the country of publication from the drop-down menu. If published in the United States, Canada, Australia, or the United Kingdom, select the state, province, or geographic region"><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="country_listed" class="listed">
+				<label for="country_listed" class="unlisted">Unlisted</label><input type="checkbox" id="country_listed" class="listed">
 			</div>
 
 			<div id="publication-block">
-				<label for="date" class="heading">Date of publication</label><br>
+				<label for="year" class="heading">Date of publication</label><br>
 				<input type="number" class="date conditional" required id="year" min="0">
 				<label title="Record the year of publication if it appears on the piece. Do not record a copyright date here. Copyright dates should be recorded in the next field."><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="year_listed" class="listed">
+				<label for="year_listed" class="unlisted">Unlisted</label><input type="checkbox" id="year_listed" class="listed">
 			</div>
 
 			<div id="copyright-block">
 				<label for="cyear" class="heading">Copyright date</label><br>
 				<input type="number" class="date conditional" required id="cyear" min="0">
 				<label title="Record the year of copyright if it appears on the piece."><span class="question-mark">?</span></label><br>
-				<span class="unlisted">Unlisted</span><input type="checkbox" id="cyear_listed" class="listed">
+				<label for="cyear_listed" class="unlisted">Unlisted</label><input type="checkbox" id="cyear_listed" class="listed">
 			</div>
 
 			<div id="format-block" class="standard-block">
@@ -1144,7 +1146,7 @@
 			</div>
 
 			<div id="keywords" class="standard-block">
-				<label for="keywords" class="heading">Keywords<span class="required_marker">*</span></label><br>
+				<label for="keyword0" class="heading">Keywords<span class="required_marker">*</span></label><br>
 				<input type="text" class="fastID hidden" id="fastID0">
 				<input type="number" class="fastType hidden" id="fastType0">
 				<input type="text" class="fastInd hidden" id="fastInd0">
@@ -1162,14 +1164,14 @@
 				<input type="text" id="filename" placeholder="record">.[file type]
 			</div>
 
-			<div id="formats-block" class="standard-block">
-				<label for="filetype">Choose record formats:</label><br>
-				<input type="checkbox" id="MARC" class="filetype">MARC<br>
-				<input type="checkbox" id="MARCXML" class="filetype">MARCXML<br>
-				<input type="checkbox" id="MODS" class="filetype">MODS<br>
-				<input type="checkbox" id="BIBFRAME" class="filetype">BIBFRAME<br>
-				<input type="checkbox" id="HTML" class="filetype">HTML
-			</div>
+			<fieldset id="formats-block" class="standard-block">
+				<legend for="filetype">Choose record formats:</legend>
+				<input type="checkbox" id="MARC" class="filetype"><label for="MARC">MARC</label><br>
+				<input type="checkbox" id="MARCXML" class="filetype"><label for="MARCXML">MARCXML</label><br>
+				<input type="checkbox" id="MODS" class="filetype"><label for="MODS">MODS</label><br>
+				<input type="checkbox" id="BIBFRAME" class="filetype"><label for="BIBFRAME">BIBFRAME</label><br>
+				<input type="checkbox" id="HTML" class="filetype"><label for="HTML">HTML</label>
+			</fieldset>
 
 			<div id="buttons" class="standard-block">
 				<input type="submit" value="Make" id="make">
