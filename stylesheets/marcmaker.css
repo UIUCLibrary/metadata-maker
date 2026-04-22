@@ -160,9 +160,14 @@ input[type="number"] {
 }
 
 .translit-author {
+/*	position: relative;
+	left: 25px;*/
+	width: 700px;
+}
+
+.translit-block {
 	position: relative;
 	left: 25px;
-	width: 700px;
 }
 
 .insert {

@@ -2,10 +2,6 @@
 	display: none;
 }
 
-*:focus {
-    outline: 0;
-}
-
 body {
 	margin: 0px;
 	font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
@@ -25,11 +21,6 @@ h1 {
 	font-weight: 500;
 	line-height: 26.3999996185303px;
 }
-
-/*noscript, #server_warning {
-	margin: 40px;
-	background-color: #FFFAAD;
-}*/
 
 .question-mark {
 	font-family: Lato;
@@ -125,13 +116,8 @@ input[type="number"] {
 	margin-bottom: -46px;
 }
 
-#names_title {
-	padding: 3px;
-}
-
 #author-block {
 	padding: 6px;
-	padding-left: 36px;
 	width: 700px;
 }
 
