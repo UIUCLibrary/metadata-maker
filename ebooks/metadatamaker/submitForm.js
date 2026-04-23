@@ -167,7 +167,7 @@ $("#marc-maker").submit(function(event) {
 		publisher: $("#publisher").val(),
 		publication_year: $("#year").val(),
 		publication_place: $("#place").val(),
-		publication_country: $("#country").val(),
+		publication_country: $("#country").val() ? {code: $("#country").val(), text: $("#country option:selected").text()} : undefined,
 		copyright_year: $("#cyear").val(),
 		web_url: 'http://' + $("#web-url").val(),
 		language: $("#language").val(),
@@ -200,6 +200,10 @@ $("#marc-maker").submit(function(event) {
 
 	if ($("#MODS").is(':checked')) {
 		download_files = download_files.concat(downloadMODS(recordObject,institution_info));
+	}
+
+	if ($("#BIBFRAME").is(':checked')) {
+		download_files = download_files.concat(downloadBIBFRAME(recordObject,institution_info));
 	}
 
 	if ($("#HTML").is(':checked')) {

@@ -399,3 +399,16 @@ function getTimestamp() {
 function escapeXML(content) {
 	return content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
 }
+
+/*
+ * Remove trailing colons and slashes from text strings
+ */
+function cleanTitleText(text) {
+	const last_char = text.trim().substr(text.trim().length - 1);
+	if (last_char == ':' || last_char == '/') {
+		return text.trim().substr(0,text.trim().length - 1).trim();
+	}
+	else {
+		return text.trim();
+	}
+}
