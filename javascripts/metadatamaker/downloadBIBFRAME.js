@@ -131,7 +131,7 @@ function buildContributor(doc,contributor,primary=false) {
  	AgentEl.appendChild(agentTypeEl);
 
  	//Label
- 	const agentLabelTextValue = escapeXML(contributor[0]['family']);
+ 	const agentLabelTextValue = escapeXML(contributor[0]['author']);
  	if (agentLabelTextValue) {
  		const agentLabelEl = doc.createElement("rdfs:label");
  		const agentLabelText = doc.createTextNode(agentLabelTextValue);

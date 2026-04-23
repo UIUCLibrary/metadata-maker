@@ -50,7 +50,7 @@
 				<div id="version_static">
 					Metadata Maker for
 				</div>
-				<button id="version_selector" type="button" onClick="toggleVersionMenu()">
+				<button id="version_selector" type="button" role="navigation" onClick="toggleVersionMenu()">
 					<div id="version_name" value="dataset">
 						Data Sets
 					</div>
@@ -148,14 +148,14 @@
 	<main id="content">
 		<form id="marc-maker">
 			<div id="title-block">
-				<label for="title" class="heading">Title<span class="required_marker">*</span></label><label for="title" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</label><br>
+				<label for="title" class="heading">Title<span class="required_marker">*</span></label><button type="button" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</button><br>
 				<div id="insert-title"></div>
 				<input type="text" required id="title" class="required translit-listen">
 				<label title="Record the title as it appears on the title page. If the title includes a subtitle, record only the main title here, and the subtitle in the next field."><span class="question-mark">?</span></label>
 			</div>
 
 			<div id="subtitle-block">
-				<label for="subtitle" class="heading">Subtitle</label><label for="subtitle" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</label><br>
+				<label for="subtitle" class="heading">Subtitle</label><button type="button" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</button><br>
 				<div id="insert-subtitle"></div>
 				<input type="text" required id="subtitle" class="conditional">
 				<label title="Record the subtitle if one exists"><span class="question-mark">?</span></label><br>
@@ -163,13 +163,13 @@
 			</div>
 
 			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
-				<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><label for="translit_title" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</label><br>
+				<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><button type="button" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</button><br>
 				<div id="insert-translit_title" class="hidden translit translit-title"></div>
 				<input type="text" id="translit_title" class="hidden translit translit-title">
 			</div>
 
 			<div id="translit-subtitle-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
-				<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><label for="translit_subtitle" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</label><br>
+				<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><button type="button" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</button><br>
 				<div id="insert-translit_subtitle" class="hidden translit translit-title"></div>
 				<input type="text" id="translit_subtitle" class="hidden translit translit-title">
 			</div>
@@ -669,7 +669,7 @@
 				<legend class="heading">Names</legend>
 				<fieldset id="author-block" class="name-block">
 					<legend class="heading">Personal</legend>
-					<label for="author" class="heading">Name</label><label for="family_name" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</label><label for="given_name" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</label><br>
+					<label for="author" class="heading">Name</label><button type="button" class="insert insert_family_name" onClick='insertMenu("family_name");'>Insert Diacritics</button><button type="button" class="insert insert_given_name" onClick='insertMenu("given_name");'>Insert Diacritics</button><br>
 					<div id="insert-family_name"></div><div id="insert-given_name"></div>
 					<input type="text" class="author conditional translit-listen" required id="family_name" placeholder="Family Name">, 
 					<input type="text" class="author conditional translit-listen" required id="given_name" placeholder="Given Name">
@@ -687,7 +687,7 @@
 					<label for="author_listed" class="unlisted">Unlisted</label><input type="checkbox" id="author_listed" class="listed">
 
 					<div id="translit-family_name-block" class="translit-family_name-block translit-block translit-author hidden">
-						<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><label for="translit_family_name" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</label><label for="translit_given_name" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</label><br>
+						<label for="translit_family_name" class="hidden translit heading translit-family_name">Transliterated name</label><button type="button" class="insert insert_family_name hidden translit translit-family_name" onClick='insertMenu("translit_family_name");'>Insert Diacritics</button><button type="button" class="insert insert_given_name hidden translit translit-family_name" onClick='insertMenu("translit_given_name");'>Insert Diacritics</button><br>
 						<div id="insert-translit_family_name"></div><div id="insert-translit_given_name" class="insert-given_name"></div>
 						<input type="text" id="translit_family_name" class="hidden translit translit-family_name" placeholder="Transliterated Family Name"><span class="hidden translit-family_name">, </span>
 						<input type="text" id="translit_given_name" class="hidden translit translit-family_name" placeholder="Transliterated Given Name">
@@ -696,7 +696,7 @@
 
 				<fieldset id="corporate-block" class="name-block">
 					<legend class="heading">Corporate/Organization</legend>
-					<label for="corporate_name" class="heading">Name</label><label for="corporate_name" class="insert insert_corporate_name" onClick='insertMenu("corporate_name");'>Insert Diacritics</label><br>
+					<label for="corporate_name" class="heading">Name</label><button type="button" class="insert insert_corporate_name" onClick='insertMenu("corporate_name");'>Insert Diacritics</button><br>
 					<div id="insert-corporate_name"></div>
 					<input type="text" class="corporate conditional translit-listen" required id="corporate_name">
 					<select name="role" id="corporate_role">
@@ -708,7 +708,7 @@
 					<br>
 					<label for="corporate_name_listed" class="unlisted">Unlisted</label><input type="checkbox" id="corporate_name_listed" class="listed">
 					<div id="translit-corporate_name-block" class="translit-corporate_name-block translit-block translit-corporate_name hidden">
-						<label for="translit_corporate_name" class="hidden translit heading translit-corporate_name">Transliterated name</label><label for="translit_corporate_name" class="insert insert_translit_corporate_name hidden translit translit-corporate_name" onClick='insertMenu("translit_corporate_name");'>Insert Diacritics</label><br>
+						<label for="translit_corporate_name" class="hidden translit heading translit-corporate_name">Transliterated name</label><button type="button" class="insert insert_translit_corporate_name hidden translit translit-corporate_name" onClick='insertMenu("translit_corporate_name");'>Insert Diacritics</button><br>
 						<div id="insert-translit_corporate_name"></div>
 						<input type="text" id="translit_corporate_name" class="hidden translit translit-corporate_name">
 					</div>
@@ -716,7 +716,7 @@
 			</fieldset>
 
 			<div id="publisher-block" class="standard-block">
-				<label for="publisher" class="heading">Name of publisher</label><label for="publisher" class="insert insert_normal" onClick='insertMenu("publisher");'>Insert Diacritics</label><br>
+				<label for="publisher" class="heading">Name of publisher</label><button type="button" class="insert insert_normal" onClick='insertMenu("publisher");'>Insert Diacritics</button><br>
 				<div id="insert-publisher"></div>
 				<input type="text" required id="publisher" class="conditional translit-listen">
 				<label title="Record the name of the publisher as it appears on the piece. Prefer the name that appears on the title page."><span class="question-mark">?</span></label><br>
@@ -724,20 +724,20 @@
 			</div>
 
 			<div id="translit-publisher-block" class="translit-publisher-block translit-block hidden standard-translit-block">
-				<label for="translit_publisher" class="hidden translit heading translit-publisher">Transliterated publisher</label><label for="translit_publisher" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_publisher");'>Insert Diacritics</label><br>
+				<label for="translit_publisher" class="hidden translit heading translit-publisher">Transliterated publisher</label><button type="button" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_publisher");'>Insert Diacritics</button><br>
 				<div id="insert-translit_publisher" class="hidden translit translit-publisher"></div>
 				<input type="text" id="translit_publisher" class="hidden translit translit-publisher">
 			</div>
 
 			<div id="web-url-block" class="standard-block">
-				<label for="web-url" class="heading">Web URL</label><label for="web-url" class="insert insert_normal" onClick='insertMenu("web-url");'>Insert Diacritics</label><br>
+				<label for="web-url" class="heading">Web URL</label><button type="button" class="insert insert_normal" onClick='insertMenu("web-url");'>Insert Diacritics</button><br>
 				<div id="insert-web-url"></div>
 				http://<input type="text" required id="web-url" class="conditional"><br>
 				<label for="web-url_listed" class="unlisted">Unlisted</label><input type="checkbox" id="web-url_listed" class="listed">
 			</div>
 
 			<div id="place-block" class="standard-block">
-				<label for="place" class="heading">Place of publication</label><label for="place" class="insert insert_normal" onClick='insertMenu("place");'>Insert Diacritics</label><br>
+				<label for="place" class="heading">Place of publication</label><button type="button" class="insert insert_normal" onClick='insertMenu("place");'>Insert Diacritics</button><br>
 				<div id="insert-place"></div>
 				<input type="text" required id="place" class="conditional translit-listen">
 				<label title="Record the place of publication as it appears on the piece. Prefer the place that appears on the title page. If there is more than one place, record only one. E.g., Boston, Massachusetts"><span class="question-mark">?</span></label><br>
@@ -745,7 +745,7 @@
 			</div>
 
 			<div id="translit-place-block" class="translit-place-block translit-block hidden standard-translit-block">
-				<label for="translit_place" class="hidden translit heading translit-place">Transliterated place</label><label for="translit_place" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_place");'>Insert Diacritics</label><br>
+				<label for="translit_place" class="hidden translit heading translit-place">Transliterated place</label><button type="button" class="insert insert_normal hidden translit translit-publisher" onClick='insertMenu("translit_place");'>Insert Diacritics</button><br>
 				<div id="insert-translit_place" class="hidden translit translit-publisher"></div>
 				<input type="text" id="translit_place" class="hidden translit translit-place">
 			</div>
@@ -1169,7 +1169,7 @@
 				<input type="checkbox" id="MARC" class="filetype"><label for="MARC">MARC</label><br>
 				<input type="checkbox" id="MARCXML" class="filetype"><label for="MARCXML">MARCXML</label><br>
 				<input type="checkbox" id="MODS" class="filetype"><label for="MODS">MODS</label><br>
-				<input type="checkbox" id="BIBFRAME" class="filetype"><label for="BIBFRAME">BIBFRAME</label><br>
+				<!--<input type="checkbox" id="BIBFRAME" class="filetype"><label for="BIBFRAME">BIBFRAME</label><br>-->
 				<input type="checkbox" id="HTML" class="filetype"><label for="HTML">HTML</label>
 			</fieldset>
 

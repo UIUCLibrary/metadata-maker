@@ -863,24 +863,16 @@ function buildSpan(prop,content) {
 
 /*
  * Create a new div for each person listed as a contributer, switching the itemscope to person. Separately label
- * the family name and given name.
+ * the author name.
  */
-function listPerson(family,given,role) {
+function listPerson(author,role) {
 	var role_index = { 'art': 'contributor', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'contributor'};
 	var prop = role_index[role];
 	var output_string = '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="http://schema.org/Person">\n';
 	output_string += '\t\t\t\t<dt>' + role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1) + ':</dt>\n';
 	output_string += '\t\t\t\t<dd><b>';
-	if (checkExists(family) && checkExists(given)) {
-		output_string += buildSpan('familyName',family) + ', ' + buildSpan('givenName',given);
-	}
-	else if (checkExists(family) || checkExists(given)) {
-		if (checkExists(family)) {
-			output_string += buildSpan('familyName',family);
-		}
-		else {
-			output_string += buildSpan('givenName',given);
-		}
+	if (checkExists(author)) {
+		output_string += buildSpan('authorName',author);
 	}
 	output_string += '</b></dd>\n';
 	output_string += '\t\t\t</div>\n';
@@ -921,13 +913,13 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
 
-	if (checkExists(record.author[0]['role']) && (checkExists(record.author[0]['given']) || checkExists(record.author[0]['family']))) {
-		displayTags += listPerson(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	if (checkExists(record.author[0]['role']) && checkExists(record.author[0]['author'])) {
+		displayTags += listPerson(record.author[0]['author'],record.author[0]['role']);
 	}
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			displayTags += listPerson(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
+			displayTags += listPerson(record.additional_authors[i][0]['author'],record.additional_authors[i][0]['role']);
 		}
 	}
 

@@ -1,3 +1,7 @@
+html {
+	scroll-padding-top: 50px;
+}
+
 .hidden {
 	display: none;
 }
@@ -165,10 +169,10 @@ input[type="number"] {
 	width: 400px;
 }
 
-.added-author {
+/*.added-author {
 	position: relative;
 	top: -10px;
-}
+}*/
 
 .translit-author {
 /*	position: relative;
@@ -191,6 +195,9 @@ input[type="number"] {
 }
 
 .insert {
+	background: none;
+	color: inherit;
+	border: none;
 	position: relative;
 	float: right;
 	font-family: 'Roboto Slab', serif;

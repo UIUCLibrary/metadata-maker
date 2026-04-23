@@ -166,8 +166,8 @@ function generateInstitutionInfo() {
  * with no name or role listed.
  *
  * list: List of people. Each person is a list of two objects. The first object contains the
- *		 person's family name, given name, and role in creating the piece being catalogued.
- *		 The second object contains the transliterated family name and given name of the same
+ *		 person's author name and role in creating the piece being catalogued.
+ *		 The second object contains the transliterated author name of the same
  *		 person if applicable. Otherwise those two fields are empty strings.
  */
 function find100(list) {
@@ -183,7 +183,7 @@ function find100(list) {
 		}
 	}
 
-	return [[{'family':'','role':'','wiki':'','viaf':'','lc':''},{'family':''}]];
+	return [[{'author':'','role':'','wiki':'','viaf':'','lc':''},{'author':''}]];
 }
 
 /*
@@ -222,7 +222,7 @@ $("#marc-maker").submit(function(event) {
 		lcuri = document.getElementById("hiddenlc").getAttribute("href");
 		namelist = getnamesubfields(lcuri);
 		auth100 = {
-			family:namelist["finalnametag"][0],
+			author: namelist["finalnametag"][0],
 			wiki: document.getElementById("hiddenwiki").getAttribute("href"),
 			viaf: document.getElementById("hiddenviaf").getAttribute("href"),
 			lc: document.getElementById("hiddenlc").getAttribute("href"),
@@ -234,10 +234,10 @@ $("#marc-maker").submit(function(event) {
 		if (document.getElementById("hiddenviaf").getAttribute("href")!=""){
 			console.log("B");
 			var link = document.getElementById("hiddenviaf").getAttribute("href");
-			var autname = $("#family_name").val();
+			var autname = $("#author_name").val();
 			autname = getviafname(link, autname);
 			auth100 = {
-				family: autname,
+				author: autname,
 				wiki: document.getElementById("hiddenwiki").getAttribute("href"),
 				viaf: document.getElementById("hiddenviaf").getAttribute("href"),
 				lc: "",
@@ -247,7 +247,7 @@ $("#marc-maker").submit(function(event) {
 			if (document.getElementById("hiddenwiki").getAttribute("href") !="") {
 				console.log("C");
 				auth100 = {
-					family: $("#family_name").val(),
+					author: $("#author_name").val(),
 					wiki: document.getElementById("hiddenwiki").getAttribute("href"),
 					viaf: "",
 					lc: "",
@@ -256,7 +256,7 @@ $("#marc-maker").submit(function(event) {
 			}else{
 				console.log("D");
 				auth100 = {
-					family: $("#family_name").val(),
+					author: $("#author_name").val(),
 					wiki: "",
 					viaf: "",
 					lc: "",
@@ -273,7 +273,7 @@ $("#marc-maker").submit(function(event) {
 			[
 				auth100,
 				{
-					family: $("#translit_family_name").val()
+					author: $("#translit_author_name").val()
 				}
 			]
 		);
@@ -286,42 +286,42 @@ $("#marc-maker").submit(function(event) {
 			lcuri = document.getElementById("hiddenlc"+ i).getAttribute("href");
 			namelist = getnamesubfields(lcuri);
 			auth700 = {
-				family:namelist["finalnametag"][0],
+				author: namelist["finalnametag"][0],
 				wiki: document.getElementById("hiddenwiki"+ i).getAttribute("href"),
 				viaf: document.getElementById("hiddenviaf"+ i).getAttribute("href"),
 				lc: lcuri,
-				role: $("#role").val(),
+				role: $(`#role${i}`).val(),
 				subbd: namelist["finalnametag"].slice(1,),
 				ind1: namelist["ind1"]
 			}
 		}else{
 			if (document.getElementById("hiddenviaf"+ i).getAttribute("href") !=""){
 				var link700 = document.getElementById("hiddenviaf"+ i).getAttribute("href");
-				var autname700 = $("#family_name" + i).val();
+				var autname700 = $("#author_name" + i).val();
 				autname700 = getviafname(link700, autname700);
 				auth700 = {
-					family: autname700,
+					author: autname700,
 					wiki: document.getElementById("hiddenwiki"+ i).getAttribute("href"),
 					viaf: document.getElementById("hiddenviaf"+ i).getAttribute("href"),
 					lc: "",
-					role: $("#role" + i).val(),
+					role: $(`#role${i}`).val(),
 				}
 			}else{
 				if (document.getElementById("hiddenwiki"+ i).getAttribute("href") !="") {
 					auth700 = {
-						family: $("#family_name" + i).val(),
+						author: $("#author_name" + i).val(),
 						wiki: document.getElementById("hiddenwiki"+ i).getAttribute("href"),
 						viaf: "",
 						lc: "",
-						role: $("#role" + i).val(),
+						role: $(`#role${i}`).val(),
 					}
 				}else{
 					auth700 = {
-						family: $("#family_name" + i).val(),
+						author: $("#author_name" + i).val(),
 						wiki: "",
 						viaf: "",
 						lc: "",
-						role: $("#role" + i).val(),
+						role: $(`#role${i}`).val(),
 					}
 				}
 			}
@@ -332,7 +332,7 @@ $("#marc-maker").submit(function(event) {
 				[
 					auth700,
 					{ 
-						"family": $("#translit_family_name" + i).val()
+						"author": $("#translit_author_name" + i).val()
 					}
 				]
 			);
