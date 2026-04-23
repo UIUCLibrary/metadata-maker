@@ -337,46 +337,54 @@ function checkExists(attr) {
  *	text: One long string that will be written to the file
  *	filetype: What kind of file is being written (MARC,MARCXML,MODS,HTML)
  */
-function downloadFile(text,filetype) {
+function downloadFile(text,filename) {
 	var download_file = document.createElement('a');
 
-	if (filetype === 'mrc') {
+	if (filename.endsWith('.mrc')) {
 		var header = 'data:application/marc;charset=utf-8,';
 	}
-	else if (filetype === 'html') {
+	else if (filename.endsWith('html')) {
 		var header = 'data:text/html;charset=utf-8,';
+	}
+	else if (filename.includes('BIBFRAME') && filename.endsWith('.xml')) {
+		var header = 'data:text/xml;charset=utf-8,';
 	}
 	else {
 		var header = 'data:text/plain;charset=utf-8,';
 	}
 
 	download_file.setAttribute('href',header + encodeURIComponent(text));
-	if (checkExists($("#filename").val())) {
-		var filename = $("#filename").val();
-	}
-	else {
-		var filename = 'record';
-	}
 
-	if (filetype === 'xml') {
-		filename += '_MARCXML';
-	}
-	else if (filetype === 'mods') {
-		filename += '_MODS';
-		filetype = 'xml';
-	}
-	else if (filetype === 'onix') {
-		filename += '_ONIX';
-		filetype = 'xml';
-	}
-
-	download_file.setAttribute('download', filename + '.' + filetype);
+	download_file.setAttribute('download', filename);
 	var clickReplacement = new MouseEvent('click', {
 		'view': window,
 		'bubbles': true,
 		'cancleable': false
 	});
+	
 	download_file.dispatchEvent(clickReplacement);
+}
+
+/*
+ * If there are multiple files generated, pack them into a Zip file. If there is a single file,
+ * call downloadFile()
+ */
+function downloadFiles(file_array) {
+	if (file_array.length > 1) {
+		const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+		var zip = new JSZip();
+		file_array.forEach(file_object => {
+			zip.folder(root_filename).file(file_object['name'],file_object['value']);
+		});
+
+		zip.generateAsync({type: "blob"})
+			.then(function (blob) {
+				saveAs(blob,`${root_filename}.zip`);
+			});
+	}
+	else if (file_array.length == 1) {
+		downloadFile(file_array[0]['value'],file_array[0]['name']);
+	}
 }
 
 /*
@@ -390,4 +398,17 @@ function getTimestamp() {
 
 function escapeXML(content) {
 	return content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
+}
+
+/*
+ * Remove trailing colons and slashes from text strings
+ */
+function cleanTitleText(text) {
+	const last_char = text.trim().substr(text.trim().length - 1);
+	if (last_char == ':' || last_char == '/') {
+		return text.trim().substr(0,text.trim().length - 1).trim();
+	}
+	else {
+		return text.trim();
+	}
 }
