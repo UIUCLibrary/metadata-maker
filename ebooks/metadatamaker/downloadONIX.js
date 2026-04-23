@@ -317,5 +317,7 @@ function downloadONIX(record,institution_info) {
 	var endText = '</ONIXMessage>';
 
 	var text = startText + headerText + productText + endText;
-	downloadFile(text,'onix');
+
+	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+	return [ { name: `${root_filename}_ONIX.xml`, value: text } ];
 }
