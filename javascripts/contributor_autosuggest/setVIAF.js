@@ -24,7 +24,7 @@ function setUpVIAF() {
 		select: function(event, ui){
 			const item = ui.item
 			const thisid = $(this).attr('id');
-			suffix = thisid.replace('family_name', '');
+			suffix = thisid.replace('author_name', '');
 			const hiddenwikiid = `hiddenwiki${suffix}`;
 			const hiddenwikidivid = `hiddenwikidiv${suffix}`;
 			const hiddenviafid = "hiddenviaf" + suffix;
