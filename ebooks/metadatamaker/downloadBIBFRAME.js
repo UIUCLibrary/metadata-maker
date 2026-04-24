@@ -48,7 +48,7 @@ function buildTitle(doc,record) {
  	TitleEl.appendChild(mainTitleEl);
 
  	//Subtitle
- 	if (checkExists(record.title[0]['subtitle'])) {
+ 	if (checkExists(record?.title[0]['subtitle'])) {
  		worksubtitleEl = doc.createElement("bf:subtitle");
  		worksubtitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[0]['subtitle'])));
  		worksubtitleEl.appendChild(worksubtitleText);
@@ -57,7 +57,7 @@ function buildTitle(doc,record) {
  	titleEl.appendChild(TitleEl);
 
  	//Transliterated Title
- 	if (checkExists(record.title[1]['title'])) {
+ 	if (checkExists(record?.title[1]['title'])) {
  		const TransliteratedTitleEl = doc.createElement("bf:TransliteratedTitle");
 	 	const transliteratedmainTitleEl = doc.createElement("bf:mainTitle");
 	 	const transliteratedmainTitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[1]['title'])));
@@ -65,7 +65,7 @@ function buildTitle(doc,record) {
 	 	TransliteratedTitleEl.appendChild(transliteratedmainTitleEl);
 
 	 	//Transliterated Subtitle
-	 	if (checkExists(record.title[1]['subtitle'])) {
+	 	if (checkExists(record?.title[1]['subtitle'])) {
 	 		const transliteratedsubtitleEl = doc.createElement("bf:subtitle");
 	 		const transliteratedsubtitleText = doc.createTextNode(escapeXML(cleanTitleText(record.title[1]['subtitle'])));
 	 		transliteratedsubtitleEl.appendChild(transliteratedsubtitleText);
@@ -226,22 +226,22 @@ function buildProvisionActivity(doc,record) {
 	ProvisionActivityEl.appendChild(provisionActivityTypeEl);
 
 	//Publication Date
-	if (checkExists(record.publication_year)) {
+	if (checkExists(record?.publication_year)) {
 		ProvisionActivityEl.appendChild(buildPublicationDate(doc,record));
 	}
 
 	//Publication Place
-	if (checkExists(record.publication_place)) {
+	if (checkExists(record?.publication_place)) {
 		ProvisionActivityEl.appendChild(buildPublicationPlace(doc,record));
 	}
 
 	//Publication Country/State/Province
-	if (checkExists(record.publication_country)) {
+	if (checkExists(record?.publication_country)) {
 		ProvisionActivityEl.appendChild(buildPublicationCountry(doc,record));
 	}
 
 	//Publisher Name
-	if (checkExists(record.publisher)) {
+	if (checkExists(record?.publisher)) {
 		ProvisionActivityEl.appendChild(buildPublisher(doc,record));
 	}
 
@@ -310,23 +310,64 @@ function buildIllustrations(doc) {
 	return illustrativeContentEl
 }
 
-function buildBISACSubjects(doc,bisac_heading) {
+function buildSimpleBISACSubjects(doc,bisac_heading) {
 	const subjectEl = doc.createElement("bf:subject");
 	const TopicEl = doc.createElement("bf:Topic");
-	TopicEl.setAttribute("rdf:about",bisac_heading['id_number']);
-	const TopicTypeEl = doc.createElement("rdf:type");
-	TopicTypeEl.setAttribute("rdf:resource","http://www.loc.gov/mads/rdf/v1#Topic");
-	TopicEl.appendChild(TopicTypeEl);
-	//Label
-	const TopicLabelEl = doc.createElement("rdfs:label");
-	const TopicLabelText = doc.createTextNode(`${bisac_heading['root']}${bisac_heading['level1'] ? ` / ${bisac_heading['level1']}${bisac_heading['level2'] ? ` / ${bisac_heading['level2']}${bisac_heading['level3'] ? ` / ${bisac_heading['level3']}` : ''}` : ''}` : ''}`);
-	TopicLabelEl.appendChild(TopicLabelText);
-	TopicEl.appendChild(TopicLabelEl);
+	const codeEl = doc.createElement("bf:code");
+	const codeText = doc.createTextNode(bisac_heading['id_number']);
+	codeEl.appendChild(codeText);
+	TopicEl.appendChild(codeEl);
 	//Source
 	const TopicsourceEl = doc.createElement("bf:source");
 	const TopicSourceEl = doc.createElement("bf:Source");
+	TopicSourceEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/classSchemes/bisacsh");
+	TopicsourceEl.appendChild(TopicSourceEl);
+	TopicEl.appendChild(TopicsourceEl);
+	subjectEl.appendChild(TopicEl);
+	return subjectEl;
+}
+
+function buildComponent(doc,heading_text) {
+	const TopicEl = doc.createElement("madsrdf:Topic");
+	const authoritativeLabelEl = doc.createElement("madsrdf:authoritativeLabel");
+	const authoritativeLabelText = doc.createTextNode(heading_text);
+	authoritativeLabelEl.appendChild(authoritativeLabelText);
+	TopicEl.appendChild(authoritativeLabelEl);
+	return TopicEl;
+}
+
+function buildComplexBISACSubjects(doc,bisac_heading) {
+	const subjectEl = doc.createElement("bf:subject");
+	const TopicEl = doc.createElement("bf:Topic");
+	const TopicTypeEl = doc.createElement("rdf:type");
+	TopicTypeEl.setAttribute("rdf:resource","http://www.loc.gov/mads/rdf/v1#ComplexSubject");
+	TopicEl.appendChild(TopicTypeEl);
+	//Label
+	const label_text = `${bisac_heading['root']}${bisac_heading['level1'] ? `--${bisac_heading['level1']}${bisac_heading['level2'] ? `--${bisac_heading['level2']}${bisac_heading['level3'] ? `--${bisac_heading['level3']}` : ''}` : ''}` : ''}`;
+	const TopicLabelEl = doc.createElement("rdfs:label");
+	const TopicLabelText = doc.createTextNode(label_text);
+	TopicLabelEl.appendChild(TopicLabelText);
+	TopicEl.appendChild(TopicLabelEl);
+	const authoritativeLabelEl = doc.createElement("madsrdf:authoritativeLabel");
+	const authoritativeLabelText = doc.createTextNode(label_text);
+	authoritativeLabelEl.appendChild(authoritativeLabelText);
+	TopicEl.appendChild(authoritativeLabelEl);
+	//Component List
+	const componentListEl = doc.createElement("madsrdf:componentList");
+	componentListEl.setAttribute("rdf:parseType","Collection");
+	componentListEl.appendChild(buildComponent(doc,bisac_heading['root']));
+	['level1','level2','level3'].forEach((level) => {
+		if (bisac_heading[level]) {
+			componentListEl.appendChild(buildComponent(doc,bisac_heading[level]));
+		}
+	});
+	TopicEl.appendChild(componentListEl);
+	//Source
+	const TopicsourceEl = doc.createElement("bf:source");
+	const TopicSourceEl = doc.createElement("bf:Source");
+	TopicSourceEl.setAttribute("rdf:resource","http://id.loc.gov/vocabulary/subjectSchemes/bisacsh");
 	const TopicsourcecodeEl = doc.createElement("bf:code");
-	const TopicsourcecodeText = doc.createTextNode("bisac");
+	const TopicsourcecodeText = doc.createTextNode("bisacsh");
 	TopicsourcecodeEl.appendChild(TopicsourcecodeText);
 	TopicSourceEl.appendChild(TopicsourcecodeEl);
 	TopicsourceEl.appendChild(TopicSourceEl);
@@ -479,19 +520,22 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  	const parser = new DOMParser();
  	const doc = parser.parseFromString(startText, "application/xml");
 
+	const workId = `http://example.org/${id}#Work`;
+	const instanceId = checkExists(record?.web_url) ? record.web_url : `http://example.org/${id}#Instance`;
+
  	//Work
  	const workEl = doc.createElement("bf:Work");
- 	workEl.setAttribute("rdf:about",`http://example.org/${id}#Work`);
+ 	workEl.setAttribute("rdf:about",workId);
 
  	const hasInstanceEl = doc.createElement("bf:hasInstance");
- 	hasInstanceEl.setAttribute("rdf:resource",`http://example.org/${id}#Instance`);
+ 	hasInstanceEl.setAttribute("rdf:resource",instanceId);
 
  	//Instance
  	const instanceEl = doc.createElement("bf:Instance");
- 	instanceEl.setAttribute("rdf:about",`http://example.org/${id}#Instance`);
+ 	instanceEl.setAttribute("rdf:about",instanceId);
 
  	const instanceOfEl = doc.createElement("bf:instanceOf");
- 	instanceOfEl.setAttribute("rdf:resource",`http://example.org/${id}#Work`);
+ 	instanceOfEl.setAttribute("rdf:resource",workId);
 
  	//Admin Metadata
  	workEl.appendChild(buildAdminMetadata(doc));
@@ -503,74 +547,75 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  	instanceEl.appendChild(instancetitleEl);
 
  	//Language
-	if (checkExists(record.language)) {
+	if (checkExists(record?.language)) {
 		workEl.appendChild(buildLanguage(doc,record));
 	}
 
  	//Edition
- 	if (checkExists(record.edition)) {
+ 	if (checkExists(record?.edition)) {
  		instanceEl.appendChild(buildEdition(doc,record));
  	}
 
  	//ISBN
- 	if (checkExists(record.isbn)) {
+ 	if (checkExists(record?.isbn)) {
  		instanceEl.appendChild(buildISBN(doc,record));
  	}
 
  	//Contributors
-/*	if (checkExists(record.author)) {
+/*	if (checkExists(record?.author)) {
 		workEl.appendChild(buildContributor(doc,record.author,true));
 	}
- 	if (checkExists(record.additional_authors)) {
+ 	if (checkExists(record?.additional_authors)) {
  		for (let i = 0; i < record.additional_authors.length; i++) {
  			workEl.appendChild(buildContributor(doc,record.additional_authors[i]));
  		}
  	}*/
 
  	//Provision Activity
- 	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.publication_year)) {
+ 	if (checkExists(record?.publication_country) || checkExists(record?.publication_place) || checkExists(record?.publisher) || checkExists(record?.publication_year)) {
  		instanceEl.appendChild(buildProvisionActivity(doc,record));
  	}
 
  	//Copyright Date
- 	if (checkExists(record.copyright_year)) {
+ 	if (checkExists(record?.copyright_year)) {
  		instanceEl.appendChild(buildCopyrightDate(doc,record));
  	}
 
  	//Dimensions
-	if (checkExists(record.dimensions)) {
+	if (checkExists(record?.dimensions)) {
 		instanceEl.appendChild(buildDimensions(doc,record));
 	}
 
  	//Pages/Volumes
-	if (checkExists(record.pages) && checkExists(record.volume_or_page)) {
+	if (checkExists(record?.pages) && checkExists(record?.volume_or_page)) {
 		instanceEl.appendChild(buildExtent(doc,record));
 	}
 
  	//Genre
- 	if (record.literature_yes && checkExists(record.literature_dropdown)) {
+ 	if (record?.literature_yes && checkExists(record?.literature_dropdown)) {
  		workEl.appendChild(buildGenre(doc,record));
  	}
 
  	//Illustrations
- 	if (record.illustrations_yes) {
+ 	if (record?.illustrations_yes) {
  		instanceEl.appendChild(buildIllustrations(doc));
  	}
 
 	//Subjects
-	if (checkExists(record.subjects)) {
+	if (checkExists(record?.subjects)) {
 		for (let k = 0; k < record.subjects.length; k++) {
-			workEl.appendChild(buildBISACSubjects(doc,record.subjects[k]));
+			workEl.appendChild(buildSimpleBISACSubjects(doc,record.subjects[k]));
+			workEl.appendChild(buildComplexBISACSubjects(doc,record.subjects[k]));
 		}
 	}
 
  	//Keywords
-	if (checkExists(record.fast)) {
+	if (checkExists(record?.fast)) {
 		for (let k = 0; k < record.fast.length; k++) {
 			workEl.appendChild(buildFASTSubjects(doc,record.fast[k]));
 		}
 	}
-	if (checkExists(record.keywords)) {
+	if (checkExists(record?.keywords)) {
 		for (let k = 0; k < record.keywords.length; k++) {
 			workEl.appendChild(buildSubjects(doc,record.keywords[k]));
 		}
@@ -585,7 +630,7 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  	//Issuance
  	instanceEl.appendChild(buildIssuance(doc));
 
- 	if (record.bibliographies_yes) {
+ 	if (record?.bibliographies_yes) {
  		workEl.appendChild(buildNotes(doc));
  	}
 

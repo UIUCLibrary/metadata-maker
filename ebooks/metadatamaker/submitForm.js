@@ -80,6 +80,34 @@ function find100(list) {
 	return [[{'family':'','given':'','role':''},{'family':'','given':''}]];
 }
 
+function generateBISACSubjectList() {
+	let subject_list = [];
+
+	for (var i = 0; i < sCounter; i++) {
+		var new_subject = {}
+		var attr = $("#verification" + i).attr('value');
+		new_subject['id_number'] = attr;
+		new_subject['root'] = $("#root-subject" + i + " option:selected").text();
+		if ($("#level1-subject" + i + " option:selected").length > 0) {
+			new_subject['level1'] = $("#level1-subject" + i + " option:selected").text();
+
+			if ($("#level2-subject" + i + " option:selected").length > 0) {
+				new_subject['level2'] = $("#level2-subject" + i + " option:selected").text();
+
+				if ($("#level3-subject" + i + " option:selected").length > 0) {
+					new_subject['level3'] = $("#level3-subject" + i + " option:selected").text();
+				}
+			}
+		}
+
+		if (typeof attr !== typeof undefined && attr !== false) {
+			subject_list.push(new_subject)
+		}
+	}
+
+	return subject_list;
+}
+
 /*
  * When the form is submitted, create an object with all user-submitted data. Pass that object to functions that
  * build a record around the data.
@@ -125,32 +153,11 @@ $("#marc-maker").submit(function(event) {
 	for (var i = 0; i < aCounter; i++) {
 		complete_names_list.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val(), "role": $("#role" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
 	}
+
+	let subject_list = $(".verified").length ? generateBISACSubjectList() : [];
+
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
-
-	var subject_list = []
-
-	for (var i = 0; i < sCounter; i++) {
-		var new_subject = {}
-		var attr = $("#verification" + i).attr('value');
-		new_subject['id_number'] = attr;
-		new_subject['root'] = $("#root-subject" + i + " option:selected").text();
-		if ($("#level1-subject" + i + " option:selected").length > 0) {
-			new_subject['level1'] = $("#level1-subject" + i + " option:selected").text();
-
-			if ($("#level2-subject" + i + " option:selected").length > 0) {
-				new_subject['level2'] = $("#level2-subject" + i + " option:selected").text();
-
-				if ($("#level3-subject" + i + " option:selected").length > 0) {
-					new_subject['level3'] = $("#level3-subject" + i + " option:selected").text();
-				}
-			}
-		}
-
-		if (typeof attr !== typeof undefined && attr !== false) {
-			subject_list.push(new_subject)
-		}
-	}
 
 	var recordObject = {
 		title: [
@@ -169,13 +176,14 @@ $("#marc-maker").submit(function(event) {
 		publication_place: $("#place").val(),
 		publication_country: $("#country").val() ? {code: $("#country").val(), text: $("#country option:selected").text()} : undefined,
 		copyright_year: $("#cyear").val(),
-		web_url: 'http://' + $("#web-url").val(),
+		web_url: $("#web-url").val() ? `http://${$("#web-url").val()}` : undefined,
 		language: $("#language").val(),
 		isbn: $("#isbn").val(),
 		unpaged: $("#pages_listed").is(':checked'),
 		literature_yes: $("#literature-yes").is(':checked'),
 		literature_dropdown: $("#literature-dropdown").val(),
 		illustrations_yes: $("#illustrations-yes").is(':checked'),
+		bibliographies_yes: $("#bibliographies-yes").is(':checked'),
 		edition: $("#edition").val(),
 		translit_edition: $("#translit_edition").val(),
 		translit_publisher: $("#translit_publisher").val(),
