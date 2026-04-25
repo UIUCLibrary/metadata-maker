@@ -222,7 +222,7 @@ function addDescriptiveDetails(record) {
 }
 
 function addPublicationDetails(record) {
-	if (checkExists(record.publisher) || checkExists(record.publication_place) || checkExists(record.publication_country) || checkExists(record.publication_year) || checkExists(record.copyright_year)) {
+	if (checkExists(record?.publisher) || checkExists(record?.publication_place) || checkExists(record?.publication_country) || checkExists(record?.publication_year) || checkExists(record?.copyright_year)) {
 		var publication_detail = '\t\t<PublicationDetail>\n';
 
 		if (checkExists(record.publisher)) {
@@ -236,8 +236,8 @@ function addPublicationDetails(record) {
 			publication_detail += '\t\t\t<CityOfPublication>' + escapeXML(record.publication_place) + '</CityOfPublication>\n';
 		}
 
-		if (checkExists(record.publication_country)) {
-			publication_detail += '\t\t\t<CountryOfPublication>' + getCountry(record.publication_country) + '</CountryOfPublication>\n';
+		if (checkExists(record?.publication_country)) {
+			publication_detail += '\t\t\t<CountryOfPublication>' + record.publication_country.text + '</CountryOfPublication>\n';
 		}
 
 		if (checkExists(record.publication_year)) {

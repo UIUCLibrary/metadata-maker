@@ -86,11 +86,11 @@ function downloadMODS(record,institution_info) {
 	}
 
 	var originText = '';
-	if (checkExists(record.publication_country) || checkExists(record.publication_place) || checkExists(record.publisher) || checkExists(record.publication_year) || checkExists(record.copyright_year) || checkExists(record.edition)) {
+	if (checkExists(record?.publication_country) || checkExists(record?.publication_place) || checkExists(record?.publisher) || checkExists(record?.publication_year) || checkExists(record?.copyright_year) || checkExists(record?.edition)) {
 		originText += '    <originInfo>\n';
 
-		if (checkExists(record.publication_country)) {
-			originText += '        <place>\n            <placeTerm type="code" authority="marccountry">' + record.publication_country + '</placeTerm>\n        </place>\n';
+		if (checkExists(record?.publication_country)) {
+			originText += '        <place>\n            <placeTerm type="code" authority="marccountry">' + record.publication_country.code + '</placeTerm>\n        </place>\n';
 		}
 
 		if (checkExists(record.publication_place)) {

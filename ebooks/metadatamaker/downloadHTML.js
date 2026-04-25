@@ -941,16 +941,16 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('publisher',record.publisher,false,'Publisher');
 	}
 
-	if (checkExists(record.publication_place) || checkExists(record.publication_country)) {
+	if (checkExists(record?.publication_place) || checkExists(record?.publication_country)) {
 		var content = '';
-		if (checkExists(record.publication_place)) {
+		if (checkExists(record?.publication_place)) {
 			content += '<span itemprop="addressLocality">' + record.publication_place + '</span>';
-			if (checkExists(record.publication_country)) {
+			if (checkExists(record?.publication_country)) {
 				content += ', ';
 			}
 		}
-		if (checkExists(record.publication_country)) {
-			content += '<span itemprop="addressRegion">' + getCountry(record.publication_country) + '</span>';
+		if (checkExists(record?.publication_country)) {
+			content += '<span itemprop="addressRegion">' + record.publication_country.text + '</span>';
 		}
 		var publication_location = buildItemscopeTag('publication','http://schema.org/PublicationEvent',buildItemscopeTag('location','http://schema.org/PostalAddress','\t\t\t\t<dt>Publication Location:</dt>\n\t\t\t\t<dd><b>' + content + '</b></dd>\n'));
 		displayTags += publication_location;

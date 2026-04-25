@@ -91,9 +91,9 @@ function create008Field(record) {
 	}
 
 	//15-17
-	if (checkExists(record.publication_country)) {
-		for (var i = 15; i < 15+record.publication_country.length; i++) {
-			array_of_008[i] = record.publication_country[i-15];
+	if (checkExists(record?.publication_country)) {
+		for (var i = 15; i < 15+record.publication_country.code.length; i++) {
+			array_of_008[i] = record.publication_country.code[i-15];
 		}
 
 	}
