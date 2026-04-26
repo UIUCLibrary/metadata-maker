@@ -55,6 +55,27 @@ function generateInstitutionInfo() {
 }
 
 /*
+ * Generate list of keywords and ids when present, and a separate list when there are no
+ * ids present
+ */
+function getKeywords(fast_array, words) {
+	for (var i = 0; i < counter; i++) {
+		if(checkExists($("#fastID" + i).val()) && checkExists($("#keyword" + i).val())) {
+			if ($("#keyword" + i).val().substring($("#keyword" + i).val().length - 1) == ']') {
+				var endpoint = $("#keyword" + i).val().lastIndexOf('[');
+				fast_array.push([$("#keyword" + i).val().substring(0,endpoint-1),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
+			}
+			else {
+				fast_array.push([$("#keyword" + i).val(),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
+			}
+		}
+		else {
+			words.push($("#keyword" + i).val());
+		}
+	};
+}
+
+/*
  * The first listed author should be placed in 100. If no author is listed, then the first
  * listed artist should be placed in 100. If neither role is listed, then we return a person
  * with no name or role listed.
@@ -118,22 +139,9 @@ function generateBISACSubjectList() {
  * No information should be submitted to the server, so the default behavior of the button is blocked.
  */
 $("#marc-maker").submit(function(event) {
-	var words = [];
-	var fast_array = [];
-	for (var i = 0; i < counter; i++) {
-		if(checkExists($("#fastID" + i).val()) && checkExists($("#keyword" + i).val())) {
-			if ($("#keyword" + i).val().substring($("#keyword" + i).val().length - 1) == ']') {
-				var endpoint = $("#keyword" + i).val().lastIndexOf('[');
-				fast_array.push([$("#keyword" + i).val().substring(0,endpoint-1),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
-			}
-			else {
-				fast_array.push([$("#keyword" + i).val(),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
-			}
-		}
-		else {
-			words.push($("#keyword" + i).val());
-		}
-	};
+	let words = [];
+	let fast_array = [];
+	getKeywords(fast_array,words);
 
 	var additional_names = [];
 	var translit_additional_names = [];
