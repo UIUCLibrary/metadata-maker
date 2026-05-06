@@ -307,8 +307,8 @@ function getKeywords(fast_array, words) {
  * with no name or role listed.
  *
  * list: List of people. Each person is a list of two objects. The first object contains the
- *		 person's author name and role in creating the piece being catalogued.
- *		 The second object contains the transliterated author name of the same
+ *		 person's family name, given name, and role in creating the piece being catalogued.
+ *		 The second object contains the transliterated family name and given name of the same
  *		 person if applicable. Otherwise those two fields are empty strings.
  */
 function find100(list) {
@@ -397,14 +397,11 @@ $("#marc-maker").submit(function(event) {
 		web_url: $("#web-url").val() ? `http://${$("#web-url").val()}` : undefined,
 		language: $("#language").val(),
 		isbn: $("#isbn").val(),
-		volume_or_page: $("#vorp").val(),
-		pages: $("#pages").val(),
 		unpaged: $("#pages_listed").is(':checked'),
 		literature_yes: $("#literature-yes").is(':checked'),
 		literature_dropdown: $("#literature-dropdown").val(),
 		illustrations_yes: $("#illustrations-yes").is(':checked'),
 		bibliographies_yes: $("#bibliographies-yes").is(':checked'),
-		dimensions: $("#dimensions").val(),
 		edition: $("#edition").val(),
 		translit_edition: $("#translit_edition").val(),
 		translit_publisher: $("#translit_publisher").val(),
@@ -431,16 +428,12 @@ $("#marc-maker").submit(function(event) {
 		download_files = download_files.concat(downloadMODS(recordObject,institution_info));
 	}
 
-	if ($("#HTML").is(':checked')) {
-		download_files = download_files.concat(downloadHTML(recordObject,institution_info));
-	}
-
 	if ($("#BIBFRAME").is(':checked')) {
 		download_files = download_files.concat(downloadBIBFRAME(recordObject,institution_info));
 	}
 
-	if ($('#BIBFRAME_Alma').is(':checked')) {
-		download_files = download_files.concat(downloadBIBFRAME(recordObject,institution_info,true));
+	if ($("#HTML").is(':checked')) {
+		download_files = download_files.concat(downloadHTML(recordObject,institution_info));
 	}
 
 	if ($("#ONIX").is(':checked')) {

@@ -232,7 +232,8 @@ function addAuthor() {
 		var newfieldset = document.createElement('fieldset');
 		newfieldset.className = 'added single_name';
 		newfieldset.setAttribute('id',`author_name${aCounter}-block`);
-		newfieldset.innerHTML = `<label for="author_name${aCounter}">Name</label>\n<label for="author_name${aCounter}" class="insert insert_author_name additional_insert" onClick=\'insertMenu("author_name${aCounter}");\'>Insert Diacritics</label><br>`;
+		newfieldset.innerHTML = `<legend class="heading">Personal</legend>`
+		newfieldset.innerHTML += `<label for="author_name${aCounter}">Name</label>\n<button class="insert insert_author_name additional_insert" onClick=\'insertMenu("author_name${aCounter}");\'>Insert Diacritics</button><label for="role${aCounter}" class="role_label">Role</label><br>`;
 		newfieldset.innerHTML += `<div id="insert-author_name${aCounter}" class="additional_menu"></div>`;
 		newfieldset.innerHTML += `<span class="added-author"><input type="text" class="author translit-listen" id="author_name${aCounter}" placeholder="Given Name Family Name"> <select name="role${aCounter}" id="role${aCounter}"><option value="art">artist</option><option selected value="aut">author</option><option value="ctb">contributor</option><option value="edt">editor</option><option value="ill">illustrator</option><option value="trl">translator</option></select></span>`;
 		newfieldset.innerHTML += `<div class="Hwikidiv" id="hiddenwikidiv${aCounter}" style="display: none;" ><a class="Hwiki" id="hiddenwiki${aCounter}" target="_blank" rel="noopener noreferrer" href="">Wikidata Link</a></div>`;
