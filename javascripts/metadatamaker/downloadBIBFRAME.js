@@ -493,7 +493,7 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  	}
 
  	//Contributors
-	if (checkExists(record.author)) {
+	if (checkExists(record.author[0]['author'])) {
 		workEl.appendChild(buildContributor(doc,record.author,true));
 	}
  	if (checkExists(record.additional_authors)) {

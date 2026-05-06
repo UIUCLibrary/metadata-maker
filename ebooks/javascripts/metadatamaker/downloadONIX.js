@@ -63,23 +63,17 @@ function addContributor(author,counter) {
 
 	new_contributor += '\t\t\t\t<ContributorRole>' + role_index[author[0]['role']] + '</ContributorRole>\n';
 
-	if (checkExists(author[0]['family']) && checkExists(author[0]['given'])) {
-		new_contributor += '\t\t\t\t<PersonName>' + escapeXML(author[0]['given'] + ' ' + author[0]['family']) + '</PersonName>\n';
-	}
-	else if (checkExists(author[0]['family'])) {
-		new_contributor += '\t\t\t\t<PersonName>' + escapeXML(author[0]['family']) + '</PersonName>\n';
-	}
-	else if (checkExists(author[0]['given'])) {
-		new_contributor += '\t\t\t\t<PersonName>' + escapeXML(author[0]['given']) + '</PersonName>\n';
+	if (checkExists(author[0]['author'])) {
+		new_contributor += '\t\t\t\t<PersonName>' + escapeXML(author[0]['author']) + '</PersonName>\n';
 	}
 
-	if (checkExists(author[0]['given'])) {
+/*	if (checkExists(author[0]['given'])) {
 		new_contributor += '\t\t\t\t<NamesBeforeKey>' + escapeXML(author[0]['given']) + '</NamesBeforeKey>\n';
 	}
 
 	if (checkExists(author[0]['family'])) {
 		new_contributor += '\t\t\t\t<KeyNames>' + escapeXML(author[0]['family']) + '</KeyNames>\n';
-	}
+	}*/
 
 	new_contributor += '\t\t\t</Contributor>\n';
 
@@ -159,7 +153,7 @@ function addDescriptiveDetails(record) {
 
 		if (record.additional_authors.length > 0) {
 			for (var index = 0; index < record.additional_authors.length; index++) {
-				if (checkExists(record.additional_authors[index][0]['family']) || checkExists(record.additional_authors[index][0]['given'])) {
+				if (checkExists(record.additional_authors[index][0]['author'])) {
 					descriptive_detail += addContributor(record.additional_authors[index],sequence_counter)
 					sequence_counter += 1;
 				}

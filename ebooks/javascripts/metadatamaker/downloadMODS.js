@@ -1,18 +1,11 @@
 /*
  * Author output depends on how the name was entered
  */
-function fillAuthorMODS(family,given,role) {
+function fillAuthorMODS(author,role) {
 	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
-	if (checkExists(given) || checkExists(family)) {
+	if (checkExists(author)) {
 		var authorText = '    <name type="personal">\n';
-		if (checkExists(family)) {
-			authorText += '        <namePart type="family">' + escapeXML(family) + '</namePart>\n';
-		}
-
-		if (checkExists(given)) {
-			authorText += '        <namePart type="given">' + escapeXML(given) + '</namePart>\n';
-		}
-
+		authorText += '        <namePart>' + escapeXML(author) + '</namePart>\n';
 		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n        </role>\n    </name>\n';
 		return authorText;
 	}
@@ -66,11 +59,11 @@ function downloadMODS(record,institution_info) {
 	}
 
 	var authorText = '';
-	authorText += fillAuthorMODS(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	authorText += fillAuthorMODS(record.author[0]['author'],record.author[0]['role']);
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			authorText += fillAuthorMODS(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
+			authorText += fillAuthorMODS(record.additional_authors[i][0]['author'],record.additional_authors[i][0]['role']);
 		}
 	}
 

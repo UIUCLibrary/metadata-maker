@@ -562,14 +562,14 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  	}
 
  	//Contributors
-/*	if (checkExists(record?.author)) {
+	if (checkExists(record?.author[0]['author'])) {
 		workEl.appendChild(buildContributor(doc,record.author,true));
 	}
  	if (checkExists(record?.additional_authors)) {
  		for (let i = 0; i < record.additional_authors.length; i++) {
  			workEl.appendChild(buildContributor(doc,record.additional_authors[i]));
  		}
- 	}*/
+ 	}
 
  	//Provision Activity
  	if (checkExists(record?.publication_country) || checkExists(record?.publication_place) || checkExists(record?.publisher) || checkExists(record?.publication_year)) {
