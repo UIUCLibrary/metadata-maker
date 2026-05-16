@@ -232,7 +232,6 @@ function addAuthor() {
 		var newfieldset = document.createElement('fieldset');
 		newfieldset.className = 'added single_name';
 		newfieldset.setAttribute('id',`author_name${aCounter}-block`);
-		newfieldset.innerHTML = `<legend class="heading">Personal</legend>`
 		//Legend
 		const fieldLegendEl = document.createElement('legend');
 		fieldLegendEl.setAttribute('class','heading');
@@ -367,6 +366,7 @@ function addAuthor() {
 		translitNameColumnEl.appendChild(translitColumnLabelEl);
 		//Insert Diacritics
 		const translitInsertButtonEl = document.createElement('button');
+		translitInsertButtonEl.setAttribute('type','button');
 		translitInsertButtonEl.setAttribute('class',`insert insert_author_name hidden translit translit-author_name${aCounter}`);
 		translitInsertButtonEl.setAttribute('onClick',`insertMenu("translit_author_name${aCounter}");`);
 		translitInsertButtonEl.innerHTML = 'Insert Diacritics'
