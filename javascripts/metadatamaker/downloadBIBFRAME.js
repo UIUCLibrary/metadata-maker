@@ -365,7 +365,7 @@ function buildComplexBISACSubjects(doc,bisac_heading) {
 	//Source
 	const TopicsourceEl = doc.createElement("bf:source");
 	const TopicSourceEl = doc.createElement("bf:Source");
-	TopicSourceEl.setAttribute("rdf:resource","http://id.loc.gov/vocabulary/subjectSchemes/bisacsh");
+	TopicSourceEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/subjectSchemes/bisacsh");
 	const TopicsourcecodeEl = doc.createElement("bf:code");
 	const TopicsourcecodeText = doc.createTextNode("bisacsh");
 	TopicsourcecodeEl.appendChild(TopicsourcecodeText);
