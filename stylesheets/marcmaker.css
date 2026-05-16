@@ -122,11 +122,17 @@ input[type="number"] {
 
 .name-block {
 	padding: 6px;
+	display: flex;
 }
 
-#author-block {
-	width: 700px;
+#add-author {
+	height: 18px;
+	margin-top: 45px;
 }
+
+/*#author-block {
+	width: 700px;
+}*/
 
 #corporate-block {
 	width: 400px;
@@ -169,21 +175,26 @@ input[type="number"] {
 	width: 400px;
 }
 
-.role_label {
+.name-column {
+	position: relative;
+	margin-right: 5px;
+}
+
+/*.role_label {
 	position: relative;
 	left: 222px;
-}
+}*/
 
 /*.added-author {
 	position: relative;
 	top: -10px;
 }*/
 
-.translit-author {
+/*.translit-author {
 /*	position: relative;
 	left: 25px;*/
-	width: 700px;
-}
+/*	width: 700px;
+}*/
 
 .translit-block {
 	position: relative;
@@ -209,6 +220,23 @@ input[type="number"] {
 	font-size: 11px;
 	bottom: -2px;
 	cursor: pointer;
+}
+
+.insert-menu {
+	right: 140px;
+	position: relative;
+}
+
+/*fieldset .insert {
+	right: 140px;
+}*/
+
+fieldset #insert-popup {
+	position: absolute;
+/*	margin-left: -595px;*/
+/*	left: 255px;*/
+/*	bottom: -2px;*/
+	z-index: 10;
 }
 
 .insert_normal {
@@ -331,4 +359,12 @@ input[type="number"] {
 
 .unverified {
 	color: #747475;
+}
+
+.single_name {
+	width: 400px;
+}
+
+.input-column-wrapper {
+	display: flex;
 }
