@@ -368,3 +368,7 @@ fieldset #insert-popup {
 .input-column-wrapper {
 	display: flex;
 }
+
+.personal-block {
+	display: flex;
+}

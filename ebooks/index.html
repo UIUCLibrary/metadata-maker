@@ -692,48 +692,51 @@
 
 			<fieldset id="author-block" class="name-block">
 				<legend class="heading">Names</legend>
-				<div id="input-column" class="column">
-					<fieldset class="single_name">
-						<legend class="heading">Personal</legend>
-						<div class="input-column-wrapper">
-							<div class="column name-column">
-								<label for="author_name">Name</label>
-								<button type="button" class="insert insert_author_name" onClick='insertMenu("author_name");'>Insert Diacritics</button>
-								<div id="insert-author_name"></div>
-								<input type="text" class="author conditional translit-listen" required id="author_name" placeholder="Given Name Family Name">
+				<fieldset class="personal-block">
+					<legend class="heading">Personal</legend>
+					<div id="input-column" class="column">
+						<fieldset class="single_name">
+							<legend class="heading">Person 1</legend>
+							<div class="input-column-wrapper">
+								<div class="column name-column">
+									<label for="author_name">Name</label>
+									<button type="button" class="insert insert_author_name" onClick='insertMenu("author_name");'>Insert Diacritics</button>
+									<div id="insert-author_name"></div>
+									<input type="text" class="author conditional translit-listen" required id="author_name" placeholder="Given Name Family Name">
+								</div>
+								<div class="column role-column">
+									<label for="role" class="role_label">Role</label>
+									<br>
+									<select name="role" id="role">
+										<option value="art">artist</option>
+										<option selected value="aut">author</option>
+										<option value="ctb">contributor</option>
+										<option value="edt">editor</option>
+										<option value="ill">illustrator</option>
+										<option value="trl">translator</option>
+									</select>
+									<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
+								</div>
 							</div>
-							<div class="column role-column">
-								<label for="role" class="role_label">Role</label>
-								<br>
-								<select name="role" id="role">
-									<option value="art">artist</option>
-									<option selected value="aut">author</option>
-									<option value="ctb">contributor</option>
-									<option value="edt">editor</option>
-									<option value="ill">illustrator</option>
-									<option value="trl">translator</option>
-								</select>
-								<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
-							</div>
-						</div>
-						<label for="author_listed" class="unlisted">Unlisted</label><input type="checkbox" id="author_listed" class="listed">
-						<div id="hiddenremind" class="Hremind" style="display: none;">Click the link(s) below to verify the information about the name(s): </div>
-						<div id='hiddenwikidiv' class="Hwikidiv" style="display: none;"><a id= 'hiddenwiki' class="Hwiki" target="_blank" rel="noopener noreferrer" href="">Wikidata Link</a></div>
-						<div id='hiddenviafdiv' class="Hviafdiv" style="display: none;" ><a id= 'hiddenviaf' class="Hviaf" target="_blank" rel="noopener noreferrer" href="">VIAF Link</a></div>
-						<div id='hiddenlcdiv' class="Hlcdiv" style="display: none;" ><a id= 'hiddenlc' class="Hlc"target="_blank" rel="noopener noreferrer" href="">LC Link</a></div>
+							<label for="author_listed" class="unlisted">Unlisted</label><input type="checkbox" id="author_listed" class="listed">
+							<div id="hiddenremind" class="Hremind" style="display: none;">Click the link(s) below to verify the information about the name(s): </div>
+							<div id='hiddenwikidiv' class="Hwikidiv" style="display: none;"><a id= 'hiddenwiki' class="Hwiki" target="_blank" rel="noopener noreferrer" href="">Wikidata Link</a></div>
+							<div id='hiddenviafdiv' class="Hviafdiv" style="display: none;" ><a id= 'hiddenviaf' class="Hviaf" target="_blank" rel="noopener noreferrer" href="">VIAF Link</a></div>
+							<div id='hiddenlcdiv' class="Hlcdiv" style="display: none;" ><a id= 'hiddenlc' class="Hlc"target="_blank" rel="noopener noreferrer" href="">LC Link</a></div>
 
-						<div class="input-column-wrapper">
-							<div id="translit-author_name-block" class="translit-author_name-block translit-block translit-author hidden">
-								<label for="translit_author_name" class="hidden translit heading translit-author_name">Transliterated Name</label><button type="button" class="insert insert_author_name hidden translit translit-author_name" onClick='insertMenu("translit_author_name");'>Insert Diacritics</button><br>
-								<div id="insert-translit_author_name"></div>
-								<input type="text" id="translit_author_name" class="hidden translit translit-author_name" placeholder="Given Name Family Name">
+							<div class="input-column-wrapper">
+								<div id="translit-author_name-block" class="translit-author_name-block translit-block translit-author hidden">
+									<label for="translit_author_name" class="hidden translit heading translit-author_name">Transliterated Name</label><button type="button" class="insert insert_author_name hidden translit translit-author_name" onClick='insertMenu("translit_author_name");'>Insert Diacritics</button><br>
+									<div id="insert-translit_author_name"></div>
+									<input type="text" id="translit_author_name" class="hidden translit translit-author_name" placeholder="Given Name Family Name">
+								</div>
 							</div>
-						</div>
-					</fieldset>
-				</div>
-				<div class="column">
-					<input type="button" value="+" id="add-author" onClick="addAuthor();setUpVIAF()">
-				</div>
+						</fieldset>
+					</div>
+					<div class="column">
+						<input type="button" value="+" id="add-author" onClick="addAuthor();setUpVIAF()">
+					</div>
+				</fieldset>
 			</fieldset>
 
 			<div id="publisher-block" class="standard-block">

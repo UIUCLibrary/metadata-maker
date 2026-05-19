@@ -235,7 +235,7 @@ function addAuthor() {
 		//Legend
 		const fieldLegendEl = document.createElement('legend');
 		fieldLegendEl.setAttribute('class','heading');
-		fieldLegendEl.innerHTML = 'Personal';
+		fieldLegendEl.innerHTML = `Person ${aCounter+2}`;
 		newfieldset.appendChild(fieldLegendEl);
 		//Column Wrapper
 		const inputColumnWrapperEl = document.createElement('div');
