@@ -304,11 +304,11 @@ function addAuthor() {
 		//Wiki Link
 		const hiddenWikiEl = document.createElement('div');
 		hiddenWikiEl.setAttribute('class','Hwikidiv');
-		hiddenWikiEl.setAttribute('id',`hiddenwikidiv${aCounter}`);
+		hiddenWikiEl.setAttribute('id',`hiddenwikidiv_author${aCounter}`);
 		hiddenWikiEl.setAttribute('style','display: none;');
 		const hiddenWikiLinkEl = document.createElement('a');
 		hiddenWikiLinkEl.setAttribute('class','Hwiki');
-		hiddenWikiLinkEl.setAttribute('id',`hiddenwiki${aCounter}`);
+		hiddenWikiLinkEl.setAttribute('id',`hiddenwiki_author${aCounter}`);
 		hiddenWikiLinkEl.setAttribute('target','_blank');
 		hiddenWikiLinkEl.setAttribute('rel','noopener noreferrer');
 		hiddenWikiLinkEl.setAttribute('href','');
@@ -318,11 +318,11 @@ function addAuthor() {
 		//VIAF Link
 		const hiddenVIAFEl = document.createElement('div');
 		hiddenVIAFEl.setAttribute('class','Hviafdiv');
-		hiddenVIAFEl.setAttribute('id',`hiddenviafdiv${aCounter}`);
+		hiddenVIAFEl.setAttribute('id',`hiddenviafdiv_author${aCounter}`);
 		hiddenVIAFEl.setAttribute('style','display: none;');
 		const hiddenVIAFLinkEl = document.createElement('a');
 		hiddenVIAFLinkEl.setAttribute('class','Hviaf');
-		hiddenVIAFLinkEl.setAttribute('id',`hiddenviaf${aCounter}`);
+		hiddenVIAFLinkEl.setAttribute('id',`hiddenviaf_author${aCounter}`);
 		hiddenVIAFLinkEl.setAttribute('target','_blank');
 		hiddenVIAFLinkEl.setAttribute('rel','noopener noreferrer');
 		hiddenVIAFLinkEl.setAttribute('href','');
@@ -332,11 +332,11 @@ function addAuthor() {
 		//LC Link
 		const hiddenLCEl = document.createElement('div');
 		hiddenLCEl.setAttribute('class','Hlcdiv');
-		hiddenLCEl.setAttribute('id',`hiddenlcdiv${aCounter}`);
+		hiddenLCEl.setAttribute('id',`hiddenlcdiv_author${aCounter}`);
 		hiddenLCEl.setAttribute('style','display: none;');
 		const hiddenLCLinkEl = document.createElement('a');
 		hiddenLCLinkEl.setAttribute('class','Hlc');
-		hiddenLCLinkEl.setAttribute('id',`hiddenlc${aCounter}`);
+		hiddenLCLinkEl.setAttribute('id',`hiddenlc_author${aCounter}`);
 		hiddenLCLinkEl.setAttribute('target','_blank');
 		hiddenLCLinkEl.setAttribute('rel','noopener noreferrer');
 		hiddenLCLinkEl.setAttribute('href','');
@@ -344,13 +344,7 @@ function addAuthor() {
 		hiddenLCEl.appendChild(hiddenLCLinkEl);
 		newfieldset.appendChild(hiddenLCEl);
 
-/*		newfieldset.innerHTML = `<label for="author_name${aCounter}">Name</label>\n<button type="button" class="insert insert_author_name additional_insert" onClick=\'insertMenu("author_name${aCounter}");\'>Insert Diacritics</button><label for="role${aCounter}" class="role_label">Role</label><br>`;
-		newfieldset.innerHTML += `<div id="insert-author_name${aCounter}" class="additional_menu"></div>`;
-		newfieldset.innerHTML += `<span class="added-author"><input type="text" class="author translit-listen" id="author_name${aCounter}" placeholder="Given Name Family Name"> <select name="role${aCounter}" id="role${aCounter}"><option value="art">artist</option><option selected value="aut">author</option><option value="ctb">contributor</option><option value="edt">editor</option><option value="ill">illustrator</option><option value="trl">translator</option></select></span>`;
-		newfieldset.innerHTML += `<div class="Hwikidiv" id="hiddenwikidiv${aCounter}" style="display: none;" ><a class="Hwiki" id="hiddenwiki${aCounter}" target="_blank" rel="noopener noreferrer" href="">Wikidata Link</a></div>`;
-		newfieldset.innerHTML += `<div class="Hviafdiv" id="hiddenviafdiv${aCounter}" style="display: none;" ><a class="Hviaf" id="hiddenviaf${aCounter}" target="_blank" rel="noopener noreferrer" href="">VIAF Link</a></div>`;
-		newfieldset.innerHTML += `<div class="Hlcdiv" id="hiddenlcdiv${aCounter}" style="display: none;" ><a class="Hlc" id="hiddenlc${aCounter}" target="_blank" rel="noopener noreferrer" href="">LC Link</a></div>`;
-*/		$("#input-column").append(newfieldset);
+		$("#author-input-column").append(newfieldset);
 		//Translit Wrapper
 		const translitColumnEl = document.createElement('div');
 		translitColumnEl.setAttribute('class','input-column-wrapper');
@@ -385,12 +379,6 @@ function addAuthor() {
 		translitColumnEl.appendChild(translitNameColumnEl);
 		newfieldset.appendChild(translitColumnEl);
 
-/*		translit_div.className = `translit-author_name${aCounter}-block translit-block translit-author hidden`;
-		translit_div.setAttribute('id',`translit-author_name${aCounter}-block`);
-		translit_div.innerHTML = `<label for="translit_author_name${aCounter}" class="insert insert_author_name hidden translit translit-author_name${aCounter}" onClick=\'insertMenu("translit_author_name${aCounter}");\'>Insert Diacritics</label><br>`;
-		translit_div.innerHTML += `<div id="insert-translit_author_name${aCounter}"></div>`;
-		translit_div.innerHTML += `<input type="text" id="translit_author_name${aCounter}" class="hidden translit translit-author_name${aCounter}" placeholder="Transliterated Given Name Family Name">`;
-		$(`#author_name${aCounter}-block`).append(translit_div);*/
 		aCounter++;
 	}
 }
@@ -416,7 +404,7 @@ $(":reset").click(function() {
 	$("#verification0").addClass('unverified');
 	$("#verification0").removeAttr('value');
 	$("#subject0-block").removeClass('valid');
-	
+
 	counter = 1;
 	aCounter = 0;
 });

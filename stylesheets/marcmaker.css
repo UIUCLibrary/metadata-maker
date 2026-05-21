@@ -122,10 +122,9 @@ input[type="number"] {
 
 .name-block {
 	padding: 6px;
-	display: flex;
 }
 
-#add-author {
+#add-author, #add-corporate {
 	height: 18px;
 	margin-top: 45px;
 }
@@ -138,9 +137,9 @@ input[type="number"] {
 	width: 400px;
 }
 
-.insert_corporate_name {
+/*.insert_corporate_name {
 	left: -146px;
-}
+}*/
 
 #publication-block {
 	padding: 3px;
@@ -180,20 +179,10 @@ input[type="number"] {
 	margin-right: 5px;
 }
 
-/*.role_label {
-	position: relative;
-	left: 222px;
-}*/
 
 /*.added-author {
 	position: relative;
 	top: -10px;
-}*/
-
-/*.translit-author {
-/*	position: relative;
-	left: 25px;*/
-/*	width: 700px;
 }*/
 
 .translit-block {
@@ -369,6 +358,6 @@ fieldset #insert-popup {
 	display: flex;
 }
 
-.personal-block {
+.nametype-block {
 	display: flex;
 }

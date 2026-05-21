@@ -27,6 +27,7 @@
  select: function(event, ui) { 
     alert("Selected!"); return this._super(event, ui); },
     source: function(request, response) {
+        const input_field = this.element[0]['id'];
         const term = $.trim(request.term); 
         const url  = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${term}&language=en&format=json`;
         const service_header = { 'User-Agent': 'Metadata Maker / 1.2.0 University of Illinois at Urbana-Champaign Library' };
@@ -52,8 +53,15 @@
                             success: function(full_data) {
                                 if (full_data.entities) {
                                     response( $.map( full_data.entities, function(item) {
-                                        //P31 means "instance of" and Q5 means "human", so we're filtering for humans
-                                        if ('P31' in item.claims && item['claims']['P31'][0]['mainsnak']['datavalue']['value']['id'] == 'Q5') {
+                                        const target_codes = new Set(['Q4830453','Q6881511','Q43229','Q17197366']);
+                                        //P31 means "instance of"
+                                        //Q5 means "human", so we're filtering for humans in case 1
+                                        //Q4830453 = business, Q6881511 = enterprise, Q43229 = organization, Q17197366 = type of organization
+                                        if ('P31' in item.claims && 
+                                            (input_field.includes('author') ? 
+                                            item['claims']['P31'][0]['mainsnak']['datavalue']['value']['id'] == 'Q5' : 
+                                            target_codes.intersection(new Set(item.claims.P31.map(instanceObject => instanceObject?.mainsnak?.datavalue?.value?.id))).size)
+                                        ) {
                                             const description = data.search.find(obj => {
                                                 return obj.id == item.id;
                                             })?.description;
