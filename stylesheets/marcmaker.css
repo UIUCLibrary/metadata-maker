@@ -124,17 +124,22 @@ input[type="number"] {
 	padding: 6px;
 }
 
-#author-block {
-	width: 700px;
+#add-author, #add-corporate {
+	height: 18px;
+	margin-top: 45px;
 }
+
+/*#author-block {
+	width: 700px;
+}*/
 
 #corporate-block {
 	width: 400px;
 }
 
-.insert_corporate_name {
+/*.insert_corporate_name {
 	left: -146px;
-}
+}*/
 
 #publication-block {
 	padding: 3px;
@@ -169,21 +174,16 @@ input[type="number"] {
 	width: 400px;
 }
 
-.role_label {
+.name-column {
 	position: relative;
-	left: 222px;
+	margin-right: 5px;
 }
+
 
 /*.added-author {
 	position: relative;
 	top: -10px;
 }*/
-
-.translit-author {
-/*	position: relative;
-	left: 25px;*/
-	width: 700px;
-}
 
 .translit-block {
 	position: relative;
@@ -209,6 +209,23 @@ input[type="number"] {
 	font-size: 11px;
 	bottom: -2px;
 	cursor: pointer;
+}
+
+.insert-menu {
+	right: 140px;
+	position: relative;
+}
+
+/*fieldset .insert {
+	right: 140px;
+}*/
+
+fieldset #insert-popup {
+	position: absolute;
+/*	margin-left: -595px;*/
+/*	left: 255px;*/
+/*	bottom: -2px;*/
+	z-index: 10;
 }
 
 .insert_normal {
@@ -238,7 +255,7 @@ input[type="number"] {
 
 .additional_menu {
 	position: relative;
-	bottom: 10px;
+/*	bottom: 10px;*/
 }
 
 .additional_corporate_menu {
@@ -331,4 +348,16 @@ input[type="number"] {
 
 .unverified {
 	color: #747475;
+}
+
+.single_name {
+	width: 400px;
+}
+
+.input-column-wrapper {
+	display: flex;
+}
+
+.nametype-block {
+	display: flex;
 }

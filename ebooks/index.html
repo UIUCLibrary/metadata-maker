@@ -5,9 +5,9 @@
 	<title>Metadata Maker for E-Books</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-	<script src="javascripts/assignFAST/assignFASTExample.js"></script>
-	<script src="javascripts/assignFAST/assignFASTGadget.js"></script>
-	<script src="javascripts/assignFAST/assignFASTComplete.js"></script>
+	<script src="../javascripts/assignFAST/assignFASTExample.js"></script>
+	<script src="../javascripts/assignFAST/assignFASTGadget.js"></script>
+	<script src="../javascripts/assignFAST/assignFASTComplete.js"></script>
 	<script src="../javascripts/contributor_autosuggest/jquery.viafauto.js"></script>
 	<script src="../javascripts/contributor_autosuggest/jquery.viafauto.extended.js"></script>
 	<script src="../javascripts/contributor_autosuggest/setVIAF.js"></script>
@@ -692,35 +692,49 @@
 
 			<fieldset id="author-block" class="name-block">
 				<legend class="heading">Names</legend>
-				<fieldset class="single_name">
+				<fieldset class="nametype-block">
 					<legend class="heading">Personal</legend>
-					<label for="author_name">Name</label>
-					<button type="button" class="insert insert_author_name" onClick='insertMenu("author_name");'>Insert Diacritics</button>
-					<label for="role" class="role_label">Role</label>
-					<br>
-					<div id="insert-author_name"></div>
-					<input type="text" class="author conditional translit-listen" required id="author_name" placeholder="Given Name Family Name">
-					<select name="role" id="role">
-						<option value="art">artist</option>
-						<option selected value="aut">author</option>
-						<option value="ctb">contributor</option>
-						<option value="edt">editor</option>
-						<option value="ill">illustrator</option>
-						<option value="trl">translator</option>
-					</select>
-					<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
-					<input type="button" value="+" id="add-author" onClick="addAuthor();setUpVIAF()">
-					<br>
-					<label for="author_listed" class="unlisted">Unlisted</label><input type="checkbox" id="author_listed" class="listed">
-					<div id="hiddenremind" class="Hremind" style="display: none;">Click the link(s) below to verify the information about the name(s): </div>
-					<div id='hiddenwikidiv' class="Hwikidiv" style="display: none;"><a id= 'hiddenwiki' class="Hwiki" target="_blank" rel="noopener noreferrer" href="">Wikidata Link</a></div>
-					<div id='hiddenviafdiv' class="Hviafdiv" style="display: none;" ><a id= 'hiddenviaf' class="Hviaf" target="_blank" rel="noopener noreferrer" href="">VIAF Link</a></div>
-					<div id='hiddenlcdiv' class="Hlcdiv" style="display: none;" ><a id= 'hiddenlc' class="Hlc"target="_blank" rel="noopener noreferrer" href="">LC Link</a></div>
+					<div id="author-input-column" class="column">
+						<fieldset class="single_name">
+							<legend class="heading">Person 1</legend>
+							<div class="input-column-wrapper">
+								<div class="column name-column">
+									<label for="author_name">Name</label>
+									<button type="button" class="insert insert_author_name" onClick='insertMenu("author_name");'>Insert Diacritics</button>
+									<div id="insert-author_name"></div>
+									<input type="text" class="author conditional translit-listen" required id="author_name" placeholder="Given Name Family Name">
+								</div>
+								<div class="column role-column">
+									<label for="role" class="role_label">Role</label>
+									<br>
+									<select name="role" id="role">
+										<option value="art">artist</option>
+										<option selected value="aut">author</option>
+										<option value="ctb">contributor</option>
+										<option value="edt">editor</option>
+										<option value="ill">illustrator</option>
+										<option value="trl">translator</option>
+									</select>
+									<label title="Enter the name of authors, editors, illustrators, etc. listed on the piece and select the appropriate role from the drop down menu. Authors should be listed first."><span class="question-mark">?</span></label>
+								</div>
+							</div>
+							<label for="author_listed" class="unlisted">Unlisted</label><input type="checkbox" id="author_listed" class="listed">
+							<div id="hiddenremind_author" class="Hremind" style="display: none;">Click the link(s) below to verify the information about the name(s): </div>
+							<div id='hiddenwikidiv_author' class="Hwikidiv" style="display: none;"><a id='hiddenwiki_author' class="Hwiki" target="_blank" rel="noopener noreferrer" href="">Wikidata Link</a></div>
+							<div id='hiddenviafdiv_author' class="Hviafdiv" style="display: none;" ><a id='hiddenviaf_author' class="Hviaf" target="_blank" rel="noopener noreferrer" href="">VIAF Link</a></div>
+							<div id='hiddenlcdiv_author' class="Hlcdiv" style="display: none;" ><a id='hiddenlc_author' class="Hlc"target="_blank" rel="noopener noreferrer" href="">LC Link</a></div>
 
-					<div id="translit-author_name-block" class="translit-author_name-block translit-block translit-author hidden">
-						<label for="translit_author_name" class="hidden translit heading translit-author_name">Transliterated name</label><button type="button" class="insert insert_author_name hidden translit translit-author_name" onClick='insertMenu("translit_author_name");'>Insert Diacritics</button><br>
-						<div id="insert-translit_author_name"></div>
-						<input type="text" id="translit_author_name" class="hidden translit translit-author_name" placeholder="Given Name Family Name">
+							<div class="input-column-wrapper">
+								<div id="translit-author_name-block" class="translit-author_name-block translit-block translit-author hidden">
+									<label for="translit_author_name" class="hidden translit heading translit-author_name">Transliterated Name</label><button type="button" class="insert insert_author_name hidden translit translit-author_name" onClick='insertMenu("translit_author_name");'>Insert Diacritics</button><br>
+									<div id="insert-translit_author_name"></div>
+									<input type="text" id="translit_author_name" class="hidden translit translit-author_name" placeholder="Given Name Family Name">
+								</div>
+							</div>
+						</fieldset>
+					</div>
+					<div class="column">
+						<input type="button" value="+" id="add-author" onClick="addAuthor();setUpVIAF()">
 					</div>
 				</fieldset>
 			</fieldset>
@@ -1255,12 +1269,12 @@
 		<div id="version">Version 1.3.0 – Updated on 05/05/2026</div>
 		<a id="code" href="https://github.com/UIUCLibrary/metadata-maker/tree/E-Books">GitHub</a></div>
 		
-		<script src="javascripts/metadatamaker/generalInteractions.js"></script>
+		<script src="../javascripts/metadatamaker/generalInteractions.js"></script>
 		<script src="javascripts/metadatamaker/topBar.js"></script>
 		<script src="javascripts/metadatamaker/subjectHeadings.js"></script>
 		<script src="javascripts/metadatamaker/downloadMARC.js"></script>
 		<script src="javascripts/metadatamaker/downloadMODS.js"></script>
-		<script src="javascripts/metadatamaker/downloadBIBFRAME.js"></script>
+		<script src="../javascripts/metadatamaker/downloadBIBFRAME.js"></script>
 		<script src="javascripts/metadatamaker/downloadHTML.js"></script>
 		<script src="javascripts/metadatamaker/downloadONIX.js"></script>
 		<script src="../javascripts/metadatamaker/submitForm.js"></script>

@@ -232,21 +232,166 @@ function addAuthor() {
 		var newfieldset = document.createElement('fieldset');
 		newfieldset.className = 'added single_name';
 		newfieldset.setAttribute('id',`author_name${aCounter}-block`);
-		newfieldset.innerHTML = `<legend class="heading">Personal</legend>`
+		//Legend
+		const fieldLegendEl = document.createElement('legend');
+		fieldLegendEl.setAttribute('class','heading');
+		fieldLegendEl.innerHTML = `Person ${aCounter+2}`;
+		newfieldset.appendChild(fieldLegendEl);
+		//Column Wrapper
+		const inputColumnWrapperEl = document.createElement('div');
+		inputColumnWrapperEl.setAttribute('class','input-column-wrapper');
+		//Name Column
+		const nameColumnEl = document.createElement('div');
+		nameColumnEl.setAttribute('class','column name-column');
+		//Name Label
+		const nameColumnLabelEl = document.createElement('label');
+		nameColumnLabelEl.setAttribute('for',`author_name${aCounter}`);
+		nameColumnLabelEl.innerHTML = 'Name';
+		nameColumnEl.appendChild(nameColumnLabelEl);
+		//Insert Diacritics
+		const nameInsertButtonEl = document.createElement('button');
+		nameInsertButtonEl.setAttribute('type','button');
+		nameInsertButtonEl.setAttribute('class','insert insert_author_name additional_insert');
+		nameInsertButtonEl.setAttribute('onClick',`insertMenu("author_name${aCounter}");`);
+		nameInsertButtonEl.innerHTML = 'Insert Diacritics';
+		nameColumnEl.appendChild(nameInsertButtonEl);
+		const nameInsertPopupEl = document.createElement('div');
+		nameInsertPopupEl.setAttribute('id',`insert-author_name${aCounter}`);
+		nameInsertPopupEl.setAttribute('class','additional_menu');
+		nameColumnEl.appendChild(nameInsertPopupEl);
+		//Name Input
+		const nameInputEl = document.createElement('input');
+		nameInputEl.setAttribute('type','text');
+		nameInputEl.setAttribute('class','author translit-listen');
+		nameInputEl.setAttribute('id',`author_name${aCounter}`);
+		nameInputEl.setAttribute('placeholder','Given Name Family Name');
+		nameColumnEl.appendChild(nameInputEl);
+		inputColumnWrapperEl.appendChild(nameColumnEl);
+		//Role Column
+		const roleColumnEl = document.createElement('div');
+		roleColumnEl.setAttribute('class','column role-column');
+		//Role Label
+		const roleColumnLabelEl = document.createElement('label');
+		roleColumnLabelEl.setAttribute('for',`role${aCounter}`);
+		roleColumnLabelEl.setAttribute('class','role_label');
+		roleColumnLabelEl.innerHTML = 'Role';
+		roleColumnEl.appendChild(roleColumnLabelEl);
+		roleColumnEl.appendChild(document.createElement('br'));
+		//Role Selection
+		const roleSelectionEl = document.createElement('select');
+		roleSelectionEl.setAttribute('name',`role${aCounter}`);
+		roleSelectionEl.setAttribute('id',`role${aCounter}`);
+		const dropdown_values = [
+			{value: 'art', text: 'artist'},
+			{value: 'aut', text: 'author'},
+			{value: 'ctb', text: 'contributor'},
+			{value: 'edt', text: 'editor'},
+			{value: 'ill', text: 'illustrator'},
+			{value: 'trl', text: 'translator'}
+		]
+		for (let i = 0; i < dropdown_values.length; i++) {
+			const optionEl = document.createElement('option');
+			optionEl.setAttribute('value',dropdown_values[i]['value']);
+			if (dropdown_values[i]['value'] == 'aut') {
+				optionEl.setAttribute('selected','');
+			}
+			optionEl.innerHTML = dropdown_values[i]['text'];
+			roleSelectionEl.appendChild(optionEl);
+		}
+		roleColumnEl.appendChild(roleSelectionEl);
+		inputColumnWrapperEl.appendChild(roleColumnEl);
+		newfieldset.appendChild(inputColumnWrapperEl);
+		//Wiki Link
+		const hiddenWikiEl = document.createElement('div');
+		hiddenWikiEl.setAttribute('class','Hwikidiv');
+		hiddenWikiEl.setAttribute('id',`hiddenwikidiv${aCounter}`);
+		hiddenWikiEl.setAttribute('style','display: none;');
+		const hiddenWikiLinkEl = document.createElement('a');
+		hiddenWikiLinkEl.setAttribute('class','Hwiki');
+		hiddenWikiLinkEl.setAttribute('id',`hiddenwiki${aCounter}`);
+		hiddenWikiLinkEl.setAttribute('target','_blank');
+		hiddenWikiLinkEl.setAttribute('rel','noopener noreferrer');
+		hiddenWikiLinkEl.setAttribute('href','');
+		hiddenWikiLinkEl.innerHTML = 'Wikidata Link';
+		hiddenWikiEl.appendChild(hiddenWikiLinkEl);
+		newfieldset.appendChild(hiddenWikiEl);
+		//VIAF Link
+		const hiddenVIAFEl = document.createElement('div');
+		hiddenVIAFEl.setAttribute('class','Hviafdiv');
+		hiddenVIAFEl.setAttribute('id',`hiddenviafdiv${aCounter}`);
+		hiddenVIAFEl.setAttribute('style','display: none;');
+		const hiddenVIAFLinkEl = document.createElement('a');
+		hiddenVIAFLinkEl.setAttribute('class','Hviaf');
+		hiddenVIAFLinkEl.setAttribute('id',`hiddenviaf${aCounter}`);
+		hiddenVIAFLinkEl.setAttribute('target','_blank');
+		hiddenVIAFLinkEl.setAttribute('rel','noopener noreferrer');
+		hiddenVIAFLinkEl.setAttribute('href','');
+		hiddenVIAFLinkEl.innerHTML = 'VIAF Link';
+		hiddenVIAFEl.appendChild(hiddenVIAFLinkEl);
+		newfieldset.appendChild(hiddenVIAFEl);
+		//LC Link
+		const hiddenLCEl = document.createElement('div');
+		hiddenLCEl.setAttribute('class','Hlcdiv');
+		hiddenLCEl.setAttribute('id',`hiddenlcdiv${aCounter}`);
+		hiddenLCEl.setAttribute('style','display: none;');
+		const hiddenLCLinkEl = document.createElement('a');
+		hiddenLCLinkEl.setAttribute('class','Hlc');
+		hiddenLCLinkEl.setAttribute('id',`hiddenlc${aCounter}`);
+		hiddenLCLinkEl.setAttribute('target','_blank');
+		hiddenLCLinkEl.setAttribute('rel','noopener noreferrer');
+		hiddenLCLinkEl.setAttribute('href','');
+		hiddenLCLinkEl.innerHTML = 'LC Link';
+		hiddenLCEl.appendChild(hiddenLCLinkEl);
+		newfieldset.appendChild(hiddenLCEl);
+/*		newfieldset.innerHTML = `<legend class="heading">Personal</legend>`
 		newfieldset.innerHTML += `<label for="author_name${aCounter}">Name</label>\n<button type="button" class="insert insert_author_name additional_insert" onClick=\'insertMenu("author_name${aCounter}");\'>Insert Diacritics</button><label for="role${aCounter}" class="role_label">Role</label><br>`;
 		newfieldset.innerHTML += `<div id="insert-author_name${aCounter}" class="additional_menu"></div>`;
 		newfieldset.innerHTML += `<span class="added-author"><input type="text" class="author translit-listen" id="author_name${aCounter}" placeholder="Given Name Family Name"> <select name="role${aCounter}" id="role${aCounter}"><option value="art">artist</option><option selected value="aut">author</option><option value="ctb">contributor</option><option value="edt">editor</option><option value="ill">illustrator</option><option value="trl">translator</option></select></span>`;
 		newfieldset.innerHTML += `<div class="Hwikidiv" id="hiddenwikidiv${aCounter}" style="display: none;" ><a class="Hwiki" id="hiddenwiki${aCounter}" target="_blank" rel="noopener noreferrer" href="">Wikidata Link</a></div>`;
 		newfieldset.innerHTML += `<div class="Hviafdiv" id="hiddenviafdiv${aCounter}" style="display: none;" ><a class="Hviaf" id="hiddenviaf${aCounter}" target="_blank" rel="noopener noreferrer" href="">VIAF Link</a></div>`;
 		newfieldset.innerHTML += `<div class="Hlcdiv" id="hiddenlcdiv${aCounter}" style="display: none;" ><a class="Hlc" id="hiddenlc${aCounter}" target="_blank" rel="noopener noreferrer" href="">LC Link</a></div>`;
-		$("#author-block").append(newfieldset);
-		var translit_div = document.createElement('div');
+*/		$("#input-column").append(newfieldset);
+		//Translit Wrapper
+		const translitColumnEl = document.createElement('div');
+		translitColumnEl.setAttribute('class','input-column-wrapper');
+		//Translit Column
+		const translitNameColumnEl = document.createElement('div');
+		translitNameColumnEl.setAttribute('id',`translit-author_name${aCounter}-block`);
+		translitNameColumnEl.setAttribute('class',`translit-author_name${aCounter}-block translit-block translit-author hidden`);
+		//Translit Label
+		const translitColumnLabelEl = document.createElement('label');
+		translitColumnLabelEl.setAttribute('for',`translit_author_name${aCounter}`);
+		translitColumnLabelEl.setAttribute('class',`hidden translit heading translit-author_name${aCounter}`);
+		translitColumnLabelEl.innerHTML = 'Transliterated Name';
+		translitNameColumnEl.appendChild(translitColumnLabelEl);
+		//Insert Diacritics
+		const translitInsertButtonEl = document.createElement('button');
+		translitInsertButtonEl.setAttribute('type','button');
+		translitInsertButtonEl.setAttribute('class',`insert insert_author_name hidden translit translit-author_name${aCounter}`);
+		translitInsertButtonEl.setAttribute('onClick',`insertMenu("translit_author_name${aCounter}");`);
+		translitInsertButtonEl.innerHTML = 'Insert Diacritics'
+		translitNameColumnEl.appendChild(translitInsertButtonEl);
+		const translitInsertPopupEl = document.createElement('div');
+		translitInsertPopupEl.setAttribute('id',`insert-translit_author_name${aCounter}`);
+		translitInsertPopupEl.setAttribute('class','additional_menu');
+		translitNameColumnEl.appendChild(translitInsertPopupEl);
+		//Translit Input
+		const translitInputEl = document.createElement('input');
+		translitInputEl.setAttribute('type','text');
+		translitInputEl.setAttribute('id',`translit_author_name${aCounter}`);
+		translitInputEl.setAttribute('class',`hidden translit translit-author_name${aCounter}`);
+		translitInputEl.setAttribute('placeholder','Transliterated Given Name Family Name');
+		translitNameColumnEl.appendChild(translitInputEl);
+		translitColumnEl.appendChild(translitNameColumnEl);
+		newfieldset.appendChild(translitColumnEl);
+
+/*		var translit_div = document.createElement('div');
 		translit_div.className = `translit-author_name${aCounter}-block translit-block translit-author hidden`;
 		translit_div.setAttribute('id',`translit-author_name${aCounter}-block`);
 		translit_div.innerHTML = `<label for="translit_author_name${aCounter}" class="insert insert_author_name hidden translit translit-author_name${aCounter}" onClick=\'insertMenu("translit_author_name${aCounter}");\'>Insert Diacritics</label><br>`;
 		translit_div.innerHTML += `<div id="insert-translit_author_name${aCounter}"></div>`;
 		translit_div.innerHTML += `<input type="text" id="translit_author_name${aCounter}" class="hidden translit translit-author_name${aCounter}" placeholder="Transliterated Given Name Family Name">`;
-		$(`#author_name${aCounter}-block`).append(translit_div);
+		$(`#author_name${aCounter}-block`).append(translit_div);*/
 		aCounter++;
 	}
 }
