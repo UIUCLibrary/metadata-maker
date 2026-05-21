@@ -117,35 +117,35 @@ function getnamesubfields(lcuri){
 
 function generateNamesList(complete_names_list) {
 	var auth100 = undefined;
-	if (document.getElementById("hiddenlc").getAttribute("href") !="") {
-		lcuri = document.getElementById("hiddenlc").getAttribute("href");
+	if (document.getElementById("hiddenlc_author").getAttribute("href") !="") {
+		lcuri = document.getElementById("hiddenlc_author").getAttribute("href");
 		namelist = getnamesubfields(lcuri);
 		auth100 = {
 			author: namelist["finalnametag"][0],
-			wiki: document.getElementById("hiddenwiki").getAttribute("href"),
-			viaf: document.getElementById("hiddenviaf").getAttribute("href"),
-			lc: document.getElementById("hiddenlc").getAttribute("href"),
+			wiki: document.getElementById("hiddenwiki_author").getAttribute("href"),
+			viaf: document.getElementById("hiddenviaf_author").getAttribute("href"),
+			lc: document.getElementById("hiddenlc_author").getAttribute("href"),
 			role: $("#role").val(),
 			subbd: namelist["finalnametag"].slice(1,),
 			ind1: namelist["ind1"]
 		}
 	}else{
-		if (document.getElementById("hiddenviaf").getAttribute("href")!=""){
-			var link = document.getElementById("hiddenviaf").getAttribute("href");
+		if (document.getElementById("hiddenviaf_author").getAttribute("href")!=""){
+			var link = document.getElementById("hiddenviaf_author").getAttribute("href");
 			var autname = $("#author_name").val();
 			autname = getviafname(link, autname);
 			auth100 = {
 				author: autname,
-				wiki: document.getElementById("hiddenwiki").getAttribute("href"),
-				viaf: document.getElementById("hiddenviaf").getAttribute("href"),
+				wiki: document.getElementById("hiddenwiki_author").getAttribute("href"),
+				viaf: document.getElementById("hiddenviaf_author").getAttribute("href"),
 				lc: "",
 				role: $("#role").val(),
 			}
 		}else{
-			if (document.getElementById("hiddenwiki").getAttribute("href") !="") {
+			if (document.getElementById("hiddenwiki_author").getAttribute("href") !="") {
 				auth100 = {
 					author: $("#author_name").val(),
-					wiki: document.getElementById("hiddenwiki").getAttribute("href"),
+					wiki: document.getElementById("hiddenwiki_author").getAttribute("href"),
 					viaf: "",
 					lc: "",
 					role: $("#role").val(),
@@ -177,35 +177,35 @@ function generateNamesList(complete_names_list) {
 	
 	for (var i = 0; i < aCounter; i++) {
 		var auth700 = undefined;
-		if (document.getElementById("hiddenlc"+ i).getAttribute("href") !="") {
-			lcuri = document.getElementById("hiddenlc"+ i).getAttribute("href");
+		if (document.getElementById("hiddenlc_author"+ i).getAttribute("href") !="") {
+			lcuri = document.getElementById("hiddenlc_author"+ i).getAttribute("href");
 			namelist = getnamesubfields(lcuri);
 			auth700 = {
 				author: namelist["finalnametag"][0],
-				wiki: document.getElementById("hiddenwiki"+ i).getAttribute("href"),
-				viaf: document.getElementById("hiddenviaf"+ i).getAttribute("href"),
+				wiki: document.getElementById("hiddenwiki_author"+ i).getAttribute("href"),
+				viaf: document.getElementById("hiddenviaf_author"+ i).getAttribute("href"),
 				lc: lcuri,
 				role: $(`#role${i}`).val(),
 				subbd: namelist["finalnametag"].slice(1,),
 				ind1: namelist["ind1"]
 			}
 		}else{
-			if (document.getElementById("hiddenviaf"+ i).getAttribute("href") !=""){
-				var link700 = document.getElementById("hiddenviaf"+ i).getAttribute("href");
+			if (document.getElementById("hiddenviaf_author"+ i).getAttribute("href") !=""){
+				var link700 = document.getElementById("hiddenviaf_author"+ i).getAttribute("href");
 				var autname700 = $("#author_name" + i).val();
 				autname700 = getviafname(link700, autname700);
 				auth700 = {
 					author: autname700,
-					wiki: document.getElementById("hiddenwiki"+ i).getAttribute("href"),
-					viaf: document.getElementById("hiddenviaf"+ i).getAttribute("href"),
+					wiki: document.getElementById("hiddenwiki_author"+ i).getAttribute("href"),
+					viaf: document.getElementById("hiddenviaf_author"+ i).getAttribute("href"),
 					lc: "",
 					role: $(`#role${i}`).val(),
 				}
 			}else{
-				if (document.getElementById("hiddenwiki"+ i).getAttribute("href") !="") {
+				if (document.getElementById("hiddenwiki_author"+ i).getAttribute("href") !="") {
 					auth700 = {
 						author: $("#author_name" + i).val(),
-						wiki: document.getElementById("hiddenwiki"+ i).getAttribute("href"),
+						wiki: document.getElementById("hiddenwiki_author"+ i).getAttribute("href"),
 						viaf: "",
 						lc: "",
 						role: $(`#role${i}`).val(),
