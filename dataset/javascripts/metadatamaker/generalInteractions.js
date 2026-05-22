@@ -265,15 +265,15 @@ function addContributor(type,counter) {
 	roleColumnEl.setAttribute('class','column role-column');
 	//Role Label
 	const roleColumnLabelEl = document.createElement('label');
-	roleColumnLabelEl.setAttribute('for',`role${counter}`);
+	roleColumnLabelEl.setAttribute('for',`${type}_role${counter}`);
 	roleColumnLabelEl.setAttribute('class','role_label');
 	roleColumnLabelEl.innerHTML = 'Role';
 	roleColumnEl.appendChild(roleColumnLabelEl);
 	roleColumnEl.appendChild(document.createElement('br'));
 	//Role Selection
 	const roleSelectionEl = document.createElement('select');
-	roleSelectionEl.setAttribute('name',`role${counter}`);
-	roleSelectionEl.setAttribute('id',`role${counter}`);
+	roleSelectionEl.setAttribute('name',`${type}_role${counter}`);
+	roleSelectionEl.setAttribute('id',`${type}_role${counter}`);
 	for (let i = 0; i < dropdown_values.length; i++) {
 		const optionEl = document.createElement('option');
 		optionEl.setAttribute('value',dropdown_values[i]['value']);
@@ -374,169 +374,6 @@ function addContributor(type,counter) {
 var aCounter = 0;
 function addAuthor() {
 	if (aCounter < 50) {
-/*		var newdiv = document.createElement('div');
-		newdiv.className = 'added';
-		newdiv.setAttribute('id','family_name' + aCounter + '-block');
-		newdiv.innerHTML = '<label for="family_name' + aCounter + '" class="insert insert_family_name additional_insert" onClick=\'insertMenu("family_name' + aCounter + '");\'>Insert Diacritics</label><label for="given_name' + aCounter + '" class="insert insert_given_name additional_insert" onClick=\'insertMenu("given_name' + aCounter + '");\'>Insert Diacritics</label><br>';
-		newdiv.innerHTML += '<div id="insert-family_name' + aCounter + '" class="additional_menu"></div><div id="insert-given_name' + aCounter + '" class="insert-given_name additional_menu"></div>';
-		newdiv.innerHTML += '<span class="added-author"><input type="text" class="author translit-listen" id="family_name' + aCounter + '" placeholder="Family Name">, <input type="text" class="author translit-listen" id="given_name' + aCounter + '" placeholder="Given Name"> <select name="role' + aCounter + '" id="role'  + aCounter + '"><option value="art">artist</option><option selected value="aut">author</option><option value="ctb">contributor</option><option value="edt">editor</option><option value="ill">illustrator</option><option value="trl">translator</option></select></span>';
-		$("#author-block").append(newdiv);
-		var translit_div = document.createElement('div');
-		translit_div.className = 'translit-family_name' + aCounter + '-block translit-block translit-author hidden';
-		translit_div.setAttribute('id','translit-family_name' + aCounter + '-block');
-		translit_div.innerHTML = '<label for="translit_family_name' + aCounter + '" class="insert insert_family_name hidden translit translit-family_name' + aCounter + '" onClick=\'insertMenu("translit_family_name' + aCounter + '");\'>Insert Diacritics</label><label for="translit_given_name' + aCounter + '" class="insert insert_given_name hidden translit translit-family_name' + aCounter + '" onClick=\'insertMenu("translit_given_name' + aCounter + '");\'>Insert Diacritics</label><br>';
-		translit_div.innerHTML += '<div id="insert-translit_family_name' + aCounter + '"></div><div id="insert-translit_given_name' + aCounter + '"  class="insert-given_name"></div>';
-		translit_div.innerHTML += '<input type="text" id="translit_family_name' + aCounter + '" class="hidden translit translit-family_name' + aCounter + '" placeholder="Transliterated Family Name"><span class="hidden translit-family_name' + aCounter + '">, </span><input type="text" id="translit_given_name' + aCounter + '" class="hidden translit translit-family_name' + aCounter + '" placeholder="Transliterated Given Name">';
-		$("#family_name" + aCounter + '-block').append(translit_div);*/
-/*		var newfieldset = document.createElement('fieldset');
-		newfieldset.className = 'added single_name';
-		newfieldset.setAttribute('id',`author_name${aCounter}-block`);
-		//Legend
-		const fieldLegendEl = document.createElement('legend');
-		fieldLegendEl.setAttribute('class','heading');
-		fieldLegendEl.innerHTML = `Person ${aCounter+2}`;
-		newfieldset.appendChild(fieldLegendEl);
-		//Column Wrapper
-		const inputColumnWrapperEl = document.createElement('div');
-		inputColumnWrapperEl.setAttribute('class','input-column-wrapper');
-		//Name Column
-		const nameColumnEl = document.createElement('div');
-		nameColumnEl.setAttribute('class','column name-column');
-		//Name Label
-		const nameColumnLabelEl = document.createElement('label');
-		nameColumnLabelEl.setAttribute('for',`author_name${aCounter}`);
-		nameColumnLabelEl.innerHTML = 'Name';
-		nameColumnEl.appendChild(nameColumnLabelEl);
-		//Insert Diacritics
-		const nameInsertButtonEl = document.createElement('button');
-		nameInsertButtonEl.setAttribute('type','button');
-		nameInsertButtonEl.setAttribute('class','insert insert_author_name additional_insert');
-		nameInsertButtonEl.setAttribute('onClick',`insertMenu("author_name${aCounter}");`);
-		nameInsertButtonEl.innerHTML = 'Insert Diacritics';
-		nameColumnEl.appendChild(nameInsertButtonEl);
-		const nameInsertPopupEl = document.createElement('div');
-		nameInsertPopupEl.setAttribute('id',`insert-author_name${aCounter}`);
-		nameInsertPopupEl.setAttribute('class','additional_menu');
-		nameColumnEl.appendChild(nameInsertPopupEl);
-		//Name Input
-		const nameInputEl = document.createElement('input');
-		nameInputEl.setAttribute('type','text');
-		nameInputEl.setAttribute('class','author translit-listen');
-		nameInputEl.setAttribute('id',`author_name${aCounter}`);
-		nameInputEl.setAttribute('placeholder','Given Name Family Name');
-		nameColumnEl.appendChild(nameInputEl);
-		inputColumnWrapperEl.appendChild(nameColumnEl);
-		//Role Column
-		const roleColumnEl = document.createElement('div');
-		roleColumnEl.setAttribute('class','column role-column');
-		//Role Label
-		const roleColumnLabelEl = document.createElement('label');
-		roleColumnLabelEl.setAttribute('for',`role${aCounter}`);
-		roleColumnLabelEl.setAttribute('class','role_label');
-		roleColumnLabelEl.innerHTML = 'Role';
-		roleColumnEl.appendChild(roleColumnLabelEl);
-		roleColumnEl.appendChild(document.createElement('br'));
-		//Role Selection
-		const roleSelectionEl = document.createElement('select');
-		roleSelectionEl.setAttribute('name',`role${aCounter}`);
-		roleSelectionEl.setAttribute('id',`role${aCounter}`);
-		const dropdown_values = [
-			{value: 'art', text: 'artist'},
-			{value: 'aut', text: 'author'},
-			{value: 'ctb', text: 'contributor'},
-			{value: 'edt', text: 'editor'},
-			{value: 'ill', text: 'illustrator'},
-			{value: 'trl', text: 'translator'}
-		]
-		for (let i = 0; i < dropdown_values.length; i++) {
-			const optionEl = document.createElement('option');
-			optionEl.setAttribute('value',dropdown_values[i]['value']);
-			if (dropdown_values[i]['value'] == 'aut') {
-				optionEl.setAttribute('selected','');
-			}
-			optionEl.innerHTML = dropdown_values[i]['text'];
-			roleSelectionEl.appendChild(optionEl);
-		}
-		roleColumnEl.appendChild(roleSelectionEl);
-		inputColumnWrapperEl.appendChild(roleColumnEl);
-		newfieldset.appendChild(inputColumnWrapperEl);
-		//Wiki Link
-		const hiddenWikiEl = document.createElement('div');
-		hiddenWikiEl.setAttribute('class','Hwikidiv');
-		hiddenWikiEl.setAttribute('id',`hiddenwikidiv_author${aCounter}`);
-		hiddenWikiEl.setAttribute('style','display: none;');
-		const hiddenWikiLinkEl = document.createElement('a');
-		hiddenWikiLinkEl.setAttribute('class','Hwiki');
-		hiddenWikiLinkEl.setAttribute('id',`hiddenwiki_author${aCounter}`);
-		hiddenWikiLinkEl.setAttribute('target','_blank');
-		hiddenWikiLinkEl.setAttribute('rel','noopener noreferrer');
-		hiddenWikiLinkEl.setAttribute('href','');
-		hiddenWikiLinkEl.innerHTML = 'Wikidata Link';
-		hiddenWikiEl.appendChild(hiddenWikiLinkEl);
-		newfieldset.appendChild(hiddenWikiEl);
-		//VIAF Link
-		const hiddenVIAFEl = document.createElement('div');
-		hiddenVIAFEl.setAttribute('class','Hviafdiv');
-		hiddenVIAFEl.setAttribute('id',`hiddenviafdiv_author${aCounter}`);
-		hiddenVIAFEl.setAttribute('style','display: none;');
-		const hiddenVIAFLinkEl = document.createElement('a');
-		hiddenVIAFLinkEl.setAttribute('class','Hviaf');
-		hiddenVIAFLinkEl.setAttribute('id',`hiddenviaf_author${aCounter}`);
-		hiddenVIAFLinkEl.setAttribute('target','_blank');
-		hiddenVIAFLinkEl.setAttribute('rel','noopener noreferrer');
-		hiddenVIAFLinkEl.setAttribute('href','');
-		hiddenVIAFLinkEl.innerHTML = 'VIAF Link';
-		hiddenVIAFEl.appendChild(hiddenVIAFLinkEl);
-		newfieldset.appendChild(hiddenVIAFEl);
-		//LC Link
-		const hiddenLCEl = document.createElement('div');
-		hiddenLCEl.setAttribute('class','Hlcdiv');
-		hiddenLCEl.setAttribute('id',`hiddenlcdiv_author${aCounter}`);
-		hiddenLCEl.setAttribute('style','display: none;');
-		const hiddenLCLinkEl = document.createElement('a');
-		hiddenLCLinkEl.setAttribute('class','Hlc');
-		hiddenLCLinkEl.setAttribute('id',`hiddenlc_author${aCounter}`);
-		hiddenLCLinkEl.setAttribute('target','_blank');
-		hiddenLCLinkEl.setAttribute('rel','noopener noreferrer');
-		hiddenLCLinkEl.setAttribute('href','');
-		hiddenLCLinkEl.innerHTML = 'LC Link';
-		hiddenLCEl.appendChild(hiddenLCLinkEl);
-		newfieldset.appendChild(hiddenLCEl);
-
-		$("#input-column").append(newfieldset);
-		//Translit Wrapper
-		const translitColumnEl = document.createElement('div');
-		translitColumnEl.setAttribute('class','input-column-wrapper');
-		//Translit Column
-		const translitNameColumnEl = document.createElement('div');
-		translitNameColumnEl.setAttribute('id',`translit-author_name${aCounter}-block`);
-		translitNameColumnEl.setAttribute('class',`translit-author_name${aCounter}-block translit-block translit-author hidden`);
-		//Translit Label
-		const translitColumnLabelEl = document.createElement('label');
-		translitColumnLabelEl.setAttribute('for',`translit_author_name${aCounter}`);
-		translitColumnLabelEl.setAttribute('class',`hidden translit heading translit-author_name${aCounter}`);
-		translitColumnLabelEl.innerHTML = 'Transliterated Name';
-		translitNameColumnEl.appendChild(translitColumnLabelEl);
-		//Insert Diacritics
-		const translitInsertButtonEl = document.createElement('button');
-		translitInsertButtonEl.setAttribute('type','button');
-		translitInsertButtonEl.setAttribute('class',`insert insert_author_name hidden translit translit-author_name${aCounter}`);
-		translitInsertButtonEl.setAttribute('onClick',`insertMenu("translit_author_name${aCounter}");`);
-		translitInsertButtonEl.innerHTML = 'Insert Diacritics'
-		translitNameColumnEl.appendChild(translitInsertButtonEl);
-		const translitInsertPopupEl = document.createElement('div');
-		translitInsertPopupEl.setAttribute('id',`insert-translit_author_name${aCounter}`);
-		translitInsertPopupEl.setAttribute('class','additional_menu');
-		translitNameColumnEl.appendChild(translitInsertPopupEl);
-		//Translit Input
-		const translitInputEl = document.createElement('input');
-		translitInputEl.setAttribute('type','text');
-		translitInputEl.setAttribute('id',`translit_author_name${aCounter}`);
-		translitInputEl.setAttribute('class',`hidden translit translit-author_name${aCounter}`);
-		translitInputEl.setAttribute('placeholder','Transliterated Given Name Family Name');
-		translitNameColumnEl.appendChild(translitInputEl);
-		translitColumnEl.appendChild(translitNameColumnEl);
-		newfieldset.appendChild(translitColumnEl);*/
 		addContributor('author',aCounter);
 		aCounter++;
 	}
@@ -545,20 +382,6 @@ function addAuthor() {
 var cCounter = 0;
 function addCorporate() {
 	if (cCounter < 50) {
-/*		var newdiv = document.createElement('div');
-		newdiv.className = 'added_corporate';
-		newdiv.setAttribute('id','corporate_name' + cCounter + '-block');
-		newdiv.innerHTML = '<label for="corporate_name' + cCounter + '" class="insert insert_corporate_name" onClick=\'insertMenu("corporate_name' + cCounter + '");\'>Insert Diacritics</label><br>';
-		newdiv.innerHTML += '<div id="insert-corporate_name' + cCounter + '" class="additional_corporate_menu"></div>';
-		newdiv.innerHTML += '<span class="added-corporate"><input type="text" class="corporate translit-listen" id="corporate_name' + cCounter + '"> <select name="role' + cCounter + '" id="corporate_role'  + cCounter + '"><option selected value="cre">creator</option><option value="ctb">contributor</option></select></span>';
-		$("#corporate-block").append(newdiv);
-		var translit_div = document.createElement('div');
-		translit_div.className = 'translit-corporate_name' + cCounter + '-block translit-block translit-corporate_name' + cCounter + ' hidden';
-		translit_div.setAttribute('id','translit-corporate_name' + cCounter + '-block');
-		translit_div.innerHTML = '<label for="translit_corporate_name' + cCounter + '" class="insert insert_translit_corporate_name hidden translit translit-corporate_name' + cCounter + '" onClick=\'insertMenu("translit_corporate_name' + cCounter + '");\'>Insert Diacritics</label><br>';
-		translit_div.innerHTML += '<div id="insert-translit_corporate_name' + cCounter + '"></div>';
-		translit_div.innerHTML += '<input type="text" id="translit_corporate_name' + cCounter + '" class="hidden translit translit-corporate_name' + cCounter + '">';
-		$('#corporate_name' + cCounter + '-block').append(translit_div);*/
 		addContributor('corporate',cCounter);
 		cCounter++;
 	}
@@ -680,4 +503,17 @@ function getTimestamp() {
 
 function escapeXML(content) {
 	return content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
+}
+
+/*
+ * Remove trailing colons and slashes from text strings
+ */
+function cleanTitleText(text) {
+	const last_char = text.trim().substr(text.trim().length - 1);
+	if (last_char == ':' || last_char == '/') {
+		return text.trim().substr(0,text.trim().length - 1).trim();
+	}
+	else {
+		return text.trim();
+	}
 }
