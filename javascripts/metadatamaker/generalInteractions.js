@@ -420,7 +420,7 @@ $(".listed").click(function() {
 	var field = $(this).attr("id");
 	field = field.substring(0,field.length-7);
 
-	if (field !== "author") {
+	if (field !== "author" && field !== "corporate") {
 		field = '#' + field;
 	}
 	else {

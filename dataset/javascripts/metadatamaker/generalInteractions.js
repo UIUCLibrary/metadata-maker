@@ -407,12 +407,12 @@ $(".listed").click(function() {
 	var field = $(this).attr("id");
 	field = field.substring(0,field.length-7);
 
-	if (field !== "author") {
+	if (field !== "author" && field !== "corporate") {
 		field = '#' + field;
 	}
 	else {
 		field = "." + field;
-		if ($("#family_name").val() !== '' || $("#given_name").val() !== '') {
+		if ($("#author_name").val() !== '') {
 			return;
 		}
 	}
