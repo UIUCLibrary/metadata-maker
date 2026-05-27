@@ -424,10 +424,10 @@ $(".listed").click(function() {
 		field = '#' + field;
 	}
 	else {
-		field = "." + field;
-		if ($("#author_name").val() !== '') {
+		if ($(`#${field}_name`).val() !== '') {
 			return;
 		}
+		field = "." + field;
 	}
 
 	if ($(this).is(':checked')) {
