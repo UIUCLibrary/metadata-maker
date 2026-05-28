@@ -432,12 +432,14 @@ function buildFASTSubjects(doc,fast_heading) {
 	return subjectEl;
 }
 
-function buildSubjects(doc,keyword) {
+function buildSubjects(doc,keyword,classString = 'Topic') {
 	const subjectEl = doc.createElement("bf:subject");
-	const TopicEl = doc.createElement("bf:Topic");
+	const TopicEl = doc.createElement(`bf:${classString}`);
+	//Type
 	const TopicTypeEl = doc.createElement("rdf:type");
-	TopicTypeEl.setAttribute("rdf:resource","http://www.loc.gov/mads/rdf/v1#Topic");
+	TopicTypeEl.setAttribute("rdf:resource",`http://www.loc.gov/mads/rdf/v1#${classString}`);
 	TopicEl.appendChild(TopicTypeEl);
+	//Label
 	const TopicLabelEl = doc.createElement("rdfs:label");
 	const TopicLabelText = doc.createTextNode(escapeXML(keyword));
 	TopicLabelEl.appendChild(TopicLabelText);
@@ -662,6 +664,11 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
 	//File Size
 	if (checkExists(record?.size)) {
 		instanceEl.appendChild(buildExtent(doc,record.size));
+	}
+
+	//Date Range
+	if (checkExists(record?.daterange)) {
+		workEl.appendChild(buildSubjects(doc,record.daterange,'Temporal'));
 	}
 
  	workEl.appendChild(hasInstanceEl);
