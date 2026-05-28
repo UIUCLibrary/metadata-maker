@@ -508,6 +508,17 @@ function buildNotes(doc) {
 	return noteEl;
 }
 
+function buildFileFormat(doc,record) {
+	const systemRequirementEl = doc.createElement("bf:systemRequirement");
+	const SystemRequirementEl = doc.createElement("bf:SystemRequirement");
+	const SystemRequirementLabelEl = doc.createElement("rdfs:label");
+	const SystemRequirementLabelText = doc.createTextNode(record.format);
+	SystemRequirementLabelEl.appendChild(SystemRequirementLabelText);
+	SystemRequirementEl.appendChild(SystemRequirementLabelEl);
+	systemRequirementEl.appendChild(SystemRequirementEl);
+	return systemRequirementEl;
+}
+
 /*
  * Build a BIBFRAME record. Each DOM object is saved as a string, then all the strings are combined into one master text
  *
@@ -642,6 +653,11 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  	if (record?.bibliographies_yes) {
  		workEl.appendChild(buildNotes(doc));
  	}
+
+	//File Format
+	if (checkExists(record?.format)) {
+		instanceEl.appendChild(buildFileFormat(doc,record));
+	}
 
  	workEl.appendChild(hasInstanceEl);
  	instanceEl.appendChild(instanceOfEl);

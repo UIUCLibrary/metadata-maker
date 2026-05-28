@@ -332,7 +332,7 @@ function find110(list) {
 		}
 	}
 
-	return [{'corporate':'','role':'','wiki':'','viaf':'','lc':''},{'corporate':''}];
+	return [[{'corporate':'','role':'','wiki':'','viaf':'','lc':''},{'corporate':''}]];
 }
 
 /*
@@ -348,62 +348,16 @@ $("#marc-maker").submit(function(event) {
 	let words = [];
 	let fast_array = [];
 	getKeywords(fast_array,words);
-	/*for (var i = 0; i < counter; i++) {
-		if(checkExists($("#fastID" + i).val()) && checkExists($("#keyword" + i).val())) {
-			if ($("#keyword" + i).val().substring($("#keyword" + i).val().length - 1) == ']') {
-				var endpoint = $("#keyword" + i).val().lastIndexOf('[');
-				fast_array.push([$("#keyword" + i).val().substring(0,endpoint-1),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
-			}
-			else {
-				fast_array.push([$("#keyword" + i).val(),$("#fastID" + i).val(),$("#fastType" + i).val(),$("#fastInd" + i).val()]);
-			}
-		}
-		else {
-			words.push($("#keyword" + i).val());
-		}
-	};*/
 
 	let complete_names_list = [];
 	generateNamesList(complete_names_list,'author',aCounter);
-
-//	var additional_names = [];
-//	var translit_additional_names = [];
-	/*var complete_names_list = [
-		[
-			{
-				family: $("#family_name").val(),
-				given: $("#given_name").val(),
-				role: $("#role").val()
-			},
-			{
-				family: $("#translit_family_name").val(),
-				given: $("#translit_given_name").val()
-			}
-		]
-	];
-	for (var i = 0; i < aCounter; i++) {
-		complete_names_list.push([{ "family": $("#family_name" + i).val(), "given": $("#given_name" + i).val(), "role": $("#role" + i).val()},{ "family": $("#translit_family_name" + i).val(), "given": $("#translit_given_name" + i).val()}]);
-	}*/
 
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
 
 	let complete_corporate_names_list = [];
 	generateNamesList(complete_corporate_names_list,'corporate',cCounter);
-/*	var complete_corporate_names_list = [
-		[
-			{
-				corporate: $("#corporate_name").val(),
-				role:  $("#corporate_role").val()
-			},
-			{
-				corporate: $("#translit_corporate_name").val()
-			}
-		]
-	];
-	for (var i = 0; i < cCounter; i++) {
-		complete_corporate_names_list.push([{"corporate": $("#corporate_name" + i).val(), "role": $("#corporate_role" + i).val()},{"corporate": $("#translit_corporate_name" + i).val()}]);
-	}*/
+	
 	var entry110 = [[{'corporate':'','role':'','wiki':'','viaf':'','lc':''},{'corporate':''}]];
 	if (entry100[0][0]['author'].length == 0 && entry100[0][1]['author'].length == 0) {
 		entry110 = find110(complete_corporate_names_list);
