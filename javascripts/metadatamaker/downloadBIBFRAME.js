@@ -106,7 +106,7 @@ function buildISBN(doc,record) {
 
 function buildContributor(doc,contributor,primary=false) {
 	const primary_source = contributor[0]['lc'] !="" ? 'lc' : (contributor[0]['viaf'] !="" ? 'viaf' : 'wiki');
- 	const role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
+ 	const role_index = { 'art': 'artist', 'aut': 'author', 'cre': 'creator', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
 
  	const contributionEl = doc.createElement("bf:contribution");
  	const ContributionEl = doc.createElement("bf:Contribution");
@@ -264,11 +264,11 @@ function buildDimensions(doc,record) {
 	return dimensionsEl;
 }
 
-function buildExtent(doc,record) {
+function buildExtent(doc,extent_value) {
 	const extentEl = doc.createElement("bf:extent");
 	const ExtentEl = doc.createElement("bf:Extent");
 	const extentLabelEl = doc.createElement("rdfs:label");
-	const extentLabelText = doc.createTextNode(`${escapeXML(record.pages)} ${record.volume_or_page}`);
+	const extentLabelText = doc.createTextNode(extent_value);
 	extentLabelEl.appendChild(extentLabelText);
 	ExtentEl.appendChild(extentLabelEl);
 	extentEl.appendChild(ExtentEl);
@@ -588,7 +588,7 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
 
  	//Pages/Volumes
 	if (checkExists(record?.pages) && checkExists(record?.volume_or_page)) {
-		instanceEl.appendChild(buildExtent(doc,record));
+		instanceEl.appendChild(buildExtent(doc,`${escapeXML(record.pages)} ${record.volume_or_page}`));
 	}
 
  	//Genre

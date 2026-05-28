@@ -264,11 +264,11 @@ function buildDimensions(doc,record) {
 	return dimensionsEl;
 }
 
-function buildExtent(doc,record) {
+function buildExtent(doc,extent_value) {
 	const extentEl = doc.createElement("bf:extent");
 	const ExtentEl = doc.createElement("bf:Extent");
 	const extentLabelEl = doc.createElement("rdfs:label");
-	const extentLabelText = doc.createTextNode(`${escapeXML(record.pages)} ${record.volume_or_page}`);
+	const extentLabelText = doc.createTextNode(extent_value);
 	extentLabelEl.appendChild(extentLabelText);
 	ExtentEl.appendChild(extentLabelEl);
 	extentEl.appendChild(ExtentEl);
@@ -608,7 +608,7 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
 
  	//Pages/Volumes
 	if (checkExists(record?.pages) && checkExists(record?.volume_or_page)) {
-		instanceEl.appendChild(buildExtent(doc,record));
+		instanceEl.appendChild(buildExtent(doc,`${escapeXML(record.pages)} ${record.volume_or_page}`));
 	}
 
  	//Genre
@@ -657,6 +657,11 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
 	//File Format
 	if (checkExists(record?.format)) {
 		instanceEl.appendChild(buildFileFormat(doc,record));
+	}
+
+	//File Size
+	if (checkExists(record?.size)) {
+		instanceEl.appendChild(buildExtent(doc,record.size));
 	}
 
  	workEl.appendChild(hasInstanceEl);
