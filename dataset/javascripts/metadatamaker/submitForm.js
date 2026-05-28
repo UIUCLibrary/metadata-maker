@@ -62,7 +62,7 @@ function getviafname(viafurl, autname){
 	return autname
 }
 
-function getnamesubfields(lcuri){
+function getnamesubfields(lcuri,type){
 	console.log("lcuri");
 	console.log(lcuri);
 	var link = (lcuri+".marcxml.xml").replace('http://','https://');
@@ -83,7 +83,8 @@ function getnamesubfields(lcuri){
 		    }
 		}).responseText
 	var finalnametag = [];
-	var prename1 = rtn.substring(rtn.indexOf('<marcxml:datafield tag="100"'));
+	const tag_number = type == 'author' ? '100' : '110';
+	var prename1 = rtn.substring(rtn.indexOf(`<marcxml:datafield tag="${tag_number}"`));
 	var ind1 = prename1.substring(prename1.indexOf('ind1=') + 6,prename1.indexOf(' ind2')-1);
 	var prename2 = prename1.substring(0,prename1.indexOf('</marcxml:datafield>'));
 	var namea1 = prename2.substring(prename2.indexOf('code="a">'));
@@ -116,11 +117,11 @@ function getnamesubfields(lcuri){
 } 
 
 function generateNamesList(complete_names_list,type,counter) {
-	var auth100 = undefined;
+	var primary_author = undefined;
 	if (document.getElementById(`hiddenlc_${type}`).getAttribute("href") !="") {
 		lcuri = document.getElementById(`hiddenlc_${type}`).getAttribute("href");
-		namelist = getnamesubfields(lcuri);
-		auth100 = {
+		namelist = getnamesubfields(lcuri,type);
+		primary_author = {
 			[type]: namelist["finalnametag"][0],
 			wiki: document.getElementById(`hiddenwiki_${type}`).getAttribute("href"),
 			viaf: document.getElementById(`hiddenviaf_${type}`).getAttribute("href"),
@@ -134,7 +135,7 @@ function generateNamesList(complete_names_list,type,counter) {
 			var link = document.getElementById(`hiddenviaf_${type}`).getAttribute("href");
 			var autname = $(`#${type}_name`).val();
 			autname = getviafname(link, autname);
-			auth100 = {
+			primary_author = {
 				[type]: autname,
 				wiki: document.getElementById(`hiddenwiki_${type}`).getAttribute("href"),
 				viaf: document.getElementById(`hiddenviaf_${type}`).getAttribute("href"),
@@ -143,7 +144,7 @@ function generateNamesList(complete_names_list,type,counter) {
 			}
 		}else{
 			if (document.getElementById(`hiddenwiki_${type}`).getAttribute("href") !="") {
-				auth100 = {
+				primary_author = {
 					[type]: $(`#${type}_name`).val(),
 					wiki: document.getElementById(`hiddenwiki_${type}`).getAttribute("href"),
 					viaf: "",
@@ -151,7 +152,7 @@ function generateNamesList(complete_names_list,type,counter) {
 					role: $(`#${type}_role`).val(),
 				}
 			}else{
-				auth100 = {
+				primary_author = {
 					[type]: $(`#${type}_name`).val(),
 					wiki: "",
 					viaf: "",
@@ -161,12 +162,12 @@ function generateNamesList(complete_names_list,type,counter) {
 			}
 		}
 	}
-	console.log(auth100);
+	console.log(primary_author);
 
-	if (auth100[type]) {
+	if (primary_author[type]) {
 		complete_names_list.push(
 			[
-				auth100,
+				primary_author,
 				{
 					[type]: $(`#translit_${type}_name`).val()
 				}
@@ -176,12 +177,12 @@ function generateNamesList(complete_names_list,type,counter) {
 	console.log(complete_names_list);
 	
 	for (var i = 0; i < counter; i++) {
-		var auth700 = undefined;
+		var additional_author = undefined;
 		if (document.getElementById(`hiddenlc_${type}${i}`).getAttribute("href") !="") {
 			lcuri = document.getElementById(`hiddenlc_${type}${i}`).getAttribute("href");
-			namelist = getnamesubfields(lcuri);
-			auth700 = {
-				author: namelist["finalnametag"][0],
+			namelist = getnamesubfields(lcuri,type);
+			additional_author = {
+				[type]: namelist["finalnametag"][0],
 				wiki: document.getElementById(`hiddenwiki_${type}${i}`).getAttribute("href"),
 				viaf: document.getElementById(`hiddenviaf_${type}${i}`).getAttribute("href"),
 				lc: lcuri,
@@ -194,8 +195,8 @@ function generateNamesList(complete_names_list,type,counter) {
 				var link700 = document.getElementById(`hiddenviaf_${type}${i}`).getAttribute("href");
 				var autname700 = $(`#${type}_name${i}`).val();
 				autname700 = getviafname(link700, autname700);
-				auth700 = {
-					author: autname700,
+				additional_author = {
+					[type]: autname700,
 					wiki: document.getElementById(`hiddenwiki_${type}${i}`).getAttribute("href"),
 					viaf: document.getElementById(`hiddenviaf_${type}${i}`).getAttribute("href"),
 					lc: "",
@@ -203,16 +204,16 @@ function generateNamesList(complete_names_list,type,counter) {
 				}
 			}else{
 				if (document.getElementById(`hiddenwiki_${type}${i}`).getAttribute("href") !="") {
-					auth700 = {
-						author: $(`#${type}_name${i}`).val(),
+					additional_author = {
+						[type]: $(`#${type}_name${i}`).val(),
 						wiki: document.getElementById(`hiddenwiki_${type}${i}`).getAttribute("href"),
 						viaf: "",
 						lc: "",
 						role: $(`#${type}_role${i}`).val(),
 					}
 				}else{
-					auth700 = {
-						author: $(`#${type}_name${i}`).val(),
+					additional_author = {
+						[type]: $(`#${type}_name${i}`).val(),
 						wiki: "",
 						viaf: "",
 						lc: "",
@@ -222,10 +223,10 @@ function generateNamesList(complete_names_list,type,counter) {
 			}
 			
 		}
-		if (auth700[type]) {
+		if (additional_author[type]) {
 			complete_names_list.push(
 				[
-					auth700,
+					additional_author,
 					{ 
 						[type]: $(`#translit_${type}_name${i}`).val()
 					}
@@ -424,9 +425,9 @@ $("#marc-maker").submit(function(event) {
 		publisher: $("#publisher").val(),
 		publication_year: $("#year").val(),
 		publication_place: $("#place").val(),
-		publication_country: $("#country").val(),
+		publication_country: $("#country").val() ? {code: $("#country").val(), text: $("#country option:selected").text()} : undefined,
 		copyright_year: $("#cyear").val(),
-		web_url: 'http://' + $("#web-url").val(),
+		web_url: $("#web-url").val() ? `http://${$("#web-url").val()}` : undefined,
 		language: $("#language").val(),
 		translit_publisher: $("#translit_publisher").val(),
 		translit_place: $("#translit_place").val(),
