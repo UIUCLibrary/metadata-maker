@@ -405,7 +405,7 @@ $("#marc-maker").submit(function(event) {
 		complete_corporate_names_list.push([{"corporate": $("#corporate_name" + i).val(), "role": $("#corporate_role" + i).val()},{"corporate": $("#translit_corporate_name" + i).val()}]);
 	}*/
 	var entry110 = [[{'corporate':'','role':'','wiki':'','viaf':'','lc':''},{'corporate':''}]];
-	if (!entry100[0]) {
+	if (entry100[0][0]['author'].length == 0 && entry100[0][1]['author'].length == 0) {
 		entry110 = find110(complete_corporate_names_list);
 	}
 

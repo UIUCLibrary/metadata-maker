@@ -106,7 +106,7 @@ function buildISBN(doc,record) {
 
 function buildContributor(doc,contributor,primary=false) {
 	const primary_source = contributor[0]['lc'] !="" ? 'lc' : (contributor[0]['viaf'] !="" ? 'viaf' : 'wiki');
- 	const role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
+ 	const role_index = { 'art': 'artist', 'aut': 'author', 'cre': 'creator', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
 
  	const contributionEl = doc.createElement("bf:contribution");
  	const ContributionEl = doc.createElement("bf:Contribution");
@@ -125,13 +125,13 @@ function buildContributor(doc,contributor,primary=false) {
 		AgentEl.setAttribute("rdf:about",escapeXML(contributor[0][primary_source]))
 	}
 
- 	//Person
+ 	//Type
  	const agentTypeEl = doc.createElement("rdf:type");
- 	agentTypeEl.setAttribute("rdf:resource","http://id.loc.gov/ontologies/bibframe/Person");
+ 	agentTypeEl.setAttribute("rdf:resource",`http://id.loc.gov/ontologies/bibframe/${'author' in contributor[0] ? 'Person' : 'Organization'}`);
  	AgentEl.appendChild(agentTypeEl);
 
  	//Label
- 	const agentLabelTextValue = escapeXML(contributor[0]['author']);
+ 	const agentLabelTextValue = escapeXML(contributor[0]['author' in contributor[0] ? 'author' : 'corporate']);
  	if (agentLabelTextValue) {
  		const agentLabelEl = doc.createElement("rdfs:label");
  		const agentLabelText = doc.createTextNode(agentLabelTextValue);
@@ -570,6 +570,15 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  			workEl.appendChild(buildContributor(doc,record.additional_authors[i]));
  		}
  	}
+	if (checkExists(record?.corporate_author[0]['corporate'])) {
+		const primary = checkExists(record?.author[0]['author']) ? false : true;
+		workEl.appendChild(buildContributor(doc,record.corporate_author,primary));
+	}
+	if (checkExists(record?.additional_corporate_names)) {
+		for (let i = 0; i < record.additional_corporate_names.length; i++) {
+			workEl.appendChild(buildContributor(doc,record.additional_corporate_names[i]));
+		}
+	}
 
  	//Provision Activity
  	if (checkExists(record?.publication_country) || checkExists(record?.publication_place) || checkExists(record?.publisher) || checkExists(record?.publication_year)) {
