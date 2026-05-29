@@ -125,13 +125,13 @@ function buildContributor(doc,contributor,primary=false) {
 		AgentEl.setAttribute("rdf:about",escapeXML(contributor[0][primary_source]))
 	}
 
- 	//Person
+ 	//Type
  	const agentTypeEl = doc.createElement("rdf:type");
- 	agentTypeEl.setAttribute("rdf:resource","http://id.loc.gov/ontologies/bibframe/Person");
+ 	agentTypeEl.setAttribute("rdf:resource",`http://id.loc.gov/ontologies/bibframe/${'author' in contributor[0] ? 'Person' : 'Organization'}`);
  	AgentEl.appendChild(agentTypeEl);
 
  	//Label
- 	const agentLabelTextValue = escapeXML(contributor[0]['author']);
+ 	const agentLabelTextValue = escapeXML(contributor[0]['author' in contributor[0] ? 'author' : 'corporate']);
  	if (agentLabelTextValue) {
  		const agentLabelEl = doc.createElement("rdfs:label");
  		const agentLabelText = doc.createTextNode(agentLabelTextValue);
@@ -432,12 +432,14 @@ function buildFASTSubjects(doc,fast_heading) {
 	return subjectEl;
 }
 
-function buildSubjects(doc,keyword) {
+function buildSubjects(doc,keyword,classString = 'Topic') {
 	const subjectEl = doc.createElement("bf:subject");
-	const TopicEl = doc.createElement("bf:Topic");
+	const TopicEl = doc.createElement(`bf:${classString}`);
+	//Type
 	const TopicTypeEl = doc.createElement("rdf:type");
-	TopicTypeEl.setAttribute("rdf:resource","http://www.loc.gov/mads/rdf/v1#Topic");
+	TopicTypeEl.setAttribute("rdf:resource",`http://www.loc.gov/mads/rdf/v1#${classString}`);
 	TopicEl.appendChild(TopicTypeEl);
+	//Label
 	const TopicLabelEl = doc.createElement("rdfs:label");
 	const TopicLabelText = doc.createTextNode(escapeXML(keyword));
 	TopicLabelEl.appendChild(TopicLabelText);
@@ -510,6 +512,39 @@ function buildNotes(doc,note_text,note_type = undefined) {
 	return noteEl;
 }
 
+function buildFileFormat(doc,record) {
+	const systemRequirementEl = doc.createElement("bf:systemRequirement");
+	const SystemRequirementEl = doc.createElement("bf:SystemRequirement");
+	const SystemRequirementLabelEl = doc.createElement("rdfs:label");
+	const SystemRequirementLabelText = doc.createTextNode(record.format);
+	SystemRequirementLabelEl.appendChild(SystemRequirementLabelText);
+	SystemRequirementEl.appendChild(SystemRequirementLabelEl);
+	systemRequirementEl.appendChild(SystemRequirementEl);
+	return systemRequirementEl;
+}
+
+function buildGeographicCoverage(doc,coverage_text) {
+	const geographicCoverageEl = doc.createElement("bf:geographicCoverage");
+	const GeographicCoverageEl = doc.createElement("bf:GeographicCoverage");
+	const GeographicCoverageLabelEl = doc.createElement("rdfs:label");
+	const GeographicCoverageLabelText = doc.createTextNode(coverage_text);
+	GeographicCoverageLabelEl.appendChild(GeographicCoverageLabelText);
+	GeographicCoverageEl.appendChild(GeographicCoverageLabelEl);
+	geographicCoverageEl.appendChild(GeographicCoverageEl);
+	return geographicCoverageEl;
+}
+
+function buildUsageAndAccessPolicy(doc,policy_text,policy_type) {
+	const usageAndAccessPolicyEl = doc.createElement("bf:usageAndAccessPolicy");
+	const policyClassEl = doc.createElement(`bf:${policy_type}Policy`);
+	const policyClassLabelEl = doc.createElement("rdfs:label");
+	const policyClassLabelText = doc.createTextNode(policy_text);
+	policyClassLabelEl.appendChild(policyClassLabelText);
+	policyClassEl.appendChild(policyClassLabelEl);
+	usageAndAccessPolicyEl.appendChild(policyClassEl);
+	return usageAndAccessPolicyEl;
+}
+
 /*
  * Build a BIBFRAME record. Each DOM object is saved as a string, then all the strings are combined into one master text
  *
@@ -572,6 +607,15 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  			workEl.appendChild(buildContributor(doc,record.additional_authors[i]));
  		}
  	}
+	if (checkExists(record?.corporate_author[0]['corporate'])) {
+		const primary = checkExists(record?.author[0]['author']) ? false : true;
+		workEl.appendChild(buildContributor(doc,record.corporate_author,primary));
+	}
+	if (checkExists(record?.additional_corporate_names)) {
+		for (let i = 0; i < record.additional_corporate_names.length; i++) {
+			workEl.appendChild(buildContributor(doc,record.additional_corporate_names[i]));
+		}
+	}
 
  	//Provision Activity
  	if (checkExists(record?.publication_country) || checkExists(record?.publication_place) || checkExists(record?.publisher) || checkExists(record?.publication_year)) {
@@ -633,10 +677,50 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  	instanceEl.appendChild(buildIssuance(doc));
 
  	if (record?.bibliographies_yes) {
- 		const bib_note = "Includes bibliographical references and index.";
+		const bib_note = "Includes bibliographical references and index.";
 		const note_type = 'http://id.loc.gov/vocabulary/mnotetype/biblio';
-		workEl.appendChild(buildNotes(doc,bib_note,note_type));
+ 		workEl.appendChild(buildNotes(doc,bib_note,note_type));
  	}
+
+	//File Format
+	if (checkExists(record?.format)) {
+		instanceEl.appendChild(buildFileFormat(doc,record));
+	}
+
+	//File Size
+	if (checkExists(record?.size)) {
+		instanceEl.appendChild(buildExtent(doc,record.size));
+	}
+
+	//Geographic Coverage
+	if (checkExists(record?.gcoverage)) {
+		workEl.appendChild(buildGeographicCoverage(doc,record.gcoverage));
+	}
+
+	//Geographic Granularity
+	if (checkExists(record?.ggranularity)) {
+		workEl.appendChild(buildGeographicCoverage(doc,record.ggranularity));
+	}
+
+	//Date Range
+	if (checkExists(record?.daterange)) {
+		workEl.appendChild(buildSubjects(doc,record.daterange,'Temporal'));
+	}
+
+	//Date Data Collected
+	if (checkExists(record?.datecollected)) {
+		instanceEl.appendChild(buildNotes(doc,record.datecollected));
+	}
+
+	//Access Terms
+	if (checkExists(record?.access_terms)) {
+		instanceEl.appendChild(buildUsageAndAccessPolicy(doc,record.access_terms,'Access'));
+	}
+
+	//Use Terms
+	if (checkExists(record?.use_terms)) {
+		instanceEl.appendChild(buildUsageAndAccessPolicy(doc,record.use_terms,'Use'));
+	}
 
  	workEl.appendChild(hasInstanceEl);
  	instanceEl.appendChild(instanceOfEl);

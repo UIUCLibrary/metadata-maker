@@ -232,7 +232,7 @@ function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 
 	var author_content = '';
 	if (checkExists(record.author[latin_index]['author'])) {
-		author_content = record.author[latin_index]['author'] + ','
+		author_content = record.author[latin_index]['author'] + ',';
 	}
 	else {
 		return head !== null ? ['',''] : '';

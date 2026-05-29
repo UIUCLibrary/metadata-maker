@@ -863,9 +863,9 @@ function buildSpan(prop,content) {
 
 /*
  * Create a new div for each person listed as a contributer, switching the itemscope to person. Separately label
- * the family name and given name.
+ * the author name.
  */
-function listPerson(family,given,role) {
+function listPerson(author,role) {
 	if (role != 'aut') {
 		role = 'ctb';
 	}
@@ -874,16 +874,8 @@ function listPerson(family,given,role) {
 	var output_string = '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="http://schema.org/Person">\n';
 	output_string += '\t\t\t\t<dt>' + role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1) + ':</dt>\n';
 	output_string += '\t\t\t\t<dd><b>';
-	if (checkExists(family) && checkExists(given)) {
-		output_string += buildSpan('familyName',family) + ', ' + buildSpan('givenName',given);
-	}
-	else if (checkExists(family) || checkExists(given)) {
-		if (checkExists(family)) {
-			output_string += buildSpan('familyName',family);
-		}
-		else {
-			output_string += buildSpan('givenName',given);
-		}
+	if (checkExists(author)) {
+		output_string += buildSpan('authorName',author);
 	}
 	output_string += '</b></dd>\n';
 	output_string += '\t\t\t</div>\n';
@@ -932,21 +924,21 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('alternateName',record.title[1]['title'] + translitSubTag,false,'Transliterated Title');
 	}
 
-	displayTags += buildTag('url','<a href="' + record.web_url + '">' + record.web_url + '</a>',false,'Web URL');
+	if (checkExists(record.web_url)) {
+		displayTags += buildTag('url','<a href="' + record.web_url + '">' + record.web_url + '</a>',false,'Web URL');
+	}
 
 	if (checkExists(record.isbn)) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
 
-	if (checkExists(record.author[0]['role']) && (checkExists(record.author[0]['given']) || checkExists(record.author[0]['family']))) {
-		displayTags += listPerson(record.author[0]['family'],record.author[0]['given'],record.author[0]['role']);
+	if (checkExists(record.author[0]['role']) && checkExists(record.author[0]['author'])) {
+		displayTags += listPerson(record.author[0]['author'],record.author[0]['role']);
 	}
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			if (checkExists(record.additional_authors[i][0]['family']) || checkExists(record.additional_authors[i][0]['given'])) {
-				displayTags += listPerson(record.additional_authors[i][0]['family'],record.additional_authors[i][0]['given'],record.additional_authors[i][0]['role']);
-			}
+			displayTags += listPerson(record.additional_authors[i][0]['author'],record.additional_authors[i][0]['role']);
 		}
 	}
 
@@ -970,16 +962,16 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('publisher',record.publisher,false,'Publisher');
 	}
 
-	if (checkExists(record.publication_place) || checkExists(record.publication_country)) {
+	if (checkExists(record?.publication_place) || checkExists(record?.publication_country)) {
 		var content = '';
-		if (checkExists(record.publication_place)) {
+		if (checkExists(record?.publication_place)) {
 			content += '<span itemprop="addressLocality">' + record.publication_place + '</span>';
-			if (checkExists(record.publication_country)) {
+			if (checkExists(record?.publication_country)) {
 				content += ', ';
 			}
 		}
-		if (checkExists(record.publication_country)) {
-			content += '<span itemprop="addressRegion">' + getCountry(record.publication_country) + '</span>';
+		if (checkExists(record?.publication_country)) {
+			content += '<span itemprop="addressRegion">' + record.publication_country.text + '</span>';
 		}
 		var publication_location = buildItemscopeTag('publication','http://schema.org/PublicationEvent',buildItemscopeTag('location','http://schema.org/PostalAddress','\t\t\t\t<dt>Publication Location:</dt>\n\t\t\t\t<dd><b>' + content + '</b></dd>\n'));
 		displayTags += publication_location;
