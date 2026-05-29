@@ -534,6 +534,17 @@ function buildGeographicCoverage(doc,coverage_text) {
 	return geographicCoverageEl;
 }
 
+function buildUsageAndAccessPolicy(doc,policy_text,policy_type) {
+	const usageAndAccessPolicyEl = doc.createElement("bf:usageAndAccessPolicy");
+	const policyClassEl = doc.createElement(`bf:${policy_type}Policy`);
+	const policyClassLabelEl = doc.createElement("rdfs:label");
+	const policyClassLabelText = doc.createTextNode(policy_text);
+	policyClassLabelEl.appendChild(policyClassLabelText);
+	policyClassEl.appendChild(policyClassLabelEl);
+	usageAndAccessPolicyEl.appendChild(policyClassEl);
+	return usageAndAccessPolicyEl;
+}
+
 /*
  * Build a BIBFRAME record. Each DOM object is saved as a string, then all the strings are combined into one master text
  *
@@ -699,6 +710,16 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
 	//Date Data Collected
 	if (checkExists(record?.datecollected)) {
 		instanceEl.appendChild(buildNotes(doc,record.datecollected));
+	}
+
+	//Access Terms
+	if (checkExists(record?.access_terms)) {
+		instanceEl.appendChild(buildUsageAndAccessPolicy(doc,record.access_terms,'Access'));
+	}
+
+	//Use Terms
+	if (checkExists(record?.use_terms)) {
+		instanceEl.appendChild(buildUsageAndAccessPolicy(doc,record.use_terms,'Use'));
 	}
 
  	workEl.appendChild(hasInstanceEl);
