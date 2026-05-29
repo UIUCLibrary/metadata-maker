@@ -496,14 +496,16 @@ function buildIssuance(doc) {
 	return issuanceEl;
 }
 
-function buildNotes(doc) {
+function buildNotes(doc,note_text,note_type = undefined) {
 	const noteEl = doc.createElement("bf:note");
 	const NoteEl = doc.createElement("bf:Note");
-	const NoteTypeEl = doc.createElement("rdf:type");
-	NoteTypeEl.setAttribute("rdf:resource","http://id.loc.gov/vocabulary/mnotetype/biblio");
-	NoteEl.appendChild(NoteTypeEl);
+	if (note_type) {
+		const NoteTypeEl = doc.createElement("rdf:type");
+		NoteTypeEl.setAttribute("rdf:resource",note_type);
+		NoteEl.appendChild(NoteTypeEl);
+	}
 	const NoteLabelEl = doc.createElement("rdfs:label");
-	const NoteLabelText = doc.createTextNode("Includes bibliographical references and index.");
+	const NoteLabelText = doc.createTextNode(note_text);
 	NoteLabelEl.appendChild(NoteLabelText);
 	NoteEl.appendChild(NoteLabelEl);
 	noteEl.appendChild(NoteEl);
@@ -653,7 +655,9 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  	instanceEl.appendChild(buildIssuance(doc));
 
  	if (record?.bibliographies_yes) {
- 		workEl.appendChild(buildNotes(doc));
+		const bib_note = "Includes bibliographical references and index.";
+		const note_type = 'http://id.loc.gov/vocabulary/mnotetype/biblio';
+ 		workEl.appendChild(buildNotes(doc,bib_note,note_type));
  	}
 
 	//File Format
@@ -669,6 +673,11 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
 	//Date Range
 	if (checkExists(record?.daterange)) {
 		workEl.appendChild(buildSubjects(doc,record.daterange,'Temporal'));
+	}
+
+	//Date Data Collected
+	if (checkExists(record?.datecollected)) {
+		instanceEl.appendChild(buildNotes(doc,record.datecollected));
 	}
 
  	workEl.appendChild(hasInstanceEl);
