@@ -523,6 +523,17 @@ function buildFileFormat(doc,record) {
 	return systemRequirementEl;
 }
 
+function buildGeographicCoverage(doc,coverage_text) {
+	const geographicCoverageEl = doc.createElement("bf:geographicCoverage");
+	const GeographicCoverageEl = doc.createElement("bf:GeographicCoverage");
+	const GeographicCoverageLabelEl = doc.createElement("rdfs:label");
+	const GeographicCoverageLabelText = doc.createTextNode(coverage_text);
+	GeographicCoverageLabelEl.appendChild(GeographicCoverageLabelText);
+	GeographicCoverageEl.appendChild(GeographicCoverageLabelEl);
+	geographicCoverageEl.appendChild(GeographicCoverageEl);
+	return geographicCoverageEl;
+}
+
 /*
  * Build a BIBFRAME record. Each DOM object is saved as a string, then all the strings are combined into one master text
  *
@@ -668,6 +679,16 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
 	//File Size
 	if (checkExists(record?.size)) {
 		instanceEl.appendChild(buildExtent(doc,record.size));
+	}
+
+	//Geographic Coverage
+	if (checkExists(record?.gcoverage)) {
+		workEl.appendChild(buildGeographicCoverage(doc,record.gcoverage));
+	}
+
+	//Geographic Granularity
+	if (checkExists(record?.ggranularity)) {
+		workEl.appendChild(buildGeographicCoverage(doc,record.ggranularity));
 	}
 
 	//Date Range
