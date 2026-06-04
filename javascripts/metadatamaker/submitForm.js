@@ -328,6 +328,16 @@ function find100(list) {
 	return [[{'author':'','role':'','wiki':'','viaf':'','lc':''},{'author':''}]];
 }
 
+function find110(list) {
+	for (var iterator = 0; iterator < list.length; iterator++) {
+		if (list[iterator][0]['role'] == 'cre') {
+			return list.splice(iterator,1);
+		}
+	}
+
+	return [[{'corporate':'','role':'','wiki':'','viaf':'','lc':''},{'corporate':''}]];
+}
+
 function generateBISACSubjectList() {
 	let subject_list = [];
 
@@ -378,6 +388,16 @@ $("#marc-maker").submit(function(event) {
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
 
+	let complete_corporate_names_list = [];
+	if (document.getElementById('corporate_name')) {
+		generateNamesList(complete_corporate_names_list,'corporate',cCounter);
+	}
+
+	var entry110 = [[{'corporate':'','role':'','wiki':'','viaf':'','lc':''},{'corporate':''}]];
+	if (entry100[0][0]['author'].length == 0 && entry100[0][1]['author'].length == 0) {
+		entry110 = find110(complete_corporate_names_list);
+	}
+
 	var recordObject = {
 		title: [
 			{
@@ -390,6 +410,7 @@ $("#marc-maker").submit(function(event) {
 			}
 		],
 		author: entry100[0],
+		corporate_author: entry110[0],
 		publisher: $("#publisher").val(),
 		publication_year: $("#year").val(),
 		publication_place: $("#place").val(),
@@ -414,6 +435,15 @@ $("#marc-maker").submit(function(event) {
 		keywords: words,
 		fast: fast_array,
 		additional_authors: complete_names_list,
+		additional_corporate_names: complete_corporate_names_list,
+		format: $("#format").val(),
+		size: $("#size").val(),
+		daterange: $("#daterange").val(),
+		datecollected: $("#datecollected").val(),
+		gcoverage: $("#gcoverage").val(),
+		ggranularity: $("#ggranularity").val(),
+		access_terms: $("#access_terms").val(),
+		use_terms: $("#use_terms").val(),
 		subjects: subject_list
 	};
 
