@@ -55,7 +55,7 @@ function getPrefix(title,lang) {
 	}
 }
 
-function addContributor(author,counter) {
+function addONIXContributor(author,counter) {
 	var role_index = { 'art': 'A07', 'aut': 'A01', 'ctb': 'A32', 'edt': 'B01', 'ill': 'A12', 'trl': 'B06'}
 
 	var new_contributor = '\t\t\t<Contributor>\n';
@@ -147,14 +147,14 @@ function addDescriptiveDetails(record) {
 	if (checkExists(record.author)) {
 		var sequence_counter = 1
 
-		descriptive_detail += addContributor(record.author,sequence_counter);
+		descriptive_detail += addONIXContributor(record.author,sequence_counter);
 
 		sequence_counter += 1;
 
 		if (record.additional_authors.length > 0) {
 			for (var index = 0; index < record.additional_authors.length; index++) {
 				if (checkExists(record.additional_authors[index][0]['author'])) {
-					descriptive_detail += addContributor(record.additional_authors[index],sequence_counter)
+					descriptive_detail += addONIXContributor(record.additional_authors[index],sequence_counter)
 					sequence_counter += 1;
 				}
 			}
