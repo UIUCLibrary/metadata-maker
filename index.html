@@ -698,15 +698,15 @@
 							<legend class="heading">Person 1</legend>
 							<div class="input-column-wrapper">
 								<div class="column name-column">
-									<label for="author_name">Name</label>
+									<label for="author_name" class="heading">Name</label>
 									<button type="button" class="insert insert_author_name" onClick='insertMenu("author_name");'>Insert Diacritics</button>
 									<div id="insert-author_name"></div>
 									<input type="text" class="author conditional translit-listen" required id="author_name" placeholder="Given Name Family Name">
 								</div>
 								<div class="column role-column">
-									<label for="role" class="role_label">Role</label>
+									<label for="author_role" class="heading">Role</label>
 									<br>
-									<select name="role" id="role">
+									<select name="role" id="author_role">
 										<option value="art">artist</option>
 										<option selected value="aut">author</option>
 										<option value="ctb">contributor</option>
@@ -724,7 +724,7 @@
 							<div id='hiddenlcdiv_author' class="Hlcdiv" style="display: none;" ><a id='hiddenlc_author' class="Hlc"target="_blank" rel="noopener noreferrer" href="">LC Link</a></div>
 
 							<div class="input-column-wrapper">
-								<div id="translit-author_name-block" class="translit-author_name-block translit-block translit-author hidden">
+								<div id="translit-author_name-block" class="translit-author_name-block translit-block translit-author_name hidden">
 									<label for="translit_author_name" class="hidden translit heading translit-author_name">Transliterated Name</label><button type="button" class="insert insert_author_name hidden translit translit-author_name" onClick='insertMenu("translit_author_name");'>Insert Diacritics</button><br>
 									<div id="insert-translit_author_name"></div>
 									<input type="text" id="translit_author_name" class="hidden translit translit-author_name" placeholder="Given Name Family Name">

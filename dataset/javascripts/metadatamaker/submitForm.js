@@ -335,6 +335,34 @@ function find110(list) {
 	return [[{'corporate':'','role':'','wiki':'','viaf':'','lc':''},{'corporate':''}]];
 }
 
+function generateBISACSubjectList() {
+	let subject_list = [];
+
+	for (var i = 0; i < sCounter; i++) {
+		var new_subject = {}
+		var attr = $("#verification" + i).attr('value');
+		new_subject['id_number'] = attr;
+		new_subject['root'] = $("#root-subject" + i + " option:selected").text();
+		if ($("#level1-subject" + i + " option:selected").length > 0) {
+			new_subject['level1'] = $("#level1-subject" + i + " option:selected").text();
+
+			if ($("#level2-subject" + i + " option:selected").length > 0) {
+				new_subject['level2'] = $("#level2-subject" + i + " option:selected").text();
+
+				if ($("#level3-subject" + i + " option:selected").length > 0) {
+					new_subject['level3'] = $("#level3-subject" + i + " option:selected").text();
+				}
+			}
+		}
+
+		if (typeof attr !== typeof undefined && attr !== false) {
+			subject_list.push(new_subject)
+		}
+	}
+
+	return subject_list;
+}
+
 /*
  * When the form is submitted, create an object with all user-submitted data. Pass that object to functions that
  * build a record around the data.
@@ -352,11 +380,15 @@ $("#marc-maker").submit(function(event) {
 	let complete_names_list = [];
 	generateNamesList(complete_names_list,'author',aCounter);
 
+	let subject_list = $(".verified").length ? generateBISACSubjectList() : [];
+
 	//Find the first listed author or artist
 	var entry100 = find100(complete_names_list);
 
 	let complete_corporate_names_list = [];
-	generateNamesList(complete_corporate_names_list,'corporate',cCounter);
+	if (document.getElementById('corporate_name')) {
+		generateNamesList(complete_corporate_names_list,'corporate',cCounter);
+	}
 	
 	var entry110 = [[{'corporate':'','role':'','wiki':'','viaf':'','lc':''},{'corporate':''}]];
 	if (entry100[0][0]['author'].length == 0 && entry100[0][1]['author'].length == 0) {

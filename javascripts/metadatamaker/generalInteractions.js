@@ -222,6 +222,167 @@ function addKeyword() {
 	}
 };
 
+function addContributor(type,counter) {
+	const dropdown_values = type == 'author' ? [
+		{value: 'art', text: 'artist'},
+		{value: 'aut', text: 'author'},
+		{value: 'ctb', text: 'contributor'},
+		{value: 'edt', text: 'editor'},
+		{value: 'ill', text: 'illustrator'},
+		{value: 'trl', text: 'translator'}
+	] : [
+		{value: 'cre', text: 'creator'},
+		{value: 'ctb', text: 'contributor'},
+	];
+	const type_label = type == 'author' ? 'Person' : 'Corporate/Organization';
+
+	var newfieldset = document.createElement('fieldset');
+	newfieldset.className = 'added single_name';
+	newfieldset.setAttribute('id',`${type}_name${counter}-block`);
+	//Legend
+	const fieldLegendEl = document.createElement('legend');
+	fieldLegendEl.setAttribute('class','heading');
+	fieldLegendEl.innerHTML = `${type_label} ${counter+2}`;
+	newfieldset.appendChild(fieldLegendEl);
+	//Column Wrapper
+	const inputColumnWrapperEl = document.createElement('div');
+	inputColumnWrapperEl.setAttribute('class','input-column-wrapper');
+	//Name Column
+	const nameColumnEl = document.createElement('div');
+	nameColumnEl.setAttribute('class','column name-column');
+	//Name Label
+	const nameColumnLabelEl = document.createElement('label');
+	nameColumnLabelEl.setAttribute('for',`${type}_name${counter}`);
+	nameColumnLabelEl.innerHTML = 'Name';
+	nameColumnEl.appendChild(nameColumnLabelEl);
+	//Insert Diacritics
+	const nameInsertButtonEl = document.createElement('button');
+	nameInsertButtonEl.setAttribute('type','button');
+	nameInsertButtonEl.setAttribute('class',`insert insert_${type}_name additional_insert`);
+	nameInsertButtonEl.setAttribute('onClick',`insertMenu("${type}_name${counter}");`);
+	nameInsertButtonEl.innerHTML = 'Insert Diacritics';
+	nameColumnEl.appendChild(nameInsertButtonEl);
+	const nameInsertPopupEl = document.createElement('div');
+	nameInsertPopupEl.setAttribute('id',`insert-${type}_name${counter}`);
+	nameInsertPopupEl.setAttribute('class','additional_menu');
+	nameColumnEl.appendChild(nameInsertPopupEl);
+	//Name Input
+	const nameInputEl = document.createElement('input');
+	nameInputEl.setAttribute('type','text');
+	nameInputEl.setAttribute('class',`${type} translit-listen`);
+	nameInputEl.setAttribute('id',`${type}_name${counter}`);
+	if (type == 'author') {
+		nameInputEl.setAttribute('placeholder','Given Name Family Name');
+	}
+	nameColumnEl.appendChild(nameInputEl);
+	inputColumnWrapperEl.appendChild(nameColumnEl);
+	//Role Column
+	const roleColumnEl = document.createElement('div');
+	roleColumnEl.setAttribute('class','column role-column');
+	//Role Label
+	const roleColumnLabelEl = document.createElement('label');
+	roleColumnLabelEl.setAttribute('for',`${type}_role${counter}`);
+	roleColumnLabelEl.setAttribute('class','role_label');
+	roleColumnLabelEl.innerHTML = 'Role';
+	roleColumnEl.appendChild(roleColumnLabelEl);
+	roleColumnEl.appendChild(document.createElement('br'));
+	//Role Selection
+	const roleSelectionEl = document.createElement('select');
+	roleSelectionEl.setAttribute('name',`${type}_role${counter}`);
+	roleSelectionEl.setAttribute('id',`${type}_role${counter}`);
+	for (let i = 0; i < dropdown_values.length; i++) {
+		const optionEl = document.createElement('option');
+		optionEl.setAttribute('value',dropdown_values[i]['value']);
+		if ((type == 'author' && dropdown_values[i]['value'] == 'aut') || (type == 'corporate' && dropdown_values[i]['value'] == 'cre')) {
+			optionEl.setAttribute('selected','');
+		}
+		optionEl.innerHTML = dropdown_values[i]['text'];
+		roleSelectionEl.appendChild(optionEl);
+	}
+	roleColumnEl.appendChild(roleSelectionEl);
+	inputColumnWrapperEl.appendChild(roleColumnEl);
+	newfieldset.appendChild(inputColumnWrapperEl);
+	//Wiki Link
+	const hiddenWikiEl = document.createElement('div');
+	hiddenWikiEl.setAttribute('class','Hwikidiv');
+	hiddenWikiEl.setAttribute('id',`hiddenwikidiv_${type}${counter}`);
+	hiddenWikiEl.setAttribute('style','display: none;');
+	const hiddenWikiLinkEl = document.createElement('a');
+	hiddenWikiLinkEl.setAttribute('class','Hwiki');
+	hiddenWikiLinkEl.setAttribute('id',`hiddenwiki_${type}${counter}`);
+	hiddenWikiLinkEl.setAttribute('target','_blank');
+	hiddenWikiLinkEl.setAttribute('rel','noopener noreferrer');
+	hiddenWikiLinkEl.setAttribute('href','');
+	hiddenWikiLinkEl.innerHTML = 'Wikidata Link';
+	hiddenWikiEl.appendChild(hiddenWikiLinkEl);
+	newfieldset.appendChild(hiddenWikiEl);
+	//VIAF Link
+	const hiddenVIAFEl = document.createElement('div');
+	hiddenVIAFEl.setAttribute('class','Hviafdiv');
+	hiddenVIAFEl.setAttribute('id',`hiddenviafdiv_${type}${counter}`);
+	hiddenVIAFEl.setAttribute('style','display: none;');
+	const hiddenVIAFLinkEl = document.createElement('a');
+	hiddenVIAFLinkEl.setAttribute('class','Hviaf');
+	hiddenVIAFLinkEl.setAttribute('id',`hiddenviaf_${type}${counter}`);
+	hiddenVIAFLinkEl.setAttribute('target','_blank');
+	hiddenVIAFLinkEl.setAttribute('rel','noopener noreferrer');
+	hiddenVIAFLinkEl.setAttribute('href','');
+	hiddenVIAFLinkEl.innerHTML = 'VIAF Link';
+	hiddenVIAFEl.appendChild(hiddenVIAFLinkEl);
+	newfieldset.appendChild(hiddenVIAFEl);
+	//LC Link
+	const hiddenLCEl = document.createElement('div');
+	hiddenLCEl.setAttribute('class','Hlcdiv');
+	hiddenLCEl.setAttribute('id',`hiddenlcdiv_${type}${counter}`);
+	hiddenLCEl.setAttribute('style','display: none;');
+	const hiddenLCLinkEl = document.createElement('a');
+	hiddenLCLinkEl.setAttribute('class','Hlc');
+	hiddenLCLinkEl.setAttribute('id',`hiddenlc_${type}${counter}`);
+	hiddenLCLinkEl.setAttribute('target','_blank');
+	hiddenLCLinkEl.setAttribute('rel','noopener noreferrer');
+	hiddenLCLinkEl.setAttribute('href','');
+	hiddenLCLinkEl.innerHTML = 'LC Link';
+	hiddenLCEl.appendChild(hiddenLCLinkEl);
+	newfieldset.appendChild(hiddenLCEl);
+
+	$(`#${type}-input-column`).append(newfieldset);
+	//Translit Wrapper
+	const translitColumnEl = document.createElement('div');
+	translitColumnEl.setAttribute('class','input-column-wrapper');
+	//Translit Column
+	const translitNameColumnEl = document.createElement('div');
+	translitNameColumnEl.setAttribute('id',`translit-${type}_name${counter}-block`);
+	translitNameColumnEl.setAttribute('class',`translit-${type}_name${counter}-block translit-block translit-${type} hidden`);
+	//Translit Label
+	const translitColumnLabelEl = document.createElement('label');
+	translitColumnLabelEl.setAttribute('for',`translit_${type}_name${counter}`);
+	translitColumnLabelEl.setAttribute('class',`hidden translit heading translit-${type}_name${counter}`);
+	translitColumnLabelEl.innerHTML = 'Transliterated Name';
+	translitNameColumnEl.appendChild(translitColumnLabelEl);
+	//Insert Diacritics
+	const translitInsertButtonEl = document.createElement('button');
+	translitInsertButtonEl.setAttribute('type','button');
+	translitInsertButtonEl.setAttribute('class',`insert insert_${type}_name hidden translit translit-${type}_name${counter}`);
+	translitInsertButtonEl.setAttribute('onClick',`insertMenu("translit_${type}_name${counter}");`);
+	translitInsertButtonEl.innerHTML = 'Insert Diacritics'
+	translitNameColumnEl.appendChild(translitInsertButtonEl);
+	const translitInsertPopupEl = document.createElement('div');
+	translitInsertPopupEl.setAttribute('id',`insert-translit_${type}_name${counter}`);
+	translitInsertPopupEl.setAttribute('class','additional_menu');
+	translitNameColumnEl.appendChild(translitInsertPopupEl);
+	//Translit Input
+	const translitInputEl = document.createElement('input');
+	translitInputEl.setAttribute('type','text');
+	translitInputEl.setAttribute('id',`translit_${type}_name${counter}`);
+	translitInputEl.setAttribute('class',`hidden translit translit-${type}_name${counter}`);
+	if (type == 'author') {
+		translitInputEl.setAttribute('placeholder','Transliterated Given Name Family Name');
+	}
+	translitNameColumnEl.appendChild(translitInputEl);
+	translitColumnEl.appendChild(translitNameColumnEl);
+	newfieldset.appendChild(translitColumnEl);
+}
+
 /*
  * Adds additional input fields so multiple authors or other contributors can be added. Each input field behaves
  * just like the initial names field, including transliteration capabilities.
@@ -229,157 +390,16 @@ function addKeyword() {
 var aCounter = 0;
 function addAuthor() {
 	if (aCounter < 50) {
-		var newfieldset = document.createElement('fieldset');
-		newfieldset.className = 'added single_name';
-		newfieldset.setAttribute('id',`author_name${aCounter}-block`);
-		//Legend
-		const fieldLegendEl = document.createElement('legend');
-		fieldLegendEl.setAttribute('class','heading');
-		fieldLegendEl.innerHTML = `Person ${aCounter+2}`;
-		newfieldset.appendChild(fieldLegendEl);
-		//Column Wrapper
-		const inputColumnWrapperEl = document.createElement('div');
-		inputColumnWrapperEl.setAttribute('class','input-column-wrapper');
-		//Name Column
-		const nameColumnEl = document.createElement('div');
-		nameColumnEl.setAttribute('class','column name-column');
-		//Name Label
-		const nameColumnLabelEl = document.createElement('label');
-		nameColumnLabelEl.setAttribute('for',`author_name${aCounter}`);
-		nameColumnLabelEl.innerHTML = 'Name';
-		nameColumnEl.appendChild(nameColumnLabelEl);
-		//Insert Diacritics
-		const nameInsertButtonEl = document.createElement('button');
-		nameInsertButtonEl.setAttribute('type','button');
-		nameInsertButtonEl.setAttribute('class','insert insert_author_name additional_insert');
-		nameInsertButtonEl.setAttribute('onClick',`insertMenu("author_name${aCounter}");`);
-		nameInsertButtonEl.innerHTML = 'Insert Diacritics';
-		nameColumnEl.appendChild(nameInsertButtonEl);
-		const nameInsertPopupEl = document.createElement('div');
-		nameInsertPopupEl.setAttribute('id',`insert-author_name${aCounter}`);
-		nameInsertPopupEl.setAttribute('class','additional_menu');
-		nameColumnEl.appendChild(nameInsertPopupEl);
-		//Name Input
-		const nameInputEl = document.createElement('input');
-		nameInputEl.setAttribute('type','text');
-		nameInputEl.setAttribute('class','author translit-listen');
-		nameInputEl.setAttribute('id',`author_name${aCounter}`);
-		nameInputEl.setAttribute('placeholder','Given Name Family Name');
-		nameColumnEl.appendChild(nameInputEl);
-		inputColumnWrapperEl.appendChild(nameColumnEl);
-		//Role Column
-		const roleColumnEl = document.createElement('div');
-		roleColumnEl.setAttribute('class','column role-column');
-		//Role Label
-		const roleColumnLabelEl = document.createElement('label');
-		roleColumnLabelEl.setAttribute('for',`role${aCounter}`);
-		roleColumnLabelEl.setAttribute('class','role_label');
-		roleColumnLabelEl.innerHTML = 'Role';
-		roleColumnEl.appendChild(roleColumnLabelEl);
-		roleColumnEl.appendChild(document.createElement('br'));
-		//Role Selection
-		const roleSelectionEl = document.createElement('select');
-		roleSelectionEl.setAttribute('name',`role${aCounter}`);
-		roleSelectionEl.setAttribute('id',`role${aCounter}`);
-		const dropdown_values = [
-			{value: 'art', text: 'artist'},
-			{value: 'aut', text: 'author'},
-			{value: 'ctb', text: 'contributor'},
-			{value: 'edt', text: 'editor'},
-			{value: 'ill', text: 'illustrator'},
-			{value: 'trl', text: 'translator'}
-		]
-		for (let i = 0; i < dropdown_values.length; i++) {
-			const optionEl = document.createElement('option');
-			optionEl.setAttribute('value',dropdown_values[i]['value']);
-			if (dropdown_values[i]['value'] == 'aut') {
-				optionEl.setAttribute('selected','');
-			}
-			optionEl.innerHTML = dropdown_values[i]['text'];
-			roleSelectionEl.appendChild(optionEl);
-		}
-		roleColumnEl.appendChild(roleSelectionEl);
-		inputColumnWrapperEl.appendChild(roleColumnEl);
-		newfieldset.appendChild(inputColumnWrapperEl);
-		//Wiki Link
-		const hiddenWikiEl = document.createElement('div');
-		hiddenWikiEl.setAttribute('class','Hwikidiv');
-		hiddenWikiEl.setAttribute('id',`hiddenwikidiv_author${aCounter}`);
-		hiddenWikiEl.setAttribute('style','display: none;');
-		const hiddenWikiLinkEl = document.createElement('a');
-		hiddenWikiLinkEl.setAttribute('class','Hwiki');
-		hiddenWikiLinkEl.setAttribute('id',`hiddenwiki_author${aCounter}`);
-		hiddenWikiLinkEl.setAttribute('target','_blank');
-		hiddenWikiLinkEl.setAttribute('rel','noopener noreferrer');
-		hiddenWikiLinkEl.setAttribute('href','');
-		hiddenWikiLinkEl.innerHTML = 'Wikidata Link';
-		hiddenWikiEl.appendChild(hiddenWikiLinkEl);
-		newfieldset.appendChild(hiddenWikiEl);
-		//VIAF Link
-		const hiddenVIAFEl = document.createElement('div');
-		hiddenVIAFEl.setAttribute('class','Hviafdiv');
-		hiddenVIAFEl.setAttribute('id',`hiddenviafdiv_author${aCounter}`);
-		hiddenVIAFEl.setAttribute('style','display: none;');
-		const hiddenVIAFLinkEl = document.createElement('a');
-		hiddenVIAFLinkEl.setAttribute('class','Hviaf');
-		hiddenVIAFLinkEl.setAttribute('id',`hiddenviaf_author${aCounter}`);
-		hiddenVIAFLinkEl.setAttribute('target','_blank');
-		hiddenVIAFLinkEl.setAttribute('rel','noopener noreferrer');
-		hiddenVIAFLinkEl.setAttribute('href','');
-		hiddenVIAFLinkEl.innerHTML = 'VIAF Link';
-		hiddenVIAFEl.appendChild(hiddenVIAFLinkEl);
-		newfieldset.appendChild(hiddenVIAFEl);
-		//LC Link
-		const hiddenLCEl = document.createElement('div');
-		hiddenLCEl.setAttribute('class','Hlcdiv');
-		hiddenLCEl.setAttribute('id',`hiddenlcdiv_author${aCounter}`);
-		hiddenLCEl.setAttribute('style','display: none;');
-		const hiddenLCLinkEl = document.createElement('a');
-		hiddenLCLinkEl.setAttribute('class','Hlc');
-		hiddenLCLinkEl.setAttribute('id',`hiddenlc_author${aCounter}`);
-		hiddenLCLinkEl.setAttribute('target','_blank');
-		hiddenLCLinkEl.setAttribute('rel','noopener noreferrer');
-		hiddenLCLinkEl.setAttribute('href','');
-		hiddenLCLinkEl.innerHTML = 'LC Link';
-		hiddenLCEl.appendChild(hiddenLCLinkEl);
-		newfieldset.appendChild(hiddenLCEl);
-
-		$("#author-input-column").append(newfieldset);
-		//Translit Wrapper
-		const translitColumnEl = document.createElement('div');
-		translitColumnEl.setAttribute('class','input-column-wrapper');
-		//Translit Column
-		const translitNameColumnEl = document.createElement('div');
-		translitNameColumnEl.setAttribute('id',`translit-author_name${aCounter}-block`);
-		translitNameColumnEl.setAttribute('class',`translit-author_name${aCounter}-block translit-block translit-author hidden`);
-		//Translit Label
-		const translitColumnLabelEl = document.createElement('label');
-		translitColumnLabelEl.setAttribute('for',`translit_author_name${aCounter}`);
-		translitColumnLabelEl.setAttribute('class',`hidden translit heading translit-author_name${aCounter}`);
-		translitColumnLabelEl.innerHTML = 'Transliterated Name';
-		translitNameColumnEl.appendChild(translitColumnLabelEl);
-		//Insert Diacritics
-		const translitInsertButtonEl = document.createElement('button');
-		translitInsertButtonEl.setAttribute('type','button');
-		translitInsertButtonEl.setAttribute('class',`insert insert_author_name hidden translit translit-author_name${aCounter}`);
-		translitInsertButtonEl.setAttribute('onClick',`insertMenu("translit_author_name${aCounter}");`);
-		translitInsertButtonEl.innerHTML = 'Insert Diacritics'
-		translitNameColumnEl.appendChild(translitInsertButtonEl);
-		const translitInsertPopupEl = document.createElement('div');
-		translitInsertPopupEl.setAttribute('id',`insert-translit_author_name${aCounter}`);
-		translitInsertPopupEl.setAttribute('class','additional_menu');
-		translitNameColumnEl.appendChild(translitInsertPopupEl);
-		//Translit Input
-		const translitInputEl = document.createElement('input');
-		translitInputEl.setAttribute('type','text');
-		translitInputEl.setAttribute('id',`translit_author_name${aCounter}`);
-		translitInputEl.setAttribute('class',`hidden translit translit-author_name${aCounter}`);
-		translitInputEl.setAttribute('placeholder','Transliterated Given Name Family Name');
-		translitNameColumnEl.appendChild(translitInputEl);
-		translitColumnEl.appendChild(translitNameColumnEl);
-		newfieldset.appendChild(translitColumnEl);
-
+		addContributor('author',aCounter);
 		aCounter++;
+	}
+}
+
+var cCounter = 0;
+function addCorporate() {
+	if (cCounter < 50) {
+		addContributor('corporate',cCounter);
+		cCounter++;
 	}
 }
 
@@ -407,6 +427,7 @@ $(":reset").click(function() {
 
 	counter = 1;
 	aCounter = 0;
+	cCounter = 0;
 });
 
 /*
