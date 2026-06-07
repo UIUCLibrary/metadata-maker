@@ -53,10 +53,13 @@
                             success: function(full_data) {
                                 if (full_data.entities) {
                                     response( $.map( full_data.entities, function(item) {
-                                        const target_codes = new Set(['Q4830453','Q6881511','Q43229','Q17197366']);
+                                        const target_codes = new Set(['Q4830453','Q6881511','Q43229','Q17197366','Q110315658','Q115456878','Q1752939','Q2085381','Q476190','Q1639780','Q327333','Q105062392']);
                                         //P31 means "instance of"
                                         //Q5 means "human", so we're filtering for humans in case 1
                                         //Q4830453 = business, Q6881511 = enterprise, Q43229 = organization, Q17197366 = type of organization
+                                        //Q110315658 = elected legislative house, Q115456878 = legislative branch agency, Q1752939 = independent agency of the United States government
+                                        //Q2085381 = publishing house, Q476190 = United States congressional committee, Q1639780 = regulatory agency, Q327333 = government agency
+                                        //Q105062392 = financial regulatory agency
                                         if ('P31' in item.claims && 
                                             (input_field.includes('author') ? 
                                             item['claims']['P31'][0]['mainsnak']['datavalue']['value']['id'] == 'Q5' : 

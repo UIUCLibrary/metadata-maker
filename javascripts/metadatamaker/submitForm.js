@@ -86,9 +86,11 @@ function getnamesubfields(lcuri,type){
 
 	const subfields = type == 'author' ? ['a','b','c','d'] : ['a','b','d','c'];
 	for (const subfield_code of subfields) {
-		finalnametag.push($(creator_node[0]).find(`marcxml\\:subfield[code="${subfield_code}"]`).text());
+		const subfield_values = $(creator_node[0]).find(`marcxml\\:subfield[code="${subfield_code}"]`);
+		//If there is more than one result, create an array of string results and joing them with a space, 
+		// rather than just using .text() to smash them together
+		finalnametag.push(subfield_values.length > 1 ? subfield_values.map(function() { return $(this).text();}).get().join(' ') : subfield_values.text());
 	}
-	console.log(finalnametag);
 
 	return {ind1, finalnametag};
 } 
