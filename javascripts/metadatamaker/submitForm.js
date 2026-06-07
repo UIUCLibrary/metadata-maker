@@ -63,57 +63,34 @@ function getviafname(viafurl, autname){
 }
 
 function getnamesubfields(lcuri,type){
-	console.log("lcuri");
-	console.log(lcuri);
-	var link = (lcuri+".marcxml.xml").replace('http://','https://');
-	console.log("lcuri");
-	console.log(link);
-	var rtn;
+	const link = (`${lcuri}.marcxml.xml`).replace('http://','https://');
+//	console.log(`lcuri: ${link}`);
+	let rtn;
 	rtn = $.ajax({
-		    type: 'GET',
-		    url: link,
-		    async: false,
-		    dataType: 'xml',
-		    done: function(results) {
-		        // JSON.parse(results);
-		        return results;
-		    },
-		    fail: function( jqXHR, textStatus, errorThrown ) {
-		        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
-		    }
-		}).responseText
-	var finalnametag = [];
+		type: 'GET',
+		url: link,
+		async: false,
+		dataType: 'xml',
+		done: function(results) {
+			return results;
+		},
+		fail: function( jqXHR, textStatus, errorThrown ) {
+			console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+		}
+	}).responseXML
+	
+	let finalnametag = [];
 	const tag_number = type == 'author' ? '100' : '110';
-	var prename1 = rtn.substring(rtn.indexOf(`<marcxml:datafield tag="${tag_number}"`));
-	var ind1 = prename1.substring(prename1.indexOf('ind1=') + 6,prename1.indexOf(' ind2')-1);
-	var prename2 = prename1.substring(0,prename1.indexOf('</marcxml:datafield>'));
-	var namea1 = prename2.substring(prename2.indexOf('code="a">'));
-	// var namea2 = namea1.substring(9,namea1.indexOf('</marcxml:subfield>')).replace(/,\s*$/, "");
-	var namea2 = namea1.substring(9,namea1.indexOf('</marcxml:subfield>'));
-	finalnametag[finalnametag.length] = namea2;
-	if(prename2.includes('code="b"')){
-		var nameb1 = prename2.substring(prename2.indexOf('code="b">'));
-		// var nameb2 = nameb1.substring(9,nameb1.indexOf('</marcxml:subfield>')).replace(/,\s*$/, "");
-		var nameb2 = nameb1.substring(9,nameb1.indexOf('</marcxml:subfield>'));
-		finalnametag[finalnametag.length] = nameb2 ;
-	}else{finalnametag[finalnametag.length]= "" };
-	if(prename2.includes('code="c"')){
-		var namec1 = prename2.substring(prename2.indexOf('code="c">'));
-		// var namec2 = namec1.substring(9,namec1.indexOf('</marcxml:subfield>')).replace(/,\s*$/, "");
-		var namec2 = namec1.substring(9,namec1.indexOf('</marcxml:subfield>'));
-		finalnametag[finalnametag.length] = namec2 ;
-	}else{finalnametag[finalnametag.length]= "" };
-	if(prename2.includes('code="d"')){
-		var named1 = prename2.substring(prename2.indexOf('code="d">'));
-		// var named2 = named1.substring(9,named1.indexOf('</marcxml:subfield>')).replace(/,\s*$/, "");
-		var named2 = named1.substring(9,named1.indexOf('</marcxml:subfield>'));
-		if (isNaN(named2.substring(named2.length-1)) == false){named2 = named2 + ","};
-		finalnametag[finalnametag.length] = named2 ;
-	}else{finalnametag[finalnametag.length]= "" };
+	const creator_node = $(rtn).find(`marcxml\\:datafield[tag="${tag_number}"]`)
+	const ind1 = $(creator_node[0]).attr("ind1");
 
-	named = {ind1, finalnametag};
-	return named
-	// return finalnametag
+	const subfields = type == 'author' ? ['a','b','c','d'] : ['a','b','d','c'];
+	for (const subfield_code of subfields) {
+		finalnametag.push($(creator_node[0]).find(`marcxml\\:subfield[code="${subfield_code}"]`).text());
+	}
+	console.log(finalnametag);
+
+	return {ind1, finalnametag};
 } 
 
 function generateNamesList(complete_names_list,type,counter) {
@@ -122,7 +99,7 @@ function generateNamesList(complete_names_list,type,counter) {
 		lcuri = document.getElementById(`hiddenlc_${type}`).getAttribute("href");
 		namelist = getnamesubfields(lcuri,type);
 		primary_author = {
-			[type]: namelist["finalnametag"][0],
+			[type]: namelist["finalnametag"].join(' '),
 			wiki: document.getElementById(`hiddenwiki_${type}`).getAttribute("href"),
 			viaf: document.getElementById(`hiddenviaf_${type}`).getAttribute("href"),
 			lc: document.getElementById(`hiddenlc_${type}`).getAttribute("href"),
@@ -182,7 +159,7 @@ function generateNamesList(complete_names_list,type,counter) {
 			lcuri = document.getElementById(`hiddenlc_${type}${i}`).getAttribute("href");
 			namelist = getnamesubfields(lcuri,type);
 			additional_author = {
-				[type]: namelist["finalnametag"][0],
+				[type]: namelist["finalnametag"].join(' '),
 				wiki: document.getElementById(`hiddenwiki_${type}${i}`).getAttribute("href"),
 				viaf: document.getElementById(`hiddenviaf_${type}${i}`).getAttribute("href"),
 				lc: lcuri,
