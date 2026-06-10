@@ -449,15 +449,24 @@ function buildSubjects(doc,keyword,classString = 'Topic') {
 }
 
 function buildMediaType(doc) {
+	const label_text = (() => {
+		if (['/ebooks','/dataset'].some(suffix => window.location.pathname.includes(suffix))) return "computer";
+		return "unmediated";
+	})();
+	const code_value = (() => {
+		if (['/ebooks','/dataset'].some(suffix => window.location.pathname.includes(suffix))) return "c";
+		return "n";
+	})();
+
 	const mediaEl = doc.createElement("bf:media");
  	const MediaEl = doc.createElement("bf:Media");
- 	MediaEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/mediaTypes/n");
+ 	MediaEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/mediaTypes/${code_value}`);
  	const MediaLabelEl = doc.createElement("rdfs:label");
- 	const MediaLabelText = doc.createTextNode("unmediated");
+ 	const MediaLabelText = doc.createTextNode(label_text);
  	MediaLabelEl.appendChild(MediaLabelText);
  	MediaEl.appendChild(MediaLabelEl);
  	const MediaCodeEl = doc.createElement("bf:code");
- 	const MediaCodeText = doc.createTextNode("n");
+ 	const MediaCodeText = doc.createTextNode(code_value);
  	MediaCodeEl.appendChild(MediaCodeText);
  	MediaEl.appendChild(MediaCodeEl);
  	mediaEl.appendChild(MediaEl);
@@ -465,15 +474,24 @@ function buildMediaType(doc) {
 }
 
 function buildCarrierType(doc) {
+	const label_text = (() => {
+		if (['/ebooks','/dataset'].some(suffix => window.location.pathname.includes(suffix))) return "online resource";
+		return "volume";
+	})();
+	const code_value = (() => {
+		if (['/ebooks','/dataset'].some(suffix => window.location.pathname.includes(suffix))) return "cr";
+		return "nc";
+	})();
+	
 	const carrierEl = doc.createElement("bf:carrier");
  	const CarrierEl = doc.createElement("bf:Carrier");
- 	CarrierEl.setAttribute("rdf:about","http://id.loc.gov/vocabulary/carriers/nc");
+ 	CarrierEl.setAttribute("rdf:about",`http://id.loc.gov/vocabulary/carriers/${code_value}`);
  	const CarrierLabelEl = doc.createElement("rdfs:label");
- 	const CarrierLabelText = doc.createTextNode("volume");
+ 	const CarrierLabelText = doc.createTextNode(label_text);
  	CarrierLabelEl.appendChild(CarrierLabelText);
  	CarrierEl.appendChild(CarrierLabelEl);
  	const CarrierCodeEl = doc.createElement("bf:code");
- 	const CarrierCodeText = doc.createTextNode("nc");
+ 	const CarrierCodeText = doc.createTextNode(code_value);
  	CarrierCodeEl.appendChild(CarrierCodeText);
  	CarrierEl.appendChild(CarrierCodeEl);
  	carrierEl.appendChild(CarrierEl);
@@ -674,7 +692,9 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
  	instanceEl.appendChild(buildCarrierType(doc));
 
  	//Issuance
- 	instanceEl.appendChild(buildIssuance(doc));
+	if (!window.location.pathname.includes('/dataset')) {
+		instanceEl.appendChild(buildIssuance(doc));
+	}
 
  	if (record?.bibliographies_yes) {
  		const bib_note = "Includes bibliographical references and index.";
