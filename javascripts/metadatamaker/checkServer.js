@@ -16,3 +16,6 @@ if (servername.indexOf('metadatamaker.library.illinois.edu') < 0) {
 	newdiv.innerHTML = 'WARNING: This version of Metadata Maker is under development and may be unstable. The official version of Metadata Maker can be found <a href="' + buildRedirectURL(servername) + '">here</a>.';
 	$(newdiv).insertAfter("#skip_link");
 }
+else {
+	$("noscript").removeClass('warning');
+}
