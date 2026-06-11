@@ -936,7 +936,9 @@ function downloadMARC(record,institution_info) {
 	var directory_len = 25 + timestamp_directory.length + controlfield006_directory.length + controlfield008_directory.length + issn[0].length + default1_directory.length + corporate_author[0].length + title[0].length + varying_title[0].length + pub[0].length + physical[0].length + frequency[0].length + default2_directory.length + default3_directory.length + default4_directory.length + dates[0].length + notes[0].length + description[0].length + keywords[0].length + fast[0].length + additional_corporate_authors[0].length + preceding_title[0].length + succeeding_title[0].length + web_url[0].length + title880[0].length + edition880[0].length + publisher880[0].length + corporate880[0].length + corporations880[0].length;
 	var leader = addZeros(leader_len,'leader') + 'nas a22' + addZeros(directory_len,'leader') + 'ki 4500';
 	text = leader + text;
-	downloadFile(text,'mrc');
+	
+	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+	return [ { name: `${root_filename}.mrc`, value: text } ];
 }
 
 /*
@@ -982,5 +984,6 @@ function downloadXML(record,institution_info) {
 	text += fillTranslitAdditionalCorporateAuthors(record,null,createMARCXMLField,createMARCXMLSubfield);
 	text +='</record>\n';
 
-	downloadFile(text,'xml');
+	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+	return [ { name: `${root_filename}_MARCXML.xml`, value: text } ];
 }

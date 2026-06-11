@@ -1002,5 +1002,7 @@ function downloadHTML(record,institution_info) {
 	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
 
 	var text = '<!DOCTYPE html>\n<html>\n<head>\n	<meta charset="utf-8">\n</head>\n\n<body>\n\t<div itemscope itemtype="http://schema.org/Book">\n' + metaTags + '\t\t<dl>\n' + displayTags + '\t\t</dl>\n\t</div>\n</body>\n</html>';
-	downloadFile(text,'html');
+	
+	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+	return [ { name: `${root_filename}.html`, value: text } ];
 }

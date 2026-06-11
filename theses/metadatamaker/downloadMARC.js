@@ -409,7 +409,9 @@ function downloadMARC(record,institution_info) {
 	var directory_len = 25 + timestamp_directory.length + controlfield008_directory.length + cataloging_source_directory.length + title[0].length + author[0].length + pub[0].length + physical[0].length + default1_directory.length + default2_directory.length + default3_directory.length + dissertation[0].length + bib[0].length + major[0].length;
 	var leader = addZeros(leader_len,'leader') + 'ntm a22' + addZeros(directory_len,'leader') + 'ki 4500';
 	text = leader + text;
-	downloadFile(text,'mrc');
+	
+	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+	return [ { name: `${root_filename}.mrc`, value: text } ];
 }
 
 function downloadXML(record,institution_info) {
@@ -434,5 +436,6 @@ function downloadXML(record,institution_info) {
 
 	text +='</record>\n';
 
-	downloadFile(text,'xml');
+	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+	return [ { name: `${root_filename}_MARCXML.xml`, value: text } ];
 }
