@@ -58,5 +58,7 @@ function downloadMODS(record,institution_info) {
 
 	var endText = '</mods:mods>\n';
 	var text = startText + titleText + authorText + defaultText1 + originText + languageText + pagesText + majorText + defaultText2 + defaultText3 + endText;
-	downloadFile(text,'mods');
+	
+	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+	return [ { name: `${root_filename}_MODS.xml`, value: text } ];
 }

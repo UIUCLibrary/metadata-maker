@@ -23,7 +23,9 @@ The recommended browsers for MetadataMaker are Chrome and Firefox. MetadataMaker
 
 ## Updates
 
-**08-21-2015:** The 008 field is now constructed as an array of individual strings, making it easy to change when you know the index that needs changing.
+**2026-06-10:** Revised how file download works across all pages so that if more than one filetype is selected all outputs are packaged into a single ZIP file instead of downloading individually.
+
+**2015-08-21:** The 008 field is now constructed as an array of individual strings, making it easy to change when you know the index that needs changing.
 
 The information for the organization creating the record can be altered via the url. See the "Editing institution information" section above for more details.
 

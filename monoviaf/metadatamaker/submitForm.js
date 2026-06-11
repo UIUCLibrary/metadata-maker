@@ -12,27 +12,54 @@ function get(name) {
 }
 
 function getviafname(viafurl, autname){
+	console.log("viafurl");
+	console.log(viafurl);
+	var link = viafurl.replace('http://','https://');
+	console.log("viafurl");
+	console.log(link);
+	console.log(viafurl.substring(viafurl.lastIndexOf('/')+1));
+	const endpoint = 'https://viaf.org/api/cluster-record';
 	var rtn;
 	rtn = $.ajax({
-		    type: 'GET',
-		    url: viafurl,
-		    async: false,
-		    dataType: 'json',
-		    done: function(results) {
-		        return results;
-		    },
-		    fail: function( jqXHR, textStatus, errorThrown ) {
-		        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
-		    }
-		}).responseJSON;
-	for (var i = 0; i < rtn["@graph"].length; i++){
-		if (rtn["@graph"][i]['inScheme']){
-			if (rtn["@graph"][i]['inScheme'] == "http://viaf.org/authorityScheme/DNB"){
-				autname = rtn["@graph"][i]['prefLabel'];
-			}
+				type: 'POST',
+				url: endpoint,
+				async: false,
+				data: {
+					reqValues: {
+						recordId: viafurl.substring(viafurl.lastIndexOf('/')+1),
+						idSourceId: false,
+						acceptFiletype: 'rdf+xml'
+					},
+					meta: {
+						env: 'prod',
+						pageIndex: 0,
+						pageSize: 1
+					}
+				},
+				dataType: 'json',
+				done: function(results) {
+						return results;
+				},
+				fail: function( jqXHR, textStatus, errorThrown ) {
+						console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+				}
+		}).responseText;
+	try {
+		//The following is old code to get the label from a JSON version of the data at an endpoint that no longer exists.
+		//Current query is trying to get XML version. If that query can be resolved this needs to be rewritten to parse
+		//	XML insted of JSON for the data.
+		for (var i = 0; i < rtn["@graph"].length; i++){
+			if (rtn["@graph"][i]['inScheme']){
+				if (rtn["@graph"][i]['inScheme'] == "http://viaf.org/authorityScheme/DNB"){
+					autname = rtn["@graph"][i]['prefLabel'];
+				}
 
-		}
-	};
+			}
+		};
+	} catch (error) {
+		console.log(`Could not retireve VIAF record. Using Wikidata name.`);
+	}
+	
 	return autname
 }
 
@@ -212,6 +239,7 @@ $("#marc-maker").submit(function(event) {
 		namelist = getnamesubfields(lcuri);
 		auth100 = {
 			family:namelist["finalnametag"][0],
+			wiki: document.getElementById("hiddenwiki").getAttribute("href"),
 			viaf: document.getElementById("hiddenviaf").getAttribute("href"),
 			lc: document.getElementById("hiddenlc").getAttribute("href"),
 			role: $("#role").val(),
@@ -220,14 +248,25 @@ $("#marc-maker").submit(function(event) {
 		}
 	}else{
 		if (document.getElementById("hiddenviaf").getAttribute("href")!=""){
-			var link = document.getElementById("hiddenviaf").getAttribute("href")+"/viaf.jsonld".replace("//", "/");
+			var link = document.getElementById("hiddenviaf").getAttribute("href");
 			var autname = $("#family_name").val();
 			autname = getviafname(link, autname);
 			auth100 = {
 				family: autname,
+				wiki: document.getElementById("hiddenwiki").getAttribute("href"),
 				viaf: document.getElementById("hiddenviaf").getAttribute("href"),
 				lc: "",
 				role: $("#role").val(),
+			}
+		}else{
+			if (document.getElementById("hiddenwiki").getAttribute("href") !="") {
+				auth100 = {
+					family: $("#family_name").val(),
+					wiki: document.getElementById("hiddenwiki").getAttribute("href"),
+					viaf: "",
+					lc: "",
+					role: $("#role").val(),
+				}
 			}
 		}
 	}
@@ -248,6 +287,7 @@ $("#marc-maker").submit(function(event) {
 			namelist = getnamesubfields(lcuri);
 			auth700 = {
 				family:namelist["finalnametag"][0],
+				wiki: document.getElementById("hiddenwiki"+ i).getAttribute("href"),
 				viaf: document.getElementById("hiddenviaf"+ i).getAttribute("href"),
 				lc: lcuri,
 				role: $("#role").val(),
@@ -256,18 +296,29 @@ $("#marc-maker").submit(function(event) {
 			}
 		}else{
 			if (document.getElementById("hiddenviaf"+ i).getAttribute("href") !=""){
-				var link700 = document.getElementById("hiddenviaf"+ i).getAttribute("href")+"/viaf.jsonld".replace("//", "/");
+				var link700 = document.getElementById("hiddenviaf"+ i).getAttribute("href");
 				var autname700 = $("#family_name" + i).val();
 				autname700 = getviafname(link700, autname700);
 				auth700 = {
 					family: autname700,
+					wiki: document.getElementById("hiddenwiki"+ i).getAttribute("href"),
 					viaf: document.getElementById("hiddenviaf"+ i).getAttribute("href"),
 					lc: "",
 					role: $("#role" + i).val(),
 				}
 			}else{
-				alert("Can't find the name(s) in VIAF, please catalog in the monograph page!");
-			} 
+				if (document.getElementById("hiddenwiki"+ i).getAttribute("href") !="") {
+					auth700 = {
+						family: $("#family_name" + i).val(),
+						wiki: document.getElementById("hiddenwiki"+ i).getAttribute("href"),
+						viaf: "",
+						lc: "",
+						role: $("#role" + i).val(),
+					}
+				}else{
+					alert("Can't find the name(s) in Wikidata, please catalog in the monograph page!");
+				}
+			}
 			
 		}
 		complete_names_list.push(
