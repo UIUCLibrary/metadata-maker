@@ -14,6 +14,23 @@ function fillAuthorMODS(author,role) {
 	}
 }
 
+function fillCorporateMODS(corporate,role) {
+	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
+	if (checkExists(corporate)) {
+		var authorText = '    <name type="corporate">\n';
+		authorText += '        <namePart>' + corporate + '</namePart>\n';
+		authorText += '        <role>\n';
+		authorText += '            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n';
+		authorText += '            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n';
+		authorText += '        </role>\n';
+		authorText += '    </name>\n';
+		return authorText;
+	}
+	else {
+		return '';
+	}
+}
+
 /*
  * Build a MODS record. Each DOM object is saved as a string, then all the strings are combined into one master text
  *
@@ -64,6 +81,15 @@ function downloadMODS(record,institution_info) {
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
 			authorText += fillAuthorMODS(record.additional_authors[i][0]['author'],record.additional_authors[i][0]['role']);
+		}
+	}
+
+	var corporateText = '';
+	corporateText += fillCorporateMODS(record.corporate_author[0]['corporate'],record.corporate_author[0]['role']);
+
+	if (checkExists(record.additional_corporate_names)) {
+		for (var i = 0; i < record.additional_corporate_names.length; i++) {
+			corporateText += fillCorporateMODS(record.additional_corporate_names[i][0]['corporate'],record.additional_corporate_names[i][0]['role']);
 		}
 	}
 
@@ -139,7 +165,7 @@ function downloadMODS(record,institution_info) {
 	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + escapeXML(institution_info['mods']['recordContentSource']) + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
+	var text = startText + titleText + authorText + corporateText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
 
 	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
 	return [ { name: `${root_filename}_MODS.xml`, value: text } ];
