@@ -879,6 +879,18 @@ function listPerson(author,role) {
 	return output_string;
 }
 
+function listCorporation(corporation) {
+	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
+	var prop = role_index[corporation['role']];
+	var output_string = '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="http://schema.org/Organization">\n';
+	output_string += '\t\t\t\t<dt>' + prop.charAt(0).toUpperCase() + prop.slice(1) + ':</dt>\n';
+	output_string += '\t\t\t\t<dd><b>'
+	output_string += buildSpan('legalName',corporation['corporate']);
+	output_string += '</b></dd>\n';
+	output_string += '\t\t\t</div>\n';
+	return output_string
+}
+
 /*
  * Build an HTML page with Schema.org labels for the content. Two strings are maintained: metaTags holds metadata that
  * the page will be associated with on search, but displayes no content. displayTags holds the content that is viewable
@@ -920,6 +932,18 @@ function downloadHTML(record,institution_info) {
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
 			displayTags += listPerson(record.additional_authors[i][0]['author'],record.additional_authors[i][0]['role']);
+		}
+	}
+
+	if (checkExists(record.corporate_author[0]['corporate'])) {
+		displayTags += listCorporation(record.corporate_author[0]);
+	}
+
+	if (checkExists(record.additional_corporate_names)) {
+		for (var i = 0; i < record.additional_corporate_names.length; i++) {
+			if (checkExists(record.additional_corporate_names[i][0]['corporate'])) {
+				displayTags += listCorporation(record.additional_corporate_names[i][0]);
+			}
 		}
 	}
 
