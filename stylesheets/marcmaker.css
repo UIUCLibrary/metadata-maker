@@ -107,11 +107,11 @@ input[type="number"] {
 	margin-right: 1px;
 }
 
-/*#translit-title-block {
+#translit-title-block {
 	position: relative;
-	top: -22px;
-	margin-bottom: -22px;
-}*/
+/*	top: -22px;
+	margin-bottom: -22px;*/
+}
 
 #translit-subtitle-block {
 	position: relative;
