@@ -150,31 +150,35 @@
 	</header>
 	<main id="content">
 		<form id="marc-maker">
-			<div id="title-block">
-				<label for="title" class="heading">Title<span class="required_marker">*</span></label><button type="button" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</button><br>
-				<div id="insert-title"></div>
-				<input type="text" required id="title" class="required translit-listen">
-				<label title="Record the title as it appears on the title page. If the title includes a subtitle, record only the main title here, and the subtitle in the next field."><span class="question-mark">?</span></label>
-			</div>
+			<div class="input-column-wrapper">
+				<div class="translit-fields">
+					<div id="title-block">
+						<label for="title" class="heading">Title<span class="required_marker">*</span></label><button type="button" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</button><br>
+						<div id="insert-title"></div>
+						<input type="text" required id="title" class="required translit-listen">
+						<label title="Record the title as it appears on the title page. If the title includes a subtitle, record only the main title here, and the subtitle in the next field."><span class="question-mark">?</span></label>
+					</div>
+					<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
+						<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><button type="button" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</button><br>
+						<div id="insert-translit_title" class="hidden translit translit-title"></div>
+						<input type="text" id="translit_title" class="hidden translit translit-title">
+					</div>
+				</div>
 
-			<div id="subtitle-block">
-				<label for="subtitle" class="heading">Subtitle</label><button type="button" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</button><br>
-				<div id="insert-subtitle"></div>
-				<input type="text" required id="subtitle" class="conditional">
-				<label title="Record the subtitle if one exists"><span class="question-mark">?</span></label><br>
-				<label for="subtitle_listed" class="unlisted">Unlisted</label><input type="checkbox" id="subtitle_listed" class="listed">
-			</div>
-
-			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
-				<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><button type="button" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</button><br>
-				<div id="insert-translit_title" class="hidden translit translit-title"></div>
-				<input type="text" id="translit_title" class="hidden translit translit-title">
-			</div>
-
-			<div id="translit-subtitle-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
-				<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><button type="button" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</button><br>
-				<div id="insert-translit_subtitle" class="hidden translit translit-title"></div>
-				<input type="text" id="translit_subtitle" class="hidden translit translit-title">
+				<div class="translit-fields">
+					<div id="subtitle-block">
+						<label for="subtitle" class="heading">Subtitle</label><button type="button" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</button><br>
+						<div id="insert-subtitle"></div>
+						<input type="text" required id="subtitle" class="conditional">
+						<label title="Record the subtitle if one exists"><span class="question-mark">?</span></label><br>
+						<label for="subtitle_listed" class="unlisted">Unlisted</label><input type="checkbox" id="subtitle_listed" class="listed">
+					</div>
+					<div id="translit-subtitle-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
+						<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><button type="button" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</button><br>
+						<div id="insert-translit_subtitle" class="hidden translit translit-title"></div>
+						<input type="text" id="translit_subtitle" class="hidden translit translit-title">
+					</div>
+				</div>
 			</div>
 
 			<div id="isbn-block" class="standard-block">
@@ -736,6 +740,47 @@
 						<input type="button" value="+" id="add-author" onClick="addAuthor();setUpVIAF()">
 					</div>
 				</fieldset>
+				<fieldset class="nametype-block">
+					<legend class="heading">Corporate/Organization</legend>
+					<div id="corporate-input-column" class="column">
+						<fieldset class="single_name">
+							<legend class="heading">Corporate/Organization 1</legend>
+							<div class="input-column-wrapper">
+								<div class="column name-column">
+									<label for="corporate_name" class="heading">Name</label>
+									<button type="button" class="insert insert_corporate_name" onClick='insertMenu("corporate_name");'>Insert Diacritics</button>
+									<div id="insert-corporate_name"></div>
+									<input type="text" class="corporate conditional translit-listen" required id="corporate_name">
+								</div>
+								<div class="column role-column">
+									<label for="corporate_role" class="heading">Role</label>
+									<br>
+									<select name="role" id="corporate_role">
+										<option selected value="cre">creator</option>
+										<option value="ctb">contributor</option>
+									</select>
+									<label title="Enter the name of creators or contributors listed on the piece and select the appropriate role from the drop down menu."><span class="question-mark">?</span></label>
+								</div>
+							</div>
+							<label for="corporate_listed" class="unlisted">Unlisted</label><input type="checkbox" id="corporate_listed" class="listed">
+							<div id="hiddenremind_corporate" class="Hremind" style="display: none;">Click the link(s) below to verify the information about the name(s): </div>
+							<div id='hiddenwikidiv_corporate' class="Hwikidiv" style="display: none;"><a id='hiddenwiki_corporate' class="Hwiki" target="_blank" rel="noopener noreferrer" href="">Wikidata Link</a></div>
+							<div id='hiddenviafdiv_corporate' class="Hviafdiv" style="display: none;" ><a id='hiddenviaf_corporate' class="Hviaf" target="_blank" rel="noopener noreferrer" href="">VIAF Link</a></div>
+							<div id='hiddenlcdiv_corporate' class="Hlcdiv" style="display: none;" ><a id='hiddenlc_corporate' class="Hlc"target="_blank" rel="noopener noreferrer" href="">LC Link</a></div>
+
+							<div class="input-column-wrapper">
+								<div id="translit-corporate_name-block" class="translit-corporate_name-block translit-block translit-corporate_name hidden">
+									<label for="translit_corporate_name" class="hidden translit heading translit-corporate_name">Transliterated Name</label><button type="button" class="insert insert_corporate_name hidden translit translit-corporate_name" onClick='insertMenu("translit_corporate_name");'>Insert Diacritics</button><br>
+									<div id="insert-translit_corporate_name"></div>
+									<input type="text" id="translit_corporate_name" class="hidden translit translit-corporate_name">
+								</div>
+							</div>
+						</fieldset>
+					</div>
+					<div class="column">
+						<input type="button" value="+" id="add-corporate" onClick="addCorporate();setUpVIAF()">
+					</div>
+				</fieldset>
 			</fieldset>
 
 			<div id="publisher-block" class="standard-block">
@@ -1211,9 +1256,13 @@
 		</form>
 	</main>
 	<footer>
-		<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
+		<div id="disclaimer">
+			The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds in 2015, Version 1.0.0.
+			<br/>
+			The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Andrew Turyn Professorship, Version 1.2.1.
+		</div>
 		<div id="credit">The autosuggest tool used for "Names" uses Wikidata as its source.</div>
-		<div id="version">Version 1.2.0 – Updated on 2026/06/10</div>
+		<div id="version">Version 1.2.1 – Updated on 2026/09/10</div>
 		<a id="code" href="https://github.com/UIUCLibrary/metadata-maker">GitHub</a>
 		
 		<script src="javascripts/metadatamaker/generalInteractions.js"></script>

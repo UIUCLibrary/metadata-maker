@@ -17,9 +17,11 @@ A custom url should look something like:
 
 ## Browser compatibility
 
-The recommended browsers for MetadataMaker are Chrome and Firefox. MetadataMaker is not yet fully functional in Internet Explorer or Safari. While Opera was not specifically targeted in the development of this tool, light testing suggests it is compatible.
+The recommended browsers for MetadataMaker are Chrome, Firefox and Safari. While Opera was not specifically targeted in the development of this tool, light testing suggests it is compatible. MetadataMaker has not been tested on any other browsers.
 
 ## Updates
+
+**2026-09-10:** Update how Title/Subtitle/Transliterated Title/Transliterated Subtitle are arranged in HTML to fix bug in where Transliterated Title's "Insert Diacritics" button was being displayed on some browsers. Before Title was followed by Subtitle, which the CSS then adjusted to be in line with the Title block, while the Transliterated Title/Subtitle had a mirrored arrangement, but indented. The inline aspect of this may have caused the display bug. Now Title and Transliterated Title are arranged sequentially in a div, while Subtitle and Transliterated Subtitle are similarly grouped in their own div. The two container divs are placed in a wrapper div with "position: flex" style, which allows the child divs to sit side-by-side. This looks to remove the display bug, while also creating a more logical flow.
 
 **2026-06-10:** Overhauled BIBFRAME generation, fixed Name AutoSuggest to use Wikidata as a source instead of VIAF, added Name AutoSuggest to Monographs, updated UI to better support tab navigation and restructured HTML structure to be more logical and repeatable across pages for other kinds of records. Expanded all the above changes to E-Books and Data Sets. Revised how file download works across all pages so that if more than one filetype is selected all outputs are packaged into a single ZIP file instead of downloading individually. Where possible removed file repetition for E-Books and Data Sets, so they rely on the Monograph version of files that don't vary based on the page. Generalized the Monograph version of submitForm.js to handle E-Books and Data Sets as well, so all three versions use the same single file. When adding BIBFRAME to E-Books and Data Sets, updated the single file to again make it general so the single instance is used by all three versions. Added Alma version of BIBFRAME to all versions that support BIBFRAME.
 

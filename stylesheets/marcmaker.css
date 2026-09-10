@@ -100,25 +100,25 @@ input[type="number"] {
 #subtitle-block {
 	padding: 3px;
 	width: 350px;
-	position: relative;
+/*	position: relative;
 	left: 406px;
 	top: -70px;
-	margin-bottom: -70px;
+	margin-bottom: -70px;*/
 	margin-right: 1px;
 }
 
-/*#translit-title-block {
+#translit-title-block {
 	position: relative;
-	top: -22px;
-	margin-bottom: -22px;
-}*/
+/*	top: -22px;
+	margin-bottom: -22px;*/
+}
 
-#translit-subtitle-block {
+/*#translit-subtitle-block {
 	position: relative;
 	top: -46px;
 	left: 425px;
 	margin-bottom: -46px;
-}
+}*/
 
 .name-block {
 	padding: 6px;
@@ -226,6 +226,20 @@ fieldset #insert-popup {
 /*	left: 255px;*/
 /*	bottom: -2px;*/
 	z-index: 10;
+}
+
+.translit-fields #insert-popup {
+	position: relative;
+/*	margin-left: -595px;*/
+/*	left: 255px;*/
+/*	bottom: -2px;*/
+	z-index: 10;
+}
+
+.translit-fields {
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
 }
 
 .insert_normal {

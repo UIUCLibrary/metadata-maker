@@ -150,31 +150,35 @@
 	</header>
 	<main id="content">
 		<form id="marc-maker">
-			<div id="title-block">
-				<label for="title" class="heading">Title<span class="required_marker">*</span></label><button type="button" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</button><br>
-				<div id="insert-title"></div>
-				<input type="text" required id="title" class="required translit-listen">
-				<label title="Record the title as it appears on the title page. If the title includes a subtitle, record only the main title here, and the subtitle in the next field."><span class="question-mark">?</span></label>
-			</div>
+			<div class="input-column-wrapper">
+				<div class="translit-fields">
+					<div id="title-block">
+						<label for="title" class="heading">Title<span class="required_marker">*</span></label><button type="button" class="insert insert_normal" onClick='insertMenu("title");'>Insert Diacritics</button><br>
+						<div id="insert-title"></div>
+						<input type="text" required id="title" class="required translit-listen">
+						<label title="Record the title as it appears on the title page. If the title includes a subtitle, record only the main title here, and the subtitle in the next field."><span class="question-mark">?</span></label>
+					</div>
+					<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
+						<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><button type="button" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</button><br>
+						<div id="insert-translit_title" class="hidden translit translit-title"></div>
+						<input type="text" id="translit_title" class="hidden translit translit-title">
+					</div>
+				</div>
 
-			<div id="subtitle-block">
-				<label for="subtitle" class="heading">Subtitle</label><button type="button" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</button><br>
-				<div id="insert-subtitle"></div>
-				<input type="text" required id="subtitle" class="conditional">
-				<label title="Record the subtitle if one exists"><span class="question-mark">?</span></label><br>
-				<label for="subtitle_listed" class="unlisted">Unlisted</label><input type="checkbox" id="subtitle_listed" class="listed">
-			</div>
-
-			<div id="translit-title-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
-				<label for="translit_title" class="hidden translit heading translit-title">Transliterated title</label><button type="button" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_title");'>Insert Diacritics</button><br>
-				<div id="insert-translit_title" class="hidden translit translit-title"></div>
-				<input type="text" id="translit_title" class="hidden translit translit-title">
-			</div>
-
-			<div id="translit-subtitle-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
-				<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><button type="button" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</button><br>
-				<div id="insert-translit_subtitle" class="hidden translit translit-title"></div>
-				<input type="text" id="translit_subtitle" class="hidden translit translit-title">
+				<div class="translit-fields">
+					<div id="subtitle-block">
+						<label for="subtitle" class="heading">Subtitle</label><button type="button" class="insert insert_normal" onClick='insertMenu("subtitle");'>Insert Diacritics</button><br>
+						<div id="insert-subtitle"></div>
+						<input type="text" required id="subtitle" class="conditional">
+						<label title="Record the subtitle if one exists"><span class="question-mark">?</span></label><br>
+						<label for="subtitle_listed" class="unlisted">Unlisted</label><input type="checkbox" id="subtitle_listed" class="listed">
+					</div>
+					<div id="translit-subtitle-block" class="translit-title-block translit-block standard-translit-block translit-title hidden">
+						<label for="translit_subtitle" class="hidden translit heading translit-title">Transliterated subtitle</label><button type="button" class="insert insert_normal hidden translit translit-title" onClick='insertMenu("translit_subtitle");'>Insert Diacritics</button><br>
+						<div id="insert-translit_subtitle" class="hidden translit translit-title"></div>
+						<input type="text" id="translit_subtitle" class="hidden translit translit-title">
+					</div>
+				</div>
 			</div>
 
 			<div id="language-block" class="standard-block">
@@ -1228,9 +1232,13 @@
 		</form>
 	</main>
 	<footer>
-		<div id="disclaimer">The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds.</div>
+		<div id="disclaimer">
+			The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Innovation and Seed Funds in 2015, Version 1.0.0.
+			<br/>
+			The Metadata Maker Project was funded by the University of Illinois at Urbana-Champaign Library's Andrew Turyn Professorship, Version 1.2.1.
+		</div>
 		<div id="credit">The autosuggest tool used for "Names" uses Wikidata as its source.</div>
-		<div id="version">Version 1.2.0 – Updated on 2026/06/10. Metadata Maker for Data Set created on 2015/07/24.</div>
+		<div id="version">Version 1.2.1 – Updated on 2026/09/10. Metadata Maker for Data Set created on 2015/07/24.</div>
 		<a id="code" href="https://github.com/UIUCLibrary/metadata-maker/tree/DataSet">GitHub</a></div>
 		
 		<script src="javascripts/metadatamaker/generalInteractions.js"></script>

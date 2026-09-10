@@ -89,7 +89,9 @@ function getnamesubfields(lcuri,type){
 		const subfield_values = $(creator_node[0]).find(`marcxml\\:subfield[code="${subfield_code}"]`);
 		//If there is more than one result, create an array of string results and joing them with a space, 
 		// rather than just using .text() to smash them together
-		finalnametag.push(subfield_values.length > 1 ? subfield_values.map(function() { return $(this).text();}).get().join(' ') : subfield_values.text());
+		if (subfield_values.length) {
+			finalnametag.push(subfield_values.length > 1 ? subfield_values.map(function() { return $(this).text();}).get().join(' ') : subfield_values.text());
+		}
 	}
 
 	return {ind1, finalnametag};
@@ -101,7 +103,7 @@ function generateNamesList(complete_names_list,type,counter) {
 		lcuri = document.getElementById(`hiddenlc_${type}`).getAttribute("href");
 		namelist = getnamesubfields(lcuri,type);
 		primary_author = {
-			[type]: namelist["finalnametag"].join(' '),
+			[type]: namelist["finalnametag"].length > 0 ? namelist["finalnametag"].join(' ') : $(`#${type}_name`).val(),
 			wiki: document.getElementById(`hiddenwiki_${type}`).getAttribute("href"),
 			viaf: document.getElementById(`hiddenviaf_${type}`).getAttribute("href"),
 			lc: document.getElementById(`hiddenlc_${type}`).getAttribute("href"),
@@ -161,7 +163,7 @@ function generateNamesList(complete_names_list,type,counter) {
 			lcuri = document.getElementById(`hiddenlc_${type}${i}`).getAttribute("href");
 			namelist = getnamesubfields(lcuri,type);
 			additional_author = {
-				[type]: namelist["finalnametag"].join(' '),
+				[type]: namelist["finalnametag"].length > 0 ? namelist["finalnametag"].join(' ') : $(`#${type}_name${i}`).val(),
 				wiki: document.getElementById(`hiddenwiki_${type}${i}`).getAttribute("href"),
 				viaf: document.getElementById(`hiddenviaf_${type}${i}`).getAttribute("href"),
 				lc: lcuri,
