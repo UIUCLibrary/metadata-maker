@@ -17,7 +17,7 @@ A custom url should look something like:
 
 ## Browser compatibility
 
-The recommended browsers for MetadataMaker are Chrome and Firefox. MetadataMaker is not yet fully functional in Internet Explorer or Safari. While Opera was not specifically targeted in the development of this tool, light testing suggests it is compatible.
+The recommended browsers for MetadataMaker are Chrome, Firefox and Safari. While Opera was not specifically targeted in the development of this tool, light testing suggests it is compatible. MetadataMaker has not been tested on any other browsers.
 
 ## Updates
 
