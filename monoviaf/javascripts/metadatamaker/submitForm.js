@@ -71,17 +71,17 @@ function getnamesubfields(lcuri,type){
 //	console.log(`lcuri: ${link}`);
 	let rtn;
 	rtn = $.ajax({
-		type: 'GET',
-		url: link,
-		async: false,
-		dataType: 'xml',
-		done: function(results) {
-			return results;
-		},
-		fail: function( jqXHR, textStatus, errorThrown ) {
-			console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
-		}
-	}).responseXML
+		    type: 'GET',
+		    url: link,
+		    async: false,
+		    dataType: 'xml',
+		    done: function(results) {
+		        return results;
+		    },
+		    fail: function( jqXHR, textStatus, errorThrown ) {
+		        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+		    }
+		}).responseXML
 	
 	let finalnametag = [];
 	const tag_number = type == 'author' ? '100' : '110';
@@ -503,7 +503,7 @@ $("#marc-maker").submit(function(event) {
 		}
 
 		if ($("#ONIX").is(':checked')) {
-			download_files = download_files.concat(downloadONIX(recordObject,institution_info));
+		download_files = download_files.concat(downloadONIX(recordObject,institution_info));
 		}
 	}
 

@@ -293,9 +293,9 @@ function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 	else {
 		return head !== null ? ['',''] : '';
 	}
-	
-	var author_subfields = distributeAuthorSubfields(subfieldFunc,record.author[0],author_content,role_index);
 
+	var author_subfields = distributeAuthorSubfields(subfieldFunc,record.author[0],author_content,role_index);
+	
 	if (latin_index === 1) {
 		author_subfields.push(subfieldFunc('6','880-03'));
 	}
@@ -412,7 +412,7 @@ function fillEdition(record,head,fieldFunc,subfieldFunc) {
 			}
 			subfields.push(subfieldFunc('a',record.edition + '.'));
 		}
-
+		
 		var edition = fieldFunc(tag,' ',' ',subfields);
 
 		return returnSingleEntry(tag,edition,head);
@@ -627,7 +627,7 @@ function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 		var authors = '';
 		var authors_directory = '';
 		var translit_counter = 6;
-		
+
 		for (var i = 0; i < record.additional_authors.length; i++) {
 			var new_content;
 
@@ -636,7 +636,7 @@ function fillAdditionalAuthors(record,head,fieldFunc,subfieldFunc) {
 				var authors_content = record.additional_authors[i][latin_index]['author'] + ',';
 
 				var authors_subfield = distributeAuthorSubfields(subfieldFunc,record.additional_authors[i][0],authors_content,role_index);
-
+				
 				if (latin_index === 1) {
 					if (translit_counter < 10) {
 						var translit_index = '0' + translit_counter;
@@ -776,7 +776,7 @@ function fillTranslitPublisher(record,head,fieldFunc,subfieldFunc) {
 		else {
 			translit_content.push(subfieldFunc('c','[date of publication not identified]'));
 		}
-
+		
 		console.log(translit_content);
 
 		var publisher880 = fieldFunc(tag,' ','1',translit_content);

@@ -169,6 +169,11 @@ input[type="number"] {
 	min-height: 100px;
 }
 
+#summary {
+	min-width: 500px;
+	min-height: 200px;
+}
+
 #save-as-block {
 	padding: 3px;
 	width: 400px;
@@ -374,4 +379,13 @@ fieldset #insert-popup {
 
 .nametype-block {
 	display: flex;
+}
+
+.keyword-fields {
+	flex: 1;
+	border: 2px;
+}
+
+.keyword-fields:first-child {
+	margin-right: 5px;
 }

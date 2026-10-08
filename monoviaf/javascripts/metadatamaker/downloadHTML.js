@@ -863,36 +863,32 @@ function buildSpan(prop,content) {
 
 /*
  * Create a new div for each person listed as a contributer, switching the itemscope to person. Separately label
- * the family name and given name.
+ * the author name.
  */
-function listPerson(author_record) {
+function listPerson(author,role) {
 	var role_index = { 'art': 'contributor', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'contributor'};
-	var prop = role_index[author_record[0]['role']];
+	var prop = role_index[role];
 	var output_string = '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="http://schema.org/Person">\n';
-	output_string += '\t\t\t\t<dt>' + role_index[author_record[0]['role']].charAt(0).toUpperCase() + role_index[author_record[0]['role']].slice(1) + ':</dt>\n';
+	output_string += '\t\t\t\t<dt>' + role_index[role].charAt(0).toUpperCase() + role_index[role].slice(1) + ':</dt>\n';
 	output_string += '\t\t\t\t<dd><b>';
-	if (author_record[0]['family']) {
-		var latinname = author_record[0]['family'];
-		if (author_record[0]["lc"]!=""){
-			for (var i = 0; i < author_record[0]['subbd'].length; i++) {
-				if (author_record[0]['subbd'][i]){
-					latinname += " "
-					latinname += escapeXml(author_record[0]['subbd'][i]);
-				}
-			}
-			latinname = latinname.replace(/,\s*$/, "");
-			output_string += buildSpan('name',latinname);
-		}else{
-			if (author_record[0]["viaf"] ==""){
-				output_string == ""
-			}else{
-				output_string += buildSpan('name',latinname);
-			}
-		}
+	if (checkExists(author)) {
+		output_string += buildSpan('authorName',author);
 	}
 	output_string += '</b></dd>\n';
 	output_string += '\t\t\t</div>\n';
 	return output_string;
+}
+
+function listCorporation(corporation) {
+	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
+	var prop = role_index[corporation['role']];
+	var output_string = '\t\t\t<div itemprop="' + prop + '" itemscope itemtype="http://schema.org/Organization">\n';
+	output_string += '\t\t\t\t<dt>' + prop.charAt(0).toUpperCase() + prop.slice(1) + ':</dt>\n';
+	output_string += '\t\t\t\t<dd><b>'
+	output_string += buildSpan('legalName',corporation['corporate']);
+	output_string += '</b></dd>\n';
+	output_string += '\t\t\t</div>\n';
+	return output_string
 }
 
 /*
@@ -929,13 +925,25 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('isbn',record.isbn,false,'ISBN');
 	}
 
-	if (checkExists(record.author[0]['role']) && (checkExists(record.author[0]['family']))) {
-		displayTags += listPerson(record.author);
+	if (checkExists(record.author[0]['role']) && checkExists(record.author[0]['author'])) {
+		displayTags += listPerson(record.author[0]['author'],record.author[0]['role']);
 	}
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			displayTags += listPerson(record.additional_authors[i]);
+			displayTags += listPerson(record.additional_authors[i][0]['author'],record.additional_authors[i][0]['role']);
+		}
+	}
+
+	if (checkExists(record.corporate_author[0]['corporate'])) {
+		displayTags += listCorporation(record.corporate_author[0]);
+	}
+
+	if (checkExists(record.additional_corporate_names)) {
+		for (var i = 0; i < record.additional_corporate_names.length; i++) {
+			if (checkExists(record.additional_corporate_names[i][0]['corporate'])) {
+				displayTags += listCorporation(record.additional_corporate_names[i][0]);
+			}
 		}
 	}
 
@@ -947,16 +955,16 @@ function downloadHTML(record,institution_info) {
 		displayTags += buildTag('publisher',record.publisher,false,'Publisher');
 	}
 
-	if (checkExists(record.publication_place) || checkExists(record.publication_country)) {
+	if (checkExists(record?.publication_place) || checkExists(record?.publication_country)) {
 		var content = '';
-		if (checkExists(record.publication_place)) {
+		if (checkExists(record?.publication_place)) {
 			content += '<span itemprop="addressLocality">' + record.publication_place + '</span>';
-			if (checkExists(record.publication_country)) {
+			if (checkExists(record?.publication_country)) {
 				content += ', ';
 			}
 		}
-		if (checkExists(record.publication_country)) {
-			content += '<span itemprop="addressRegion">' + getCountry(record.publication_country) + '</span>';
+		if (checkExists(record?.publication_country)) {
+			content += '<span itemprop="addressRegion">' + record.publication_country.text + '</span>';
 		}
 		var publication_location = buildItemscopeTag('publication','http://schema.org/PublicationEvent',buildItemscopeTag('location','http://schema.org/PostalAddress','\t\t\t\t<dt>Publication Location:</dt>\n\t\t\t\t<dd><b>' + content + '</b></dd>\n'));
 		displayTags += publication_location;
@@ -991,32 +999,47 @@ function downloadHTML(record,institution_info) {
 
 	displayTags += '\t\t\t<dt>Language:</dt>\n\t\t\t<dd><b>' + getLanguage(record.language) + '</b></dd>\n';
 
+	if (record.keywords.length > 0) {
+		console.log(record.keywords);
+		var keywordsTag = record.keywords[0];
+		var keywordsList = '\t\t\t<dt>Keywords:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n\t\t\t\t\t<li>' + buildSpan('keywords',record.keywords[0]) + '</li>\n';
+		for (var c = 1; c < record.keywords.length; c++) {
+			if (record.keywords[c] !== '') {
+				keywordsTag += ', ' + record.keywords[c];
+				keywordsList += '\t\t\t\t\t<li itemprop="keywords">' + record.keywords[c] + '</li>\n';
+			}
+		}
+		keywordsList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+		displayTags += keywordsList;
+	}
 
-//gh test 0903
-	if (checkExists(record.keywords) && record.keywords.length > 0) {
-		if (record.keywords[0]!=''){
-			var FASTList = '\t\t\t<dt>FAST:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
-			for (var c = 0; c < record.keywords.length; c++) {
-				if (record.keywords[c] != '') {
-					FASTList += '\t\t\t\t\t<li itemprop="about" href="' + record.keywordshtml[c] + '">' + record.keywords[c] + '</li>\n';
-				}
-			}
-			FASTList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
-			displayTags += FASTList;
-		}
-	}
-	if (checkExists(record.lcshvalue) && record.lcshvalue.length > 0){
-		var LCSHList = '\t\t\t<dt>LCSH:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
-		for (var c = 0; c < record.lcshvalue.length; c++) {
-			if (record.lcshvalue[c] != '') {
-				LCSHList += '\t\t\t\t\t<li itemprop="about" href="' + record.lcshuri[c] + '">' + record.lcshvalue[c] + '</li>\n';
+	if (checkExists(record.fast) && record.fast.length > 0) {
+		var FASTList = '\t\t\t<dt>FAST:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n';
+		for (var c = 0; c < record.fast.length; c++) {
+			if (record.fast[c][0] != '') {
+				FASTList += '\t\t\t\t\t<li itemprop="about" href="http://id.worldcat.org/fast/' + record.fast[c][1] + '">' + record.fast[c][0] + '</li>\n';
 			}
 		}
-		LCSHList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
-		displayTags += LCSHList;
+		FASTList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+		displayTags += FASTList;
 	}
+
+	if (checkExists(record.annifvalue) && record.annifvalue.length > 0){
+		var suggested_source_label = 'YSO';
+		var AnnifList = `\t\t\t<dt>${suggested_source_label}:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n`;
+		for (var c = 0; c < record.annifvalue.length; c++) {
+			if (record.annifvalue[c] != '') {
+				AnnifList += '\t\t\t\t\t<li itemprop="about" href="' + record.annifuri[c] + '">' + record.annifvalue[c] + '</li>\n';
+			}
+		}
+		AnnifList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+		displayTags += AnnifList;
+	}
+
 	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n';
 
 	var text = '<!DOCTYPE html>\n<html>\n<head>\n	<meta charset="utf-8">\n</head>\n\n<body>\n\t<div itemscope itemtype="http://schema.org/Book">\n' + metaTags + '\t\t<dl>\n' + displayTags + '\t\t</dl>\n\t</div>\n</body>\n</html>';
-	downloadFile(text,'html');
+	
+	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
+	return [ { name: `${root_filename}.html`, value: text } ];
 }

@@ -27,6 +27,7 @@
  select: function(event, ui) { 
     alert("Selected!"); return this._super(event, ui); },
     source: function(request, response) {
+        const input_field = this.element[0]['id'];
         const term = $.trim(request.term); 
         const url  = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${term}&language=en&format=json`;
         const service_header = { 'User-Agent': 'Metadata Maker / 1.2.0 University of Illinois at Urbana-Champaign Library' };
@@ -52,8 +53,18 @@
                             success: function(full_data) {
                                 if (full_data.entities) {
                                     response( $.map( full_data.entities, function(item) {
-                                        //P31 means "instance of" and Q5 means "human", so we're filtering for humans
-                                        if ('P31' in item.claims && item['claims']['P31'][0]['mainsnak']['datavalue']['value']['id'] == 'Q5') {
+                                        const target_codes = new Set(['Q4830453','Q6881511','Q43229','Q17197366','Q110315658','Q115456878','Q1752939','Q2085381','Q476190','Q1639780','Q327333','Q105062392','Q20857065','Q7315155']);
+                                        //P31 means "instance of"
+                                        //Q5 means "human", so we're filtering for humans in case 1
+                                        //Q4830453 = business, Q6881511 = enterprise, Q43229 = organization, Q17197366 = type of organization
+                                        //Q110315658 = elected legislative house, Q115456878 = legislative branch agency, Q1752939 = independent agency of the United States government
+                                        //Q2085381 = publishing house, Q476190 = United States congressional committee, Q1639780 = regulatory agency, Q327333 = government agency
+                                        //Q105062392 = financial regulatory agency, Q20857065 = United States federal agency, Q7315155 = research center
+                                        if ('P31' in item.claims && 
+                                            (input_field.includes('author') ? 
+                                            item['claims']['P31'][0]['mainsnak']['datavalue']['value']['id'] == 'Q5' : 
+                                            target_codes.intersection(new Set(item.claims.P31.map(instanceObject => instanceObject?.mainsnak?.datavalue?.value?.id))).size)
+                                        ) {
                                             const description = data.search.find(obj => {
                                                 return obj.id == item.id;
                                             })?.description;
@@ -78,33 +89,6 @@
                     else {
                         me._trigger('nomatch', null, {term: term});
                     }
-/*                    response( $.map( data.search, function(item) {
-                        if (item.nametype == "personal"){
-                            var retLbl = item.term + " [" + item.nametype + "]";
-                            var uri = "http://viaf.org/viaf/" + item.viafid;
-                            if (item.lc){
-                                return {
-                                    label: retLbl,
-                                    value: item.term,
-                                    id: item.viafid,
-                                    viafuri: uri,
-                                    lcuri: "http://id.loc.gov/authorities/names/" + item.lc,
-                                    nametype: item.nametype
-                                }
-                            }else{
-                                return {
-                                    label: retLbl,
-                                    value: item.term,
-                                    id: item.viafid,
-                                    viafuri: uri,
-                                    lcuri: "noLC",
-                                    nametype: item.nametype
-                                }
-                            }
-                        }
-                            
-                        
-                    }));*/
                 } else {
                     me._trigger('nomatch', null, {term: term});
                 }

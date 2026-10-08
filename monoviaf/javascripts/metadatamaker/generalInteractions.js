@@ -120,7 +120,7 @@ function findClosestFactors(list_length) {
 }
 
 /*
- * When the Insert button is pressed, create a floating keyboard with characters to insert into the corresponding field
+* When the Insert button is pressed, create a floating keyboard with characters to insert into the corresponding field
  *	field: The input field the diacritics menu is linked to
  *	insert_at: The cursor position when insert_value was selected. Defaults to the end of the string if the input wasn't selected
  *
@@ -432,7 +432,7 @@ $(":reset").click(function() {
 });
 
 /*
- * The checkboxes that remove the required element from their associated field are all part of the class called listed, and
+  * The checkboxes that remove the required element from their associated field are all part of the class called listed, and
  *	all have an id with the form [associated input id]_listed. Once cliked, the associated field is no longer required, and
  *	is disabled until the box is unclicked. Both family name and given name will be disabled and not required if the name 
  *	checkbox is clicked, but will remain active if one of the fields is already filled in. If a box is unchecked, the field is
@@ -523,7 +523,7 @@ function downloadFile(text,filename) {
 		'bubbles': true,
 		'cancleable': false
 	});
-	
+
 	download_file.dispatchEvent(clickReplacement);
 }
 
