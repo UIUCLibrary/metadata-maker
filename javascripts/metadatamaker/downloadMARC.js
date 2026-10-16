@@ -303,7 +303,7 @@ function fillAuthor(record,head,fieldFunc,subfieldFunc) {
 	var author;
 	if (record.author[0]['lc'] != ""){
 		author = fieldFunc(tag,record.author[0]['ind1'],' ',author_subfields);
-	}else{
+	} else {
 		author = fieldFunc(tag,'1',' ',author_subfields);
 	}
 

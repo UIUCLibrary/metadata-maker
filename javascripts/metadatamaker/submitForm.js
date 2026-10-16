@@ -297,7 +297,7 @@ function getKeywordLinksAndValues(links, vtypes) {
 
 function getAnnifKeywordSuggestions(selectedlabel,selecteduri) {
 	var lcshdiv = document.getElementById('LCSHresponse');
-	if (lcshdiv.hasChildNodes()){
+	if (lcshdiv && lcshdiv.hasChildNodes()){
 
 		$('#LCSHresponse input:checked').each(function() {
     		selectedlabel.push($(this).attr('value'));

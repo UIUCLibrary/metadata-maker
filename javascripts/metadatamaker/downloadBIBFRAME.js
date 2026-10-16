@@ -446,12 +446,14 @@ function buildAnnifSubjects(doc,suggested_value,suggested_uri) {
 	TopicLabelEl.appendChild(TopicLabelText);
 	TopicEl.appendChild(TopicLabelEl);
 	//Source
-	const TopicsourceEl = doc.createElement("bf:source");
-	const TopicSourceEl = doc.createElement("bf:Source");
-	const TopicSourceElURI = suggested_uri.includes('id.loc.gov/authorities/subjects/') ? "http://id.loc.gov/authorities/subjects" : "https://finto.fi/yso/fi/";
-	TopicSourceEl.setAttribute("rdf:about",TopicSourceElURI);
-	TopicsourceEl.appendChild(TopicSourceEl);
-	TopicEl.appendChild(TopicsourceEl);
+	if (suggested_uri.includes('id.loc.gov/authorities/subjects/')) {
+		const TopicsourceEl = doc.createElement("bf:source");
+		const TopicSourceEl = doc.createElement("bf:Source");
+		const TopicSourceElURI = suggested_uri.includes('id.loc.gov/authorities/subjects/') ? "http://id.loc.gov/authorities/subjects" : "https://finto.fi/yso/fi/";
+		TopicSourceEl.setAttribute("rdf:about",TopicSourceElURI);
+		TopicsourceEl.appendChild(TopicSourceEl);
+		TopicEl.appendChild(TopicsourceEl);
+	}
 	subjectEl.appendChild(TopicEl);
 	return subjectEl;
 }
