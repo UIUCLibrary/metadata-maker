@@ -136,12 +136,11 @@ function downloadMODS(record,institution_info) {
 
 	var languageText = '    <language>\n        <languageTerm authority="iso639-2b" type="code">' + record.language + '</languageTerm>\n    </language>\n';
 
-	var pagesText = '';
+	var physicalDescriptionText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        ';
 	if (checkExists(record.pages)) {
-		pagesText += '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.pages + ' ' + record.volume_or_page + '</extent>\n    </physicalDescription>\n';
+		physicalDescriptionText += `<extent unit="${record.volume_or_page}">${record.pages}</extent>\n        `;
 	}
-
-	var dimensionsText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n'
+	physicalDescriptionText += `<extent>${record.dimensions} cm</extent>\n    </physicalDescription>\n`;
 
 	var defaultText2 = '    <location>\n        <physicalLocation>' + escapeXML(institution_info['mods']['physicalLocation']) + '</physicalLocation>\n    </location>\n';
 
@@ -184,7 +183,7 @@ function downloadMODS(record,institution_info) {
 	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + escapeXML(institution_info['mods']['recordContentSource']) + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + corporateText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
+	var text = startText + titleText + authorText + corporateText + defaultText1 + isbnText + originText + languageText + physicalDescriptionText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
 
 	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
 	return [ { name: `${root_filename}_MODS.xml`, value: text } ];

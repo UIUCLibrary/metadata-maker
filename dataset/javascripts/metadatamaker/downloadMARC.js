@@ -104,9 +104,14 @@ function create008Field(record) {
 		array_of_008[16] = 'x'
 	}
 
-	//18-21
+	//18-23
 
-	//22-32
+	//24
+	if (checkExists(record.bibliographies_yes) && record.bibliographies_yes == true) {
+		array_of_008[24] = 'b'
+	}
+
+	//25-32
 	array_of_008[26] = 'j'
 	array_of_008[29] = '0';
 	array_of_008[30] = '0';
@@ -597,6 +602,18 @@ function handleSpecialFAST(full_string,check,separating_character,second_field,F
 	}
 }
 
+/*
+ * Remove 'fst' from id, and any leading 0s
+ */
+function cleanFASTID(id_text) {
+	if (id_text.startsWith('fst')) {
+		id_text = id_text.substring(3);
+	}
+	
+	id_text = id_text.replace(/^0+/,'');
+	return id_text;
+}
+
 function fillFAST(record,head,fieldFunc,subfieldFunc) {
 	if (checkExists(record.fast)) {
 		var FAST = '';
@@ -618,6 +635,7 @@ function fillFAST(record,head,fieldFunc,subfieldFunc) {
 			}
 
 			FAST_subfield.push(subfieldFunc('2','fast'));
+			FAST_subfield.push(subfieldFunc('0',`http://id.worldcat.org/fast/${cleanFASTID(record.fast[i][1])}`))
 			FAST_subfield.push(subfieldFunc('0','(OCoLC)' + record.fast[i][1]));
 
 			var new_content = fieldFunc('6' + contentType,record.fast[i][3],'7',FAST_subfield);
