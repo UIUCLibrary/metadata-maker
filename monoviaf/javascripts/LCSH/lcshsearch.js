@@ -36,7 +36,7 @@ $(document).ready(function() {
         $('#LCSHresponse').empty(); 
         var summary = $('#summary').val();
         if (summary.trim() !== "") { 
-            var url = "https://api.annif.org/v1/projects/yso-en/suggest";
+            var url = "https://ai.dev.finto.fi/v1/projects/yso-en/suggest";
             var requestData = {
                 text: summary,
                 limit: 10
