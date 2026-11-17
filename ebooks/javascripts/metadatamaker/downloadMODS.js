@@ -1,29 +1,26 @@
 /*
  * Author output depends on how the name was entered
  */
-function fillAuthorMODS(author,role) {
-	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
+function fillContributorMODS(author,role_index,primary=false) {
+	const contributor_type = 'author' in author[0] ? 'personal' : 'corporate';
+	const contributor_reference = 'author' in author[0] ? 'author' : 'corporate';
 	if (checkExists(author)) {
-		var authorText = '    <name type="personal">\n';
-		authorText += '        <namePart>' + escapeXML(author) + '</namePart>\n';
-		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n        </role>\n    </name>\n';
-		return authorText;
-	}
-	else {
-		return '';
-	}
-}
+		var authorText = `    <name type="${contributor_type}" `;
+		if (primary) {
+			authorText += 'usage="primary" ';
+		}
+		if (escapeXML(author[0]["lc"]) != ""){
+			authorText += `authority="LC" authorityURI="http://id.loc.gov" valueURI="${author[0]["lc"]}">\n`
+		} else if (escapeXML(author[0]["viaf"]) != "") {
+			authorText += `authority="VIAF" authorityURI="http://viaf.org" valueURI="${author[0]["viaf"]}">\n`
+		} else if (escapeXML(author[0]["wiki"]) != "") {
+			authorText += `authority="Wikidata" authorityURI="http://wikidata.org" valueURI="${author[0]["wiki"]}">\n`
+		} else {
+			authorText += '>\n';
+		}
 
-function fillCorporateMODS(corporate,role) {
-	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
-	if (checkExists(corporate)) {
-		var authorText = '    <name type="corporate">\n';
-		authorText += '        <namePart>' + corporate + '</namePart>\n';
-		authorText += '        <role>\n';
-		authorText += '            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n';
-		authorText += '            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n';
-		authorText += '        </role>\n';
-		authorText += '    </name>\n';
+		authorText += `        <namePart>${escapeXML(author[0][contributor_reference])}</namePart>\n`;
+		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[author[0]['role']] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + author[0]['role'] + '</roleTerm>\n        </role>\n    </name>\n';		
 		return authorText;
 	}
 	else {
@@ -75,21 +72,28 @@ function downloadMODS(record,institution_info) {
 		var isbnText = '';
 	}
 
+	const author_roles = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
 	var authorText = '';
-	authorText += fillAuthorMODS(record.author[0]['author'],record.author[0]['role']);
+	if (checkExists(record?.author[0]['author'])) {
+		authorText += fillContributorMODS(record.author,author_roles,true);
+	}
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			authorText += fillAuthorMODS(record.additional_authors[i][0]['author'],record.additional_authors[i][0]['role']);
+			authorText += fillContributorMODS(record.additional_authors[i],author_roles);
 		}
 	}
 
-	var corporateText = ''
-	corporateText += fillCorporateMODS(record.corporate_author[0]['corporate'],record.corporate_author[0]['role']);
+	var corporateText = '';
+	const corporate_roles = { 'cre': 'creator', 'ctb': 'contributor' };
+	const primary = checkExists(record?.author[0]['author']) ? false : true;
+	if (checkExists(record?.corporate_author[0]['corporate'])) {
+		corporateText += fillContributorMODS(record.corporate_author,corporate_roles,primary);
+	}
 
 	if (checkExists(record.additional_corporate_names)) {
 		for (var i = 0; i < record.additional_corporate_names.length; i++) {
-			corporateText += fillCorporateMODS(record.additional_corporate_names[i][0]['corporate'],record.additional_corporate_names[i][0]['role']);
+			corporateText += fillContributorMODS(record.additional_corporate_names[i],corporate_roles);
 		}
 	}
 

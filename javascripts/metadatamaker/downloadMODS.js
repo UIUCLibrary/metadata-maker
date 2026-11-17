@@ -1,29 +1,26 @@
 /*
  * Author output depends on how the name was entered
  */
-function fillAuthorMODS(author,role) {
-	var role_index = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
+function fillContributorMODS(author,role_index,primary=false) {
+	const contributor_type = 'author' in author[0] ? 'personal' : 'corporate';
+	const contributor_reference = 'author' in author[0] ? 'author' : 'corporate';
 	if (checkExists(author)) {
-		var authorText = '    <name type="personal">\n';
-		authorText += '        <namePart>' + escapeXML(author) + '</namePart>\n';
-		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n        </role>\n    </name>\n';
-		return authorText;
-	}
-	else {
-		return '';
-	}
-}
+		var authorText = `    <name type="${contributor_type}" `;
+		if (primary) {
+			authorText += 'usage="primary" ';
+		}
+		if (escapeXML(author[0]["lc"]) != ""){
+			authorText += `authority="LC" authorityURI="http://id.loc.gov" valueURI="${author[0]["lc"]}">\n`
+		} else if (escapeXML(author[0]["viaf"]) != "") {
+			authorText += `authority="VIAF" authorityURI="http://viaf.org" valueURI="${author[0]["viaf"]}">\n`
+		} else if (escapeXML(author[0]["wiki"]) != "") {
+			authorText += `authority="Wikidata" authorityURI="http://wikidata.org" valueURI="${author[0]["wiki"]}">\n`
+		} else {
+			authorText += '>\n';
+		}
 
-function fillCorporateMODS(corporate,role) {
-	var role_index = { 'cre': 'creator', 'ctb': 'contributor' };
-	if (checkExists(corporate)) {
-		var authorText = '    <name type="corporate">\n';
-		authorText += '        <namePart>' + corporate + '</namePart>\n';
-		authorText += '        <role>\n';
-		authorText += '            <roleTerm authority="marcrelator" type="text">' + role_index[role] + '</roleTerm>\n';
-		authorText += '            <roleTerm authority="marcrelator" type="code">' + role + '</roleTerm>\n';
-		authorText += '        </role>\n';
-		authorText += '    </name>\n';
+		authorText += `        <namePart>${escapeXML(author[0][contributor_reference])}</namePart>\n`;
+		authorText += '        <role>\n            <roleTerm authority="marcrelator" type="text">' + role_index[author[0]['role']] + '</roleTerm>\n            <roleTerm authority="marcrelator" type="code">' + author[0]['role'] + '</roleTerm>\n        </role>\n    </name>\n';		
 		return authorText;
 	}
 	else {
@@ -75,21 +72,28 @@ function downloadMODS(record,institution_info) {
 		var isbnText = '';
 	}
 
+	const author_roles = { 'art': 'artist', 'aut': 'author', 'ctb': 'contributor', 'edt': 'editor', 'ill': 'illustrator', 'trl': 'translator'};
 	var authorText = '';
-	authorText += fillAuthorMODS(record.author[0]['author'],record.author[0]['role']);
+	if (checkExists(record?.author[0]['author'])) {
+		authorText += fillContributorMODS(record.author,author_roles,true);
+	}
 
 	if (checkExists(record.additional_authors)) {
 		for (var i = 0; i < record.additional_authors.length; i++) {
-			authorText += fillAuthorMODS(record.additional_authors[i][0]['author'],record.additional_authors[i][0]['role']);
+			authorText += fillContributorMODS(record.additional_authors[i],author_roles);
 		}
 	}
 
 	var corporateText = '';
-	corporateText += fillCorporateMODS(record.corporate_author[0]['corporate'],record.corporate_author[0]['role']);
+	const corporate_roles = { 'cre': 'creator', 'ctb': 'contributor' };
+	const primary = checkExists(record?.author[0]['author']) ? false : true;
+	if (checkExists(record?.corporate_author[0]['corporate'])) {
+		corporateText += fillContributorMODS(record.corporate_author,corporate_roles,primary);
+	}
 
 	if (checkExists(record.additional_corporate_names)) {
 		for (var i = 0; i < record.additional_corporate_names.length; i++) {
-			corporateText += fillCorporateMODS(record.additional_corporate_names[i][0]['corporate'],record.additional_corporate_names[i][0]['role']);
+			corporateText += fillContributorMODS(record.additional_corporate_names[i],corporate_roles);
 		}
 	}
 
@@ -132,12 +136,11 @@ function downloadMODS(record,institution_info) {
 
 	var languageText = '    <language>\n        <languageTerm authority="iso639-2b" type="code">' + record.language + '</languageTerm>\n    </language>\n';
 
-	var pagesText = '';
+	var physicalDescriptionText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        ';
 	if (checkExists(record.pages)) {
-		pagesText += '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.pages + ' ' + record.volume_or_page + '</extent>\n    </physicalDescription>\n';
+		physicalDescriptionText += `<extent unit="${record.volume_or_page}">${record.pages}</extent>\n        `;
 	}
-
-	var dimensionsText = '    <physicalDescription>\n        <form authority="marcform">print</form>\n        <extent>' + record.dimensions + ' cm</extent>\n    </physicalDescription>\n'
+	physicalDescriptionText += `<extent>${record.dimensions} cm</extent>\n    </physicalDescription>\n`;
 
 	var defaultText2 = '    <location>\n        <physicalLocation>' + escapeXML(institution_info['mods']['physicalLocation']) + '</physicalLocation>\n    </location>\n';
 
@@ -150,8 +153,23 @@ function downloadMODS(record,institution_info) {
 
 	var fastText = '';
 	if (checkExists(record.fast)) {
-		for (var c = 0; c < record.fast.length; c++) {
-			fastText += '    <subject>\n        <' + fastTypes[record.fast[c][2].substring(1)] + ' authority="FAST" authorityURI="http://fast.oclc.org/" valueURI="http://id.worldcat.org/fast/' + escapeXML(record.fast[c][1]) + '"/>\n    </subject>\n'
+		if (record.fast[0] !== ''){
+			for (var c = 0; c < record.fast.length; c++) {
+				let fastType = fastTypes[record.fast[c][2].substring(1)];
+				fastText += '    <subject>\n        <' + fastType + ' authority="FAST" authorityURI="http://fast.oclc.org/" valueURI="http://id.worldcat.org/fast/' + escapeXML(record.fast[c][1]) + '">' + escapeXML(record.fast[c][0]) + '</' + fastType + '>\n    </subject>\n';
+			}
+		}
+	}
+
+	if (checkExists(record.annifvalue)) {
+		for (var c = 0; c < record.annifvalue.length; c++) {
+			var authority_name = 'YSO';
+			var authority_uri = 'https://finto.fi/yso/fi/';
+			if (record.annifuri[c].includes('id.loc.gov/authorities/subjects')) {
+				authority_name = 'LCSH';
+				authority_uri = 'http://id.loc.gov/authorities/subjects/';
+			}
+			fastText += `    <subject>\n        <topic authority="${authority_name}" authorityURI="${authority_uri}" valueURI="${escapeXML(record.annifuri[c])}">${escapeXML(record.annifvalue[c])}</topic>\n    </subject>\n`
 		}
 	}
 
@@ -165,7 +183,7 @@ function downloadMODS(record,institution_info) {
 	var defaultText3 = '    <recordInfo>\n        <descriptionStandard>rda</descriptionStandard>\n        <recordContentSource authority="marcorg">' + escapeXML(institution_info['mods']['recordContentSource']) + '</recordContentSource>\n        <recordCreationDate encoding="marc">' + formatted_date + '</recordCreationDate>\n    </recordInfo>\n'
 
 	var endText = '</mods:mods>\n';
-	var text = startText + titleText + authorText + corporateText + defaultText1 + isbnText + originText + languageText + pagesText + dimensionsText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
+	var text = startText + titleText + authorText + corporateText + defaultText1 + isbnText + originText + languageText + physicalDescriptionText + defaultText2 + keywordsText + fastText + literatureText + defaultText3 + endText;
 
 	const root_filename = checkExists($("#filename").val()) ? $("#filename").val() : 'record';
 	return [ { name: `${root_filename}_MODS.xml`, value: text } ];

@@ -432,6 +432,32 @@ function buildFASTSubjects(doc,fast_heading) {
 	return subjectEl;
 }
 
+function buildAnnifSubjects(doc,suggested_value,suggested_uri) {
+	const subjectEl = doc.createElement("bf:subject");
+	const TopicEl = doc.createElement("bf:Topic");
+	TopicEl.setAttribute("rdf:about",suggested_uri);
+	//Type
+	const TopicTypeEl = doc.createElement("rdf:type");
+	TopicTypeEl.setAttribute("rdf:resource",`http://www.loc.gov/mads/rdf/v1#Topic`);
+	TopicEl.appendChild(TopicTypeEl);
+	//Label
+	const TopicLabelEl = doc.createElement("rdfs:label");
+	const TopicLabelText = doc.createTextNode(escapeXML(suggested_value));
+	TopicLabelEl.appendChild(TopicLabelText);
+	TopicEl.appendChild(TopicLabelEl);
+	//Source
+	if (suggested_uri.includes('id.loc.gov/authorities/subjects/')) {
+		const TopicsourceEl = doc.createElement("bf:source");
+		const TopicSourceEl = doc.createElement("bf:Source");
+		const TopicSourceElURI = suggested_uri.includes('id.loc.gov/authorities/subjects/') ? "http://id.loc.gov/authorities/subjects" : "https://finto.fi/yso/fi/";
+		TopicSourceEl.setAttribute("rdf:about",TopicSourceElURI);
+		TopicsourceEl.appendChild(TopicSourceEl);
+		TopicEl.appendChild(TopicsourceEl);
+	}
+	subjectEl.appendChild(TopicEl);
+	return subjectEl;
+}
+
 function buildSubjects(doc,keyword,classString = 'Topic') {
 	const subjectEl = doc.createElement("bf:subject");
 	const TopicEl = doc.createElement(`bf:${classString}`);
@@ -682,6 +708,11 @@ function downloadBIBFRAME(record,institution_info,alma=false) {
 	if (checkExists(record?.keywords)) {
 		for (let k = 0; k < record.keywords.length; k++) {
 			workEl.appendChild(buildSubjects(doc,record.keywords[k]));
+		}
+	}
+	if (checkExists(record?.annifvalue) && checkExists(record?.annifuri)) {
+		for (let k = 0; k < record.annifvalue.length; k++) {
+			workEl.appendChild(buildAnnifSubjects(doc,record.annifvalue[k],record.annifuri[k]))
 		}
 	}
 

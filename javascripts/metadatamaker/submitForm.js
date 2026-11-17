@@ -10,6 +10,10 @@ function get(name) {
 	}
 }
 
+function resetform(){
+	document.getElementById("marc-maker").reset();
+}
+
 function getviafname(viafurl, autname){
 	console.log("viafurl");
 	console.log(viafurl);
@@ -283,6 +287,25 @@ function getKeywords(fast_array, words) {
 	};
 }
 
+function getKeywordLinksAndValues(links, vtypes) {
+	for (var i = 0; i < counter; i++) {
+		var attrvalue = "keyword"+i+"";
+		links[links.length] = $("[id=" + attrvalue + "]").attr('link');
+		vtypes[vtypes.length] = $("[id=" + attrvalue + "]").attr('valuetype');
+	};
+}
+
+function getAnnifKeywordSuggestions(selectedlabel,selecteduri) {
+	var lcshdiv = document.getElementById('LCSHresponse');
+	if (lcshdiv && lcshdiv.hasChildNodes()){
+
+		$('#LCSHresponse input:checked').each(function() {
+    		selectedlabel.push($(this).attr('value'));
+    		selecteduri.push($(this).attr('uri'));
+		});
+	}
+}
+
 /*
  * The first listed author should be placed in 100. If no author is listed, then the first
  * listed artist should be placed in 100. If neither role is listed, then we return a person
@@ -361,6 +384,25 @@ $("#marc-maker").submit(function(event) {
 	let fast_array = [];
 	getKeywords(fast_array,words);
 
+	var links = [];
+	var vtypes = [];
+	getKeywordLinksAndValues(links,vtypes);
+
+	var VARIFY = true;
+	if ($('#LCSHresponse input:checked').length == 0) {
+			if ((words.length === 0 || words[0].length === 0) && (fast_array.length === 0 || fast_array[0].length === 0)){
+				alert('Please enter keyword(s).');
+				event.preventDefault();
+    			VARIFY = false;
+    			return;
+    		}
+	}
+
+	// lcsh suggest
+	var selectedlabel = [];
+	var selecteduri=[];
+	getAnnifKeywordSuggestions(selectedlabel,selecteduri);
+
 	let complete_names_list = [];
 	generateNamesList(complete_names_list,'author',aCounter);
 
@@ -415,6 +457,10 @@ $("#marc-maker").submit(function(event) {
 		notes: $("#notes").val(),
 		keywords: words,
 		fast: fast_array,
+		keywordshtml : links,
+		keywordstype: vtypes,
+		annifvalue: selectedlabel,
+		annifuri: selecteduri,
 		additional_authors: complete_names_list,
 		additional_corporate_names: complete_corporate_names_list,
 		format: $("#format").val(),
@@ -431,32 +477,34 @@ $("#marc-maker").submit(function(event) {
 	var institution_info = generateInstitutionInfo();
 	let download_files = [];
 
-	if ($("#MARC").is(':checked')) {
-		download_files = download_files.concat(downloadMARC(recordObject,institution_info));
-	}
+	if (VARIFY) {
+		if ($("#MARC").is(':checked')) {
+			download_files = download_files.concat(downloadMARC(recordObject,institution_info));
+		}
 
-	if ($("#MARCXML").is(':checked')) {
-		download_files = download_files.concat(downloadXML(recordObject,institution_info));
-	}
+		if ($("#MARCXML").is(':checked')) {
+			download_files = download_files.concat(downloadXML(recordObject,institution_info));
+		}
 
-	if ($("#MODS").is(':checked')) {
-		download_files = download_files.concat(downloadMODS(recordObject,institution_info));
-	}
+		if ($("#MODS").is(':checked')) {
+			download_files = download_files.concat(downloadMODS(recordObject,institution_info));
+		}
 
-	if ($("#HTML").is(':checked')) {
-		download_files = download_files.concat(downloadHTML(recordObject,institution_info));
-	}
+		if ($("#HTML").is(':checked')) {
+			download_files = download_files.concat(downloadHTML(recordObject,institution_info));
+		}
 
-	if ($("#BIBFRAME").is(':checked')) {
-		download_files = download_files.concat(downloadBIBFRAME(recordObject,institution_info));
-	}
+		if ($("#BIBFRAME").is(':checked')) {
+			download_files = download_files.concat(downloadBIBFRAME(recordObject,institution_info));
+		}
 
-	if ($('#BIBFRAME_Alma').is(':checked')) {
-		download_files = download_files.concat(downloadBIBFRAME(recordObject,institution_info,true));
-	}
+		if ($('#BIBFRAME_Alma').is(':checked')) {
+			download_files = download_files.concat(downloadBIBFRAME(recordObject,institution_info,true));
+		}
 
-	if ($("#ONIX").is(':checked')) {
-		download_files = download_files.concat(downloadONIX(recordObject,institution_info));
+		if ($("#ONIX").is(':checked')) {
+			download_files = download_files.concat(downloadONIX(recordObject,institution_info));
+		}
 	}
 
 	downloadFiles(download_files);

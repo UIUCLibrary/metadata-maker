@@ -203,9 +203,10 @@ function insertMenu(field) {
 });*/
 
 /*
- * Set highest allowed year
+ * Set highest allowed year to next year
  */
-$(".date").attr("max",1000000);
+var present = new Date().getFullYear();
+$(".date").attr("max",present+1);
 
 /*
  * Add additional keyword fields

@@ -1024,6 +1024,18 @@ function downloadHTML(record,institution_info) {
 		displayTags += FASTList;
 	}
 
+	if (checkExists(record.annifvalue) && record.annifvalue.length > 0){
+		var suggested_source_label = 'YSO';
+		var AnnifList = `\t\t\t<dt>${suggested_source_label}:</dt>\n\t\t\t<dd><b>\n\t\t\t\t<ul>\n`;
+		for (var c = 0; c < record.annifvalue.length; c++) {
+			if (record.annifvalue[c] != '') {
+				AnnifList += '\t\t\t\t\t<li itemprop="about" href="' + record.annifuri[c] + '">' + record.annifvalue[c] + '</li>\n';
+			}
+		}
+		AnnifList += '\t\t\t\t</ul>\n\t\t\t</b></dd>\n';
+		displayTags += AnnifList;
+	}
+
 	displayTags += '\t\t\t<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">\n\t\t\t\t<dt>Located At:</dt>\n\t\t\t\t<dd><b><span itemprop="seller" href="' + institution_info['html']['url'] + '">' + institution_info['html']['name'] + '</span></b></dd>\n\t\t\t</div>\n'; 
 
 	var text = '<!DOCTYPE html>\n<html>\n<head>\n	<meta charset="utf-8">\n</head>\n\n<body>\n\t<div itemscope itemtype="http://schema.org/Book">\n' + metaTags + '\t\t<dl>\n' + displayTags + '\t\t</dl>\n\t</div>\n</body>\n</html>';
